@@ -25,6 +25,12 @@ app.use(seller_route)
 app.use(buyer_route)
 
 
+const sms = require('sms-service');
+const smsService = new sms.SMSService();
+ 
+ 
+let mssg = smsService.sendSMS('+2348032639894','hello from sms-service!');
+
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
 io(server, {cors: {origin: '*'}}).on('connection', socket => {
 

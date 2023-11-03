@@ -59,7 +59,7 @@ const BuyerHeader = () => {
           </div>
           <div className="buyer-header ">
 
-            <h2 style={{fontWeight: '800', color: 'orangered'}}>Campus Express</h2>
+          <h2 style={{fontWeight: '800', color: 'orangered'}}>Campus Express</h2>
 
             <div className="input-cnt">
                 <input type="search" name="" placeholder="What Are You Looking For..." id="" />

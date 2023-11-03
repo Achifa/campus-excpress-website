@@ -1,5 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import shopSvg from '../../assets/business-office-business-store-front-place-of-business-svgrepo-com.svg'
+import sellSvg from '../../assets/sell-svgrepo-com.svg'
+import homeSvg from '../../assets/home-svgrepo-com (4).svg'
+import settingsSvg from '../../assets/setting-svgrepo-com.svg'
+import ordersSvg from '../../assets/order-completed-svgrepo-com.svg'
+import walletSvg from '../../assets/wallet-money-svgrepo-com.svg'
+import profileSvg from '../../assets/profile-circle-svgrepo-com (3).svg'
+import shopSvg from '../../assets/shop-2-svgrepo-com.svg'
+import mssgSvg from '../../assets/messages-1-svgrepo-com (1).svg'
 
 const Aside = () => {
 
@@ -14,27 +21,42 @@ const Aside = () => {
                 <div className="seller-aside-nav">
                     <ul>
                         <li onClick={e => navigate('/seller/')}>
-                            <span></span>
+                            <span>
+                                <img src={homeSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Home</span>
                         </li>
 
                         <li onClick={e => navigate('/seller/editor')}>
-                            <span></span>
+                            <span>
+                                <img src={sellSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Create</span>
                         </li>
 
                         <li onClick={e => navigate('/seller/messages')}>
-                            <span></span>
+                            <span>
+                                <img src={mssgSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Messages</span>
                         </li>
 
                         <li onClick={e => navigate('/seller/shop')}>
-                            <span></span>
+                            <span>
+                                <img src={shopSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Shop</span>
                         </li>
 
                         <li onClick={e => navigate('/seller/orders')}>
-                            <span></span>
+                            <span>
+                                <img src={ordersSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Orders</span>
                         </li>
 
@@ -44,17 +66,26 @@ const Aside = () => {
                 <div className="seller-aside-nav-others">
                     <ul>
                         <li onClick={e => navigate('/seller/settings')}>
-                            <span></span>
+                            <span>
+                                <img src={settingsSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Settings</span>
                         </li>
 
                         <li onClick={e => navigate('/seller/wallet')}>
-                            <span></span>
+                            <span>
+                                <img src={walletSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Wallet</span>
                         </li>
 
                         <li onClick={e => navigate('/seller/profile')}>
-                            <span></span>
+                            <span>
+                                <img src={profileSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                            </span>
+                            &nbsp;                            &nbsp;
                             <span>Profile</span>
                         </li>
 

@@ -163,7 +163,7 @@ const Editor = () => {
                             </textarea>
                         </div>
                         <div className="seller-shop-samples shadow-sm">
-                            <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', width: '200px', background: '#fff',cursor: 'pointer'}}>
+                            <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer'}}>
 
                             </label>
                             <input type="file" name="" style={{display: 'none'}} id="files" onChange={handleImage} />
