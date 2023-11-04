@@ -6,6 +6,8 @@ import saveSvg from '../../assets/save-svgrepo-com.svg'
 import orderSvg from '../../assets/order-svgrepo-com (1).svg'
 import conditionSvg from '../../assets/condition-point-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
+import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
+import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
 
 const Home = () => {
     let [screenWidth, setScreenWidth] = useState(0)
@@ -16,6 +18,21 @@ const Home = () => {
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
+
+
+    let BtnStyles = {
+        height: '40px',
+        width: '100%',
+        borderRadius: '5px',
+        outline: 'none',
+        border: 'none',
+        float: 'right',
+        color: '#fff',
+        fontSize: 'small',
+        fontWeight: '500',
+        backgroundColor: 'orangered',
+        margin: '0'
+    }
     return ( 
         <>
             <div className="buyer-dashboard-body">
@@ -24,25 +41,31 @@ const Home = () => {
                     [1,2,3,4,5,6,7,8].map((item) => 
                         <div className="cols" >
                             <div className="card" onClick={e => navigate('/buyer/product')}>
-                                <span  style={{background: 'orangered', position: 'absolute',color: '#000', borderRadius: '5px', top: '20px', left: '20px', padding: '5px'}}>
+                                <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '20px' : '8px', left: screenWidth > 400 ? '20px' : '8px', padding: '2.5px'}}>
                                     <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
-                                        <img src={locationSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+                                        <img src={locationSvg} style={{height: screenWidth  > 480 ? '20px' : '10px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
 
                                     </span>
                                     &nbsp;
 
-                                    <span  style={{background: 'orangered',color: '#fff', padding: '0',  fontSize: 'small', fontWeight: '500'}}>
+                                    <span  style={{background: 'orangered',color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'small' : 'xx-small', fontWeight: '500'}}>
                                         UNIZIK, Awka
                                     </span>
                                 </span>
-                                <img src={img} style={{height: '250px', width: '100%', borderRadius: '2.5px'}} alt="" />
+                                <img src={img} style={{height: screenWidth > 480 ? '250px' : '160px', width: '100%', borderRadius: '2.5px'}} alt="" />
 
                                 <div className="card-body">
                                     <h3 >Men's Gold Cuban Link Chain  Labelled with designers For Fashion And Can Serve As Corporate Outfit</h3>
 
-                                    <hr />
+                                    <hr  />
                                     
-                                    <h4 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;20000</h4>
+                                    {
+                                        screenWidth > 479
+                                        ?
+                                        <h4 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;20000</h4>
+                                        : 
+                                        <h6 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;20000</h6>
+                                    }
 
                                     <div style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', padding: '0'}}>
                                     <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', left: '20px', padding: '5px'}}>
@@ -68,7 +91,7 @@ const Home = () => {
                                         </section>
                                     </div>
 
-                                    <div style={{position: 'absolute', right: '5px', bottom: '5px', fontSize: 'small', background: '#fff', color: '#626262'}}>
+                                    {/*<div style={{position: 'absolute', right: '5px', bottom: '5px', fontSize: 'small', background: '#fff', color: '#626262'}}>
                                         <span>
                                             <img src={orderSvg} style={{height: '20px', width: '20px', marginBottom: '3px'}} alt="" />
 
@@ -77,10 +100,10 @@ const Home = () => {
                                         <span>
                                             20 Orders
                                         </span>
-                                    </div>
+                </div>*/}
                                 </div>
 
-                                <button>
+                                <button style={BtnStyles}>
                                     Add To Cart
                                 </button>
                                 {/*<br />*/}
@@ -106,8 +129,12 @@ const Home = () => {
                         </div> 
                     )
                 }
+
+               
                 
             </div>
+
+            
 
         </>
      );

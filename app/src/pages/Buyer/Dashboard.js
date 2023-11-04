@@ -8,10 +8,31 @@ import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
 import '../../styles/Buyer/small-screen.css'
 import '../../styles/Buyer/large-screen.css'
+import SearchBar from "../../components/SeachBar";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 const Dashboard = () => {
+
+    let [screenWidth, setScreenWidth] = useState(0)
+
+    let navigate = useNavigate()
+
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
+    
     return ( 
         <>  
             {/*<BuyerAside />*/}
+            {
+                screenWidth > 479
+                ?
+                ''
+                :
+                <SearchBar />
+            }
+
             <Category />
             
             <Home />

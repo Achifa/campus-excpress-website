@@ -7,15 +7,27 @@ import { CE_buyer_ID, CE_buyer_INITIAL } from "./Secrets";
 import '../../styles/Buyer/overlays.css'
 import BuyerAside from "./Aside";
 import BuyerMenu from "./Menu";
+import { useDispatch, useSelector } from "react-redux";
+import { setBuyerJsxTo } from "../../redux/buyer/BuyerOverlayJsx";
 
 const BuyerHeader = () => {
+
+  let {buyerJsx} = useSelector(s => s.buyerJsx)
 
   let location = useLocation();
   let [buyerId,setBuyerId] = useState(null)
   let [buyerName,setBuyerName] = useState(null)
-  let [activeJsx, setActiveJsx]= useState(null)
+  //let [activeJsx, setActiveJsx]= useState(null)
 
-  let navigate = useNavigate();
+  let [screenWidth, setScreenWidth] = useState(0)
+
+  let navigate = useNavigate()
+  let dispatch = useDispatch()
+
+  useEffect(() => {
+      let width = window.innerWidth;
+      setScreenWidth(width)
+  }, [])
   let [width, setWidth] = useState(0)
 
   useEffect(() => {
@@ -54,50 +66,77 @@ const BuyerHeader = () => {
             e.target === document.querySelector('.buyer-overlay') ? handleOverlay() : ''
           }>
             {
-              activeJsx === 'filter' ? <BuyerAside /> : <BuyerMenu />
+              buyerJsx === 'filter' ? <BuyerAside /> : <BuyerMenu />
             }
           </div>
           <div className="buyer-header ">
 
-          <h2 style={{fontWeight: '800', color: 'orangered'}}>Campus Express</h2>
+          {
+            screenWidth > 479
+            ?
+            <h2 style={{fontWeight: '800', color: 'orangered'}}>Campus Express</h2>
+            :
+            <h5 style={{fontWeight: '1000', color: 'orangered'}}>Campus Express</h5>
+          }
 
-            <div className="input-cnt">
+            {
+              screenWidth > 479
+              ?
+              <div className="input-cnt">
                 <input type="search" name="" placeholder="What Are You Looking For..." id="" />
                 <button>Search</button>
-            </div>
+              </div>
+              : 
+              ''
+            }
 
             <section>
               <ul>
                 <li>
-                  <span style={{padding: '2.5px', borderRadius: '50%'}}>0</span>
+                  <span style={{borderRadius: '50%'}}>0</span>
                   <span>
-                    <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
+                    <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                   </span>
-                  &nbsp;
-                  <span>Cart</span>
+                  {
+                    screenWidth <= 479
+                    ?
+                    ''
+                    : 
+                    <>
+                      &nbsp;
+                      <span>Cart</span>
+                    </>
+                  }
                 </li>
-                <li data-btn='filter' onClick={e => {
-                  setActiveJsx('filter');
-                  handleOverlay();
+                  {
+                    screenWidth <= 479
+                    ?
+                    ''
+                    :
+                    <li data-btn='filter' onClick={e => {
+                    dispatch(setBuyerJsxTo('filter'));
+                    handleOverlay();
 
-                }}>
-                  <span>
-                    <img src={filterSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
-                  </span>
-                  &nbsp;
+                  }}>
+                    <span>
+                      <img src={filterSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
+                    </span>
+                    &nbsp;
 
-                  <span>Filter</span>
-                </li>
+                    <span>Filter</span>
+                    </li>
+                  }
                 <li  onClick={e => {
-                    setActiveJsx('menu')
+                    dispatch(setBuyerJsxTo('menu'));
                     buyerId != null ? handleOverlay() : navigate('/buyer/signup')
-                  }} style={{height: '100%', width: '45px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '50%'}}>
-                  <span style={{display: buyerId !== null ? 'none' : 'block'}}>
-                    <img src={userSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
+                  }} style={{height: '100%', width: 'fit-content', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '5px'}}>
+                  <span style={{display: buyerId !== null ? 'none' : 'flex', width: '100%', height: '100%',  justifyContent: 'center', marginRight: '5px'}}>
+                    <img src={userSvg} style={{height: screenWidth > 479 ? '25px' : '18px', width: screenWidth > 479 ? '25px' : '18px', position: 'relative', borderRadius: '2.5px'}} alt="" />
                   </span>
                   &nbsp;
+                  
 
-                  <span>{buyerId !== null ? buyerName : 'Login'}</span>
+                   <span style={{fontSize: 'small'}}>{buyerId !== null ? buyerName : 'Login'}</span>
                 </li>
               </ul>
             </section>

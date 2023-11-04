@@ -9,7 +9,7 @@ const Category = () => {
     },[])
     return ( 
         <>
-            <div className="buyer-category">
+            <div className="buyer-category shadow-sm">
                 <ul>
 
                     <li >

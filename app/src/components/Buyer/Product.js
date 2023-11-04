@@ -5,6 +5,21 @@ import WhatsAppSvg from '../../assets/whatsapp-whats-app-svgrepo-com.svg'
 
 
 const Product = () => {
+
+    let BtnStyles = {
+        height: '50px',
+        width: '20%',
+        borderTopRightRadius: '10px',
+        borderBottomRightRadius: '10px',
+        outline: 'none',
+        border: 'none',
+        float: 'left',
+        color: '#fff',
+        fontSize: 'small',
+        fontWeight: '500',
+        backgroundColor: 'orangered',
+        margin: '0'
+    }
     return ( 
         <>
             <div className="buyer-product">
@@ -59,7 +74,7 @@ const Product = () => {
                             <hr />
                             <br />
 
-                            <button style={{height: '70px'}}>
+                            <button style={BtnStyles}>
                                 <h4>Buy</h4> 
                             </button>
 
@@ -71,7 +86,7 @@ const Product = () => {
                                 <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
                             </section>
 
-                            <section style={{fontWeight: '500', padding: '20px', position: 'relative', width: '100%',}}>
+                            <section style={{fontWeight: '500', display: 'flex', flexDirection: 'column', padding: '20px', position: 'relative', width: '100%',}}>
                                 <div>Share With Your Friends</div>
                                 <ul>
                                     <li style={{border: 'none', padding: '0',cursor: 'pointer'}}>
@@ -87,7 +102,7 @@ const Product = () => {
                                     </li>
                                 </ul>
 
-                                <button style={{position: 'absolute', right: '20px', bottom: '20px', width: 'fit-content', padding: '10px 20px 10px 20px'}}>
+                                <button style={{position: 'absolute', right: '2px', bottom: '20px', width: 'fit-content', padding: '10px 20px 10px 20px'}}>
                                     Make An Offer
                                 </button>
                             </section>
