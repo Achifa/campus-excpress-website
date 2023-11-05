@@ -17,7 +17,7 @@
 }
 
 .buyer-menu-cnt{
-    height: 100%;
+    height: fit-content;
     width: 300px;
     position: relative;
     padding: 20px 5px 10px 5px;
@@ -46,7 +46,7 @@
 }
 
 .buyer-menu-cnt ul li{
-    padding: 15px;
+    padding: 12px;
     text-align: left;
     justify-content: left;
     cursor: pointer;

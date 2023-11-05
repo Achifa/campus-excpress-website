@@ -54,17 +54,26 @@ const BuyerAside = () => {
        }
     },[categories])
 
+    function handleOverlay(e) {
+        let elem = document.querySelector('.buyer-overlay');
+        if(elem.hasAttribute('id')){
+          elem.removeAttribute('id')
+        }else{
+          elem.setAttribute('id', 'buyer-overlay')
+        }
+      }
+
     return ( 
         <>
             <div className="buyer-aside">
                 <div className="buyer-aside-cnt">
-                    <h5>Filter Section </h5>
+                    <h5 style={{fontWeight: '1000', color: 'orangered'}}>Filter Section </h5>
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '25px', cursor: 'pointer', width: '25px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
                             &nbsp;
-                            <label htmlFor="" style={{color: '#fff', fontSize: 'medium', fontWeight: '500'}}>Category</label>
+                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Category</label>
                         </div>
                         <select name="" onInput={e => setCategories(e.target.value)} id="">
                             <option value={''}>Select A Category</option>
@@ -93,10 +102,10 @@ const BuyerAside = () => {
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '25px', cursor: 'pointer', width: '25px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
                             &nbsp;
-                            <label htmlFor="" style={{color: '#fff', fontSize: 'medium', fontWeight: '500'}}>Condition</label>
+                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Condition</label>
                         </div>
                         <select name="" id="">
                             <option value={''}>Select Product Type</option>
@@ -111,10 +120,10 @@ const BuyerAside = () => {
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '25px', cursor: 'pointer', width: '25px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
                             &nbsp;
-                            <label htmlFor="" style={{color: '#fff', fontSize: 'medium', fontWeight: '500'}}>Price Range</label>
+                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Price Range</label>
                         </div>
                         <div>
                             <input style={{height: '45px', width: '40%', float: 'left'}} placeholder="From..." type="number" name="" id="" />
@@ -124,10 +133,10 @@ const BuyerAside = () => {
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '25px', cursor: 'pointer', width: '25px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
                             &nbsp;
-                            <label htmlFor="" style={{color: '#fff', fontSize: 'medium', fontWeight: '500'}}>Location</label>
+                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Location</label>
                         </div>
                         <select name="" id="" onChange={e => setStateValue(e.target.value)}>
                             <option value={''}>Select State</option>
@@ -149,6 +158,50 @@ const BuyerAside = () => {
                                 )
                             }
                         </select>
+                    </div>
+                    <br />
+
+                    <div className="buyer-aside-btn" style={{display: 'inline-block', width: '100%', justifyContent: 'space-between'}}>
+                        <button onClick={e => {e.preventDefault(); handleOverlay()}} style={{
+                            height: '50px',
+                            width: '46%',
+                            float: 'left',
+                            borderRadius: '5px',
+                            outline: 'none',
+                            border: 'none',
+                            textAlign: 'center',
+                            color: '#fff',
+                            display: 'flex', 
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
+                            fontSize: 'large',
+                            fontWeight: '1000',
+                            backgroundColor: 'orangered',
+                            margin: '0'
+                        }}>
+                            Cancel
+                        </button>
+                        <button style={{
+                            height: '50px',
+                            width: '46%',
+                            float: 'right',
+                            borderRadius: '5px',
+                            outline: 'none',
+                            border: 'none',
+                            textAlign: 'center',
+                            color: '#fff',
+                            display: 'flex', 
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
+                            fontSize: 'large',
+                            fontWeight: '1000',
+                            backgroundColor: 'orangered',
+                            margin: '0'
+                        }}>
+                            Apply
+                        </button>
                     </div>
                 </div>
             </div>

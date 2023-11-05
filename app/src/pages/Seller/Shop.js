@@ -1,45 +1,51 @@
 import img from '../../assets/download (3).jpeg'
+import deleteSvg from '../../assets/delete-svgrepo-com (1).svg'
 
 const Shop = () => {
     return ( 
         <>
             <div className="seller-libs">
-               {/* <div className="seller-libs-header ">
-                    <div className='shadow-sm' style={{height: '100%', width: '100%'}}>
+               {
+                [1,2,3,4,5,6].map((item, index) => {
+                    return(
+                        <div className="seller-libs-card shadow-sm">
+                            <img src={img} style={{height: '100%', float: 'left', width: '250px'}} alt="" />
 
-                    </div>
-    </div>*/}
+                            <div className="seller-libs-body">
+
+                                <img src={deleteSvg} style={{height: '25px', width: '25px', position: 'absolute', right: '15px', top: '15px'}} alt="" />
+                                <div className='seller-item-title'>
+                                    <h4>THICK (Men's Gold Cuban Link Chain)</h4>
+                                </div>
 
 
-                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-x-lg-5 g-2 p-2">
-                    <div className="cols">
-                        <div className="card">
-                        
+                                <div className="seller-item-price">
+                                    <h3 style={{fontWeight: 'bolder'}}>&#8358;4500000 </h3>
+                                </div>
 
-                            <img src={img} style={{height: '200px', width: '100%', }} alt="" />
-                            <div className="card-body" style={{position: 'relative'}}>
-                                <div className="seller-item-title">THICK ( Men's Gold Cuban Link Chain )</div>
-                                
-                                <div className="seller-item-price">&#8358; 4500000</div>
+                                <div className="seller-item-spec">
+                                    <ul>
+                                        <li>
+                                            <div>0</div>
+                                            <div>Impession</div>
+                                        </li>
+                                        <li>
+                                            <div>0</div>
+                                            <div>Views</div>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                                <div className="seller-items-engagements">
-                                    <div style={{marginLeft: '0'}}>0 impression</div>
-                                    <div>0 views</div>
-                                    <div>0 comments</div>
-                                    <div>0 shares</div>
-                                    <div>0 orders</div>
+                                <div className="seller-items-date">
+                                    2 days ago
                                 </div>
                             </div>
-                            <div className="card-footer" style={{position: 'relative'}}>
-
-                                <div style={{height: 'fit-content', width: 'fit-content', fontWeight: '500'}} >Posted 2 days ago</div>
-                            </div>
-
                         </div>
-                    </div>
 
-                    
-                </div>
+
+                    )
+                })
+               }
             </div>
         </>
      );

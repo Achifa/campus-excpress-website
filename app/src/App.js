@@ -22,6 +22,7 @@ import ProductPage from './pages/Buyer/Product';
 import Signup from './Authorization/Seller/Signup';
 import BuyerSignup from './Authorization/Buyer.js/Signup';
 import BuyerLogin from './Authorization/Buyer.js/Login';
+import Inbox from './components/Seller/Inbox';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -74,7 +75,7 @@ function App() {
             <Route path='/seller/editor' element={<Editor />}></Route>
             <Route path='/seller/shop' element={<Shop />}></Route>
             <Route path='/seller/orders' element={<Order/>}></Route>
-            <Route path='/seller/messages' element={<Message/>}></Route>
+            <Route path='/seller/inbox' element={<Inbox/>}></Route>
             <Route path='/seller/settings' element={<Setting />}></Route>
             <Route path='/seller/wallet' element={<Wallet />}></Route>
             <Route path='/seller/profile' element={<Me />}></Route>

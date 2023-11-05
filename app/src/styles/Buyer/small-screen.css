@@ -153,15 +153,19 @@
     .buyer-aside{
         height: 100%;
         width: 350px;
+        border-radius: 10px;
         float: left;
         overflow: auto;
-        background-color: orangered;
+        background-color: #fff;
         
     }
 
     .buyer-aside-header{
         height: 100px;
         width: 100%;
+        font-size: large;
+        font-weight: 1000;
+        color: orangered;
     }
 
     .buyer-aside-cnt{
@@ -253,16 +257,26 @@
         background-color: #f9f9f9;
     }
 
-    .buyer-product-data {
-        height: 650px;
+    .buyer-product-cnt{
+        height: fit-content;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .buyer-product-data {
+        height: fit-content;
+        width: 100%;
+        position: relative;
         background-color: #fff;
+        margin-bottom: 5px;
     }
 
     .buyer-product-data #left{
         float: left;
         width: 100%;
-        height: 100%;
+        height: fit-content;
         padding: 5px;
     }
 
@@ -340,16 +354,17 @@
 
 
     .buyer-product-description{
-        min-height: 200px;
+        height: fit-content;
         margin: 10px 0 10px 0;
         width: 100%;
         padding: 10px;
+        position: relative;
         text-align: left;
         background-color: #fff;
     }
 
     .buyer-product-description section{
-        font-size: large;
+        font-size: medium;
         font-weight: 500;
     }
 

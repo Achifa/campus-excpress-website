@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
  
-let urls = ['http://localhost:3000', 'http://192.168.147.146:3000', 'https://lite-news.vercel.app', 'https://lite-news-bfn75di4l-achifa.vercel.app'];
+let urls = ['http://localhost:3000', 'http://192.168.0.5:3000', 'https://lite-news.vercel.app', 'https://campus-excpress-website-6g5gmn4zz-achifa.vercel.app/'];
 
 app.use(cors({
   origin: urls,
@@ -24,12 +24,6 @@ app.use(cors({
 app.use(seller_route)
 app.use(buyer_route)
 
-
-const sms = require('sms-service');
-const smsService = new sms.SMSService();
- 
- 
-let mssg = smsService.sendSMS('+2348032639894','hello from sms-service!');
 
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
 io(server, {cors: {origin: '*'}}).on('connection', socket => {

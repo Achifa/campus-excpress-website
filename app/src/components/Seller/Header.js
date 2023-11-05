@@ -22,7 +22,6 @@ const Header = () => {
     return ( 
         <>
             <div className="seller-header shadow-sm">
-                <h2 style={{fontWeight: '800', color: 'orangered', float: 'left',marginLeft: '10px'}}>CE</h2>
 
                 <button onClick={handleMenu} style={{display: screenWidth <= 760 ? 'block' : 'none', float: 'right', outline: 'none', border: 'none', marginTop: '4px',  padding: '10px', borderRadius: '5px', background: 'orangered', color: '#fff'}}>
                     Menu

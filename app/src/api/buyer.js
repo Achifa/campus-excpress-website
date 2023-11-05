@@ -1,10 +1,13 @@
 import axios from 'axios'
 
 let u1 = `http://localhost:1111`
+let u2 = `http://192.168.0.5:1111`
+let u3 = `https://ce-server.onrender.com`
+
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u1}/buyer/registration`, {
+        axios.post(`${u3}/buyer/registration`, {
             fname,lname,email,phone,pwd,state,campus
         })
         .then((result) => {
@@ -19,7 +22,7 @@ export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
 
 export function LogBuyerIn(email,pwd) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u1}/buyer/login`, {
+        axios.post(`${u3}/buyer/login`, {
             email,pwd
         })
         .then((result) => {

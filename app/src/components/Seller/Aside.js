@@ -6,7 +6,7 @@ import ordersSvg from '../../assets/order-completed-svgrepo-com.svg'
 import walletSvg from '../../assets/wallet-money-svgrepo-com.svg'
 import profileSvg from '../../assets/profile-circle-svgrepo-com (3).svg'
 import shopSvg from '../../assets/shop-2-svgrepo-com.svg'
-import mssgSvg from '../../assets/messages-1-svgrepo-com (1).svg'
+import mssgSvg from '../../assets/inbox-in-svgrepo-com.svg'
 
 const Aside = () => {
 
@@ -36,12 +36,12 @@ const Aside = () => {
                             <span>Create</span>
                         </li>
 
-                        <li onClick={e => navigate('/seller/messages')}>
+                        <li onClick={e => navigate('/seller/inbox')}>
                             <span>
                                 <img src={mssgSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
                             &nbsp;                            &nbsp;
-                            <span>Messages</span>
+                            <span>Inbox</span>
                         </li>
 
                         <li onClick={e => navigate('/seller/shop')}>

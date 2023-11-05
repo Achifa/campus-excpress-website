@@ -7,16 +7,19 @@ import WhatsAppSvg from '../../assets/whatsapp-whats-app-svgrepo-com.svg'
 const Product = () => {
 
     let BtnStyles = {
-        height: '50px',
-        width: '20%',
-        borderTopRightRadius: '10px',
-        borderBottomRightRadius: '10px',
+        height: '70px',
+        width: '100%',
+        borderRadius: '10px',
         outline: 'none',
         border: 'none',
-        float: 'left',
+        textAlign: 'center',
         color: '#fff',
-        fontSize: 'small',
-        fontWeight: '500',
+        display: 'flex', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        fontSize: 'large',
+        fontWeight: '1000',
         backgroundColor: 'orangered',
         margin: '0'
     }
@@ -74,19 +77,18 @@ const Product = () => {
                             <hr />
                             <br />
 
-                            <button style={BtnStyles}>
-                                <h4>Buy</h4> 
-                            </button>
+                            <div style={BtnStyles}>
+                                Buy Now
+                            </div>
 
                            
 
-                            <section style={{fontWeight: '700', padding: '20px'}}>
-                                &nbsp;
-                                <hr />
+                            <section style={{fontWeight: '700', padding: '10px'}}>
+                                
                                 <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
                             </section>
 
-                            <section style={{fontWeight: '500', display: 'flex', flexDirection: 'column', padding: '20px', position: 'relative', width: '100%',}}>
+                            <section style={{fontWeight: '500', display: 'flex', flexDirection: 'column', padding: '10px', position: 'relative', width: '100%',}}>
                                 <div>Share With Your Friends</div>
                                 <ul>
                                     <li style={{border: 'none', padding: '0',cursor: 'pointer'}}>
@@ -102,17 +104,14 @@ const Product = () => {
                                     </li>
                                 </ul>
 
-                                <button style={{position: 'absolute', right: '2px', bottom: '20px', width: 'fit-content', padding: '10px 20px 10px 20px'}}>
-                                    Make An Offer
-                                </button>
+                                
                             </section>
 
 
                         </div>
-                    </div>
-
+                    </div>              
                     <div className="buyer-product-description">
-                        <h4 style={{padding:'10px'}}>Description</h4>
+                        <h4 style={{padding:'10px', height: 'fit-content'}}>Description</h4>
                         <section style={{padding: '10px'}}>
                             Ray Ban Foldable Wayfarer sunglasses Tortoise
 

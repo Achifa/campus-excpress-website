@@ -83,7 +83,6 @@ const Home = () => {
                                         
                                     </div>
 
-
                                     <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '5px', bottom: '35px', background: '#fff', color: '#626262'}}>
                                         <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
                                         <section style={{marginTop: '-8px'}}>
