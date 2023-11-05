@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
  
-let urls = ['http://localhost:3000', 'http://192.168.0.5:3000', 'https://lite-news.vercel.app', 'https://campus-excpress-website-6g5gmn4zz-achifa.vercel.app/'];
+let urls = ['http://localhost:3000', 'http://192.168.0.5:3000', 'https://campus-excpress-website-k7m1ccpdc-achifa.vercel.app'];
 
 app.use(cors({
   origin: urls,
