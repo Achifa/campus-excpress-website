@@ -397,7 +397,7 @@
         cursor: pointer;
         position: relative;
         text-align: left;
-        padding: 20px 20px 20px 20px;
+        padding: 10px 10px 10px 10px;
         background-color: #fff;
         
     }
@@ -461,7 +461,7 @@
         position: absolute;
         height: fit-content;
         font-weight: 400;
-        font-size: small;
+        font-size: x-small;
         right: 2.5px;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         border-radius: 5px;
