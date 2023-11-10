@@ -382,7 +382,7 @@
         
     }
     .seller-libs-card{
-        height: 150px;
+        height: 120px;
         padding: 0 0px 0 0px ;
         margin-bottom: 10px;
         width: 100%;
@@ -391,7 +391,7 @@
     }
     .seller-libs-body{
         height: 100%;
-        width: calc(100% - 160px);
+        width: calc(100% - 130px);
         margin: auto;
         float: right;
         cursor: pointer;
@@ -403,7 +403,7 @@
     }
     .seller-libs-card img{
         height: 100%;
-        width: 150px;
+        width: 120px;
         float: left;
     }
     .seller-libs-body img{
