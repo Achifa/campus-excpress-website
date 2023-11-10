@@ -381,80 +381,91 @@
         background-color: #fff;
         
     }
-
-    .seller-libs-header{
-        height: 100px;
-        padding: 0 20px 0 20px ;
-        margin-bottom: 5px;
-        width: 100%
-    }
-
-    .seller-libs-body{
-        height: fit-content;
+    .seller-libs-card{
+        height: 150px;
+        padding: 0 0px 0 0px ;
+        margin-bottom: 10px;
         width: 100%;
+        padding: 10px;
+        display: inline-block;
+    }
+    .seller-libs-body{
+        height: 100%;
+        width: calc(100% - 160px);
         margin: auto;
-        position: relative;
+        float: right;
         cursor: pointer;
-        overflow: auto;
-        padding: 0 10px 10px 10px;
+        position: relative;
+        text-align: left;
+        padding: 20px 20px 20px 20px;
         background-color: #fff;
         
     }
-
-    .seller-libs-item-cnt{
-        height: 150px;
-        width: 100%;
-        padding: 5px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .seller-libs-item-cnt img{
-        width: 150px;
+    .seller-libs-card img{
         height: 100%;
+        width: 150px;
+        float: left;
     }
-
-    
-
-    .seller-libs-item-cnt-body{
-        height: 150px;
-        padding: 15px;
-        position: relative;
-        width: calc(100% - 150px);
+    .seller-libs-body img{
+        height: 17px;
+        width: 17px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
     }
-
     .seller-item-title{
-        height: fit-content;
+        height: 40px;
         width: 100%;
-        font-size: large;
+        font-size: small;
         text-align: left;
         font-weight: bold;
     }
-
     .seller-item-price{
-        font-size: large;
-        font-weight: 500;
         width: 100%;
-
         text-align: left;
-    }
-
-    .seller-items-engagements{
-        height: 40px;
-        width: 100%;
+        white-space: nowrap;
         display: flex;
-        padding: 5px 5px 5px 0;
         align-items: center;
-        justify-content: flex-start;
-    }
-
-    .seller-items-engagements div{
-        padding: 4px;
-        margin: 0 5px 0 5px;
-        border-radius: 5px;
-        font-weight: 400;
-        color: orangered;
         font-size: small;
+        font-weight: 500;
+    }
+    .seller-item-spec{
+        position: absolute;
+        height: 40px;
+        font-weight: 500;
+        width: 25%;
+        left: 5px;
+        border-radius: 5px;
+        bottom: 2.5px;
+    }
+    .seller-item-spec ul{
+        list-style-type: none;
+        margin: 0 0 0 0;
+        margin: auto;
+        display: flex;
+        justify-content: left;
+        flex-wrap: nowrap;
+        padding: 2.5px;
+    }
+    .seller-item-spec ul li{
+        font-size: x-small;
+        font-weight: 500;
+        text-align: center;
+        color: orangered;
+        margin: 2.5px 2.5px 2.5px 2.5px;
+        padding: 10px;
+        border-radius: 5px;
+        width: fit-content;
+    }
+    .seller-items-date{
+        position: absolute;
+        height: fit-content;
+        font-weight: 400;
+        font-size: small;
+        right: 2.5px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        border-radius: 5px;
+        bottom: 1.5px;
     }
 
     .seller-order-cnt{
@@ -462,47 +473,75 @@
         width: 100%;
         margin: auto;
         overflow: auto;
-        padding: 5px;
+        padding: 10px;
         background-color: #fff;
     }
-
-    .seller-order-cnt .cols .card{
-        height: 350px;
+    .seller-order-card{
+        height: 120px;
+        width: 100%;
+        padding: 10px;
     }
+    .seller-order-card img{
+        height: 100%;
+        width: 100px;
+        float: left;
 
-    .seller-order-cnt .cols .card{
+    }
+    .seller-order-body{
+        height: 100%;
+        position: relative;
+        width: calc(100% - 110px);
+        text-align: left;
+        float: right;
+        padding: 0 20px 20px 20px;
+        background-color: #fff;
+    }
+    .seller-order-body img{
+        height: 15px;
+        width: 15px;
+        position: absolute;
+        top: 2.5px;
+        right: 2.5px;
+    }
+    .seller-order-title{
+        height: 50%;
+        width: 100%;
+        font-size: small;
+        text-align: left;
+        font-weight: bold;
+    }
+    .seller-order-id{
+        width: 100%;
+        text-align: left;
+        white-space: nowrap;
+        display: flex;
+        height: 40px;
+        align-items: flex-end;
+        font-size: x-small;
+        font-weight: 400;
+    }
+    .seller-order-status{
+        text-align: left;
+        white-space: nowrap;
+        display: flex;
+        border-radius: 5px;
+        padding: 5px;
+        width: fit-content;
+        background-color: orangered;
+        color: #fff;
+        align-items: flex-end;
+        font-size: small;
+        font-weight: 500;
+        margin-top: -10px;
+    }
+    .seller-order-date{
+        position: absolute;
         height: fit-content;
-        position: relative;
-        text-align: left;
-        cursor: pointer;
-    }
-
-    .seller-order-cnt .cols .card .card-body{
-        text-align: left;
-        position: relative;
-        padding: 10px;
-    }
-
-    .seller-order-cnt .cols .card .card-footer{
-        text-align: left;
-        position: relative;
-        padding: 10px;
-    }
-
-    .seller-order-cnt .cols .card .card-body .order-title{
-        font-size: medium;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        font-weight: 500;
-    }
-
-    .seller-order-cnt .cols .card .card-body .order-price{
-        height: 40px;
-        font-size: medium;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
+        font-weight: 600;
+        right: 5px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        border-radius: 5px;
+        bottom: 5px;
     }
 
     .seller-messages{
@@ -513,7 +552,6 @@
         padding: 10px;
         background-color: #fff;
     }
-
     .seller-client-list{
         width: 100%;
         height: 100%;
@@ -521,7 +559,6 @@
         padding: 5px;
         overflow: auto;
     }
-
     .seller-client-list section{
         height: 80px;
         width: 100%;
@@ -532,7 +569,6 @@
         align-items: center;
         justify-content: center;
     }
-
     .seller-client-list section img{
         height: 35px;
         width: 35px;
@@ -548,9 +584,6 @@
         right: 0;
         font-size: small;
     }
-
-
-
     .seller-chat-room{
         width: 100%;
         display: none;
@@ -559,7 +592,6 @@
         float: right;
         padding: 5px;
     }
-
     .seller-chat-box{
         height: calc(100% - 140px);
         width: 100%;
@@ -567,20 +599,17 @@
         overflow: auto;
         background-color: transparent;
     }
-
     .seller-chat-header{
         height: 80px;
         width: 100%;
         background-color: #fff;
     }
-
     .seller-chat-tools{
         height: 60px;
         width: 100%;
         padding: 5px;
         text-align: left;
     }
-
     .seller-chat-cnt{
         position: relative;
         width: 100%;
@@ -588,14 +617,12 @@
         display: block;
         margin: 10px 0 10px 0;
     }
-
     .seller-chat-cnt section{
         position: relative;
         max-width: 60%;
         height: auto;
        
     }
-
     #sellerChat{
         padding: 10px;
         background-color: rgb(255, 127, 80);
@@ -606,7 +633,6 @@
         border-bottom-right-radius: 0px;
         border-bottom-left-radius: 8px;
     }
-
     #sellerChatMate{
         padding: 10px;
         text-align: left;
@@ -619,47 +645,39 @@
 
     .seller-settings{
         height: calc(100vh - 100px);
-        width: 100%;
+        width: calc(100% - 0);
         margin: auto;
         overflow: auto;
         padding: 10px;
+        position: relative;
         background-color: #fff;
     }
-
-    .seller-settings-list{
-        width: 40%;
-        height: 100%;
-        float: left;
-        padding: 5px;
-        overflow: auto;
-    }
-
-    .seller-settings-list section{
-        height: 80px;
+    .seller-settings section{
+        height: 100px;
         width: 100%;
+        margin: 10px 0 10px 0;
         cursor: pointer;
-        padding: 5px;
+        padding: 15px;
         position: relative;
         display: flex;
+        border-radius: 5px;
         align-items: center;
-        justify-content: center;
+        justify-content: left;
     }
-
     section img{
         height: 35px;
         width: 35px;
         border-radius: 50%;
         float: left;
         position: absolute;
-        left: 8px;
+        left: 13px;
     }
-
-    .seller-settings-list section .seller-list-settings-log{
-        width: calc(100% - 55px);
+    .seller-list-settings-log{
+        width: calc(100% - 15px);
         height: 100%;
         position: absolute;
         right: 0;
-        font-size: small;
+        font-size: medium;
     }
 
     .seller-wallet{
@@ -670,7 +688,6 @@
         padding: 20px;
         background-color: #fff;
     }
-
     .seller-wallet-list{
         width: 40%;
         height: 100%;
@@ -678,7 +695,6 @@
         padding: 5px;
         overflow: auto;
     }
-
     .seller-wallet-list section{
         height: 80px;
         width: 100%;
@@ -689,7 +705,6 @@
         align-items: center;
         justify-content: center;
     }
-
     section img{
         height: 35px;
         width: 35px;
@@ -698,7 +713,6 @@
         position: absolute;
         left: 8px;
     }
-
     .seller-settings-list section .seller-list-wallet-log{
         width: calc(100% - 45px);
         height: 100%;
@@ -713,7 +727,7 @@
         width: 100%;
         margin: auto;
         overflow: auto;
-        padding: 20px;
+        padding: 2px;
         position: relative;
         display: block;
         background-color: #f9f9f9;
@@ -721,7 +735,7 @@
 
     .seller-profile-left{
         float: left;
-        width: 300px;
+        width: 100%;
         padding: 0;
         height: fit-content;
         background-color: #fff;
@@ -730,7 +744,7 @@
     .seller-profile-right{
         padding: 0;
         float: right;
-        width: calc(100% - 350px);
+        width: 100%;
         height: fit-content;
         background-color: #fff;
 
@@ -780,6 +794,7 @@
         padding: 0;
         margin: 10px 0 0 0;
         width: 100%;
+        
         list-style-type: none;
     }
 
@@ -805,22 +820,24 @@
         padding: 0;
         margin: 10px 0 0 0;
         width: 100%;
+        display: flex;
         list-style-type: none;
     }
 
     .seller-profile-footer ul li{
-        padding: 15px 10px 15px 10px;
+        padding: 10px 5px 10px 5px;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         text-align: left;
         font-weight: 500;
         margin: auto;
+        display: flex;
     }
 
 
     .seller-profile-description, .seller-profile-portfolio, .seller-profile-reviews, .seller-profile-history{
         height: fit-content;
         width: 100%;
-        padding: 40px;
+        padding: 20px;
         margin: 2.5px 0 2.5px 0;
         font-size: larger;
         font-weight: lighter;
@@ -830,7 +847,7 @@
     }  
 
     .seller-profile-history{
-        padding: 40px;
+        padding: 20px;
         min-height: 350px;
         width: 100%;
         max-height:1200px;
@@ -842,7 +859,7 @@
         height: fit-content;
         width: 100%;
 
-        padding: 40px;
+        padding: 20px;
 
     }
 

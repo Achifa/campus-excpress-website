@@ -364,6 +364,18 @@
         padding: 10px;
         display: inline-block;
     }
+    .seller-libs-card img{
+        height: 100%;
+        width: 250px;
+        float: left;
+    }
+    .seller-libs-body img{
+        height: 25px;
+        width: 25px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
     .seller-libs-body{
         height: 100%;
         width: calc(100% - 260px);
@@ -393,18 +405,6 @@
         font-size: medium;
         font-weight: 500;
     }
-    .seller-item-description{
-        height: 80px;
-        width: 95%;
-        font-size: small;
-        text-align: left;
-        font-weight: 400;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-    }
     .seller-item-spec{
         position: absolute;
         height: fit-content;
@@ -420,7 +420,7 @@
         margin: auto;
         display: flex;
         justify-content: left;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         padding: 5px;
     }
     .seller-item-spec ul li{
@@ -457,6 +457,12 @@
         width: 100%;
         padding: 10px;
     }
+    .seller-order-card img{
+        height: 100%;
+        width: 250px;
+        float: left;
+
+    }
     .seller-order-body{
         height: 100%;
         position: relative;
@@ -466,19 +472,39 @@
         padding: 0 20px 20px 20px;
         background-color: #fff;
     }
+    .seller-order-body img{
+        height: 25px;
+        width: 25px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
     .seller-order-title{
         height: 50%;
         width: 100%;
-        font-size: large;
+        font-size: x-large;
         text-align: left;
         font-weight: bold;
     }
-    .seller-order-price{
+    .seller-order-id{
         width: 100%;
         text-align: left;
         white-space: nowrap;
         display: flex;
-        height: 50%;
+        height: 60px;
+        align-items: flex-end;
+        font-size: medium;
+        font-weight: 500;
+    }
+    .seller-order-status{
+        text-align: left;
+        white-space: nowrap;
+        display: flex;
+        border-radius: 5px;
+        padding: 5px;
+        width: fit-content;
+        background-color: orangered;
+        color: #fff;
         align-items: flex-end;
         font-size: medium;
         font-weight: 500;
@@ -624,7 +650,7 @@
         left: 13px;
     }
     .seller-list-settings-log{
-        width: calc(100% - 75px);
+        width: calc(100% - 15px);
         height: 100%;
         position: absolute;
         right: 0;

@@ -9,18 +9,18 @@ const Shop = () => {
                 [1,2,3,4,5,6].map((item, index) => {
                     return(
                         <div className="seller-libs-card shadow-sm">
-                            <img src={img} style={{height: '100%', float: 'left', width: '250px'}} alt="" />
+                            <img src={img} alt="" />
 
                             <div className="seller-libs-body">
 
-                                <img src={deleteSvg} style={{height: '25px', width: '25px', position: 'absolute', right: '15px', top: '15px'}} alt="" />
+                                <img src={deleteSvg} alt="" />
                                 <div className='seller-item-title'>
-                                    <h4>THICK (Men's Gold Cuban Link Chain)</h4>
+                                    <p>THICK (Men's Gold Cuban Link Chain)</p>
                                 </div>
 
 
                                 <div className="seller-item-price">
-                                    <h3 style={{fontWeight: 'bolder'}}>&#8358;4500000 </h3>
+                                    <p style={{fontWeight: 'bold'}}>&#8358;4500000 </p>
                                 </div>
 
                                 <div className="seller-item-spec">

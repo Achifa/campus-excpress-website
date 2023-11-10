@@ -8,17 +8,22 @@ const Orders = () => {
         <>
             <div className="seller-order-cnt">
                 <div className="seller-order-card shadow-sm">
-                    <img src={img} style={{height: '100%', float: 'left', width: '250px'}} alt="" />
+                    <img src={img} alt="" />
                     
                     <div className="seller-order-body">
-                        <img src={deleteSvg} style={{height: '25px', cursor: 'pointer', width: '25px', position: 'absolute', right: '15px', top: '15px'}} alt="" />
+                        <img src={deleteSvg}alt="" />
 
                         <div className="seller-order-title">
-                            <h4>THICK (Men's Gold Cuban Link Chain)</h4>
+                            <p>THICK (Men's Gold Cuban Link Chain)</p>
                         </div>
-                        <div className="seller-order-price">
-                            <h3 style={{fontWeight: 'bolder'}}>&#8358;4500000 </h3>
+                        <div className="seller-order-id">
+                            <p style={{fontWeight: 'bold'}}>Order code: #00013fg5A900</p>
                         </div>
+
+                        <div className="seller-order-status">
+                            Failed Order
+                        </div>
+
 
                         <div className="seller-order-date">
                             2 days ago

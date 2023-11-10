@@ -1,13 +1,13 @@
 import img from '../../assets/download (3).jpeg'
 import audioSvg from '../../assets/audio-input-microphone-svgrepo-com.svg'
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const Settings = () => {
 
     let [chatList, setChatList] = useState([])
 
     
-
       
     
     return ( 
@@ -16,7 +16,7 @@ const Settings = () => {
                 {
                     ['Profile Settings', 'Payment/Billing', 'Password/Security', 'Identity/Verification', 'Notification Settings', 'Subscriptions'].map(item =>  
                         <section className="shadow-sm">
-                            <img src={img} alt="" />
+                            
                             <div  className='seller-list-settings-log'>
                                 <div style={{height: '100%', display: 'flex', alignItems: 'center', width: '100%', textAlign: 'left', fontWeight: '400', fontSize: 'medium'}}>
                                     <span style={{fontSize: 'medium', fontWeight: '500'}}>{item}</span>
