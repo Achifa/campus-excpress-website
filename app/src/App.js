@@ -28,7 +28,7 @@ function App() {
   let [activeDom, setActiveDom] = useState()
 
   useEffect(() => {
-    if(location.pathname.split('/')[1] === 'buyer'){
+    if(location.pathname.split('/')[1] === ''){
       setActiveDom(
         (
           <>
@@ -43,7 +43,7 @@ function App() {
             
           </>
         )
-      }else{
+      }else if(location.pathname.split('/')[1] === 'seller'){
         setActiveDom(
           <>
             <Header />
