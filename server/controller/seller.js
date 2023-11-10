@@ -10,7 +10,7 @@ function uploadProduct(req,res) {
     let date = new Date();
     let productId = shortId.generate()
     let seller_id = shortId.generate()
-    let descripton = productDescription.replace(/"'"/g, '"');
+    let description = productDescription.replace(/"'"/g, '"');
     let title = productTitle.replace(/"'"/g, '"');
    
 
