@@ -97,4 +97,43 @@ async function LogBuyerIn(req, res) {
     
 }
 
-module.exports = {RegisterBuyer,LogBuyerIn}
+async function GetItems(req,res) {
+
+    NeonDB.then((pool) => 
+        pool.query(`select * from seller_shop`)
+        .then(result =>  res.send(result.rows))
+        .catch(err => console.log(err))
+    )
+    
+
+}
+
+async function GetItem(req,res) {
+
+    let {id} = req.query;
+
+    NeonDB.then((pool) => 
+        pool.query(`select * from seller_shop where product_id = '${id}'`)
+        .then(result =>  res.send(result.rows[0]))
+        .catch(err => console.log(err))
+    )
+    
+
+}
+
+
+async function GetItemImages(req,res) {
+
+    let {id} = req.query;
+
+    NeonDB.then((pool) => 
+        pool.query(`select file from product_photo where product_id = '${id}'`)
+        .then(result =>  res.send(result.rows))
+        .catch(err => console.log(err))
+    )
+    
+
+}
+
+
+module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages}

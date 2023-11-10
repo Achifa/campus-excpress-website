@@ -33,3 +33,43 @@ export function LogBuyerIn(email,pwd) {
         })
     })
 }
+
+export function GetItems(email,pwd) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${u3}/`, {})
+        .then((result) => {
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+export function GetItem(id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${u3}/product`, {
+            params: {id}
+        })
+        .then((result) => {
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+export function GetItemImages(id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${u3}/product/images`, {
+            params: {id}
+        })
+        .then((result) => {
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}

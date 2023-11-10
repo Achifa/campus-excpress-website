@@ -1,10 +1,43 @@
+import { useEffect, useState } from 'react'
 import img from '../../assets/download (3).jpeg'
 import fbSvg from '../../assets/facebook-1-svgrepo-com (1).svg'
 import tweeterSvg from '../../assets/twitter-svgrepo-com (2).svg'
 import WhatsAppSvg from '../../assets/whatsapp-whats-app-svgrepo-com.svg'
+import { GetItem } from '../../api/buyer'
+import { useLocation } from 'react-router-dom'
+import ItemImages from './ItemImages'
+
+
 
 
 const Product = () => {
+    let [item, setItem] = useState(
+        {
+            id: '',
+            product_id: '',
+            date: '',
+            seller_id: '',
+            title: '',
+            category: '',
+            type: '',
+            condition: '',
+            stock: '',
+            locale: '',
+            price: '',
+            description: '',
+            package: ''
+        }
+    )
+
+    let location = useLocation()
+
+    useEffect(() => {
+        GetItem(location.pathname.split('/')[2])
+        .then((result) => {
+            setItem(result)
+        })
+        .catch(err => console.log(err))
+    }, [])
 
     let BtnStyles = {
         height: '70px',
@@ -32,35 +65,16 @@ const Product = () => {
                             <div className="img-cnt">
                                 <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
                             </div>
-                            <div className="img-list-cnt">
-                                <div>
-                                    <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
-                                </div>
-                                <div>
-                                    <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
-                                </div>
-                                <div>
-                                    <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
-                                </div>
-                                <div>
-                                    <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
-                                </div>
-                                <div>
-                                    <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
-                                </div>
-                                <div>
-                                    <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
-                                </div>
-                            </div>
+                            <ItemImages />
                         </div>
 
                         <div id="right">
 
-                            <h3>Men's Gold Cuban Link Chain  Labelled with designers For Fashion And Can Serve As Corporate Outfit</h3>
+                            <h3>{item['title']}</h3>
 
                             <section>
                                 <div>
-                                    <span><span style={{color: '#626262'}}>Seller :</span> <span style={{color: 'orangered'}}>Jacob N.N</span></span> <span>&#x2022;</span> <span><span style={{color: '#626262'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700'}}>2220081</span></span>
+                                    <span><span style={{color: '#626262'}}>Seller :</span> <span style={{color: 'orangered'}}>Jacob N.N</span></span> <span>&#x2022;</span> <span><span style={{color: '#626262'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700'}}>{item.product_id}</span></span>
                                 </div>
                                 <div>
                                     <span><span style={{color: '#626262'}}>Seller Rating:</span> <span style={{color: 'orangered'}}>Jacob N.N</span></span>
@@ -71,7 +85,7 @@ const Product = () => {
                             <hr />
 
                             <h2 style={{fontWeight: '700', padding: '20px'}}>
-                                &#8358;20000
+                                &#8358;{item.price}
                             </h2>
 
                             <hr />
@@ -113,13 +127,7 @@ const Product = () => {
                     <div className="buyer-product-description">
                         <h4 style={{padding:'10px', height: 'fit-content'}}>Description</h4>
                         <section style={{padding: '10px'}}>
-                            Ray Ban Foldable Wayfarer sunglasses Tortoise
-
-                            classic and style, eye protection and comfort at the same time. All great and elegant feeling with the private dark shades/ lens. The foldable feature makes it amazing and can be folded in the pocket safely. Includes the box , the cloth lens cleaner and the sunglasses.  
-
-                            Ray Ban Foldable Wayfarer sunglasses Tortoise
-
-                            classic and style, eye protection and comfort
+                            {item.description}
                         </section>
                     </div>
 

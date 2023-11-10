@@ -62,10 +62,10 @@ function App() {
         }
         <Routes key={location.key}>
 
-            <Route path='/buyer' element={<Dashboard />}></Route>
-            <Route path='/buyer/product' element={<ProductPage />}></Route>
-            <Route path='/buyer/signup' element={<BuyerSignup />}></Route>
-            <Route path='/buyer/login' element={<BuyerLogin />}></Route>
+            <Route path='/' element={<Dashboard />}></Route>
+            <Route path='/product/:id' element={<ProductPage />}></Route>
+            <Route path='/signup' element={<BuyerSignup />}></Route>
+            <Route path='/login' element={<BuyerLogin />}></Route>
 
 
 

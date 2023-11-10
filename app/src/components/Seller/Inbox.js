@@ -6,7 +6,7 @@ const Inbox = () => {
                     {
                         [1,2,3,4,5,6,7].map((iem,index) => {
                             return(
-                                <li className="shadow-sm">
+                                <li className="seller-inbox-card shadow-sm">
 
                                 </li>
                             )

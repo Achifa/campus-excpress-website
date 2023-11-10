@@ -8,15 +8,25 @@ import conditionSvg from '../../assets/condition-point-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
 import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
+import { GetItems } from "../../api/buyer";
 
 const Home = () => {
     let [screenWidth, setScreenWidth] = useState(0)
+    let [items, setItems] = useState([])
 
     let navigate = useNavigate()
 
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
+    }, [])
+
+    useEffect(() => {
+        GetItems()
+        .then((result) => {
+            setItems(result)
+        })
+        .catch(err => console.log(err))
     }, [])
 
 
@@ -38,9 +48,9 @@ const Home = () => {
             <div className="buyer-dashboard-body">
 
                 {
-                    [1,2,3,4,5,6,7,8].map((item) => 
+                    items.map((item) => 
                         <div className="cols" >
-                            <div className="card" onClick={e => navigate('/buyer/product')}>
+                            <div className="card" onClick={e => navigate(`/product/${item.product_id}`)}>
                                 <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '20px' : '8px', left: screenWidth > 400 ? '20px' : '8px', padding: '2.5px'}}>
                                     <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
                                         <img src={locationSvg} style={{height: screenWidth  > 480 ? '20px' : '10px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
@@ -55,16 +65,16 @@ const Home = () => {
                                 <img src={img} style={{height: screenWidth > 480 ? '250px' : '160px', width: '100%', borderRadius: '2.5px'}} alt="" />
 
                                 <div className="card-body">
-                                    <h3 >Men's Gold Cuban Link Chain  Labelled with designers For Fashion And Can Serve As Corporate Outfit</h3>
+                                    <h3 >{item.title}</h3>
 
                                     <hr  />
                                     
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h4 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;20000</h4>
+                                        <h4 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{item.price}</h4>
                                         : 
-                                        <h6 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;20000</h6>
+                                        <h6 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{item.price}</h6>
                                     }
 
                                     <div style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', padding: '0'}}>
@@ -76,7 +86,7 @@ const Home = () => {
                                         &nbsp;
 
                                         <span  style={{background: '#fff',color: 'rgb(98, 98, 98)', padding: '0',  fontSize: 'small', fontWeight: '500'}}>
-                                            Used
+                                            {item.condition}
                                         </span>
                                     </span>
                                         
