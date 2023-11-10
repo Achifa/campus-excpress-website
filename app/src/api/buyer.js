@@ -36,7 +36,7 @@ export function LogBuyerIn(email,pwd) {
 
 export function GetItems(email,pwd) {
     return new Promise((resolve, reject) => {
-        axios.get(`${u3}/`, {})
+        axios.get(`${u1}/`, {})
         .then((result) => {
             resolve(result.data)
         })
@@ -48,7 +48,7 @@ export function GetItems(email,pwd) {
 
 export function GetItem(id) {
     return new Promise((resolve, reject) => {
-        axios.get(`${u3}/product`, {
+        axios.get(`${u1}/product`, {
             params: {id}
         })
         .then((result) => {
@@ -62,7 +62,7 @@ export function GetItem(id) {
 
 export function GetItemImages(id) {
     return new Promise((resolve, reject) => {
-        axios.get(`${u3}/product/images`, {
+        axios.get(`${u1}/product/images`, {
             params: {id}
         })
         .then((result) => {
