@@ -384,7 +384,7 @@
     .seller-libs-card{
         height: 120px;
         padding: 0 0px 0 0px ;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         width: 100%;
         padding: 10px;
         display: inline-block;
@@ -441,14 +441,13 @@
     .seller-item-spec ul{
         list-style-type: none;
         margin: 0 0 0 0;
-        margin: auto;
         display: flex;
         justify-content: left;
         flex-wrap: nowrap;
         padding: 2.5px;
     }
     .seller-item-spec ul li{
-        font-size: x-small;
+        font-size: xx-small;
         font-weight: 500;
         text-align: center;
         color: orangered;
