@@ -10,10 +10,13 @@ function uploadProduct(req,res) {
     let date = new Date();
     let productId = shortId.generate()
     let seller_id = shortId.generate()
-    let description = productDescription.replace(/"'"/g, '"');
-    let title = productTitle.replace(/"'"/g, '"');
-   
+    let description = productDescription.replace(/'/g, '"');;
+    let title = productTitle.replace(/'/g, '"');;
 
+    console.log(title)
+    console.log(description)
+   
+/*
     new Promise((resolve, reject) => {
         let uploadData = NeonDB.then((pool) => 
             pool.query(`insert into seller_shop (id,product_id,date,seller_id,title,category,type,condition,stock,locale,price,description,package) values(DEFAULT, '${productId}', '${date}', '${seller_id}', '${title}', '${productCategory}', '${productType}', '${productCondition}', '${productStock}', '${productLocale}', '${productPrice}', '${description}', '${productPackage}' )`)
@@ -53,6 +56,7 @@ function uploadProduct(req,res) {
 
     })
     .catch(err => console.log(err))
-}
+*/
 
+}
 module.exports = {uploadProduct}

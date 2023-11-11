@@ -5,7 +5,7 @@ let u2 = `https://ce-server.onrender.com`
 
 export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u2}/seller/product-upload`, {
+        axios.post(`${u1}/seller/product-upload`, {
             productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos
         })
         .then((result) => {

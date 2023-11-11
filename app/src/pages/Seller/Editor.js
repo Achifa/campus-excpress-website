@@ -1,34 +1,191 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../styles/plan_card.css'
 import Link from 'react'
 import items from '../../items.json'
 import { uploadItem } from '../../api/seller';
 const Editor = () => {
 
-    let [productTitle, setProductTitle] = useState(null)
-    let [productDescription, setProductDescription] = useState(null)
-    let [productCategory, setProductCategory] = useState(null)
-    let [productType, setProductType] = useState(null)
-    let [productPrice, setProductPrice] = useState(null)
-    let [productLocale, setProductLocale] = useState(null)
-    let [productStock, setProductStock] = useState(null)
-    let [productCondition, setProductCondition] = useState(null)
-    let [productPackage, setProductPackage] = useState(null)
+    let [productTitle, setProductTitle] = useState('')
+    let [productDescription, setProductDescription] = useState('')
+    let [productCategory, setProductCategory] = useState('')
+    let [productType, setProductType] = useState('')
+    let [productPrice, setProductPrice] = useState(0)
+    let [productLocale, setProductLocale] = useState('')
+    let [productStock, setProductStock] = useState(0)
+    let [productCondition, setProductCondition] = useState('')
+    let [productPackage, setProductPackage] = useState('')
     let [productPhotos, setProductPhotos] = useState([])
 
     let [categories, setCategories] = useState('')
     let [type, setType] = useState('')
     let [price, setPrice] = useState('')
 
+    let [titleCount, setTitleCount] = useState(0)
+    let [descriptionCount, setDescriptionCount] = useState(0)
+
+    let validationBoolean = useRef({
+        title: false,
+        description: false,
+        photos: false,
+        category: false,
+        condition: false,
+        type: false,
+        stock: false,
+        price: false
+    })
+
+
+    useEffect(() => {
+        setTitleCount(productTitle.length)
+    }, [productTitle])
+
+    useEffect(() => {
+        setDescriptionCount(productDescription.length)
+    }, [productDescription])
+
+    function Validation(element) {
+
+        let name = element.name
+        let type = element.tagName.toLowerCase();
+        if(type === 'textarea'){
+            if(element.name === 'title'){
+                if(productTitle.split(' ').length >= 2){
+                    element.style.border = '1px solid #000'
+                    validationBoolean.current.title = true;
+
+                }else{
+                    element.style.border = '1px solid red'
+                    validationBoolean.current.title = false;
+                }
+            }else{
+                if(productDescription.split(' ').length >= 10){
+                    element.style.border = '1px solid #000'
+                    validationBoolean.current.description = true;
+
+        
+                }else{
+                    element.style.border = '1px solid red'
+                    validationBoolean.current.description = false;
+
+                    
+                }
+            }
+        }else if(type === 'input'){
+            if(element.type !== 'file'){
+                if(element.name === 'stock'){
+                    if(productStock > 0){
+                        element.style.border = '1px solid #000'
+                        validationBoolean.current.stock = true;
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.stock = false;
+                    }
+                }else if(element.name === 'price'){
+                    if(productPrice >= 25){
+                        element.style.border = '1px solid #000'
+                        validationBoolean.current.price = true;
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.price = false;
+                    }
+                }
+            }else{
+                if(productPhotos.length > 0){
+                    document.querySelector('.seller-shop-samples').style.border = '1px solid #000'
+                    validationBoolean.current.photos = true;
+                }else{
+                    document.querySelector('.seller-shop-samples').style.border = '1px solid red'
+                    validationBoolean.current.photos = false;
+
+                }
+            }
+            
+        }else if(type === 'select'){
+            if(element.name === 'category'){
+                if(productCategory !== ''){
+                    element.style.border = '1px solid #000'
+
+                    validationBoolean.current.category = true;
+
+                }else{
+                    element.style.border = '1px solid red'
+                    validationBoolean.current.category = false;
+
+                }
+            }else if(element.name === 'type'){
+                if(productType !== ''){
+                    element.style.border = '1px solid #000'
+
+                    validationBoolean.current.type = true;
+        
+                }else{
+                    element.style.border = '1px solid red'
+                    validationBoolean.current.type = false;
+                    
+                }
+            }else if(element.name === 'condition'){
+                if(productCondition !== ''){
+                    element.style.border = '1px solid #000'
+
+                    validationBoolean.current.condition = true;
+        
+                }else{
+                    element.style.border = '1px solid red'
+                    validationBoolean.current.condition = false;
+                    
+                }
+            }
+    
+        }
+
+
+        
+
+    }
+
 
     let handleForm = () => {
-        uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos)
-        .then((result) => {
-            console.log(result)
+        let inputs = [...document.querySelectorAll('input')]
+        let textareas = [...document.querySelectorAll('textarea')]
+        let selects = [...document.querySelectorAll('select')]
+
+        let allFields = [...inputs,...textareas,...selects]
+
+        allFields.map((item, index) => {
+            Validation(item)
         })
-        .catch((err) => {
-            console.log(err)
-        })
+
+        let falseyList = []
+
+        for(let x in validationBoolean.current){
+            console.log(x)
+
+            if(validationBoolean.current[x] === false){
+                falseyList.push(false)
+            }else{
+                falseyList.push(true) 
+
+            }
+
+            let result = falseyList.filter(item => item === false)
+
+            if(result.length > 0){
+
+            }else{
+                let overlay = document.querySelector('.editor-overlay')
+                overlay.setAttribute('id', 'editor-overlay');
+                uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos)
+                .then((result) => {
+                    console.log(result)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
+        }
+
+
+      
     }
 
 
@@ -74,6 +231,9 @@ const Editor = () => {
 
     return ( 
         <>
+            <div className="editor-overlay">
+
+            </div>
             <div className="seller-shop">
 
                 <div className='seller-shop-form-body'>
@@ -83,7 +243,7 @@ const Editor = () => {
                             <div className="seller-shop-form-group-2">
                                 <div className="input-cnt">
                                     <label htmlFor="">Category</label>
-                                    <select name="" onInput={e => setProductCategory(e.target.value)} id="">
+                                    <select name="category" onInput={e => setProductCategory(e.target.value)} id="">
                                         <option value={''}>Select A Category</option>
 
                                         {
@@ -96,7 +256,7 @@ const Editor = () => {
 
                                 <div className="input-cnt">
                                     <label htmlFor="">Type</label>
-                                    <select onInput={e => setProductType(e.target.value)} name="" id="">
+                                    <select onInput={e => setProductType(e.target.value)} name="type" id="">
                                         <option value={''}>Select Product Type</option>
 
                                         {
@@ -109,7 +269,7 @@ const Editor = () => {
 
                                 <div className="input-cnt">
                                     <label htmlFor="">Condition</label>
-                                    <select onInput={e => setProductCondition(e.target.value)} name="" id="">
+                                    <select onInput={e => setProductCondition(e.target.value)} name="condition" id="">
                                         <option value={''}>Select Product Type</option>
 
                                         {
@@ -125,17 +285,17 @@ const Editor = () => {
 
                                 <div className="input-cnt">
                                     <label htmlFor="">Stock <small>(Quantity Availble For Sale)</small></label>
-                                    <input type="number" placeholder="Stock" onInput={e => setProductStock(e.target.value)} />
+                                    <input type="number" name='stock' placeholder="Stock" onInput={e => setProductStock(e.target.value)} />
                                 </div>
                                 <div className="input-cnt">
                                     <label htmlFor="">Price</label>
-                                    <input onInput={e => setProductPrice(e.target.value)} type="number" placeholder="Price" />
+                                    <input min={0} name='price' onInput={e => setProductPrice(e.target.value)} type="number" placeholder="Price"  />
                                 </div>
 
-                                <div className="input-cnt">
+                                {/*<div className="input-cnt">
                                     <label htmlFor="">Location</label>
                                     <input onInput={e => setProductLocale(e.target.value)}  type="text" placeholder="Location" />
-                                </div>
+                                    </div>*/}
 
                                 
                             </div>
@@ -155,18 +315,23 @@ const Editor = () => {
                     </div>
 
 
-                    <div className="seller-shop-description shadow-sm">
-                        <div className="input-cnt" style={{width: '100%', padding: '0'}}>
+                    <div className="seller-shop-description shadow-sm" style={{textAlign: 'left', justifyContent: 'left'}}>
+                        <div className="input-cnt" style={{width: '100%', padding: '0', position: 'relative'}}>
                             {/*<label htmlFor="">Description</label>*/}
-                            <textarea placeholder="Title" className="seller-shop-title shadow-sm" onInput={e => setProductTitle(e.target.value)}>
+                            <textarea maxLength={60} placeholder="Title" name='title' className="seller-shop-title shadow-sm" onInput={e => {
+                                setProductTitle(e.target.value)
+                            }}>
                                 
                             </textarea>
+
+                            <div style={{height: 'fit-content', position: 'absolute', fontSize: 'small', right: '10px', bottom: '25px'}}>{titleCount}/60</div>
                         </div>
                         <div className="seller-shop-samples shadow-sm">
-                            <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer'}}>
-
+                            
+                            <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center', }}>
+                                <h6>Click here to Upload photo</h6>
                             </label>
-                            <input type="file" name="" style={{display: 'none'}} id="files" onChange={handleImage} />
+                            <input type="file" name="file" style={{display: 'none'}} id="files" onChange={handleImage} />
 
                             <section className='seller-product-image-cnt'>
                                 {
@@ -178,9 +343,10 @@ const Editor = () => {
                             </section>
                         </div>
 
-                        <div className="input-cnt" style={{width: '100%', padding: '0'}}>
+                        <div className="input-cnt" style={{width: '100%', position: 'relative', padding: '0'}}>
                             {/*<label htmlFor="">Description</label>*/}
-                            <textarea onInput={e => setProductDescription(e.target.value)} placeholder="Description" className="seller-shop-desc shadow-sm"></textarea>
+                            <textarea maxLength={650} name='description' onInput={e => setProductDescription(e.target.value)} placeholder="Description" className="seller-shop-desc shadow-sm"></textarea>
+                            <div style={{height: 'fit-content', position: 'absolute', right: '10px', fontSize: 'small', bottom: '5px'}}>{descriptionCount}/650</div>
                         </div>
 
                         
@@ -188,7 +354,9 @@ const Editor = () => {
                     
                             {
                                 plans.reverse().map((item, index) => 
-                                    <div className="plan">
+                                    index === 0
+                                    ?
+                                    <div id='activePack' className="plan" key={index}>
                                         <div className="inner">
                                             <span className="pricing">
                                                 <span>
@@ -198,34 +366,6 @@ const Editor = () => {
                                             <p className="title">{item.title}</p>
                                             <p className="info">{item.description}</p>
                                             <ul className="features">
-                                                {/*<li>
-                                                    <span className="icon">
-                                                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                                        </svg>
-                                                    </span>
-                                                    <span><strong>20</strong> team members</span>
-                                                </li>
-                                                <li>
-                                                    <span className="icon">
-                                                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                                        </svg>
-                                                    </span>
-                                                    <span>Plan <strong>team meetings</strong></span>
-                                                </li>
-                                                <li>
-                                                    <span className="icon">
-                                                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                                        </svg>
-                                                    </span>
-                                                    <span>File sharing</span>
-                            </li>*/}
-
                                                 {
                                                     item.features.map((item) => 
                                                         <li>
@@ -241,12 +381,70 @@ const Editor = () => {
                                                 }
                                             </ul>
                                             <div className="action">
-                                            <a data-package={item.package} onClick={e => {e.preventDefault(); setProductPackage(e.target.dataset.package)}} className="button" href="#">
+                                            <button data-package={item.package} onClick={e => {
+                                                e.preventDefault(); 
+                                                setProductPackage(e.target.dataset.package);
+                                                let topElem = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
+                                                let pElem = e.currentTarget.parentElement.parentElement.parentElement;
+
+                                                let activePack = [...topElem.children].filter(item => item.hasAttribute('id'));
+                                                console.log(topElem)
+
+                                                activePack[0].removeAttribute('id')
+                                                pElem.setAttribute('id', 'activePack');
+
+                                            }} className="button" href="#">
                                                 Choose plan
-                                            </a>
+                                            </button>
                                             </div>
                                         </div>
-                                    </div>    
+                                    </div>  
+                                    
+                                    :
+
+                                    <div className="plan" key={index}>
+                                        <div className="inner">
+                                            <span className="pricing">
+                                                <span>
+                                                &#8358;{item.price} <small>/ m</small>
+                                                </span>
+                                            </span>
+                                            <p className="title">{item.title}</p>
+                                            <p className="info">{item.description}</p>
+                                            <ul className="features">
+                                                {
+                                                    item.features.map((item) => 
+                                                        <li>
+                                                            <span className="icon">
+                                                                <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                                                </svg>
+                                                            </span>
+                                                            <span>{item}</span>
+                                                        </li>
+                                                    )
+                                                }
+                                            </ul>
+                                            <div className="action">
+                                            <button data-package={item.package} onClick={e => {
+                                                e.preventDefault(); 
+                                                setProductPackage(e.target.dataset.package);
+                                                let topElem = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
+                                                let pElem = e.currentTarget.parentElement.parentElement.parentElement;
+
+                                                let activePack = [...topElem.children].filter(item => item.hasAttribute('id'));
+                                                console.log(topElem)
+
+                                                activePack[0].removeAttribute('id')
+                                                pElem.setAttribute('id', 'activePack');
+
+                                            }} className="button" href="#">
+                                                Choose plan
+                                            </button>
+                                            </div>
+                                        </div>
+                                    </div>  
                                     
                                 )
                             }
