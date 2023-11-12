@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../styles/plan_card.css'
 import Link from 'react'
+import { useNavigate } from 'react-router-dom';
 import items from '../../items.json'
 import { uploadItem } from '../../api/seller';
 const Editor = () => {
 
+    let navigate = useNavigate()
     let [productTitle, setProductTitle] = useState('')
     let [productDescription, setProductDescription] = useState('')
     let [productCategory, setProductCategory] = useState('')
@@ -176,7 +178,12 @@ const Editor = () => {
                 overlay.setAttribute('id', 'editor-overlay');
                 uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos)
                 .then((result) => {
-                    console.log(result)
+                    result
+                    ?
+                    navigate('/seller/shop')
+                    :
+                    alert('Error Uploading Data...')
+                    
                 })
                 .catch((err) => {
                     console.log(err)
