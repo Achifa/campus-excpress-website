@@ -8,10 +8,10 @@ const Wallets = () => {
             <div className="seller-wallet-cnt">
                 <div className="seller-wallet-top shadow-sm">
                     <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span>&#8358;4500000</span></p>
-                    <Link>
+                    <div>
                         <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Transacton History</span>
                         <span onClick={e => navigate('https://flutterwave.com/pay/campus-express')} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}>Deposit</span>
-                    </Link>
+                    </div>
                 </div>
 
                 <div className="seller-wallet-middle shadow-sm">
