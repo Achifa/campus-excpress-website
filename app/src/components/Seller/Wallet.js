@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import img from '../../assets/download (3).jpeg'
-
+import { useNavigate } from 'react-router-dom';
 const Wallets = () => {
+    let navigate = useNavigate();
     return ( 
         <>
             <div className="seller-wallet-cnt">
@@ -9,7 +10,7 @@ const Wallets = () => {
                     <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span>&#8358;4500000</span></p>
                     <Link>
                         <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Transacton History</span>
-                        <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}>Deposit</span>
+                        <span onClick={e => navigate('https://flutterwave.com/pay/campus-express')} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}>Deposit</span>
                     </Link>
                 </div>
 
