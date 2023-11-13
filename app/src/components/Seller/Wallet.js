@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom';
 import img from '../../assets/download (3).jpeg'
-
+import { useNavigate } from 'react-router-dom';
 const Wallets = () => {
+    let navigate = useNavigate();
     return ( 
         <>
             <div className="seller-wallet-cnt">
                 <div className="seller-wallet-top shadow-sm">
-                    <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span><small>&#8358;</small> 0.00</span></p>
-                    <Link>
+                    <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span>&#8358;4500000</span></p>
+                    <div>
                         <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Transacton History</span>
-                        <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}>Payments</span>
-                    </Link>
+                        <span onClick={e => navigate('https://flutterwave.com/pay/campus-express')} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}>Payments</span>
+                    </div>
                 </div>
 
                 <div className="seller-wallet-middle shadow-sm">
@@ -20,10 +21,10 @@ const Wallets = () => {
                         <section><small>Withdraw funds from campus express every Tuesday.</small></section>
                     </div>
                     <div>
-                        <section>Payments</section>
+                        <section>Deposit</section>
                         <br />
 
-                        <section><small>View payments from clients.</small></section>
+                        <section><small>Fund your campus express account.</small></section>
                     </div>
                     <div>
                         <section>Tranfer</section>
