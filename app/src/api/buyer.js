@@ -73,3 +73,22 @@ export function GetItemImages(id) {
         })
     })
 }
+
+export function GET_PRODUCT_THUMBNAIL(product_id) {
+    
+    return new Promise((resolve, reject) => {
+
+        axios.get(`${u1}/thumbnail`, {
+            params: {
+                product_id
+            } 
+        })
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    })
+}

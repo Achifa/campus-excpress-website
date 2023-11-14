@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
 import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
 import { GetItems } from "../../api/buyer";
+import Thumbnail from "./Thumbnail";
 
 const Home = () => {
     let [screenWidth, setScreenWidth] = useState(0)
@@ -47,7 +48,7 @@ const Home = () => {
         <>
             <div className="buyer-dashboard-body">
 
-                {
+                { 
                     items.map((item) => 
                         <div className="cols" >
                             <div className="card" onClick={e => navigate(`/product/${item.product_id}`)}>
@@ -62,17 +63,26 @@ const Home = () => {
                                         UNIZIK, Awka
                                     </span>
                                 </span>
-                                <img src={img} style={{height: screenWidth > 480 ? '250px' : '160px', width: '100%', borderRadius: '2.5px'}} alt="" />
+                                <Thumbnail product_id={item.product_id} />
 
                                 <div className="card-body">
-                                    <h3 >{item.title}</h3>
+                                    
+                                    {
+                                        screenWidth > 479
+                                        ?
+                                        <h6 >{item.title}</h6>
+                                        : 
+                                        <h3 >{item.title}</h3>
+                                    }
 
                                     <hr  />
                                     
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h4 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{item.price}</h4>
+                                        <h4 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{
+                                            new Intl.NumberFormat('en-us').format(item.price)
+                                        }</h4>
                                         : 
                                         <h6 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{item.price}</h6>
                                     }

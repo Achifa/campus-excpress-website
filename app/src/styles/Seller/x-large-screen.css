@@ -13,6 +13,10 @@
         height: 80px;
         width: calc(100% - 200px);
         float: right;
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        color: orangered;
         background-color: #fff;
     }
 
@@ -28,8 +32,16 @@
     .seller-aside-logo{
         height: 60px;
         width: 100%;
-        margin-top: 20px;
-        background-color: orangered;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: large;
+        font-weight: 1000;
+        color: orangered;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        background-color: #fff;
     }
 
     .seller-aside .seller-aside-nav ul{
@@ -736,6 +748,7 @@
         font-weight: 500;
         float: right;
         height: 100%;
+        cursor: pointer;
         color: #000;
         white-space: nowrap;
         position: relative;

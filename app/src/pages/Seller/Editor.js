@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../styles/plan_card.css'
+import '../../styles/loader.css'
+import '../../styles/Seller/overlay.css' 
 import Link from 'react'
 import { useNavigate } from 'react-router-dom';
 import items from '../../items.json'
@@ -145,6 +147,13 @@ const Editor = () => {
 
     }
 
+    function closeOverlay(params) {
+        let overlay = document.querySelector('.editor-overlay')
+        overlay.onclick = e => {
+            overlay.removeAttribute('id')
+        }
+    }
+
 
     let handleForm = () => {
         let inputs = [...document.querySelectorAll('input')]
@@ -169,26 +178,32 @@ const Editor = () => {
 
             }
 
-            let result = falseyList.filter(item => item === false)
 
-            if(result.length > 0){
+            
+        }
 
-            }else{
-                let overlay = document.querySelector('.editor-overlay')
-                overlay.setAttribute('id', 'editor-overlay');
-                uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos)
-                .then((result) => {
-                    result
-                    ?
-                    navigate('/seller/shop')
-                    :
-                    alert('Error Uploading Data...')
-                    
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            }
+        let result = falseyList.filter(item => item === false)
+
+
+        if(result.length > 0){
+            // let overlay = document.querySelector('.editor-overlay')
+            // overlay.setAttribute('id', 'editor-overlay');
+
+        }else{
+            // let overlay = document.querySelector('.editor-overlay')
+            // overlay.setAttribute('id', 'editor-overlay');
+            uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,window.localStorage.getItem("CE_seller_id"))
+            .then((result) => {
+                // result
+                // ?
+                // navigate('/seller/shop')
+                // :
+                // alert('Error Uploading Data...')
+                
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         }
 
 
@@ -238,8 +253,11 @@ const Editor = () => {
 
     return ( 
         <>
-            <div className="editor-overlay">
+            <div className="editor-overlay" onClick={closeOverlay}>
+                <div className="loader">
+                </div>
 
+                
             </div>
             <div className="seller-shop">
 

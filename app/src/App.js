@@ -23,6 +23,7 @@ import Signup from './Authorization/Seller/Signup';
 import BuyerSignup from './Authorization/Buyer.js/Signup';
 import BuyerLogin from './Authorization/Buyer.js/Login';
 import Inbox from './components/Seller/Inbox';
+import SellerLogin from './Authorization/Seller/Login';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -37,7 +38,7 @@ function App() {
         )
       )
     }else{
-      if(location.pathname.split('/').splice(-1)[0] === 'signup'){
+      if(location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login'){
         setActiveDom(
           <>
             
@@ -71,7 +72,7 @@ function App() {
 
             <Route path='/seller/' element={<SellerDashboard />}></Route>
             <Route path='/seller/signup' element={<Signup />}></Route>
-            <Route path='/seller/login' element={<SellerDashboard />}></Route>
+            <Route path='/seller/login' element={<SellerLogin />}></Route>
             <Route path='/seller/editor' element={<Editor />}></Route>
             <Route path='/seller/shop' element={<Shop />}></Route>
             <Route path='/seller/orders' element={<Order/>}></Route>

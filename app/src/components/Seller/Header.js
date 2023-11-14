@@ -26,21 +26,21 @@ const Header = () => {
     useEffect(() => {
         let path = location.pathname.split('/').splice(-1)[0]
         if(path === ''){
-            setActiveHead(<h3>Welcome Fabian</h3>)
+            setActiveHead(<h4>Good Evening Fabian</h4>)
         }else if(path === 'editor'){
-            setActiveHead(<h3>Upload new iem fo sale</h3>)
+            setActiveHead(<h4>Sell</h4>)
         }else if(path === 'inbox'){
-            setActiveHead(<h3>27 Inbox</h3>)
+            setActiveHead(<h4>Inbox</h4>)
         }else if(path === 'shop'){
-            setActiveHead(<h3>Items fo sale</h3>)
+            setActiveHead(<h4>Items for sale</h4>)
         }else if(path === 'orders'){
-            setActiveHead(<h3>Orders</h3>)
+            setActiveHead(<h4>Orders</h4>)
         }else if(path === 'settings'){
-            setActiveHead(<h3>Settings</h3>)
+            setActiveHead(<h4>Settings</h4>)
         }else if(path === 'wallet'){
-            setActiveHead(<h3>Wallet</h3>)
+            setActiveHead(<h4>Wallet</h4>)
         }else if(path === 'profile'){
-            setActiveHead(<h3>Akpulu Fabian</h3>)
+            setActiveHead(<h4>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                rofile</h4>)
         }
     }, [location])
     return ( 

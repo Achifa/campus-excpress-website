@@ -5,7 +5,9 @@ import tweeterSvg from '../../assets/twitter-svgrepo-com (2).svg'
 import WhatsAppSvg from '../../assets/whatsapp-whats-app-svgrepo-com.svg'
 import { GetItem } from '../../api/buyer'
 import { useLocation } from 'react-router-dom'
-import ItemImages from './ItemImages'
+import { useSelector } from 'react-redux'
+import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
+import ItemImgs from './ItemImgs'
 
 
 
@@ -29,15 +31,30 @@ const Product = () => {
         }
     )
 
+    let [activeImg, setActiveImg] = useState(imgSvg)
+
+    let {ItemImages} = useSelector(s => s.itemImages)
+    let {ActiveImg} = useSelector(s => s.ActiveImg)
+
     let location = useLocation()
 
     useEffect(() => {
+        
         GetItem(location.pathname.split('/')[2])
         .then((result) => {
             setItem(result)
         })
         .catch(err => console.log(err))
+
     }, [])
+
+    useEffect(() => {
+        setActiveImg(ItemImages.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
+    }, [ItemImages])
+
+    useEffect(() => {
+        setActiveImg(ItemImages.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
+    }, [ActiveImg])
 
     let BtnStyles = {
         height: '70px',
@@ -56,6 +73,8 @@ const Product = () => {
         backgroundColor: 'orangered',
         margin: '0'
     }
+
+
     return ( 
         <>
             <div className="buyer-product">
@@ -63,13 +82,13 @@ const Product = () => {
                     <div className="buyer-product-data">
                         <div id="left">
                             <div className="img-cnt">
-                                <img src={img} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
+                                <img src={activeImg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
                             </div>
-                            <ItemImages />
+                            <ItemImgs />
                         </div>
 
                         <div id="right">
-
+ 
                             <h3>{item['title']}</h3>
 
                             <section>
@@ -85,7 +104,7 @@ const Product = () => {
                             <hr />
 
                             <h2 style={{fontWeight: '700', padding: '20px'}}>
-                                &#8358;{item.price}
+                                &#8358;{new Intl.NumberFormat('en-us').format(item.price)}
                             </h2>
 
                             <hr />

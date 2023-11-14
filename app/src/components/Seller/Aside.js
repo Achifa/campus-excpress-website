@@ -15,7 +15,7 @@ const Aside = () => {
         <>
             <div className="seller-aside">
                 <div className="seller-aside-logo">
-                    
+                    Campus Express
                 </div>
                 
                 <div className="seller-aside-nav">

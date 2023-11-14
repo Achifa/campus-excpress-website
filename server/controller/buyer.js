@@ -135,5 +135,18 @@ async function GetItemImages(req,res) {
 
 }
 
+async function GetThumbnail(req,res) {
 
-module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages}
+    let {product_id} = req.query;
+
+    NeonDB.then((pool) => 
+        pool.query(`select file from product_photo where product_id = '${product_id}'`)
+        .then(result =>  res.send(result.rows[0]))
+        .catch(err => console.log(err))
+    )
+    
+
+}
+
+
+module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail}
