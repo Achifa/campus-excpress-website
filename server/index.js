@@ -25,7 +25,11 @@ app.use(seller_route)
 app.use(buyer_route)
 
 
-
+app.post("/flw-webhook", async (req, res) => {
+	const payload = req.body;
+	console.log(payload);
+	res.status(200).end();
+});
 
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
 io(server, {cors: {origin: '*'}}).on('connection', socket => {
