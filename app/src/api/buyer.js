@@ -1,13 +1,15 @@
 import axios from 'axios'
 
 let u1 = `http://localhost:1111`
-let u2 = `http://192.168.0.5:1111`
+let u2 = `http://192.168.0.4:1111`
 let u3 = `https://ce-server.onrender.com`
+
+let plug = u3;
 
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u3}/buyer/registration`, {
+        axios.post(`${plug}/buyer/registration`, {
             fname,lname,email,phone,pwd,state,campus
         })
         .then((result) => {
@@ -22,7 +24,7 @@ export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
 
 export function LogBuyerIn(email,pwd) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u3}/buyer/login`, {
+        axios.post(`${plug}/buyer/login`, {
             email,pwd
         })
         .then((result) => {
@@ -36,7 +38,7 @@ export function LogBuyerIn(email,pwd) {
 
 export function GetItems(email,pwd) {
     return new Promise((resolve, reject) => {
-        axios.get(`${u3}/`, {})
+        axios.get(`${plug}/`, {})
         .then((result) => {
             resolve(result.data)
         })
@@ -48,7 +50,7 @@ export function GetItems(email,pwd) {
 
 export function GetItem(id) {
     return new Promise((resolve, reject) => {
-        axios.get(`${u3}/product`, {
+        axios.get(`${plug}/product`, {
             params: {id}
         })
         .then((result) => {
@@ -62,7 +64,7 @@ export function GetItem(id) {
 
 export function GetItemImages(id) {
     return new Promise((resolve, reject) => {
-        axios.get(`${u3}/product/images`, {
+        axios.get(`${plug}/product/images`, {
             params: {id}
         })
         .then((result) => {
@@ -78,7 +80,7 @@ export function GET_PRODUCT_THUMBNAIL(product_id) {
     
     return new Promise((resolve, reject) => {
 
-        axios.get(`${u3}/thumbnail`, {
+        axios.get(`${plug}/thumbnail`, {
             params: {
                 product_id
             } 

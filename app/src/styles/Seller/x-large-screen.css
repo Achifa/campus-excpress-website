@@ -968,6 +968,30 @@
         background-color: #f9f9f9;
    }
 
+   .seller-wallet-create-cnt{
+        height: calc(100vh - 150px);
+        width: calc(100% - 200px);
+        margin: auto;
+        overflow: auto;
+        padding: 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9f9f9;
+   }
+   .seller-wallet-login{
+    height: fit-content;
+    border-radius: 5px;
+    width: 500px;
+    padding: 20px 10px 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fff;
+   }
+
 }
 
 

@@ -24,6 +24,10 @@ import BuyerSignup from './Authorization/Buyer.js/Signup';
 import BuyerLogin from './Authorization/Buyer.js/Login';
 import Inbox from './components/Seller/Inbox';
 import SellerLogin from './Authorization/Seller/Login';
+import Orders from './components/Buyer/Orders';
+import History from './components/Buyer/History';
+import SavedItem from './components/Buyer/SavedItem';
+import Cart from './components/Buyer/Cart';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -64,6 +68,10 @@ function App() {
         <Routes key={location.key}>
 
             <Route path='/' element={<Dashboard />}></Route>
+            <Route path='/orders' element={<Orders />}></Route>
+            <Route path='/history' element={<History />}></Route>
+            <Route path='/cart' element={<Cart />}></Route>
+            <Route path='/saved-item' element={<SavedItem />}></Route>
             <Route path='/product/:id' element={<ProductPage />}></Route>
             <Route path='/signup' element={<BuyerSignup />}></Route>
             <Route path='/login' element={<BuyerLogin />}></Route>

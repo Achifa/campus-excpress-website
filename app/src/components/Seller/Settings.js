@@ -14,7 +14,7 @@ const Settings = () => {
         <>
             <div className="seller-settings">
                 {
-                    ['Profile Settings', 'Payment/Billing', 'Password/Security', 'Identity/Verification', 'Notification Settings', 'Subscriptions'].map(item =>  
+                    ['Password/Security', 'Identity/Verification', 'Notification Settings', 'Subscriptions'].map(item =>  
                         <section className="shadow-sm">
                             
                             <div  className='seller-list-settings-log'>

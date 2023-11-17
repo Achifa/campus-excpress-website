@@ -1,11 +1,12 @@
 import axios from 'axios'
 
-let u1 = `http://localhost:1111`
+let u1 = `http://192.168.0.4:1111`
 let u2 = `https://ce-server.onrender.com`
+let plug = u2;
 
 export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u1}/seller/product-upload`, {
+        axios.post(`${plug}/seller/product-upload`, {
             productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id
         })
         .then((result) => {
@@ -17,10 +18,9 @@ export function uploadItem(productTitle,productDescription,productCategory,produ
     })
 }
 
-
 export function RegisterSeller(fname,lname,email,phone,pwd,state,campus) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u1}/seller/registration`, {
+        axios.post(`${plug}/seller/registration`, {
             fname,lname,email,phone,pwd,state,campus
         })
         .then((result) => {
@@ -34,7 +34,7 @@ export function RegisterSeller(fname,lname,email,phone,pwd,state,campus) {
 
 export function LogSellerIn(email,pwd) {
     return new Promise((resolve, reject) => {
-        axios.post(`${u1}/seller/login`, {
+        axios.post(`${plug}/seller/login`, {
             email,pwd
         })
         .then((result) => {
@@ -44,4 +44,28 @@ export function LogSellerIn(email,pwd) {
             reject(err)
         })
     })
+}
+
+export function OVERVIEW(id) {
+    return new Promise((resolve, reject) => 
+        axios.post(`${plug}/seller/overview`, {id})
+        .then((result) => resolve(result.data))
+        .catch(err => reject(err))
+    )
+}
+
+export function SHOP(id) {
+    return new Promise((resolve, reject) => 
+        axios.post(`${plug}/seller/shop`, {id})
+        .then((result) => resolve(result.data))
+        .catch(err => reject(err))
+    )
+}
+
+export function AuthorizeWalletAccess(pin) {
+    return new Promise((resolve, reject) => 
+        axios.post(`${plug}/seller/wallet-access`, {pin})
+        .then((result) => resolve(result.data))
+        .catch(err => reject(err))
+    )
 }

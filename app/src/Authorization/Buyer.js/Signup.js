@@ -113,8 +113,8 @@ const BuyerSignup = () => {
                     <div>
                         <small>Forgot Password? Recover Password Here</small>
                     </div>
-                    <div onClick={e => navigate('/buyer/login')}>
-                        <small>Don't Have An Account, Signup Here</small>
+                    <div onClick={e => navigate('/login')}>
+                        <small>Already Have An Account, Signup Here</small>
                     </div>
                 </div>
 

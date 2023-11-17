@@ -1,15 +1,36 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { OVERVIEW } from "../../api/seller";
 
 const Home = () => {
 
     let navigation = useNavigate()
 
-    let products = [
-        {condition: 'Total Products For Sale ', text: 0},
-        {condition: 'Total Products Sold', text: 0},
-        {condition: 'Total Products Unsold', text: 0},
-        {condition: 'Total Products Reported', text: 0}
-    ]
+    let [total_sold, set_total_sold] = useState('...')
+    let [total_for_sale, set_total_for_sale] = useState('...')
+    let [total_unsold, set_total_unsold] = useState('...')
+    let [total_reported, set_total_reported] = useState('...')
+    let [seller_id, setseller_id] = useState('')
+
+    useEffect(() => {
+        
+        OVERVIEW(window.localStorage.getItem("CE_seller_id"))
+        .then((result) => {
+            set_total_for_sale(result.total_sale)
+            set_total_reported(result.total_reported)
+            set_total_sold(result.total_sold)
+            set_total_unsold(result.total_unsold)
+            console.log(result)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        .catch(err => console.log(err))
+
+        
+    }, [])
+
+   
     return ( 
         <>
             <div className="seller-home">
@@ -17,15 +38,29 @@ const Home = () => {
 
                     <ul>
 
-                        {
-                            products.map((item, index) => 
-                                <li style={{borderLeft: index === 0 ? 'none' : '1px solid orangered', borderRight: index === products.length - 1 ? 'none' : '1px solid orangered'}}>
-                                    <div><h4>{item.text}</h4></div>
-                                    <div><h5>{item.condition}</h5></div>
-                                   
-                                </li>
-                            )
-                        }
+                        <li style={{borderRight: '1px solid orangered'}}>
+                            <div><h3>{total_for_sale}</h3></div>
+                            <div><h6>Total Products For Sale </h6></div>
+
+                        </li>
+
+                        <li style={{borderRight: '1px solid orangered'}}>
+                            <div><h3>{total_sold}</h3></div>
+
+                            <div><h6>Total Products Sold</h6></div>
+                        </li>
+
+                        <li style={{borderRight: '1px solid orangered'}}>
+                            <div><h3>{total_unsold}</h3></div>
+                            <div><h6>Total Products Unsold</h6></div>
+
+                        </li>
+
+                        <li >
+                            <div><h3>{total_reported}</h3></div>
+                            <div><h6>Total Products Reported</h6></div>
+
+                        </li>
                         
                        
                     </ul>

@@ -70,19 +70,32 @@ async function RegisterSeller(req,res) {
     let isActive,isVerified,isEmailVerified,isPhoneVerified = false;
     let hPwd = await bcrypt.hash(pwd, 10)
     let seller_id = `CE-${shortId.generate()}`
+    let wallet_id = `CEW-${seller_id}`
 
     new Promise((resolve, reject) => {
-        let insertData = NeonDB.then((pool) => 
+        NeonDB.then((pool) => 
             pool.query(`insert into campus_sellers(id,fname, lname,seller_id,email,phone,password,state,campus,isActive,isVerified,isEmailVerified,isPhoneVerified,date ) values(DEFAULT, '${fname}', '${lname}', '${seller_id}', '${email}', '${phone}', '${hPwd}', '${state}', '${campus}', '${false}','${false}','${false}','${false}', '${date}')`)
             .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
             .catch(err => console.log(err))
         )
         .catch(err => console.log(err))
     })
+    .then((response) => 
+        response
+        ?
+            NeonDB.then((pool) => 
+                pool.query(`insert into seller_overview(id,seller_id,total_reported,total_sale,total_sold,total_unsold) values(DEFAULT,'${seller_id}',${0},${0},${0},${0})`)
+                .then(result => result.rowCount > 0 ? true : false)
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        :
+            res.send(false)
+    )
     .then((response) => {
         if(response){
             NeonDB.then((pool) => 
-                pool.query(`insert into seller_overview(id,seller_id,total_reported,total_sale,total_sold,total_unsold) values(DEFAULT,'${seller_id}',${0},${0},${0},${0})`)
+                pool.query(`insert into campus_seller_wallets(id,wallet_id,seller_id,wallet_balance,wallet_pin,wallet_number,date) values(DEFAULT,'${wallet_id}','${seller_id}','${0.00}','${pwd}','${phone}','${date}'`)
                 .then(result => result.rowCount > 0 ? res.send(true) : res.send(false))
                 .catch(err => console.log(err))
             )
@@ -163,4 +176,24 @@ async function LogSellerIn(req, res) {
     
 }
 
-module.exports = {uploadProduct,RegisterSeller,LogSellerIn}
+async function Overview(req,res)  {
+    let {id} = req.body;
+    NeonDB.then((pool) => 
+        pool.query(`select * from seller_overview where seller_id = '${id.trim()}'`)
+        .then(result => res.send(result.rows[0]))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+}
+
+async function Shop(req,res)  {
+    let {id} = req.body;
+    NeonDB.then((pool) => 
+        pool.query(`select * from seller_shop where seller_id = '${id}'`)
+        .then(result => res.send(result.rows))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+}
+
+module.exports = {uploadProduct,Shop,RegisterSeller,LogSellerIn,Overview}

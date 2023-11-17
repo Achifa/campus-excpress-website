@@ -173,7 +173,7 @@ const Profile = () => {
                 <div className="seller-profile-right"> 
 
 
-                    <div className="seller-profile-description">
+                    {/*<div className="seller-profile-description">
                         <section>
                             <h3>Description</h3>
                         </section>
@@ -201,7 +201,7 @@ const Profile = () => {
                         projects perfectly done and deliver it on time. I have received good
                         reviews about my jobs from my clients.
                         </section>
-                    </div>
+    </div>*/}
                     
 
                     <div className="seller-profile-reviews">

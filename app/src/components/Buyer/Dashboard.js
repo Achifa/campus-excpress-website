@@ -10,8 +10,12 @@ import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
 import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
 import { GetItems } from "../../api/buyer";
 import Thumbnail from "./Thumbnail";
+import { useDispatch, useSelector } from "react-redux";
+import { setCartTo } from "../../redux/buyer/Cart";
 
 const Home = () => {
+  let {Cart} = useSelector(s => s.Cart)
+
     let [screenWidth, setScreenWidth] = useState(0)
     let [items, setItems] = useState([])
 
@@ -32,7 +36,7 @@ const Home = () => {
 
 
     let BtnStyles = {
-        height: '40px',
+        height: screenWidth > 480 ? '60px' : '40px',
         width: '100%',
         borderRadius: '5px',
         outline: 'none',
@@ -44,6 +48,24 @@ const Home = () => {
         backgroundColor: 'orangered',
         margin: '0'
     }
+    let dispatch = useDispatch()
+
+
+    function AddToCart(product_id) {
+        let cartList = [...Cart];
+        let duplicateSearch = cartList.filter(item => item === product_id)
+        if(cartList.length > 0){
+            if(duplicateSearch.length > 0){
+                let newList = cartList.filter(item => item !== duplicateSearch[0])
+                dispatch(setCartTo(newList))
+            }else{
+                dispatch(setCartTo([...Cart, product_id]))
+            }
+        }else{
+            dispatch(setCartTo([...Cart, product_id]))
+        }
+    }
+
     return ( 
         <>
             <div className="buyer-dashboard-body">
@@ -51,15 +73,14 @@ const Home = () => {
                 { 
                     items.map((item) => 
                         <div className="cols" >
-                            <div className="card" onClick={e => navigate(`/product/${item.product_id}`)}>
-                                <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '20px' : '8px', left: screenWidth > 400 ? '20px' : '8px', padding: '2.5px'}}>
+                            <div className="card" >
+                                <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
                                     <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
-                                        <img src={locationSvg} style={{height: screenWidth  > 480 ? '20px' : '10px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
+                                        <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '8px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
 
                                     </span>
-                                    &nbsp;
 
-                                    <span  style={{background: 'orangered',color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'small' : 'xx-small', fontWeight: '500'}}>
+                                    <span  style={{background: 'orangered',color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}>
                                         UNIZIK, Awka
                                     </span>
                                 </span>
@@ -70,9 +91,9 @@ const Home = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h6 >{item.title}</h6>
+                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</h6>
                                         : 
-                                        <h3 >{item.title}</h3>
+                                        <h3 onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</h3>
                                     }
 
                                     <hr  />
@@ -80,14 +101,14 @@ const Home = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h4 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{
+                                        <h4 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{
                                             new Intl.NumberFormat('en-us').format(item.price)
                                         }</h4>
                                         : 
-                                        <h6 style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{item.price}</h6>
+                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
                                     }
 
-                                    <div style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', padding: '0'}}>
+                                    <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', padding: '0'}}>
                                     <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', left: '20px', padding: '5px'}}>
                                         <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
                                             <img src={conditionSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
@@ -122,8 +143,12 @@ const Home = () => {
                 </div>*/}
                                 </div>
 
-                                <button style={BtnStyles}>
-                                    Add To Cart
+                                <button style={BtnStyles} onClick={e => AddToCart(item.product_id)}>
+
+                                    <span>
+                                        <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                    </span>
+                                    <span>{[...Cart].filter(product_id => product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
                                 </button>
                                 {/*<br />*/}
 

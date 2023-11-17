@@ -7,8 +7,11 @@ import subSvg from '../../assets/subscriptions-svgrepo-com.svg'
 import walletSvg from '../../assets/wallet-2-svgrepo-com.svg'
 import sellSvg from '../../assets/sell-svgrepo-com (1).svg'
 import logoutSvg from '../../assets/logout-2-svgrepo-com.svg'
+import { useNavigate } from 'react-router-dom'
 
 const BuyerMenu = () => {
+  let navigate = useNavigate();
+
     return ( 
         <>
             <div className="buyer-menu-cnt">
@@ -21,22 +24,23 @@ const BuyerMenu = () => {
               </section>
               <hr />
               <ul>
-                <li className="">
-                  <span>
-                    <img src={orderSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
-
-                  </span>
-                  &nbsp;
-                  <span>Your Orders</span>
-                </li>
-                <li className="">
+                <li className="" onClick={e => navigate('/history')}>
                   <span>
                     <img src={subSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
 
                   </span>
                   &nbsp;
-                  <span>Subscriptions</span>
+                  <span>History</span>
                 </li>
+                <li className="" onClick={e => navigate('/orders')}>
+                  <span>
+                    <img src={orderSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+
+                  </span>
+                  &nbsp;
+                  <span>Orders</span>
+                </li>
+                
                 <li className="">
                   <span>
                     <img src={walletSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
@@ -46,7 +50,7 @@ const BuyerMenu = () => {
                   <span>Wallet</span>
                 </li>
                 
-                <li className="">
+                <li className="" onClick={e => navigate('/cart')}>
                   <span>
                     <img src={cartSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
 
@@ -54,7 +58,7 @@ const BuyerMenu = () => {
                   &nbsp;
                   <span>Cart</span>
                 </li>
-                <li className="">
+                <li className="" onClick={e => navigate('/saved-item')}>
                   <span>
                     <img src={savedSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
 
@@ -65,7 +69,7 @@ const BuyerMenu = () => {
 
                 <hr />
 
-                <li className="">
+                <li className="" onClick={e => navigate('/seller/signup')}>
                   <span>
                     <img src={sellSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
 

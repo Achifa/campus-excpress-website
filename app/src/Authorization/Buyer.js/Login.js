@@ -12,7 +12,7 @@ const BuyerLogin = () => {
         .then((result) => {
             window.localStorage.setItem("CE_buyer_id", result.id)
             window.localStorage.setItem("CE_buyer_name_initial", result.name)
-            navigate('/buyer')
+            navigate('/')
         })
         .catch((err) => console.log(err))
     }

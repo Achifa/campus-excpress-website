@@ -186,19 +186,19 @@ const Editor = () => {
 
 
         if(result.length > 0){
-            // let overlay = document.querySelector('.editor-overlay')
-            // overlay.setAttribute('id', 'editor-overlay');
+            let overlay = document.querySelector('.editor-overlay')
+            overlay.setAttribute('id', 'editor-overlay');
 
         }else{
-            // let overlay = document.querySelector('.editor-overlay')
-            // overlay.setAttribute('id', 'editor-overlay');
+            let overlay = document.querySelector('.editor-overlay')
+            overlay.setAttribute('id', 'editor-overlay');
             uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,window.localStorage.getItem("CE_seller_id"))
             .then((result) => {
-                // result
-                // ?
-                // navigate('/seller/shop')
-                // :
-                // alert('Error Uploading Data...')
+                result
+                ?
+                navigate('/seller/shop')
+                :
+                alert('Error Uploading Data...')
                 
             })
             .catch((err) => {

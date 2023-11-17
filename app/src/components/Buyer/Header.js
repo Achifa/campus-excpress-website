@@ -13,11 +13,14 @@ import { setBuyerJsxTo } from "../../redux/buyer/BuyerOverlayJsx";
 const BuyerHeader = () => {
 
   let {buyerJsx} = useSelector(s => s.buyerJsx)
+  let {Cart} = useSelector(s => s.Cart)
 
   let location = useLocation();
   let [buyerId,setBuyerId] = useState(null)
   let [buyerName,setBuyerName] = useState(null)
   //let [activeJsx, setActiveJsx]= useState(null)
+  let [cartList,setCartList] = useState(0)
+
 
   let [screenWidth, setScreenWidth] = useState(0)
 
@@ -28,7 +31,13 @@ const BuyerHeader = () => {
       let width = window.innerWidth;
       setScreenWidth(width)
   }, [])
+
+  useEffect(() => {
+    setCartList([...Cart].length)
+    console.log([...Cart]) 
+  }, [Cart])
   let [width, setWidth] = useState(0)
+
 
   useEffect(() => {
 
@@ -93,7 +102,7 @@ const BuyerHeader = () => {
             <section>
               <ul>
                 <li>
-                  <span style={{borderRadius: '50%'}}>0</span>
+                  <span style={{borderRadius: '50%'}}>{cartList}</span>
                   <span>
                     <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                   </span>
@@ -128,7 +137,7 @@ const BuyerHeader = () => {
                   }
                 <li  onClick={e => {
                     dispatch(setBuyerJsxTo('menu'));
-                    buyerId != null ? handleOverlay() : navigate('/buyer/signup')
+                    buyerId != null ? handleOverlay() : navigate('/signup')
                   }} style={{height: '100%', width: 'fit-content', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '5px'}}>
                   <span style={{display: buyerId !== null ? 'none' : 'flex', width: '100%', height: '100%',  justifyContent: 'center', marginRight: '5px'}}>
                     <img src={userSvg} style={{height: screenWidth > 479 ? '25px' : '18px', width: screenWidth > 479 ? '25px' : '18px', position: 'relative', borderRadius: '2.5px'}} alt="" />

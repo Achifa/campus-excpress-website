@@ -1,16 +1,28 @@
 import { Link } from 'react-router-dom';
 import img from '../../assets/download (3).jpeg'
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import PinInput from 'react-pin-input';
+import { AuthorizeWalletAccess } from '../../api/seller';
 const Wallets = () => {
     let navigate = useNavigate();
+
+    let [pin, setPin] = useState('');
+
+
+
+    
+
+    let [wallet, setWallet] = useState(false)
     return ( 
         <>
             <div className="seller-wallet-cnt">
+
                 <div className="seller-wallet-top shadow-sm">
                     <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span>&#8358;4500000</span></p>
                     <div>
                         <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Transacton History</span>
-                        <span onClick={e => navigate('https://flutterwave.com/pay/campus-express')} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}>Payments</span>
+                        <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}><Link to={'https://flutterwave.com/pay/campus-express'} target='_blank'>Payments</Link></span>
                     </div>
                 </div>
 
@@ -56,8 +68,7 @@ const Wallets = () => {
                         <section><small>Enjoy our banking services by transfering to any bank.</small></section>
                     </div>
                 </div>
-                
-                
+
             </div>
         </>
      );

@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
  
-let urls = ['http://localhost:3000', 'http://192.168.0.5:3000', 'https://campus-excpress-website-6fwkxq5ma-achifa.vercel.app'];
+let urls = ['http://localhost:3000', 'http://192.168.0.2:3000', 'https://campus-excpress-website-6fwkxq5ma-achifa.vercel.app'];
 
 app.use(cors({
   origin: '*',
@@ -23,6 +23,8 @@ app.use(cors({
 
 app.use(seller_route)
 app.use(buyer_route)
+
+
 
 
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
