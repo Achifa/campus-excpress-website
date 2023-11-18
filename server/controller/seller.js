@@ -200,14 +200,14 @@ async function WalletData(req,res)  {
     let {seller_id} = req.body;
 
     let walletBalance = NeonDB.then((pool) => 
-        pool.query(`select * from campus_express_seller_wallet where seller_id = '${id}'`)
+        pool.query(`select * from campus_express_seller_wallet where seller_id = '${seller_id}'`)
         .then(result => result.rows)
         .catch(err => console.log(err))
     )
     .catch(err => console.log(err))
 
     let Transactions = NeonDB.then((pool) => 
-        pool.query(`select * from campus_express_seller_transactions where seller_id = '${id}'`)
+        pool.query(`select * from campus_express_seller_transactions where seller_id = '${seller_id}'`)
         .then(result => result.rows)
         .catch(err => console.log(err))
     )
