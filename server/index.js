@@ -45,7 +45,7 @@ app.post("/paystack-webhook", parser, async (req, res) => {
   .catch(err => console.log(err))
 
   let transaction_update = NeonDB.then((pool) => 
-  pool.query(`insert into campus_express_seller_transactions (id,document) values(DEFAULT, '${payload.data}')`)
+  pool.query(`insert into campus_express_seller_transactions (id,document) values(DEFAULT, '{"file": "${payload.data}"}')`)
     .then(result => result.rowCount > 0 ? (true) : (false))
     .catch(err => console.log(err))
   )
