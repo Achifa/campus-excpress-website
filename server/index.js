@@ -25,33 +25,44 @@ app.use(seller_route)
 app.use(buyer_route)
 
 
-app.post("/flw-webhook", async (req, res) => {
-  
-	const payload = req.body;
-	console.log(payload);
 
-  NeonDB.then((pool) => 
-  pool.query(`update campus_express_seller_wallet set wallet_balance = ${payload.data.amount} where seller_id = '${payload.data.id}')`)
-    .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
-    .catch(err => console.log(err))
-  )
-  .catch(err => console.log(err))
-
-  NeonDB.then((pool) => 
-  pool.query(`insert into campus_express_seller_transactions (id,wallet_id,seller_id,amount,currency,app_fee,merchant_fee,narration,charged_amount,processor_response,ip,status,payment_type,created_at,transaction_id,tx_ref,flw_ref,device_fingerprint,date) values(DEFAULT,'${wallet_id}','${seller_id}','${payload.data.amount}','${payload.data.currency}','${payload.data.app_fee}','${payload.data.merchant_fee}','${payload.data.narration}','${payload.data.charged_amount}','${payload.data.processor_response}','${payload.data.ip}','${payload.data.status}','${payload.data.payment_type}','${payload.data.created_at}','${payload.data.transaction_id}','${payload.data.tx_ref}','${payload.data.flw_ref}','${payload.data.device_fingerprint}','${date}')`)
-    .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
-    .catch(err => console.log(err))
-  )
-  .catch(err => console.log(err))
-
-
-  res.status(200).end();
-});
 
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
 io(server, {cors: {origin: '*'}}).on('connection', socket => {
 
     
+
+});
+
+app.post("/paystack-webhook", parser, async (req, res) => {
+	const payload = req.body;
+
+  let wallet_update = NeonDB.then((pool) => 
+  pool.query(`update campus_express_seller_wallet set wallet_balance = ${payload.data.metadata.amount} where seller_id = '${payload.data.id}')`)
+    .then(result => result.rowCount > 0 ? (true) : (false))
+    .catch(err => console.log(err))
+  )
+  .catch(err => console.log(err))
+
+  let transaction_update = NeonDB.then((pool) => 
+  pool.query(`insert into campus_express_seller_transactions (id,document) values(DEFAULT, '{"file": ${payload.data}}')`)
+    .then(result => result.rowCount > 0 ? (true) : (false))
+    .catch(err => console.log(err))
+  )
+  .catch(err => console.log(err))
+
+  new Promise((resolve, reject) => {
+    resolve(wallet_update)
+  })
+  .then(wallet_result => {
+    let transaction_result = transaction_update
+    return{wallet_result, transaction_result}
+  })
+  .then(({wallet_update, transaction_result}) => {
+    res.status(200).end();
+    socket.io.emit('transaction_verification', {wallet_update, transaction_result})
+  })
+  .catch(err => console.log(err))
 
 });
 
