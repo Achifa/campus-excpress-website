@@ -55,7 +55,7 @@ const Wallets = () => {
     useEffect(() => {
         socket.on('transaction_verification', ({amount, seller_id}) => {
             if(window.localStorage.getItem("CE_seller_id") === seller_id){
-                setBalance(amount)
+                setBalance(`${amount}.00`)
             }
         })
     }, [])
