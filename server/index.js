@@ -38,14 +38,14 @@ app.post("/paystack-webhook", parser, async (req, res) => {
 	const payload = req.body;
 
   let wallet_update = NeonDB.then((pool) => 
-  pool.query(`update campus_express_seller_wallet set wallet_balance = wallet_balance + ${payload.data.metadata.amount} where seller_id = '${payload.data.metadata.seller_id}')`)
+  pool.query(`update campus_express_seller_wallet set wallet_balance = wallet_balance + ${payload.data.metadata.amount} where seller_id = '${payload.data.metadata.seller_id}'`)
     .then(result => result.rowCount > 0 ? (true) : (false))
     .catch(err => console.log(err))
   )
   .catch(err => console.log(err))
 
   let transaction_update = NeonDB.then((pool) => 
-  pool.query(`insert into campus_express_seller_transactions (id,document) values(DEFAULT, '{"file": [${payload.data}]}')`)
+  pool.query(`insert into campus_express_seller_transactions (id,document) values(DEFAULT, '${payload.data}')`)
     .then(result => result.rowCount > 0 ? (true) : (false))
     .catch(err => console.log(err))
   )
