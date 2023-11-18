@@ -69,3 +69,11 @@ export function AuthorizeWalletAccess(pin) {
         .catch(err => reject(err))
     )
 }
+
+export function WalletData(seller_id) {
+    return new Promise((resolve, reject) => 
+        axios.post(`${plug}/seller/wallet-data`, {seller_id})
+        .then((result) => resolve(result.data))
+        .catch(err => reject(err))
+    )
+}
