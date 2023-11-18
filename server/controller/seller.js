@@ -221,7 +221,7 @@ async function WalletData(req,res)  {
         return {walletBalance, TransactionHistory}
     })
     .then(({walletBalance, TransactionHistory}) => {
-        res.status(200).send(walletBalance, TransactionHistory)
+        res.send({walletBalance, TransactionHistory})
     })
     .catch(err => console.log(err))
 
