@@ -25,7 +25,7 @@ app.use(seller_route)
 app.use(buyer_route)
 
 
-app.post("/flw-webhook", async (req, res) => {
+app.post("/paystack-webhook", parser, async (req, res) => {
 	const payload = req.body;
 	console.log(payload);
 	res.status(200).end();
