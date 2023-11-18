@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-let u1 = `http://192.168.0.4:1111`
+let u1 = `http://192.168.0.2:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u2;
+let plug = u1;
 
 export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id) {
     return new Promise((resolve, reject) => {
@@ -73,6 +73,14 @@ export function AuthorizeWalletAccess(pin) {
 export function WalletData(seller_id) {
     return new Promise((resolve, reject) => 
         axios.post(`${plug}/seller/wallet-data`, {seller_id})
+        .then((result) => resolve(result.data))
+        .catch(err => reject(err))
+    )
+}
+
+export function createBill(seller_id) {
+    return new Promise((resolve, reject) => 
+        axios.post(`${plug}/seller/wallet-bill`, {seller_id})
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )

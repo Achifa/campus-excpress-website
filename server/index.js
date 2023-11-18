@@ -60,7 +60,7 @@ app.post("/paystack-webhook", parser, async (req, res) => {
   })
   .then(({wallet_update, transaction_result}) => {
     res.status(200).end();
-    socket.io.emit('transaction_verification', {wallet_update, transaction_result})
+    socket.io.emit('transaction_verification', {amount: payload.data.metadata.amount, seller_id: payload.data.metadata.seller_id})
   })
   .catch(err => console.log(err))
 
