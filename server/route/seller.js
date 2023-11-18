@@ -1,4 +1,4 @@
-const { AuthorizeWalletAccess } = require("../Transactions/Sellers");
+const { AuthorizeWalletAccess, create_bill } = require("../Transactions/Sellers");
 const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData } = require("../controller/seller");
 const { express, parser } = require("../modules");
 
@@ -16,8 +16,17 @@ seller_route.post('/seller/overview', parser, Overview);
 seller_route.post('/seller/wallet-data', parser, WalletData);
 
 seller_route.post('/seller/wallet-access', parser, AuthorizeWalletAccess);
+seller_route.post('/seller/wallet-bill', parser, create_bill);
 
 seller_route.post('/seller/shop', parser, Shop);
 
 
 module.exports = {seller_route}
+
+
+/*
+
+
+
+
+*/

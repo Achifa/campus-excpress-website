@@ -2,7 +2,7 @@
 const Flutterwave = require('flutterwave-node-v3');
 require('dotenv').config();
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
 
 
@@ -39,20 +39,37 @@ const AuthorizeWalletAccess = async () => {
 }
 
 
-const initiate_transaction_via_payment_link = async () => {
+const create_bill = async () => {
 
-    let date = new Date();
-    let {wallet_id,seller_id,wallet_balance,wallet_pin,wallet_number} = req.body;
+    const Flutterwave = require('flutterwave-node-v3');
 
-    NeonDB.then((pool) => 
-    pool.query(`insert into campus_seller_wallets(id,wallet_id,seller_id,wallet_balance,wallet_pin,wallet_number,date) values(DEFAULT,'${wallet_id}','${seller_id}','${wallet_balance}','${wallet_pin}','${wallet_number}','${date}')`)
-        .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
-        .catch(err => console.log(err))
-    )
-    .catch(err => console.log(err))
+    const createBill = async () => {
+
+        try {
+            const payload={
+                "country": "NG",
+                "customer": "+23490803840303",
+                "amount": 100,
+                "recurrence": "ONCE",
+                "type": "AIRTIME",
+                "reference": "930rwrwr0049404444"
+            }
+            
+            const response = await flw.Bills.create_bill(payload)
+            console.log(response);
+        
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+
+    createBill();
 }
 
 
 module.exports = {
-    AuthorizeWalletAccess
+    AuthorizeWalletAccess,
+    create_bill
 }
