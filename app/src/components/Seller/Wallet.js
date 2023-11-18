@@ -13,8 +13,8 @@ const Wallets = () => {
 
     useEffect(() => {
         WalletData(window.localStorage.getItem("CE_seller_id"))
-        .then((result) => {
-            console.log(result)
+        .then(({walletBalance, TransactionHistory}) => {
+            setBalance(walletBalance[0].wallet_balance)
         })
         .catch((err) => {
             console.log(err)
