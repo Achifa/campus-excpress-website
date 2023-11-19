@@ -199,31 +199,32 @@ async function Shop(req,res)  {
 async function WalletData(req,res)  {
     let {seller_id} = req.body;
 
-    let walletBalance = NeonDB.then((pool) => 
-        pool.query(`select * from campus_express_seller_wallet where seller_id = '${seller_id}'`)
-        .then(result => result.rows)
-        .catch(err => console.log(err))
-    )
-    .catch(err => console.log(err))
+    function walletBalance() {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`select * from campus_express_seller_wallet where seller_id = '${seller_id}'`)
+                .then(result => result.rows)
+                .catch(err => console.log(err))
+                )
+            .catch(err => console.log(err))
+        )
+    }
 
-    let Transactions = NeonDB.then((pool) => 
-        pool.query(`select * from campus_express_seller_transactions where seller_id = '${seller_id}'`)
-        .then(result => result.rows)
-        .catch(err => console.log(err))
-    )
-    .catch(err => console.log(err))
+    function Transactions() {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`select * from campus_express_seller_transactions where seller_id = '${seller_id}'`)
+                .then(result => result.rows)
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
 
-    new Promise((resolve, reject) => {
-        resolve(walletBalance)
-    })
-    .then((walletBalance) => {
-        let TransactionHistory = Transactions
-        return {walletBalance, TransactionHistory}
-    })
-    .then(({walletBalance, TransactionHistory}) => {
-        res.send({walletBalance, TransactionHistory})
-    })
-    .catch(err => console.log(err))
+    let wallet = await walletBalance()
+    let documents = await Transactions()
+
+    res.send({walletBalance: wallet, TransactionHistory: documents})
 
 }
 

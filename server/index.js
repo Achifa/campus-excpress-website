@@ -45,7 +45,7 @@ app.post("/paystack-webhook", parser, async (req, res) => {
   .catch(err => console.log(err))
 
   let transaction_update = NeonDB.then((pool) => 
-  pool.query(`insert into campus_express_seller_transactions (id,document) values(DEFAULT, '{"file": "${JSON.stringify(payload.data)}"}')`)
+  pool.query(`insert into campus_express_seller_transactions (id,document) values(DEFAULT, '${JSON.stringify(payload.data)}', '${payload.data.metadata.seller_id}')`)
     .then(result => result.rowCount > 0 ? (true) : (false))
     .catch(err => console.log(err))
   )
@@ -60,7 +60,9 @@ app.post("/paystack-webhook", parser, async (req, res) => {
   })
   .then(({wallet_update, transaction_result}) => {
     res.status(200).end();
-    socket.io.emit('transaction_verification', {amount: payload.data.metadata.amount, seller_id: payload.data.metadata.seller_id})
+    io(server, {cors: {origin: '*'}}).on('connection', socket => {
+      socket.io.emit('transaction_verification', {amount: payload.data.metadata.amount, seller_id: payload.data.metadata.seller_id})
+    });
   })
   .catch(err => console.log(err))
 
