@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let u1 = `http://192.168.0.2:1111`
+let u1 = `http://192.168.0.3:1111`
 let u2 = `https://ce-server.onrender.com`
 let plug = u1;
 

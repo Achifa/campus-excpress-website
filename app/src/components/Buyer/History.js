@@ -56,7 +56,7 @@ const History = () => {
                                 
 
                                 <div className="buyer-items-btn">
-                                    <button>Buy</button>
+                                    <button>View</button>
                                 </div>
                             </div>
                         </div>

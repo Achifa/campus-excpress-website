@@ -8,13 +8,33 @@ import { SHOP } from '../../api/seller';
 const Cart = () => {
     let [Items, setItems] = useState([])
     let [activeImg, setActiveImg] = useState(imgSvg)
+    let [subTotal, setSubTotal] = useState('0.00')
 
 
     useEffect(() => {
         
         SHOP("CE-d7571f")
         .then((result) => { 
-            setItems(result)
+            setItems(result);
+            let prices = []
+
+            result.map((item) => prices.push(eval(item.price)))
+
+
+            function sum(arr, n)
+            {
+                // base or terminating condition
+                if (n <= 0) {
+                return 0;
+                }
+            
+                // Calling method recursively
+                return sum(arr, n-1 ) + arr[n-1];
+            }
+            let s = sum(prices, prices.length);
+            setSubTotal(s)
+
+
         })
         .catch((err) => {
             console.log(err)
@@ -74,8 +94,8 @@ const Cart = () => {
 
             <div className="buyer-cart-checkout">
                 <button >
-                    <span>Checkout &nbsp;</span>
-                    <span>(50,000)</span>
+                    <span>Checkout SubTotal&nbsp; </span>
+                    <span>({new Intl.NumberFormat('en-us').format(subTotal)})</span>
                 </button>
             </div>
         </>

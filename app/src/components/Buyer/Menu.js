@@ -41,7 +41,7 @@ const BuyerMenu = () => {
                   <span>Orders</span>
                 </li>
                 
-                <li className="">
+                <li className="" onClick={e => navigate('/wallet')}>
                   <span>
                     <img src={walletSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
 

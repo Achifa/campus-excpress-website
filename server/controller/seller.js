@@ -224,6 +224,7 @@ async function WalletData(req,res)  {
     let wallet = await walletBalance()
     let documents = await Transactions()
 
+
     res.send({walletBalance: wallet, TransactionHistory: documents})
 
 }

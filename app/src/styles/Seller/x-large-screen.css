@@ -799,7 +799,7 @@
     }
     .seller-wallet-bottom div{
         width: 100%;
-        height: 150px;
+        height: fit-content;
         float: left;
         flex-shrink: 0;
         font-weight: 500;
@@ -813,6 +813,12 @@
         border-radius: 5px;
         color: #fff;
     }
+
+    .seller-wallet-bottom div section{
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
 
 
 

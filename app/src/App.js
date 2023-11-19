@@ -29,6 +29,7 @@ import Orders from './components/Buyer/Orders';
 import History from './components/Buyer/History';
 import SavedItem from './components/Buyer/SavedItem';
 import Cart from './components/Buyer/Cart';
+import Wallets from './components/Buyer/Wallet';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -72,6 +73,7 @@ function App() {
             <Route path='/orders' element={<Orders />}></Route>
             <Route path='/history' element={<History />}></Route>
             <Route path='/cart' element={<Cart />}></Route>
+            <Route path='/wallet' element={<Wallets />}></Route>
             <Route path='/saved-item' element={<SavedItem />}></Route>
             <Route path='/product/:id' element={<ProductPage />}></Route>
             <Route path='/signup' element={<BuyerSignup />}></Route>

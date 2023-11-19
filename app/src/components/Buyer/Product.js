@@ -1,3 +1,4 @@
+import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
 import { useEffect, useState } from 'react'
 import img from '../../assets/download (3).jpeg'
 import fbSvg from '../../assets/facebook-1-svgrepo-com (1).svg'
@@ -5,9 +6,11 @@ import tweeterSvg from '../../assets/twitter-svgrepo-com (2).svg'
 import WhatsAppSvg from '../../assets/whatsapp-whats-app-svgrepo-com.svg'
 import { GetItem } from '../../api/buyer'
 import { useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import saveSvg from '../../assets/save-svgrepo-com1.svg'
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
+import { setCartTo } from '../../redux/buyer/Cart'
 
 
 
@@ -47,6 +50,8 @@ const Product = () => {
         .catch(err => console.log(err))
 
     }, [])
+  let {Cart} = useSelector(s => s.Cart)
+
 
     useEffect(() => {
         setActiveImg(ItemImages.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
@@ -62,6 +67,7 @@ const Product = () => {
         borderRadius: '10px',
         outline: 'none',
         border: 'none',
+        cursor: 'pointer',
         textAlign: 'center',
         color: '#fff',
         display: 'flex', 
@@ -72,6 +78,24 @@ const Product = () => {
         fontWeight: '1000',
         backgroundColor: 'orangered',
         margin: '0'
+    }
+
+    let dispatch = useDispatch()
+
+ 
+    function AddToCart(product_id) {
+        let cartList = [...Cart];
+        let duplicateSearch = cartList.filter(item => item === product_id)
+        if(cartList.length > 0){
+            if(duplicateSearch.length > 0){
+                let newList = cartList.filter(item => item !== duplicateSearch[0])
+                dispatch(setCartTo(newList))
+            }else{
+                dispatch(setCartTo([...Cart, product_id]))
+            }
+        }else{
+            dispatch(setCartTo([...Cart, product_id]))
+        }
     }
 
 
@@ -113,6 +137,43 @@ const Product = () => {
                             <div style={BtnStyles}>
                                 Buy Now
                             </div>
+
+                            <br />
+
+                            <div style={{
+                                height: '70px',
+                                width: '100%',
+                                borderRadius: '10px',
+                                outline: 'none',
+                                border: 'none',
+                                textAlign: 'center',
+                                color: '#fff',
+
+                                display: 'flex', 
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                position: 'relative',
+                                fontSize: 'medium',
+                                fontWeight: '500',
+                                backgroundColor: '#fff',
+                                margin: '0'
+                            }}>
+                                <span onClick={e => AddToCart(item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                    <span>
+                                        <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                    </span>
+                                    <span>{[...Cart].filter(product_id => product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                                </span>
+                                <span style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                    <span>
+                                        <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
+                                    </span>
+                                    <span style={{marginTop: '0'}}>
+                                        Save
+                                    </span>
+                                </span>
+                            </div>
+
 
                            
 

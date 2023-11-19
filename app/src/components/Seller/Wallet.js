@@ -16,7 +16,11 @@ const Wallets = () => {
     useEffect(() => {
         WalletData(window.localStorage.getItem("CE_seller_id"))
         .then(({walletBalance, TransactionHistory}) => {
-            setBalance(walletBalance[0].wallet_balance)
+            setBalance(`${walletBalance[0].wallet_balance}.00`)
+            //setTransactions([...JSON.parse(TransactionHistory[0].document)])
+            let files = TransactionHistory.map(item => JSON.parse(item.document))
+            setTransactions(files)
+            console.log(files)
         })
         .catch((err) => {
             console.log(err)
@@ -110,11 +114,20 @@ const Wallets = () => {
                     {
                         Transactions.length > 0
                         ?
-                        Transactions.map(item => 
-                            <div>
-                                <section>{item.payment_type}</section>
+                        Transactions.map((item, key) => 
+                            <div key={key}>
+                                <section>
+                                    <span style={{float: 'left'}}>Source Bank: {item.authorization.bank}</span>
+                                    <span style={{float: 'right'}}>Amount: <small>&#8358;</small>{item.metadata.amount}</span>
+                                </section> 
                                 <br />
-                                <section><small>&#8358;</small>&nbsp;{item.amount}</section>
+
+                                <section>Transaction Type: {item.authorization.channel}</section>
+
+                                <section>
+                                    <span style={{float: 'left'}}>Initiated On: {item.created_at}</span>
+                                    <span style={{float: 'right'}}>Sender: {item.authorization.sender_name}</span>
+                                </section> 
                             </div>
                             
                         )

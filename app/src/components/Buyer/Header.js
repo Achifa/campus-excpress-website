@@ -101,7 +101,7 @@ const BuyerHeader = () => {
 
             <section>
               <ul>
-                <li>
+                <li onClick={e => navigate('/cart')}>
                   <span style={{borderRadius: '50%'}}>{cartList}</span>
                   <span>
                     <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
