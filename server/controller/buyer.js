@@ -97,6 +97,18 @@ async function LogBuyerIn(req, res) {
     
 }
 
+async function GetBuyer(req,res) {
+    let {buyer_id} = req.body;
+    console.log(buyer_id)
+    NeonDB.then((pool) => 
+        pool.query(`SELECt * FROM campus_buyers WHERE buyer_id = '${buyer_id}'`)
+        .then(result => res.send(result.rows[0]))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
 async function GetItems(req,res) {
 
     NeonDB.then((pool) => 
@@ -112,15 +124,25 @@ async function GetItem(req,res) {
 
     let {id} = req.query;
 
-    NeonDB.then((pool) => 
-        pool.query(`select * from seller_shop where product_id = '${id}'`)
-        .then(result =>  res.send(result.rows[0]))
-        .catch(err => console.log(err))
+    let book = []
+
+    id.map(item => 
+        NeonDB.then((pool) => 
+            pool.query(`select * from seller_shop where product_id = '${item}'`)
+            .then(result =>  {
+                book.push(result.rows[0])
+                if(book.length === id.length){
+                    res.send(book)
+                }
+            })
+            .catch(err => console.log(err))
+        )
+
+
     )
     
 
 }
-
 
 async function GetItemImages(req,res) {
 
@@ -148,5 +170,314 @@ async function GetThumbnail(req,res) {
 
 }
 
+async function AddToCart(req,res) {
 
-module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail}
+    let {product_id,buyer_id} = req.body;
+
+    console.log(product_id,buyer_id);
+    
+    let cart_id = shortId.generate();
+    let date = new Date();
+
+    function insert_() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`insert into campus_express_buyer_cart(id,cart_id,product_id,date,buyer_id) values(DEFAULT, '${cart_id}', '${product_id}', '${date}', '${buyer_id}')`)
+                .then(result => result.rowCount > 0 ? (true) : (false))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    function get_carts() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}'`)
+                .then(result => res.send(result.rows))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    let insertData = await insert_()
+    if(insertData){
+        let getData = await get_carts()
+        res.send(getData)
+    }
+
+}
+
+async function RemoveFromCart(req,res) {
+    let {product_id,buyer_id} = req.query;
+    console.log(buyer_id)
+    let delete_ = () => 
+        NeonDB.then((pool) => 
+            pool.query(`DELETE FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}' AND product_id = '${product_id}'`)
+            .then(result => result.rowCount > 0 ? (true) : (false))
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+
+    let get_carts = () => 
+        NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}'`)
+            .then(result => result.rows)
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+
+    let deleteData = await delete_()
+    if(deleteData){
+        let getData = await get_carts()
+        res.send(getData)
+    }
+}
+
+async function GetCart(req,res) {
+    let {buyer_id} = req.query;
+    console.log(buyer_id)
+    function get_carts() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}'`)
+                .then(result => res.send(result.rows))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    let getData = await get_carts()
+    res.send(getData)
+
+}
+
+async function GetCartItems(req,res) {
+
+    let book = [];
+    let {buyer_id} = req.query;
+
+    console.log(buyer_id)
+    function get_carts() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}'`)
+                .then(result => result.rows)
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    function get_items(item) { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM seller_shop WHERE product_id = '${item.product_id}'`)
+                .then(result => book.push({item: result.rows[0], cart:item}))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+
+    async function getCartedItems(cb) {
+        let carts = await get_carts()
+        console.log(carts)
+
+        cb(carts)
+    }
+
+    getCartedItems((carts) => {
+        carts.map(async(item ) => {
+            await get_items(item)
+            console.log(book)
+            if(book.length === carts.length){
+                res.send(book)
+            }
+        })
+    })
+
+}
+
+async function SaveItem(req,res) {
+
+    let {product_id,buyer_id} = req.body;
+
+    console.log(product_id,buyer_id);
+    
+    let savedItems_id = shortId.generate();
+    let date = new Date();
+
+
+    function insert_() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`insert into campus_express_buyer_saveditems(id,savedItems_id ,product_id ,date ,buyer_id) values(DEFAULT, '${savedItems_id}', '${product_id}', '${date}', '${buyer_id}')`)
+                .then(result => result.rowCount > 0 ? (true) : (false))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    function get_carts() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}'`)
+                .then(result => res.send(result.rows))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    let insertData = await insert_()
+
+    if(insertData){
+        let getData = await get_carts()
+        res.send(getData)
+    }
+
+}
+
+async function UnSaveItem(req,res) {
+    let {product_id,buyer_id} = req.query;
+    console.log(buyer_id)
+    let delete_ = () => 
+        NeonDB.then((pool) => 
+            pool.query(`DELETE FROM campus_express_buyer_saveditems WHERE buyer_id = '${buyer_id}' AND product_id = '${product_id}'`)
+            .then(result => result.rowCount > 0 ? (true) : (false))
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+
+    let get_items = () => 
+        NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM campus_express_buyer_saveditems WHERE buyer_id = '${buyer_id}'`)
+            .then(result => result.rows)
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+
+    let deleteData = await delete_()
+
+    if(deleteData){
+        let getData = await get_items()
+        res.send(getData)
+    }
+}
+
+async function GetSavedItem(req,res) {
+    let {buyer_id} = req.query;
+    console.log(buyer_id)
+    function get_carts() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_express_buyer_saveditems WHERE buyer_id = '${buyer_id}'`)
+                .then(result => res.send(result.rows))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    let getData = await get_carts()
+    res.send(getData)
+
+}
+
+async function GetSavedItemsData(req,res) {
+
+    let book = [];
+    let {buyer_id} = req.query;
+
+    console.log(buyer_id)
+    function get_savedItems() { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_express_buyer_saveditems WHERE buyer_id = '${buyer_id}'`)
+                .then(result => result.rows)
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    function get_items(product_id) { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM seller_shop WHERE product_id = '${product_id}'`)
+                .then(result => book.push(result.rows))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+
+    async function getSavedItems(cb) {
+        let savedData = await get_savedItems()
+        console.log(savedData)
+
+        cb(savedData)
+    }
+
+    getSavedItems((savedData) => {
+        savedData.length > 0 
+        ?
+        savedData.map(async(item ) => {
+            await get_items(item.product_id)
+            if(book.length === savedData.length){
+                res.send(book)
+                console.log(book)
+            }
+        })
+        :
+        res.send([])
+    })
+
+}
+
+function UpdateCart(req,res) {
+    let {type,buyer_id,product_id} = req.body;
+    function Add(params) {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`UPDATE campus_express_buyer_cart set unit = unit + 1 WHERE buyer_id = '${buyer_id}' AND product_id = '${product_id}'`)
+                .then(result => console.log(type,buyer_id,product_id))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    function Minus(params) {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`UPDATE campus_express_buyer_cart set unit = unit - 1 WHERE buyer_id = '${buyer_id}' AND product_id = '${product_id}'`)
+                .then(result => result)
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    if(type === 'add'){
+        let result =  Add()
+        res.send(result)
+    }else{
+        let result = Minus()
+        res.send(result)
+    }
+}
+
+module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, GetBuyer, UpdateCart}
+
+/**
+ * 
+    id ,cart_id,product_id,date,buyer_id
+ * 
+ */

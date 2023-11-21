@@ -8,13 +8,15 @@ import conditionSvg from '../../assets/condition-point-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
 import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
-import { GetItems } from "../../api/buyer";
+import { AddItemToCart, DeleteItemFromCart, GetItems, SaveItem, UnSaveItem } from "../../api/buyer";
 import Thumbnail from "./Thumbnail";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartTo } from "../../redux/buyer/Cart";
+import { setSaveTo } from "../../redux/buyer/Save";
 
 const Home = () => {
-  let {Cart} = useSelector(s => s.Cart)
+    let {Cart} = useSelector(s => s.Cart)
+    let {Save} = useSelector(s => s.Save)
 
     let [screenWidth, setScreenWidth] = useState(0)
     let [items, setItems] = useState([])
@@ -32,6 +34,8 @@ const Home = () => {
             setItems(result)
         })
         .catch(err => console.log(err))
+
+        console.log(Cart)
     }, [])
 
 
@@ -50,19 +54,86 @@ const Home = () => {
     }
     let dispatch = useDispatch()
 
+    function AddToCart(e,product_id) {
+        e.target.disabled = true;
 
-    function AddToCart(product_id) {
         let cartList = [...Cart];
-        let duplicateSearch = cartList.filter(item => item === product_id)
+        let duplicateSearch = cartList.filter(item => item.product_id === product_id)
         if(cartList.length > 0){
             if(duplicateSearch.length > 0){
                 let newList = cartList.filter(item => item !== duplicateSearch[0])
-                dispatch(setCartTo(newList))
+                //dispatch(setCartTo(newList))
+                DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    dispatch(setCartTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             }else{
                 dispatch(setCartTo([...Cart, product_id]))
+                AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    dispatch(setCartTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             }
         }else{
-            dispatch(setCartTo([...Cart, product_id]))
+            AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+            .then((result) => {
+                dispatch(setCartTo(result))
+                e.target.disabled = false;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+    }
+
+    function Saver(e,product_id) {
+        e.target.disabled = true;
+
+        let saveList = [...Save];
+        let duplicateSearch = saveList.filter(item => item.product_id === product_id)
+        if(saveList.length > 0){
+            if(duplicateSearch.length > 0){
+                // let newList = saveList.filter(item => item !== duplicateSearch[0])
+                // dispatch(setSaveTo(newList))
+                UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    console.log(result)
+                    dispatch(setSaveTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }else{
+                
+                SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    console.log(result)
+
+                    dispatch(setSaveTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
+        }else{
+            SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+            .then((result) => {
+                dispatch(setSaveTo(result))
+                e.target.disabled = false;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         }
     }
 
@@ -124,12 +195,12 @@ const Home = () => {
                                         
                                     </div>
 
-                                    <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '5px', bottom: '35px', background: '#fff', color: '#626262'}}>
+                                    <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '5px', bottom: '35px', background: '#fff', color: '#626262', height: 'fit-content', width: 'fit-content'}}>
                                         <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
                                         <section style={{marginTop: '-8px'}}>
-                                            save
+                                            {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
                                         </section>
-                                    </div>
+                                    </button>
 
                                     {/*<div style={{position: 'absolute', right: '5px', bottom: '5px', fontSize: 'small', background: '#fff', color: '#626262'}}>
                                         <span>
@@ -143,14 +214,14 @@ const Home = () => {
                 </div>*/}
                                 </div>
 
-                                <button style={BtnStyles} onClick={e => AddToCart(item.product_id)}>
+                                <button style={BtnStyles} onClick={e => AddToCart(e,item.product_id)}>
 
                                     <span>
                                         <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                                     </span>
-                                    <span>{[...Cart].filter(product_id => product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                                    <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
                                 </button>
-                                {/*<br />*/}
+                                {/*<br />*/} 
 
                                 {/*<div className="card-footer">
                                     <img src={img} style={{height: '30px', width: '30px', borderRadius: '10px'}} alt="" />

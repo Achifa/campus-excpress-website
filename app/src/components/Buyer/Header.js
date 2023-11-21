@@ -9,6 +9,9 @@ import BuyerAside from "./Aside";
 import BuyerMenu from "./Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { setBuyerJsxTo } from "../../redux/buyer/BuyerOverlayJsx";
+import { GetCart, GetSavedItem } from "../../api/buyer";
+import { setCartTo } from "../../redux/buyer/Cart";
+import { setSaveTo } from "../../redux/buyer/Save";
 
 const BuyerHeader = () => {
 
@@ -30,6 +33,24 @@ const BuyerHeader = () => {
   useEffect(() => {
       let width = window.innerWidth;
       setScreenWidth(width)
+  }, [])
+
+  useEffect(() => {
+    GetCart(window.localStorage.getItem('CE_buyer_id'))
+    .then((result) => {
+        dispatch(setCartTo(result))
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+
+    GetSavedItem(window.localStorage.getItem('CE_buyer_id'))
+    .then((result) => {
+        dispatch(setSaveTo(result))
+    })
+    .catch((err) => {
+        console.log(err)
+    })
   }, [])
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import BuyerOverlayJsx from './buyer/BuyerOverlayJsx';
 import ItemImages from './buyer/ItemImages';
 import ActiveImg from './buyer/ActiveImg';
 import Cart from './buyer/Cart';
-import { SaveSlice } from './buyer/Save';
+import Save, { SaveSlice } from './buyer/Save';
 
 
 
@@ -13,7 +13,7 @@ let store = configureStore({
     itemImages: ItemImages,
     ActiveImg: ActiveImg,
     Cart: Cart,
-    Save: SaveSlice
+    Save: Save
   }
 
 })

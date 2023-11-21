@@ -4,13 +4,14 @@ import img from '../../assets/download (3).jpeg'
 import fbSvg from '../../assets/facebook-1-svgrepo-com (1).svg'
 import tweeterSvg from '../../assets/twitter-svgrepo-com (2).svg'
 import WhatsAppSvg from '../../assets/whatsapp-whats-app-svgrepo-com.svg'
-import { GetItem } from '../../api/buyer'
-import { useLocation } from 'react-router-dom'
+import { AddItemToCart, DeleteItemFromCart, GetItem, SaveItem, UnSaveItem } from '../../api/buyer'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import saveSvg from '../../assets/save-svgrepo-com1.svg'
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
 import { setCartTo } from '../../redux/buyer/Cart'
+import { setSaveTo } from '../../redux/buyer/Save'
 
 
 
@@ -52,6 +53,7 @@ const Product = () => {
     }, [])
   let {Cart} = useSelector(s => s.Cart)
 
+  let navigate = useNavigate();
 
     useEffect(() => {
         setActiveImg(ItemImages.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
@@ -83,18 +85,88 @@ const Product = () => {
     let dispatch = useDispatch()
 
  
-    function AddToCart(product_id) {
+    function AddToCart(e,product_id) {
+        e.target.disabled = true;
+
         let cartList = [...Cart];
-        let duplicateSearch = cartList.filter(item => item === product_id)
+        let duplicateSearch = cartList.filter(item => item.product_id === product_id)
         if(cartList.length > 0){
             if(duplicateSearch.length > 0){
                 let newList = cartList.filter(item => item !== duplicateSearch[0])
-                dispatch(setCartTo(newList))
+                //dispatch(setCartTo(newList))
+                DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    dispatch(setCartTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             }else{
                 dispatch(setCartTo([...Cart, product_id]))
+                AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    dispatch(setCartTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             }
         }else{
-            dispatch(setCartTo([...Cart, product_id]))
+            AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+            .then((result) => {
+                dispatch(setCartTo(result))
+                e.target.disabled = false;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+    }
+
+    let {Save} = useSelector(s => s.Save)
+
+    function Saver(e,product_id) {
+        e.target.disabled = true;
+
+        let saveList = [...Save];
+        let duplicateSearch = saveList.filter(item => item.product_id === product_id)
+        if(saveList.length > 0){
+            if(duplicateSearch.length > 0){
+                // let newList = saveList.filter(item => item !== duplicateSearch[0])
+                // dispatch(setSaveTo(newList))
+                UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    console.log(result)
+                    dispatch(setSaveTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }else{
+                
+                SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    console.log(result)
+
+                    dispatch(setSaveTo(result))
+                    e.target.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
+        }else{
+            SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+            .then((result) => {
+                dispatch(setSaveTo(result))
+                e.target.disabled = false;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         }
     }
 
@@ -134,7 +206,7 @@ const Product = () => {
                             <hr />
                             <br />
 
-                            <div style={BtnStyles}>
+                            <div style={BtnStyles} onClick={e => navigate(`/checkout/${btoa(item.product_id)}`)}>
                                 Buy Now
                             </div>
 
@@ -158,29 +230,29 @@ const Product = () => {
                                 backgroundColor: '#fff',
                                 margin: '0'
                             }}>
-                                <span onClick={e => AddToCart(item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => AddToCart(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     <span>
                                         <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                                     </span>
-                                    <span>{[...Cart].filter(product_id => product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
-                                </span>
-                                <span style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                    <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                                </button>
+                                <button onClick={e => Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     <span>
                                         <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
                                     </span>
                                     <span style={{marginTop: '0'}}>
-                                        Save
+                                        {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
                                     </span>
-                                </span>
+                                </button>
                             </div>
 
 
                            
 
-                            <section style={{fontWeight: '700', padding: '10px'}}>
+                            {/* <section style={{fontWeight: '700', padding: '10px'}}>
                                 
                                 <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
-                            </section>
+                            </section> */}
 
                             <section style={{fontWeight: '500', display: 'flex', flexDirection: 'column', padding: '10px', position: 'relative', width: '100%',}}>
                                 <div>Share With Your Friends</div>
