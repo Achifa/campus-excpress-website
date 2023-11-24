@@ -95,7 +95,7 @@
 
     .seller-profile-setup{
         height: calc(100vh - 100px);
-        width: calc(100% - 200px);
+        width: calc(100% - 0px);
         margin: auto;
         overflow: auto;
         padding: 10px;
