@@ -4,15 +4,25 @@ import emailSvg from '../../assets/email-svgrepo-com.svg'
 import locationSvg from '../../assets/location-pin-svgrepo-com (2).svg'
 import timerSvg from '../../assets/timer-svgrepo-com.svg'
 import dateSvg from '../../assets/date-2-svgrepo-com.svg'
-
+import { useEffect, useState } from "react";
 import totalSvg from '../../assets/money-total-line-svgrepo-com.svg'
 import soldSvg from '../../assets/sold-svgrepo-com.svg'
 import unsoldSvg from '../../assets/for-sale-post-svgrepo-com.svg'
 import reportedSvg from '../../assets/report-flag-1419-svgrepo-com.svg'
 import returnedSvg from '../../assets/return-svgrepo-com.svg'
-
- 
+import { GetSeller } from '../../api/seller'
 const Profile = () => {
+
+    let [userData, setUserData] = useState('')
+
+    useEffect(() => {
+        GetSeller(window.localStorage.getItem('CE_seller_id'))
+        .then((result) => {
+            setUserData(result)
+        })
+        .catch((err) => console.log(err))
+    }, [])
+    
     return ( 
         <>
             <div className="seller-profile-cnt">
@@ -28,7 +38,7 @@ const Profile = () => {
                                 </span>
                                 &nbsp;
                                 &nbsp;
-                                <span>Akpulu Fabian Chinedu</span>
+                                <span>{userData.fname ? userData.fname : 'Loading...'} {userData.lname ? userData.lname : 'Loading...'}</span>
                             </li>
                             
 
@@ -39,7 +49,7 @@ const Profile = () => {
                                 </span>
                                 &nbsp;
                                 &nbsp;
-                                <span>08032639894</span>
+                                <span>{userData.phone ? userData.phone : 'Loading...'} </span>
                             </li>
 
                             <li>
@@ -49,27 +59,17 @@ const Profile = () => {
                                 </span>
                                 &nbsp;
                                 &nbsp;
-                                <span>akpulufabian@gmail.com</span>
+                                <span>{userData.email ? userData.email : 'Loading...'} </span>
                             </li>
 
                             <li>
                                 <span>
                                     <img src={locationSvg} style={{height: '25px', width: '25px', marginBottom: '5px'}} alt="" />
-
                                 </span>
-                                &nbsp;
-                                &nbsp;
-                                <span>Awka, Unizik</span>
-                            </li>
 
-                            <li>
-                                <span>
-                                    <img src={dateSvg} style={{height: '25px', width: '25px', marginBottom: '5px'}} alt="" />
-
-                                </span>
                                 &nbsp;
                                 &nbsp;
-                                <span>August 30, 2003</span>
+                                <span>{userData.state ? userData.state : 'Loading...'}, {userData.campus ? userData.campus : 'Loading...'} </span>
                             </li>
 
                             <li>
@@ -79,74 +79,18 @@ const Profile = () => {
                                 </span>
                                 &nbsp;
                                 &nbsp;
-                                <span>Member since july 20, 2022</span>
+                                <span>Member Since {userData.date ? userData.date: 'Loading...'}</span>
                             </li>
                            
                         </ul>
                         <hr />
                     </div>
 
-                    <div className="seller-profile-body">
+                    {/* <div className="seller-profile-body">
                         <h5>Statistics</h5>
-                        <ul>
-                            <li>
-                                <span>
-                                <img src={totalSvg} style={{height: '25px', width: '25px', marginBottom: '5px'}} alt="" />
-
-                                </span>
-                                &nbsp;                                &nbsp;
-                                <span>
-                                    30 Items Total
-                                </span>
-                            </li>
-
-                            <li>
-                                <span>
-                                <img src={soldSvg} style={{height: '25px', width: '25px', marginBottom: '5px'}} alt="" />
-
-                                </span>
-                                &nbsp;                                &nbsp;
-                                <span>
-                                    10 Sold item
-                                </span>
-                            </li>
-
-                            <li>
-                                <span>
-                                <img src={unsoldSvg} style={{height: '25px', width: '25px', marginBottom: '5px'}} alt="" />
-
-                                </span>
-                                &nbsp;                                &nbsp;
-                                <span>
-                                    20 Unsold Items
-                                </span>
-                            </li>
-
-                            <li>
-                                <span>
-                                <img src={reportedSvg} style={{height: '25px', width: '25px', marginBottom: '5px'}} alt="" />
-
-                                </span>
-                                &nbsp;                                &nbsp;
-                                <span>
-                                    0 Reported Items
-                                </span>
-                            </li>
-
-                            <li>
-                                <span>
-                                <img src={returnedSvg} style={{height: '25px', width: '25px', marginBottom: '5px'}} alt="" />
-
-                                </span>
-                                &nbsp;                                &nbsp;
-                                <span>
-                                    0 Returned Items
-                                </span>
-                            </li>
-                          
-                        </ul>
+                        
                         <hr />
-                    </div>
+                    </div> */}
 
                     <div className="seller-profile-footer">
                         <h5>Earnings</h5>

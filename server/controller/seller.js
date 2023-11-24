@@ -7,6 +7,17 @@ const createToken = (id) => {
     });
 };
 
+async function GetSeller(req,res) {
+    let {seller_id} = req.body;
+    NeonDB.then((pool) => 
+        pool.query(`SELECt * FROM campus_sellers WHERE seller_id = '${seller_id}'`)
+        .then(result => res.send(result.rows[0]))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
 function uploadProduct(req,res) {
 
     let {
@@ -230,4 +241,4 @@ async function WalletData(req,res)  {
 }
 
 
-module.exports = {uploadProduct,Shop,RegisterSeller,WalletData,LogSellerIn,Overview}
+module.exports = {uploadProduct,GetSeller,Shop,RegisterSeller,WalletData,LogSellerIn,Overview}

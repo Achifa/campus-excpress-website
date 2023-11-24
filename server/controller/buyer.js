@@ -111,11 +111,23 @@ async function GetBuyer(req,res) {
 
 async function GetItems(req,res) {
 
-    NeonDB.then((pool) => 
-        pool.query(`select * from seller_shop`)
-        .then(result =>  res.send(result.rows))
-        .catch(err => console.log(err))
-    )
+    let {category} = req.query;
+
+    if(category === 'trends'){
+        NeonDB.then((pool) => 
+            pool.query(`select * from seller_shop`)
+            .then(result =>  res.send(result.rows))
+            .catch(err => console.log(err))
+        )
+    }else{
+        NeonDB.then((pool) => 
+            pool.query(`select * from seller_shop`)
+            .then(result =>  res.send(result.rows.filter(item => item.category.toLowerCase() === category)))
+            .catch(err => console.log(err))
+        )
+    }
+
+    
     
 
 }
@@ -126,19 +138,13 @@ async function GetItem(req,res) {
 
     let book = []
 
-    id.map(item => 
-        NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop where product_id = '${item}'`)
-            .then(result =>  {
-                book.push(result.rows[0])
-                if(book.length === id.length){
-                    res.send(book)
-                }
-            })
-            .catch(err => console.log(err))
-        )
-
-
+    NeonDB.then((pool) => 
+        pool.query(`select * from seller_shop where product_id = '${id}'`)
+        .then(result =>  {
+            res.send(result.rows[0])
+            
+        })
+        .catch(err => console.log(err))
     )
     
 
@@ -474,7 +480,25 @@ function UpdateCart(req,res) {
     }
 }
 
-module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, GetBuyer, UpdateCart}
+function GetSearchWord(req,res) {
+    let {word} = req.query;
+    NeonDB.then((pool) => 
+        pool.query(`select * from "seller_shop"`)
+        .then((result) => {
+            let list = result.rows;
+            console.log(word)
+            res.json(list.filter(item => item.title.toLowerCase().indexOf(word.toLowerCase()) > -1))
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    )
+    .catch(err => console.log(err))
+}
+
+
+
+module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, GetBuyer, UpdateCart, GetSearchWord}
 
 /**
  * 

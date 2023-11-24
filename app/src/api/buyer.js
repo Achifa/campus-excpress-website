@@ -50,9 +50,13 @@ export function GetBuyer(buyer_id) {
     })
 }
 
-export function GetItems(email,pwd) {
+export function GetItems(category) {
     return new Promise((resolve, reject) => {
-        axios.get(`${plug}/`, {})
+        axios.get(`${plug}/`, {
+            params: {
+                category
+            }
+        })
         .then((result) => {
             resolve(result.data)
         })
@@ -270,4 +274,19 @@ export function UpdateCartUnit(type,buyer_id,product_id) {
         })
     })
 }
+
+export function GetSearchWord(word) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${plug}/search-word`, {
+            params: {word}
+        })
+        .then((result) => { 
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 

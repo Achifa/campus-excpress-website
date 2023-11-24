@@ -1,4 +1,4 @@
-const { RegisterBuyer, LogBuyerIn, GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, UpdateCart, GetBuyer } = require("../controller/buyer");
+const { RegisterBuyer, LogBuyerIn, GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, UpdateCart, GetBuyer, GetSearchWord } = require("../controller/buyer");
 const { express, parser } = require("../modules");
 
 let buyer_route = express.Router();  
@@ -28,5 +28,7 @@ buyer_route.post('/save-item', parser, SaveItem);
 buyer_route.delete('/unsave-item', UnSaveItem);
 
 buyer_route.post('/update-cart-unit', parser, UpdateCart);
+
+buyer_route.get('/search-word', GetSearchWord);
 
 module.exports = {buyer_route}

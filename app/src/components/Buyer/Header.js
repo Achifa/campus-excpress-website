@@ -5,13 +5,15 @@ import userSvg from '../../assets/user-svgrepo-com (2).svg'
 import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
 import { CE_buyer_ID, CE_buyer_INITIAL } from "./Secrets";
 import '../../styles/Buyer/overlays.css'
+import '../../styles/search.css'
 import BuyerAside from "./Aside";
 import BuyerMenu from "./Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { setBuyerJsxTo } from "../../redux/buyer/BuyerOverlayJsx";
-import { GetCart, GetSavedItem } from "../../api/buyer";
+import { GetCart, GetSavedItem, GetSearchWord } from "../../api/buyer";
 import { setCartTo } from "../../redux/buyer/Cart";
 import { setSaveTo } from "../../redux/buyer/Save";
+import SearchResult from "./SearchResult";
 
 const BuyerHeader = () => {
 
@@ -23,12 +25,13 @@ const BuyerHeader = () => {
   let [buyerName,setBuyerName] = useState(null)
   //let [activeJsx, setActiveJsx]= useState(null)
   let [cartList,setCartList] = useState(0)
-
+  let [searchChar, setSearchChar] = useState('')
 
   let [screenWidth, setScreenWidth] = useState(0)
 
   let navigate = useNavigate()
   let dispatch = useDispatch()
+  let [searchResultElem, setSearchResultElem] = useState('')
 
   useEffect(() => {
       let width = window.innerWidth;
@@ -77,6 +80,17 @@ const BuyerHeader = () => {
     }
   }, [location])
 
+  useEffect(() => {
+    GetSearchWord(searchChar)
+    .then((result) => { 
+      console.log(result)
+      setSearchResultElem(<SearchResult list={result} />)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [searchChar])
+
   function handleOverlay(e) {
     let elem = document.querySelector('.buyer-overlay');
     if(elem.hasAttribute('id')){
@@ -89,91 +103,97 @@ const BuyerHeader = () => {
 
 
   
+  
 
   return ( 
-      <>
-          <div className="buyer-overlay" onClick={e => 
-            e.target === document.querySelector('.buyer-overlay') ? handleOverlay() : ''
-          }>
-            {
-              buyerJsx === 'filter' ? <BuyerAside /> : <BuyerMenu />
-            }
-          </div>
-          <div className="buyer-header ">
+    <>
+        
+        <div className="buyer-overlay" onClick={e => 
+          e.target === document.querySelector('.buyer-overlay') ? handleOverlay() : ''
+        }>
+          {
+            buyerJsx === 'filter' ? <BuyerAside /> : <BuyerMenu />
+          }
+        </div>
+        <div className="buyer-header ">
+
+        {
+          screenWidth > 479
+          ?
+          <h2 style={{fontWeight: '800', color: 'orangered'}}>Campus Express</h2>
+          :
+          <h5 style={{fontWeight: '1000', color: 'orangered'}}>Campus Express</h5>
+        }
 
           {
             screenWidth > 479
             ?
-            <h2 style={{fontWeight: '800', color: 'orangered'}}>Campus Express</h2>
-            :
-            <h5 style={{fontWeight: '1000', color: 'orangered'}}>Campus Express</h5>
+            <div className="input-cnt">
+              <input onInput={e => setSearchChar(e.target.value)} type="search" name="" placeholder="What Are You Looking For..." id="" />
+              <button>Search</button>
+            </div>
+            : 
+            ''
           }
 
-            {
-              screenWidth > 479
-              ?
-              <div className="input-cnt">
-                <input type="search" name="" placeholder="What Are You Looking For..." id="" />
-                <button>Search</button>
-              </div>
-              : 
-              ''
-            }
-
-            <section>
-              <ul>
-                <li onClick={e => navigate('/cart')}>
-                  <span style={{borderRadius: '50%'}}>{cartList}</span>
-                  <span>
-                    <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                  </span>
-                  {
-                    screenWidth <= 479
-                    ?
-                    ''
-                    : 
-                    <>
-                      &nbsp;
-                      <span>Cart</span>
-                    </>
-                  }
-                </li>
-                  {
-                    screenWidth <= 479
-                    ?
-                    ''
-                    :
-                    <li data-btn='filter' onClick={e => {
-                    dispatch(setBuyerJsxTo('filter'));
-                    handleOverlay();
-
-                  }}>
-                    <span>
-                      <img src={filterSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
-                    </span>
+          <section>
+            <ul>
+              <li onClick={e => navigate('/cart')}>
+                <span style={{borderRadius: '50%'}}>{cartList}</span>
+                <span>
+                  <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                </span>
+                {
+                  screenWidth <= 479
+                  ?
+                  ''
+                  : 
+                  <>
                     &nbsp;
+                    <span>Cart</span>
+                  </>
+                }
+              </li>
+                {
+                  screenWidth <= 479
+                  ?
+                  ''
+                  :
+                  <li data-btn='filter' onClick={e => {
+                  dispatch(setBuyerJsxTo('filter'));
+                  handleOverlay();
 
-                    <span>Filter</span>
-                    </li>
-                  }
-                <li  onClick={e => {
-                    dispatch(setBuyerJsxTo('menu'));
-                    buyerId != null ? handleOverlay() : navigate('/signup')
-                  }} style={{height: '100%', width: 'fit-content', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '5px'}}>
-                  <span style={{display: buyerId !== null ? 'none' : 'flex', width: '100%', height: '100%',  justifyContent: 'center', marginRight: '5px'}}>
-                    <img src={userSvg} style={{height: screenWidth > 479 ? '25px' : '18px', width: screenWidth > 479 ? '25px' : '18px', position: 'relative', borderRadius: '2.5px'}} alt="" />
+                }}>
+                  <span>
+                    <img src={filterSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
                   </span>
                   &nbsp;
-                  
 
-                   <span style={{fontSize: 'small'}}>{buyerId !== null ? buyerName : 'Login'}</span>
-                </li>
-              </ul>
-            </section>
+                  <span>Filter</span>
+                  </li>
+                }
+              <li  onClick={e => {
+                  dispatch(setBuyerJsxTo('menu'));
+                  buyerId != null ? handleOverlay() : navigate('/signup')
+                }} style={{height: '100%', width: 'fit-content', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '5px'}}>
+                <span style={{display: buyerId !== null ? 'none' : 'flex', width: '100%', height: '100%',  justifyContent: 'center', marginRight: '5px'}}>
+                  <img src={userSvg} style={{height: screenWidth > 479 ? '25px' : '18px', width: screenWidth > 479 ? '25px' : '18px', position: 'relative', borderRadius: '2.5px'}} alt="" />
+                </span>
+                &nbsp;
+                
 
-          </div>
-      </>
-    );
+                  <span style={{fontSize: 'small'}}>{buyerId !== null ? buyerName : 'Login'}</span>
+              </li>
+            </ul>
+          </section>
+          
+
+        </div>
+        {
+          searchResultElem
+        }
+    </>
+  );
 }
  
 export default BuyerHeader;

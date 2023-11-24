@@ -1,0 +1,27 @@
+.buyer-search-result{
+    height: 400px;
+    width: 400px;
+    background-color: #fff;
+    z-index: 10000000;
+    display: none;
+    position: fixed;
+    top: 100px;
+    left: 200px;
+
+}
+
+.buyer-search-result ul{
+    width: 100%;
+    background-color: #fff;
+}
+
+
+.buyer-search-result ul li{
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+    border-left: 1px solid #fff;
+    background-color: #fff;
+}

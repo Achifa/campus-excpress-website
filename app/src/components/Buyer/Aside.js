@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import items from '../../items.json'
 import { data, school_choices } from "../../location";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setCategoryTo } from "../../redux/buyer/Category";
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 const BuyerAside = () => {
     let [screenWidth, setScreenWidth] = useState(0)
     let [categories, setCategories] = useState('')
@@ -12,6 +15,8 @@ const BuyerAside = () => {
     let [stateValue, setStateValue] = useState('')
     let [school, setSchool] = useState([])
     let [schoolValue, setSchoolValue] = useState('')
+    let {category} = useSelector(s => s.Category)
+
 
     useEffect(() => {
         let width = window.innerWidth;
@@ -54,6 +59,8 @@ const BuyerAside = () => {
        }
     },[categories])
 
+    let dispatch = useDispatch()
+
     function handleOverlay(e) {
         let elem = document.querySelector('.buyer-overlay');
         if(elem.hasAttribute('id')){
@@ -75,11 +82,17 @@ const BuyerAside = () => {
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Category</label>
                         </div>
-                        <select name="" onInput={e => setCategories(e.target.value)} id="">
+                        <select name="" onInput={e => {dispatch(setCategoryTo(e.target.innerHTML.toLowerCase())); setCategories(e.target.value)}} id="">
                             <option value={''}>Select A Category</option>
 
                             {
                                 categoriesList.map((item, index) => 
+                                    
+
+                                    Object.keys(item)[0].toLocaleLowerCase() === category.toLocaleLowerCase()
+                                    ?
+                                    <option key={index} selected value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
+                                    :
                                     <option key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
                                 )
                             }
@@ -119,6 +132,7 @@ const BuyerAside = () => {
                     </div>
 
                     <div className="input-cnt" >
+                        <RangeSlider />
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;

@@ -17,7 +17,6 @@ import { setSaveTo } from "../../redux/buyer/Save";
 const Home = () => {
     let {Cart} = useSelector(s => s.Cart)
     let {Save} = useSelector(s => s.Save)
-    let {category} = useSelector(s => s.Category)
 
     let [screenWidth, setScreenWidth] = useState(0)
     let [items, setItems] = useState([])
@@ -30,13 +29,14 @@ const Home = () => {
     }, [])
 
     useEffect(() => {
-        GetItems(category)
+        GetItems()
         .then((result) => {
             setItems(result)
         })
         .catch(err => console.log(err))
 
-    }, [category])
+        console.log(Cart)
+    }, [])
 
 
     let BtnStyles = {
@@ -142,8 +142,6 @@ const Home = () => {
             <div className="buyer-dashboard-body">
 
                 { 
-                    items.length > 0
-                    ?
                     items.map((item) => 
                         <div className="cols" >
                             <div className="card" >
@@ -245,9 +243,9 @@ const Home = () => {
                             </div>
                         </div> 
                     )
-                    :
-                    <div><h3>No items under this category at the moment, please check back later</h3></div>
                 }
+
+               
                 
             </div>
 

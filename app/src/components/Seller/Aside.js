@@ -81,13 +81,13 @@ const Aside = () => {
                             <span>Wallet</span>
                         </li>
 
-                        <li onClick={e => navigate('/seller/profile')}>
+                        {/* <li onClick={e => navigate('/seller/profile')}>
                             <span>
                                 <img src={profileSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
                             &nbsp;                            &nbsp;
                             <span>Profile</span>
-                        </li>
+                        </li> */}
 
                     </ul>
                 </div>

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-let u1 = `http://192.168.0.3:1111`
+let u1 = `http://localhost:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u1;
+let plug = u2;
 
 export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id) {
     return new Promise((resolve, reject) => {
@@ -36,6 +36,20 @@ export function LogSellerIn(email,pwd) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/login`, {
             email,pwd
+        })
+        .then((result) => {
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+export function GetSeller(seller_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller`, {
+            seller_id
         })
         .then((result) => {
             resolve(result.data)

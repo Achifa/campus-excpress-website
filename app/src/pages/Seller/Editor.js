@@ -329,11 +329,11 @@ const Editor = () => {
 
 
                         <div className="seller-upload-btn " style={{width: '100%', padding: '0', marginTop: '20px', height: 'fit-content'}}>
-                            <div className="seller-item-preview-cnt">
+                            {/* <div className="seller-item-preview-cnt">
 
-                            </div>
+                            </div> */}
                             <button onClick={handleForm} style={{width: '100%', height: '55px', marginTop: '10px', borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
-                                <div>Upload</div>
+                                <div>Upload Item</div>
                             </button>
 
                         </div>
@@ -375,7 +375,7 @@ const Editor = () => {
                         </div>
 
                         
-                        <div className="seller-Ads-deal">
+                        {/* <div className="seller-Ads-deal">
                     
                             {
                                 plans.reverse().map((item, index) => 
@@ -474,7 +474,7 @@ const Editor = () => {
                                 )
                             }
 
-                        </div>
+                        </div> */}
                     </div>
 
                     
