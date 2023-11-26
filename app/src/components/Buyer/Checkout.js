@@ -24,8 +24,10 @@ const CheckOut = () => {
    
     useEffect(() => {
         if(atob(location.pathname.split('/')[2]).split("-").length > 1){
+
             GetItem(atob(location.pathname.split('/')[2]).split("-"))
             .then((result) => {
+
                 //console.log(atob(location.pathname.split('/')[2]))
                 let prices = []
                 result.map((item) => prices.push(eval(item.price)))
@@ -39,7 +41,7 @@ const CheckOut = () => {
             GetItem(atob(location.pathname.split('/')[2]).split("-"))
             .then((result) => {
                 let prices = []
-                result.map((item) => prices.push(eval(item[0].price)))
+                //result.map((item) => prices.push(eval(item[0].price)))
                 let total  = parseInt(atob(location.pathname.split('/')[3])) + parseInt(deliveryPrice.current);
                 setItem(result)
                 setTotal(total)
@@ -47,6 +49,7 @@ const CheckOut = () => {
             .catch(err => console.log(err))
         }
 
+        //console.log('total cost: ',atob(location.pathname.split('/')[2]).split("-").length);
         setTotalItem(atob(location.pathname.split('/')[2]).split("-").length);
         
     }, [])
@@ -115,6 +118,16 @@ const CheckOut = () => {
                         <ul>
                             <li>
                                 <div><b>Pick Up Station</b></div>
+                                <div><small>Unizik School Gate, Awka</small></div>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div className="input-cnt">
+                        <ul>
+                            <li>
+                                <div><b>Pick Date</b></div>
                                 <div><small>Delivers Between 24 November and 30 November.</small></div>
                             </li>
                         </ul>

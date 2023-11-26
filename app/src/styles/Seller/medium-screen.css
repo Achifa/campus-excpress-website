@@ -910,12 +910,16 @@
     }
     .seller-inbox-cnt{
         height: calc(100vh - 100px);
-        width: calc(100% - 200px);
+        width: calc(100% - 0px);
         margin: auto;
         overflow: auto;
-        padding: 40px;
+        padding: 10px;
         background-color: #fff;
         
+    }
+    .seller-inbox-cnt ul{
+        padding: 0;
+        margin: 0;
     }
     .seller-inbox-card{
         height: fit-content;

@@ -44,13 +44,14 @@ const Product = () => {
 
     useEffect(() => {
         
-        GetItem(location.pathname.split('/')[2])
+        GetItem([location.pathname.split('/')[2]])
         .then((result) => {
-            setItem(result)
+            setItem(result[0])
         })
         .catch(err => console.log(err))
 
     }, [])
+
   let {Cart} = useSelector(s => s.Cart)
 
   let navigate = useNavigate();
@@ -206,7 +207,7 @@ const Product = () => {
                             <hr />
                             <br />
 
-                            <div style={BtnStyles} onClick={e => navigate(`/checkout/${btoa(item.product_id)}`)}>
+                            <div style={BtnStyles} onClick={e => navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price)}`)}>
                                 Buy Now
                             </div>
 

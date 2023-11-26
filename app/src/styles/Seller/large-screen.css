@@ -908,6 +908,10 @@
         background-color: #fff;
         
     }
+    .seller-inbox-cnt ul{
+        padding: 0;
+        margin: 0;
+    }
     .seller-inbox-card{
         height: fit-content;
         padding: 0 0px 0 0px ;

@@ -77,6 +77,7 @@ function App() {
             <Route path='/wallet' element={<Wallets />}></Route>
             <Route path='/saved-item' element={<SavedItem />}></Route>
             <Route path='/product/:id' element={<ProductPage />}></Route>
+            <Route path='/checkout/:id' element={<Checkout />}></Route>
             <Route path='/checkout/:id/:id' element={<Checkout />}></Route>
             <Route path='/signup' element={<BuyerSignup />}></Route>
             <Route path='/login' element={<BuyerLogin />}></Route>

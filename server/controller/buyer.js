@@ -138,14 +138,22 @@ async function GetItem(req,res) {
 
     let book = []
 
-    NeonDB.then((pool) => 
-        pool.query(`select * from seller_shop where product_id = '${id}'`)
-        .then(result =>  {
-            res.send(result.rows[0])
-            
+    function getItems(items) {
+        items.map(data => {
+            NeonDB.then((pool) => 
+                pool.query(`select * from seller_shop where product_id = '${data}'`)
+                .then(result =>  {
+                    book.push(result.rows[0])
+                    if(book.length === id.length){
+                        res.send(book)
+                    }                    
+                })
+                .catch(err => console.log(err))
+            )
         })
-        .catch(err => console.log(err))
-    )
+    }
+
+    getItems(id)
     
 
 }
