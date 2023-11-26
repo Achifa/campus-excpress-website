@@ -23,7 +23,7 @@ const Cart = () => {
         list.map((item) => values.push(parseInt(item.children[1].innerHTML) * parseInt(item.dataset.price)))
         let total = sum(values, values.length)
         setSubTotal(total)
-        console.log(total)
+        console.log(list)
     }
 
     function sum(arr, n)
@@ -68,6 +68,7 @@ const Cart = () => {
             console.log(result)
             e.target.disabled = false;
             e.target.parentElement.remove()
+            getTotalPrice(); 
         })
         .catch((err) => {
             console.log(err)

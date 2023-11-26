@@ -188,7 +188,7 @@ async function AddToCart(req,res) {
     function insert_() { 
         return(
             NeonDB.then((pool) => 
-                pool.query(`insert into campus_express_buyer_cart(id,cart_id,product_id,date,buyer_id) values(DEFAULT, '${cart_id}', '${product_id}', '${date}', '${buyer_id}')`)
+                pool.query(`insert into campus_express_buyer_cart(id,cart_id,product_id,date,buyer_id,unit) values(DEFAULT, '${cart_id}', '${product_id}', '${date}', '${buyer_id}', ${1})`)
                 .then(result => result.rowCount > 0 ? (true) : (false))
                 .catch(err => console.log(err))
             )
@@ -500,8 +500,3 @@ function GetSearchWord(req,res) {
 
 module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, GetBuyer, UpdateCart, GetSearchWord}
 
-/**
- * 
-    id ,cart_id,product_id,date,buyer_id
- * 
- */

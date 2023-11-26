@@ -32,6 +32,7 @@ const CheckOut = () => {
                 let total  = parseInt(atob(location.pathname.split('/')[3])) + parseInt(deliveryPrice.current);
                 setItem(result)
                 setTotal(total)
+                console.log(total)
             })
             .catch(err => console.log(err))
         }else{
