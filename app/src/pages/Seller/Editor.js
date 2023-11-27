@@ -3,10 +3,15 @@ import '../../styles/plan_card.css'
 import '../../styles/loader.css'
 import '../../styles/Seller/overlay.css' 
 import Link from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import items from '../../items.json'
-import { uploadItem } from '../../api/seller';
+import { GetEditedItem, updateItem, uploadItem } from '../../api/seller';
+import { GetItem } from '../../api/buyer';
 const Editor = () => {
+
+    let location = useLocation();
+
+    let [edit,setEdit] = useState('')
 
     let navigate = useNavigate()
     let [productTitle, setProductTitle] = useState('')
@@ -19,6 +24,7 @@ const Editor = () => {
     let [productCondition, setProductCondition] = useState('')
     let [productPackage, setProductPackage] = useState('')
     let [productPhotos, setProductPhotos] = useState([])
+    let [screenWidth, setScreenWidth] = useState(0)
 
     let [categories, setCategories] = useState('')
     let [type, setType] = useState('')
@@ -46,6 +52,8 @@ const Editor = () => {
     useEffect(() => {
         setDescriptionCount(productDescription.length)
     }, [productDescription])
+
+    let [role, setRole] = useState(0)
 
     function Validation(element) {
 
@@ -154,6 +162,61 @@ const Editor = () => {
         }
     }
 
+    let updateForm = () => {
+        let inputs = [...document.querySelectorAll('input')]
+        let textareas = [...document.querySelectorAll('textarea')]
+        let selects = [...document.querySelectorAll('select')]
+
+        let allFields = [...inputs,...textareas,...selects]
+
+        allFields.map((item, index) => {
+            Validation(item)
+        })
+
+        let falseyList = []
+
+        for(let x in validationBoolean.current){
+            console.log(x)
+
+            if(validationBoolean.current[x] === false){
+                falseyList.push(false)
+            }else{
+                falseyList.push(true) 
+
+            }
+
+
+            
+        }
+
+        let result = falseyList.filter(item => item === false)
+
+
+        if(result.length > 0){
+            // let overlay = document.querySelector('.editor-overlay')
+            // overlay.setAttribute('id', 'editor-overlay');
+
+        }else{
+            let overlay = document.querySelector('.editor-overlay')
+            overlay.setAttribute('id', 'editor-overlay');
+            updateItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,window.localStorage.getItem("CE_seller_id"),edit.product_id)
+            .then((result) => {
+                result
+                ?
+                navigate('/seller/shop')
+                :
+                alert('Error Uploading Data...')
+                
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+
+
+      
+    }
+
 
     let handleForm = () => {
         let inputs = [...document.querySelectorAll('input')]
@@ -210,6 +273,31 @@ const Editor = () => {
       
     }
 
+    
+    let [update, setUpdate] = useState(false)
+
+    useEffect(() => {
+        if(location.search !== ''){
+            setUpdate(true)
+
+            GetEditedItem(location.search.split('=').splice(-1)[0])
+            .then((result) => {
+                setProductPhotos(result.photos.map(item => item.file))
+                setEdit(result.meta_data[0])
+                setProductCategory(result.meta_data[0].category)
+                setProductTitle(result.meta_data[0].title)
+                setProductDescription(result.meta_data[0].description)
+                setProductPrice(result.meta_data[0].price)
+                setProductStock(result.meta_data[0].stock)
+                setProductType(result.meta_data[0].type)
+                setProductCondition(result.meta_data[0].condition)
+                setProductLocale(result.meta_data[0].locale)
+            })
+            .catch(err => console.log(err))
+        }else{
+            
+        }
+    }, [location])
 
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([])
@@ -250,6 +338,13 @@ const Editor = () => {
         reader.readAsDataURL([...f.files][0]);
     } 
 
+    let removeImg = i => {
+
+        let list = productPhotos.filter((item, index) => index !== i)
+        setProductPhotos(list)
+        
+    }   
+
 
     return ( 
         <>
@@ -272,9 +367,15 @@ const Editor = () => {
                                         <option value={''}>Select A Category</option>
 
                                         {
-                                            categoriesList.map((item, index) => 
-                                                <option key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
-                                            )
+                                            categoriesList.map((item, index) => {
+                                                {/* <option key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option> */}
+
+                                                return(Object.keys(item)[0] === edit.category
+                                                ?
+                                                <option selected key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
+                                                :
+                                                <option key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>)
+                                            })
                                         }
                                     </select>
                                 </div>
@@ -286,6 +387,10 @@ const Editor = () => {
 
                                         {
                                             typeList.map((item, index) => 
+                                                item === edit.type
+                                                ?
+                                                <option selected key={index} value={item}>{item}</option>
+                                                :
                                                 <option key={index} value={item}>{item}</option>
                                             )
                                         }
@@ -299,6 +404,10 @@ const Editor = () => {
 
                                         {
                                             ["Brand New", "Fairly Used", "Refurbished","Used"].map((item, index) => 
+                                                item === edit.condition
+                                                ?
+                                                <option selected key={index} value={item}>{item}</option>
+                                                :
                                                 <option key={index} value={item}>{item}</option>
                                             )
                                         }
@@ -310,11 +419,11 @@ const Editor = () => {
 
                                 <div className="input-cnt">
                                     <label htmlFor="">Stock <small>(Quantity Availble For Sale)</small></label>
-                                    <input type="number" name='stock' placeholder="Stock" onInput={e => setProductStock(e.target.value)} />
+                                    <input type="number" defaultValue={edit.stock} name='stock' placeholder="Stock" onInput={e => setProductStock(e.target.value)} />
                                 </div>
                                 <div className="input-cnt">
                                     <label htmlFor="">Price</label>
-                                    <input min={0} name='price' onInput={e => setProductPrice(e.target.value)} type="number" placeholder="Price"  />
+                                    <input min={0} defaultValue={edit.price} name='price' onInput={e => setProductPrice(e.target.value)} type="number" placeholder="Price"  />
                                 </div>
 
                                 {/*<div className="input-cnt">
@@ -332,8 +441,8 @@ const Editor = () => {
                             {/* <div className="seller-item-preview-cnt">
 
                             </div> */}
-                            <button onClick={handleForm} style={{width: '100%', height: '55px', marginTop: '10px', borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
-                                <div>Upload Item</div>
+                            <button onClick={e => update ? updateForm(e) : handleForm(e)} style={{width: '100%', height: '55px', marginTop: '10px', borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
+                                <div>{update ? 'Update' : 'Upload'}</div>
                             </button>
 
                         </div>
@@ -343,7 +452,7 @@ const Editor = () => {
                     <div className="seller-shop-description shadow-sm" style={{textAlign: 'left', justifyContent: 'left'}}>
                         <div className="input-cnt" style={{width: '100%', padding: '0', position: 'relative'}}>
                             {/*<label htmlFor="">Description</label>*/}
-                            <textarea maxLength={60} placeholder="Title" name='title' className="seller-shop-title shadow-sm" onInput={e => {
+                            <textarea defaultValue={edit.title} maxLength={60} placeholder="Title" name='title' className="seller-shop-title shadow-sm" onInput={e => {
                                 setProductTitle(e.target.value)
                             }}>
                                 
@@ -354,7 +463,7 @@ const Editor = () => {
                         <div className="seller-shop-samples shadow-sm">
                             
                             <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center', }}>
-                                <h6>Click here to Upload photo</h6>
+                                <small>Click here to Upload photo</small>
                             </label>
                             <input type="file" name="file" style={{display: 'none'}} id="files" onChange={handleImage} />
 
@@ -362,7 +471,10 @@ const Editor = () => {
                                 {
                                     productPhotos.map((item, index) => 
                                     
-                                        <img src={item} key={index} style={{height: '100%', width: '200px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} alt="" />
+                                        <div style={{position: 'relative', padding: '0', height: '100%'}}>
+                                            <div onClick={e => removeImg(index)} className="delete-sample-img" style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', background: 'red', zIndex: '1000', width: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2.5px', height: '20px'}}>x</div>
+                                            <img src={item} key={index} style={{height: '100%', width: screenWidth <= 480 ? '100px' : '200px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} alt="" />
+                                        </div>
                                     )
                                 }
                             </section>
@@ -370,7 +482,7 @@ const Editor = () => {
 
                         <div className="input-cnt" style={{width: '100%', position: 'relative', padding: '0'}}>
                             {/*<label htmlFor="">Description</label>*/}
-                            <textarea maxLength={650} name='description' onInput={e => setProductDescription(e.target.value)} placeholder="Description" className="seller-shop-desc shadow-sm"></textarea>
+                            <textarea defaultValue={edit.description} maxLength={650} name='description' onInput={e => setProductDescription(e.target.value)} placeholder="Description" className="seller-shop-desc shadow-sm"></textarea>
                             <div style={{height: 'fit-content', position: 'absolute', right: '10px', fontSize: 'small', bottom: '5px'}}>{descriptionCount}/650</div>
                         </div>
 

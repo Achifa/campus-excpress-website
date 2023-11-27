@@ -40,7 +40,17 @@ const Product = () => {
     let {ItemImages} = useSelector(s => s.itemImages)
     let {ActiveImg} = useSelector(s => s.ActiveImg)
 
+    let [role, setRole] = useState(0)
+
     let location = useLocation()
+
+    useEffect(() => {
+        if(location.search !== ''){
+            setRole(1)
+        }else{
+            setRole(0)
+        }
+    }, [location])
 
     useEffect(() => {
         
@@ -190,13 +200,13 @@ const Product = () => {
 
                             <section>
                                 <div>
-                                    <span><span style={{color: '#626262'}}>Seller :</span> <span style={{color: 'orangered'}}>Jacob N.N</span></span> <span>&#x2022;</span> <span><span style={{color: '#626262'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700'}}>{item.product_id}</span></span>
+                                    <span><span style={{color: '#626262'}}>Shop ID :</span> <span style={{color: 'orangered'}}>CE_4590-ddf</span></span> <span>&#x2022;</span> <span><span style={{color: '#626262'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700'}}>{item.product_id}</span></span>
                                 </div>
                                 <div>
-                                    <span><span style={{color: '#626262'}}>Seller Rating:</span> <span style={{color: 'orangered'}}>Jacob N.N</span></span>
+                                    <span><span style={{color: '#626262'}}>Shop Rating:</span> <span style={{color: 'orangered'}}>Jacob N.N</span></span>
                                 </div>
 
-                               
+                                
                             </section>
                             <hr />
 
@@ -207,8 +217,14 @@ const Product = () => {
                             <hr />
                             <br />
 
-                            <div style={BtnStyles} onClick={e => navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price)}`)}>
-                                Buy Now
+                            <div style={BtnStyles} onClick={e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price)}`) : navigate(`/seller/editor?product_id=${item.product_id}`)}>
+                                {
+                                    role === 0
+                                    ?
+                                    'Buy Now'
+                                    :
+                                    'Edit'
+                                }
                             </div>
 
                             <br />
@@ -232,18 +248,36 @@ const Product = () => {
                                 margin: '0'
                             }}>
                                 <button onClick={e => AddToCart(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
-                                    <span>
-                                        <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                                    </span>
-                                    <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                                    {
+                                        role === 0
+                                        ?
+                                        <>
+
+                                            <span>
+                                                <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                            </span>
+                                            <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                                        </>
+                                        :
+                                        'Delete'
+                                    }
                                 </button>
-                                <button onClick={e => Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
-                                    <span>
-                                        <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
-                                    </span>
-                                    <span style={{marginTop: '0'}}>
-                                        {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
-                                    </span>
+                                <button onClick={e => Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: role === 0 ? 'flex' : 'none', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                    {
+                                        role === 0 
+                                        ?
+                                        <>
+                                            <span>
+                                                <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
+                                            </span>
+                                            <span style={{marginTop: '0'}}>
+                                                {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
+                                            </span>
+                                        </>
+
+                                        :
+                                        ''
+                                    }
                                 </button>
                             </div>
 
@@ -255,7 +289,7 @@ const Product = () => {
                                 <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
                             </section> */}
 
-                            <section style={{fontWeight: '500', display: 'flex', flexDirection: 'column', padding: '10px', position: 'relative', width: '100%',}}>
+                            <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', padding: '10px', position: 'relative', width: '100%',}}>
                                 <div>Share With Your Friends</div>
                                 <ul>
                                     <li style={{border: 'none', padding: '0',cursor: 'pointer'}}>
@@ -284,52 +318,62 @@ const Product = () => {
                         </section>
                     </div>
 
-                    <div className="buyer-product-related-items">
-                        <h4 style={{padding:'10px'}}>Similar Items You May Like</h4>
+                    {
+                        role === 0
+                        ?
+                        <>
+                            <div className="buyer-product-related-items">
+                            <h4 style={{padding:'10px'}}>Similar Items You May Like</h4>
 
-
-                        <ul>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
-                        
-                    </div>
-
-                    <div className="buyer-product-seller-details">
-
-                        <section className="buyer-seller-history">
-                            <h4>Seller's History  (10)</h4>
-                            <br />
 
                             <ul>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
                             </ul>
+                            
+                            </div>
 
-                        </section>
+                            <div className="buyer-product-seller-details">
 
-                        {/*<section className="buyer-seller-products">
-                            <h4>Seller's Products  (10)</h4>
-                            <ul>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                                <li className="shadow-sm"></li>
-                            </ul>
-    </section>*/}
+                                <section className="buyer-seller-history">
+                                    <h4>Seller's History  (10)</h4>
+                                    <br />
 
-                    </div>
+                                    <ul>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                    </ul>
+
+                                </section>
+
+                                {/*<section className="buyer-seller-products">
+                                    <h4>Seller's Products  (10)</h4>
+                                    <ul>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                        <li className="shadow-sm"></li>
+                                    </ul>
+            </section>*/}
+
+                            </div>
+
+                        </>
+
+                        :
+                        ''
+                    }
 
                 </div>
             </div>

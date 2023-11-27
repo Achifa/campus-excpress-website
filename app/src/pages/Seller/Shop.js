@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { SHOP } from '../../api/seller'
 import jsAgo from 'js-ago'
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
+import Thumbnail from '../../components/Seller/Thumbnail'
 
 const Shop = () => {
     let [Items, setItems] = useState([])
@@ -29,7 +30,7 @@ const Shop = () => {
                 Items.map((item, index) => {
                     return(
                         <div key={index} className="seller-libs-card shadow-sm">
-                            <img src={activeImg} alt="" />
+                            <Thumbnail product_id={item.product_id} seller_id={item.seller_id} />
 
                             <div className="seller-libs-body">
 

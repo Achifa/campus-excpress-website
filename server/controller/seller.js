@@ -73,6 +73,65 @@ function uploadProduct(req,res) {
 
 }
 
+function updateProduct(req,res) {
+
+    let {
+        productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id,product_id
+    } = req.body;
+
+    let date = new Date();
+    let description = productDescription.replace(/'/g, '"');;
+    let title = productTitle.replace(/'/g, '"');;
+    let book = []
+    let imageId = shortId.generate();
+
+    new Promise((resolve, reject) => {
+        NeonDB.then((pool) => 
+            pool.query(`UPDATE seller_shop set date='${date}', title='${title}', category='${productCategory}', type='${productType}', condition='${productCondition}', stock='${productStock}', locale='${productLocale}', price='${productPrice}', description='${description}' WHERE product_id = '${product_id}'`)
+            .then(result => {
+                result.rowCount > 0 ? resolve(true) : reject(false)
+            })
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+
+    })
+    .then((response) => 
+
+        response
+        ?
+        NeonDB.then((pool) => 
+            pool.query(`DELETE FROM product_photo WHERE product_id = '${product_id}'`)
+            .then(result => result.rowCount > 0 ? (true) : (false))
+            .catch(err => console.log(err))
+        )  
+        : 
+        false
+    )
+    .then(async(response) => {
+       
+        productPhotos.map(item => 
+            NeonDB.then((pool) => 
+                pool.query(`insert into product_photo(id,product_id,seller_id,file,image_id) values(DEFAULT, '${product_id}', '${seller_id}', '${item}', '${imageId}')`)
+                .then(result => {
+                    console.log(result)
+
+                    result.rowCount > 0 ? book.push(true) : book.push(false)
+                    if(book.length === productPhotos.length){
+                        res.send(true)
+                    }
+                })
+                .catch(err => console.log(err))
+            )    
+        )
+
+    })
+    
+    .catch(err => console.log(err))
+
+
+}
+
 async function RegisterSeller(req,res) {
 
     let {fname,lname,email,phone,pwd,state,campus} = req.body;
@@ -240,5 +299,42 @@ async function WalletData(req,res)  {
 
 }
 
+async function GetEditedItem(req,res)  {
+    let {product_id} = req.query;
+    function getMetadata(params) {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`select * from seller_shop where product_id = '${product_id}'`)
+                .then(result => (result.rows))
+                .catch(err => {
+                    console.log(err)
+                })
+            )
+            .catch(err => {
+                console.log(err)
+            })
+        )
+    }
 
-module.exports = {uploadProduct,GetSeller,Shop,RegisterSeller,WalletData,LogSellerIn,Overview}
+    function getThumnails(params) {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`select file from product_photo where product_id = '${product_id}'`)
+                .then(result => (result.rows))
+                .catch(err => {
+                    console.log(err)
+                })
+            )
+            .catch(err => {
+                console.log(err)
+            })
+        )
+    }
+
+    let meta_data = await getMetadata()
+    let photos = await getThumnails()
+
+    res.status(200).send({meta_data, photos})
+}
+
+module.exports = {uploadProduct,GetEditedItem,GetSeller,Shop,RegisterSeller,WalletData,LogSellerIn,Overview,updateProduct}

@@ -88,6 +88,8 @@ function App() {
             <Route path='/seller/signup' element={<Signup />}></Route>
             <Route path='/seller/login' element={<SellerLogin />}></Route>
             <Route path='/seller/editor' element={<Editor />}></Route>
+            <Route path='/seller/editor/:id' element={<Editor />}></Route>
+            <Route path='/product/:id' element={<ProductPage />}></Route>
             <Route path='/seller/shop' element={<Shop />}></Route>
             <Route path='/seller/orders' element={<Order/>}></Route>
             <Route path='/seller/inbox' element={<Inbox/>}></Route>

@@ -44,8 +44,16 @@
     .seller-aside-logo{
         height: 60px;
         width: 100%;
-        margin-top: 20px;
-        background-color: orangered;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: large;
+        font-weight: 1000;
+        color: orangered;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        background-color: #fff;
     }
 
     .seller-aside .seller-aside-nav ul{
@@ -218,17 +226,27 @@
         width: 100%;
         padding: 5px;
         display: flex;
-        height: 200px;
+        height: 100px;
         text-align: left;
         background-color: #f9f9f9;
     }
 
     .seller-shop-samples label{
-        width: 200px;
+        width: 100px;
+        font-size: small;
+        height: 100%;
+        margin: 0px 5px;
+        background: rgb(255, 255, 255);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-align: center;
     }
 
     .seller-product-image-cnt{
-        width: calc(100% - 200px);
+        width: calc(100% - 100px);
         padding: 5px;
         height: 100%;
         position: relative;

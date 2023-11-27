@@ -18,6 +18,20 @@ export function uploadItem(productTitle,productDescription,productCategory,produ
     })
 }
 
+export function updateItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id,product_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/product-update`, {
+            productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id,product_id
+        })
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
 export function RegisterSeller(fname,lname,email,phone,pwd,state,campus) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/registration`, {
@@ -98,4 +112,43 @@ export function createBill(seller_id) {
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )
+}
+
+export function GET_PRODUCT_THUMBNAIL(product_id) {
+    
+    return new Promise((resolve, reject) => {
+
+        axios.get(`${plug}/thumbnail`, {
+            params: {
+                product_id
+            } 
+        })
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    })
+}
+
+
+export function GetEditedItem(product_id) {
+    
+    return new Promise((resolve, reject) => {
+
+        axios.get(`${plug}/seller-edited-item`, {
+            params: {
+                product_id
+            } 
+        })
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    })
 }
