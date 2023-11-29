@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { data, school_choices } from '../../location';
-import { GetSeller } from "../../api/seller";
+import { GetSeller, updateSellerProfile } from "../../api/seller";
 
 const ProfileSetup = () => {
     let [userData, setUserData] = useState('')
@@ -32,11 +32,11 @@ const ProfileSetup = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [CampusisFocus, setCampusIsFocus] = useState(false);
 
-    // let Registration = () => {
-    //     RegisterSeller(fname,lname,email,phone,pwd,state,campus)
-    //     .then((result) => result ? navigate('/seller/login') : '')
-    //     .catch((err) => console.log(err))
-    // }
+    let UpdateProfile = () => {
+        updateSellerProfile(fname,lname,state,campus,window.localStorage.getItem('CE_seller_id'))
+        .then((result) => result ? alert('Profile updated successfully...') : '')
+        .catch((err) => console.log(err))
+    }
 
     useEffect(() => {
         setCampusLocaleList([])
@@ -59,7 +59,7 @@ const ProfileSetup = () => {
                         </section>
                         <section>
                             <label htmlFor="">LastName</label>
-                            <input defaultValue={userData ? userData.fname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
+                            <input defaultValue={userData ? userData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
                         </section>
                     </div>
 
@@ -67,20 +67,20 @@ const ProfileSetup = () => {
                     <div className="seller-input-cnt">
                         <section style={{width: '70%'}}>
                             <label htmlFor="">Email</label>
-                            <input defaultValue={userData ? userData.email : ''} onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
+                            <input value={userData ? userData.email : ''} onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
                         </section>
                         <section style={{width: '30%'}}>
-                            <button>Verify</button>
+                            <button style={{fontSize: 'small'}}>Change</button>
                         </section>
                     </div>
 
                     <div className="seller-input-cnt">
                         <section style={{width: '70%', float: 'left'}}>
                             <label htmlFor="">Phone</label>
-                            <input defaultValue={userData ? userData.phone : ''} onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
+                            <input value={userData ? userData.phone : ''} onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
                         </section>
                         <section style={{width: '30%'}}>
-                            <button>Verify</button>
+                            <button style={{fontSize: 'small'}}>Change</button>
                         </section>
                     </div>
 
@@ -128,7 +128,7 @@ const ProfileSetup = () => {
                 
                     <div className="seller-input-cnt">
                         
-                        <button onClick={e => {e.preventDefault(); }}>Update</button>
+                        <button onClick={e => {e.preventDefault(); UpdateProfile();}}>Update</button>
                         
                     </div>
 

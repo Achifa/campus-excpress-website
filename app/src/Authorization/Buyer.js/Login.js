@@ -18,22 +18,22 @@ const BuyerLogin = () => {
     }
     return ( 
         <>
-            <div className="buyer-login-cnt">
+            <div className="seller-login-cnt">
                 <section className="shadow-sm">
-                    <h3 style={{color: 'orangered'}}>Login Here</h3>
+                    
                     <form action="">
                     
 
 
                      
 
-                        <div style={{flexDirection: 'column', alignItems: 'flex-start'}} className="buyer-input-cnt">
+                        <div style={{flexDirection: 'column', alignItems: 'flex-start'}} className="seller-input-cnt">
                             <label htmlFor="">Email</label>
                             <input onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
                             
                         </div>
 
-                        <div style={{flexDirection: 'column', alignItems: 'flex-start'}} className="buyer-input-cnt">
+                        <div style={{flexDirection: 'column', alignItems: 'flex-start'}} className="seller-input-cnt">
                             <label htmlFor="">Password</label>
                             <input onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="text" />
                             
@@ -43,7 +43,7 @@ const BuyerLogin = () => {
 
                         
                       
-                        <div className="buyer-input-cnt">
+                        <div className="seller-input-cnt">
                             
                            <button onClick={e => {e.preventDefault(); Login()}}>Login</button>
                             
@@ -53,7 +53,7 @@ const BuyerLogin = () => {
                     <div>
                         <small>Forgot Password? Recover Password Here</small>
                     </div>
-                    <div>
+                    <div onClick={e => navigate('/signup')}>
                         <small>Don't Have An Account, Signup Here</small>
                     </div>
                 </section>

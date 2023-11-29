@@ -75,3 +75,41 @@ process.on('unhandledRejection', (reason, promise) => {
   // or whatever crash reporting service you use
 });
 
+
+
+async function SendTokenViaEmail(req,res) {
+  const rp = require('request-promise');
+
+  const apiKey = process.env.Elastic_API;
+  const endpoint = 'https://api.elasticemail.com/v2/email/send';
+
+  const sendEmail = async () => {
+    const options = {
+      method: 'POST',
+      uri: endpoint,
+      qs: {
+        apiKey: apiKey,
+      },
+      json: true,
+      body: {
+        to: 'campusexpressnaija@gmail.com',
+        subject: 'Your Subject',
+        from: 'akpulufabian@gmail.com',
+        bodyHtml: '<p>Your HTML content here</p>',  
+      },
+    };
+
+    try {
+      const response = await rp(options);
+      console.log('Email sent successfully:', response);
+    } catch (error) {
+      console.error('Error sending email:', error.message); 
+    }
+  };
+
+  sendEmail(); 
+		
+
+}
+
+SendTokenViaEmail()

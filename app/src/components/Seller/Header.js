@@ -53,9 +53,15 @@ const Header = () => {
 
 
 
-                <button onClick={handleMenu} style={{display: screenWidth <= 760 ? 'block' : 'none', float: 'right', width: '100px', outline: 'none', border: 'none', marginTop: '4px',  padding: '10px', borderRadius: '5px', background: 'orangered', color: '#fff', position: 'absolute', right: '10px', }}>
-                    Menu
-                </button>
+                {
+                    location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login'
+                    ?  
+                    <h5>Campus Express</h5>
+                    : 
+                    <button onClick={handleMenu} style={{display: screenWidth <= 760 ? 'block' : 'none', float: 'right', width: '100px', outline: 'none', border: 'none', marginTop: '4px',  padding: '10px', borderRadius: '5px', background: 'orangered', color: '#fff', position: 'absolute', right: '10px', }}>
+                        Menu
+                    </button>
+                }
                 
 
             </div>

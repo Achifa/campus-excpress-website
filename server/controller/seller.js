@@ -6,6 +6,58 @@ const createToken = (id) => {
         expiresIn: maxAge
     });
 };
+require('dotenv').config();
+
+// async function SendTokenViaEmail(req,res) {
+//     let {email,fname,lname} = req.body;
+//     const { MailtrapClient } = require("mailtrap");
+
+//     const TOKEN = process.env.EMAIL_TOKEN;
+//     let key = shortId.generate()
+//     const ENDPOINT = "https://send.api.mailtrap.io/";
+
+//     const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });
+
+//     const sender = {
+//     email: "campusexpressnaija@gmail.com",
+//     name: "Campus Express Nigeria",
+//     };
+//     const recipients = [
+//         {
+//             email: email,
+//         }
+//     ];
+
+//     client
+//     .send({
+//         from: sender,
+//         to: recipients,
+//         subject: "Campus Express Email Verification",
+//         text: `
+
+//         Dear ${fname} ${lname},
+        
+//         Thank you for signing up with Campus Express Nigeria! We're thrilled to have you on board.
+        
+//         To ensure the security of your account and activate your subscription, we need to verify your email address. Please copy and paste the Token below in the field provided to complete the verification process:
+        
+//         ${key}
+        
+//         Once your email address is verified, you'll have full access to all the features and benefits of our platform.
+        
+//         If you did not sign up for Campus Express Nigeria, please ignore this email. Someone may have entered your email address by mistake.
+        
+//         If you have any questions or need assistance, feel free to reply to this email, and our support team will be happy to help.
+        
+//         Thank you for choosing Campus Express Nigeria.
+        
+//         Best regards,
+//         Campus Express Nigeria
+//         `,
+//         category: "Email Verification",
+//     })
+//     .then(console.log, console.error);
+// }
 
 async function GetSeller(req,res) {
     let {seller_id} = req.body;
@@ -16,6 +68,29 @@ async function GetSeller(req,res) {
     )
     .catch(err => console.log(err))
 
+}
+
+function updateSellerProfile(req,res) {
+    let {
+        fname,lname,state,campus,seller_id
+    } = req.body;
+
+    let date = new Date();
+
+    new Promise((resolve, reject) => {
+        NeonDB.then((pool) => 
+            pool.query(`UPDATE campus_sellers set date='${date}', fname='${fname}', lname='${lname}', state='${state}', campus='${campus}' WHERE seller_id = '${seller_id}'`)
+            .then(result => {
+                result.rowCount > 0 ? resolve(true) : reject(false)
+            })
+            .catch(err => console.log(err))
+        )
+        .then((result) => res.send(result))
+        .catch(err => console.log(err))
+
+    })
+   
+    .catch(err => console.log(err))
 }
 
 function uploadProduct(req,res) {
@@ -337,4 +412,4 @@ async function GetEditedItem(req,res)  {
     res.status(200).send({meta_data, photos})
 }
 
-module.exports = {uploadProduct,GetEditedItem,GetSeller,Shop,RegisterSeller,WalletData,LogSellerIn,Overview,updateProduct}
+module.exports = {uploadProduct,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct}

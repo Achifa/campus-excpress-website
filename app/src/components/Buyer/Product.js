@@ -83,7 +83,7 @@ const Product = () => {
         cursor: 'pointer',
         textAlign: 'center',
         color: '#fff',
-        display: 'flex', 
+        display: role === 0 ? 'flex' : 'none', 
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
@@ -188,8 +188,8 @@ const Product = () => {
                 <div className="buyer-product-cnt">
                     <div className="buyer-product-data">
                         <div id="left">
-                            <div className="img-cnt">
-                                <img src={activeImg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
+                            <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, backgroundRepeat: 'no-repeat', backgroundSize: '150px 150px', backgroundPosition: 'center'}}>
+                                {/* <img src={activeImg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" /> */}
                             </div>
                             <ItemImgs />
                         </div>
@@ -218,13 +218,7 @@ const Product = () => {
                             <br />
 
                             <div style={BtnStyles} onClick={e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price)}`) : navigate(`/seller/editor?product_id=${item.product_id}`)}>
-                                {
-                                    role === 0
-                                    ?
-                                    'Buy Now'
-                                    :
-                                    'Edit'
-                                }
+                                Buy Now
                             </div>
 
                             <br />
@@ -262,7 +256,7 @@ const Product = () => {
                                         'Delete'
                                     }
                                 </button>
-                                <button onClick={e => Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: role === 0 ? 'flex' : 'none', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0 
                                         ?
@@ -276,7 +270,7 @@ const Product = () => {
                                         </>
 
                                         :
-                                        ''
+                                        'Edit'
                                     }
                                 </button>
                             </div>

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let u1 = `http://localhost:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u2;
+let plug = u1;
 
 export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id) {
     return new Promise((resolve, reject) => {
@@ -22,6 +22,20 @@ export function updateItem(productTitle,productDescription,productCategory,produ
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/product-update`, {
             productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id,product_id
+        })
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function updateSellerProfile(fname,lname,state,campus,seller_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/profile-update`, {
+            fname,lname,state,campus,seller_id
         })
         .then((result) => {
             resolve(result)

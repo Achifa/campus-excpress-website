@@ -19,8 +19,9 @@ const SellerLogin = () => {
     return ( 
         <>
             <div className="seller-login-cnt">
+
                 <section className="shadow-sm">
-                    <h3 style={{color: 'orangered'}}>Login Here</h3>
+                    <h5 style={{color: 'orangered'}}>Login Here</h5>
                     <form action="">
                     
 
@@ -50,10 +51,10 @@ const SellerLogin = () => {
                         </div>
                     </form>
 
-                    <div>
+                    <div onClick={e => navigate('/seller/reset-password')}>
                         <small>Forgot Password? Recover Password Here</small>
                     </div>
-                    <div>
+                    <div onClick={e => navigate('/seller/signup')}>
                         <small>Don't Have An Account, Signup Here</small>
                     </div>
                 </section>

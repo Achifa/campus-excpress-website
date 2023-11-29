@@ -48,7 +48,9 @@ function App() {
       if(location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login'){
         setActiveDom(
           <>
-            
+
+
+            <Header />
           </>
         )
       }else if(location.pathname.split('/')[1] === 'seller'){

@@ -35,8 +35,8 @@ const ItemImgs = () => {
                 {
                     imageList.map((item, index) => {
                         return(
-                            <div key={index} style={{border: ActiveImg === index ? '2px solid orangered': 'none'}} onClick={e => handleActiveImg(index)}>
-                                <img src={item.file} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
+                            <div key={index} style={{border: ActiveImg === index ? '2px solid orangered': 'none', backgroundImage: `url(${item.file})`, backgroundRepeat: 'no-repeat', backgroundSize: '70px 70px', backgroundPosition: 'center'}} onClick={e => handleActiveImg(index)}>
+                                {/* <img src={item.file} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" /> */}
                             </div>
                         )
                     })

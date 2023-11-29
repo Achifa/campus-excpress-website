@@ -236,10 +236,10 @@
 .seller-login-cnt{
     display: flex;
     width: 100%;
-    padding: 10px;
+    padding: 20px;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - 100px);
 
 }
 
@@ -248,4 +248,11 @@
     width: 400px;
     border-radius: 10px;
     padding: 20px;
+}
+
+.err-mssg{
+    display: flex;
+    font-size: x-small;
+    color: red;
+    font-weight: 500;
 }

@@ -3,18 +3,18 @@
   "name": "Campus Express Nigeria",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "1701284174956.jpg",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/*"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
+      "src": "1701284174956.jpg",
+      "type": "image/*",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
+      "src": "1701284174956.jpg",
+      "type": "image/*",
       "sizes": "512x512"
     }
   ],
