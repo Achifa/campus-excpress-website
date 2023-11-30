@@ -169,7 +169,7 @@ const Home = () => {
                                         <h3 onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</h3>
                                     }
 
-                                    {/* <hr  /> */}
+                                    <hr  />
                                     
                                     {
                                         screenWidth > 479
