@@ -520,9 +520,8 @@ async function GetEditedItem(req,res)  {
 
 async function ResetPwd(req,res){
 
-    let {email} = req.body;
+    let {email,seller_id} = req.body;
 
-    console.log(email)
     let date = new Date()
     async function SendEmail(params) {
         let token = shortId.generate()
@@ -561,13 +560,14 @@ async function ResetPwd(req,res){
                 from: 'security-team@campusexpressng.com', // Replace with your email address
                 to: `${email}`, // Replace with the recipient's email address
                 subject: 'Password Reset',
-                text: ` 
+                html: ` 
     
                     Hello Dear,
                     
-                    Thank you for choosing Campus Express Nigeria! To complete your password reset, please click the link below:
+                    Thank you for choosing Campus Express Nigeria! 
+                    To complete your password reset, please click the link below:
                     
-                    <button><a href="www.campusexpressng.com/seller/password-reset/${token}">Reset Password</a></button>
+                    www.campusexpressng.com/seller/password-reset/${token}?seller_id=${seller_id}
                     
                     This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
                     

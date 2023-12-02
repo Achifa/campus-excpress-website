@@ -22,6 +22,7 @@
     "flutterwave-node-v3": "^1.1.6",
     "fs": "^0.0.1-security",
     "googleapis": "^105.0.0",
+    "greeting-time": "^1.0.0",
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.0",
     "mailtrap": "^3.2.0",

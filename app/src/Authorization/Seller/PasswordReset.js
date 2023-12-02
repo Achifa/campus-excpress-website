@@ -22,15 +22,13 @@ const PasswordReset = () => {
                     <h4 style={{color: 'orangered'}}>Password Reset</h4>
 
                     <br />
-                    {/* <div className="input-cnt">
-                        <label htmlFor="">Enter registered email</label>
-                        <input type="text" placeholder="Enter Registered Email Here..."/>
-                    </div> */}
+                    <div className="input-cnt">
+                        <label htmlFor="">Enter New Password</label>
+                        <input type="password" placeholder="Enter New Password Here..."/>
+                    </div>
 
-                    <button onClick={e =>{e.preventDefault(); ResetPwd(userData.email, userData.seller_id);}}>Reset</button>
+                    <button onClick={e =>{e.preventDefault(); ResetPwd();}}>Reset Password</button>
                     <br />
-                    <br />
-                    <small>A link will be sent to your registered email.</small>
 
                     <br />
 

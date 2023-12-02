@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthenticateSeller } from "../../api/seller";
 import menuSvg from '../../assets/menu-grid-svgrepo-com (1).svg'
+import { GetSeller, ResetPwd } from '../../api/seller';
+import { socket } from "../../socket";
 
+ 
 const Header = () => {
 
     let navigate = useNavigate()
@@ -10,7 +13,7 @@ const Header = () => {
     let [screenWidth, setScreenWidth] = useState(0)
     let [activeHead, setActiveHead] = useState('')
 
-    useEffect(() => {
+    useEffect(() => { 
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
@@ -38,10 +41,29 @@ const Header = () => {
     }
     let location = useLocation()
 
+    let [userData, setUserData] = useState('')
+
+    useEffect(() => {
+        GetSeller(window.localStorage.getItem('CE_seller_id'))
+        .then((result) => {
+            setUserData(result)
+            console.log(result)
+        }) 
+        .catch((err) => console.log(err))
+    }, [])
+
+    let [greetings, setGreeting] = useState('Hello')
+
+    socket.emit('getTime', {})
+
+    socket.on('greetings', greeting => {
+        setGreeting(greeting)
+    })
+
     useEffect(() => {
         let path = location.pathname.split('/').splice(-1)[0]
         if(path === ''){
-            setActiveHead(<h4>Good Evening Fabian</h4>)
+            setActiveHead(<h4>{greetings} {userData.lname}</h4>)
         }else if(path === 'editor'){
             setActiveHead(<h4>Sell</h4>)
         }else if(path === 'inbox'){
@@ -50,14 +72,16 @@ const Header = () => {
             setActiveHead(<h4>Items for sale</h4>)
         }else if(path === 'orders'){
             setActiveHead(<h4>Orders</h4>)
-        }else if(path === 'settings'){
+        }else if(path === 'settings'){ 
             setActiveHead(<h4>Settings</h4>)
         }else if(path === 'wallet'){
             setActiveHead(<h4>Wallet</h4>)
         }else if(path === 'profile'){
-            setActiveHead(<h4>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                rofile</h4>)
+            setActiveHead(<h4>Profile</h4>)
         }
     }, [location])
+
+    
     return ( 
         <>
             <div className="seller-header shadow-sm">

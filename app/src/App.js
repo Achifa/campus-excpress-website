@@ -105,6 +105,10 @@ function App() {
             <Route path='/public-terms-of-service
 ' element={<Me />}></Route>
 
+            <Route path='/password-reset/:id' element={<Editor />}></Route>
+            <Route path='/email-verification/:id' element={<Editor />}></Route>
+
+
 
 
         </Routes>

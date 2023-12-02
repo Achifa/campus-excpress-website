@@ -3,7 +3,9 @@ const {NeonDB} = require('./db');
 const {seller_route} = require('./route/seller')
 const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
-
+const greetingTime = require("greeting-time");
+ 
+greetingTime(new Date());
 require('dotenv').config();
 
 
@@ -29,7 +31,9 @@ app.use(buyer_route)
 
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
 io(server, {cors: {origin: '*'}}).on('connection', socket => {
-
+  socket.on('getTime', () => {
+    socket.emit('greetings', greetingTime(new Date()))
+  })
   
 
 });
