@@ -7,7 +7,7 @@ const Orders = () => {
     return ( 
         <>
             <div className="seller-order-cnt">
-                <div className="seller-order-card shadow-sm">
+                {/* <div className="seller-order-card shadow-sm">
                     <img src={img} alt="" />
                     
                     <div className="seller-order-body">
@@ -31,7 +31,12 @@ const Orders = () => {
 
                     </div>
                 
-                </div>
+                </div> */}
+
+                <>
+                    <br />
+                    <small style={{color: 'orangered'}}>No order availble !</small>
+                </>
             </div>
         </>
      );

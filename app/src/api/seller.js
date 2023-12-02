@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 let u1 = `http://localhost:1111`
+let u4 = `http://192.168.75.146:1111`
 let u2 = `https://ce-server.onrender.com`
 let plug = u2;
 
@@ -157,6 +158,51 @@ export function GetEditedItem(product_id) {
                 product_id
             } 
         })
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    })
+}
+
+export function SendToken(email,phn) {
+    
+    return new Promise((resolve, reject) => {
+
+        axios.post(`${plug}/seller/verification`, {email,phn})
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    })
+}
+
+export function AuthenticateSeller(seller_id) {
+    
+    return new Promise((resolve, reject) => {
+
+        axios.post(`${plug}/seller/authentication`, {seller_id})
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    })
+}
+
+export function ResetPwd(email) {
+    
+    return new Promise((resolve, reject) => {
+
+        axios.post(`${plug}/seller/password-reset`, {email})
         .then((result) => {
             resolve(result.data);
         })

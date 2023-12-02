@@ -256,7 +256,7 @@ const Product = () => {
                                         'Delete'
                                     }
                                 </button>
-                                <button onClick={e => Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => role !== 0 ? navigate(`/seller/editor?product_id=${item.product_id}`) : Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0 
                                         ?

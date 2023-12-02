@@ -31,6 +31,7 @@ import SavedItem from './components/Buyer/SavedItem';
 import Cart from './components/Buyer/Cart';
 import Wallets from './components/Buyer/Wallet';
 import Checkout from './pages/Buyer/Checkout';
+import PasswordReset from './Authorization/Seller/ForgotPassword';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -98,6 +99,12 @@ function App() {
             <Route path='/seller/settings' element={<Setting />}></Route>
             <Route path='/seller/wallet' element={<Wallet />}></Route>
             <Route path='/seller/profile' element={<Me />}></Route>
+            <Route path='/seller/reset-password' element={<PasswordReset />}></Route>
+
+            <Route path='/privacy-policy' element={<Me />}></Route>
+            <Route path='/public-terms-of-service
+' element={<Me />}></Route>
+
 
 
         </Routes>

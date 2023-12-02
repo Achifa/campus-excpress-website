@@ -8,7 +8,7 @@ const Inbox = () => {
         <>
             <div className="seller-inbox-cnt">
                 <ul>
-                    {
+                    {/* {
                         [1,2,3,4,5,6,7].map((iem,index) => {
                             return(
                                 <li className="seller-inbox-card shadow-sm">
@@ -33,7 +33,17 @@ const Inbox = () => {
                                         <img src={img} alt="" />
 
                                         <div className="seller-inbox-product-card-body">
-                                            Wireless Bluetooth Keyboard For Phone And Tablet-VSC
+                                            <p style={{
+                                                fontWeight: '500',
+                                                overflow: 'hidden',
+                                                color: '#000',
+                                                textOverflow: 'ellipsis',
+                                                display: '-webkit-box',
+                                                WebkitLineClamp: '3',
+                                                WebkitBoxOrient: 'vertical',
+                                            }}>
+                                                Wireless Bluetooth Keyboard For Phone And Tablet-VSC
+                                            </p>
                                         </div>
                                     </section>
 
@@ -42,7 +52,13 @@ const Inbox = () => {
                                 </li>
                             )
                         })
-                    }
+                    } */}
+                    
+
+                    <>
+                        <br />
+                        <small onClick={e => navigate('/seller/editor') } style={{color: 'orangered'}}>Inbox is empty</small>
+                    </>
                 </ul>
             </div>
         </>

@@ -1,13 +1,18 @@
 const { AuthorizeWalletAccess, create_bill } = require("../Transactions/Sellers");
-const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData, GetSeller, GetEditedItem, updateProduct, updateSellerProfile } = require("../controller/seller");
+const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData, GetSeller, GetEditedItem, updateProduct, updateSellerProfile, SendEmailToken, SendToken, ResetPwd } = require("../controller/seller");
+const { seller_authentication, check_seller } = require("../middleware/seller");
 const { express, parser } = require("../modules");
 
 let seller_route = express.Router();  
 
 
 seller_route.get('');
-seller_route.post('');
+seller_route.post(''); 
 
+seller_route.post('/seller/authentication', parser, seller_authentication);
+seller_route.post('/seller/check', parser, check_seller);
+
+seller_route.post('/seller/password-reset', parser, ResetPwd);
 
 seller_route.post('/seller/product-upload', parser, uploadProduct);
 seller_route.post('/seller/product-update', parser, updateProduct);

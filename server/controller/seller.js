@@ -210,48 +210,153 @@ function updateProduct(req,res) {
 async function RegisterSeller(req,res) {
 
     let {fname,lname,email,phone,pwd,state,campus} = req.body;
-    console.log(fname,lname,email,phone,pwd,state,campus)
+    // console.log(fname,lname,email,phone,pwd,state,campus)
     let date = new Date().toLocaleString();
     let isActive,isVerified,isEmailVerified,isPhoneVerified = false;
     let hPwd = await bcrypt.hash(pwd, 10)
     let seller_id = `CE-${shortId.generate()}`
     let wallet_id = `CEW-${seller_id}`
 
-    new Promise((resolve, reject) => {
-        NeonDB.then((pool) => 
-            pool.query(`insert into campus_sellers(id,fname, lname,seller_id,email,phone,password,state,campus,isActive,isVerified,isEmailVerified,isPhoneVerified,date ) values(DEFAULT, '${fname}', '${lname}', '${seller_id}', '${email}', '${phone}', '${hPwd}', '${state}', '${campus}', '${false}','${false}','${false}','${false}', '${date}')`)
-            .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
+    async function CreateNewSeller(params) {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`insert into campus_sellers(id,fname, lname,seller_id,email,phone,password,state,campus,isActive,isVerified,isEmailVerified,isPhoneVerified,date ) values(DEFAULT, '${fname}', '${lname}', '${seller_id}', '${email}', '${phone}', '${hPwd}', '${state}', '${campus}', '${false}','${false}','${false}','${false}', '${date}')`)
+                .then(result => result.rowCount > 0 ?(true) : (false))
+                .catch(err => console.log(err))
+            )
             .catch(err => console.log(err))
         )
-        .catch(err => console.log(err))
-    })
-    .then((response) => 
-        response
-        ?
+    }
+    
+    async function CreateNewSellerOverview(params) {
+        return(
             NeonDB.then((pool) => 
                 pool.query(`insert into seller_overview(id,seller_id,total_reported,total_sale,total_sold,total_unsold) values(DEFAULT,'${seller_id}',${0},${0},${0},${0})`)
                 .then(result => result.rowCount > 0 ? true : false)
                 .catch(err => console.log(err))
             )
             .catch(err => console.log(err))
-        :
-            res.send(false)
-    )
-    .then((response) => {
-        if(response){
+        )
+    }
+    
+    async function CreateNewSellerWallet(params) {
+        return(
             NeonDB.then((pool) => 
-                pool.query(`insert into campus_seller_wallets(id,wallet_id,seller_id,wallet_balance,wallet_pin,wallet_number,date) values(DEFAULT,'${wallet_id}','${seller_id}','${0.00}','${pwd}','${phone}','${date}'`)
-                .then(result => result.rowCount > 0 ? res.send(true) : res.send(false))
+                pool.query(`insert into campus_express_seller_wallet(id,wallet_id,seller_id,wallet_balance,wallet_pin,wallet_number,date) values(DEFAULT,'${wallet_id}','${seller_id}','${0.00}','${pwd}','${phone}','${date}')`)
+                .then(result => result.rowCount > 0 ? true : false)
                 .catch(err => console.log(err))
             )
             .catch(err => console.log(err))
-        }else{
-            res.send(false)
-        }
-    })
-    .catch(err =>  {console.log(err), res.send(false)})
+        )
+    }
     
+    async function SendEmail(params) {
+        let token = shortId.generate()
+    
+        function createEmailToken(params) {
+            return(
+                NeonDB.then((pool) => 
+                    pool.query(`insert into email_token(id,email,user_id,token,date) values(DEFAULT, '${email}', '${seller_id}', '${token}', '${date}')`)
+                    .then(result => (result.rowCount))
+                    .catch(err => {
+                        console.log(err)
+                    })
+                )
+                .catch(err => {
+                    console.log(err)
+                })
+            )
+        }
+    
+        function sendEmailToken(params) {
+            const nodemailer = require('nodemailer');
+    
+            // Create a transporter using SMTP
+            const transporter = nodemailer.createTransport({
+            host: 'mail.privateemail.com',  // Replace with your SMTP server hostname
+            port: 465, // Replace with your SMTP server port
+            secure: true, // Set to true if using SSL/TLS
+            auth: { 
+                user: 'security-team@campusexpressng.com', // Replace with your email address
+                pass: 'A!nianuli82003', // Replace with your email password or app-specific password
+            },
+            }); 
+    
+            // Email content 
+            const mailOptions = {
+                from: 'security-team@campusexpressng.com', // Replace with your email address
+                to: `${email}`, // Replace with the recipient's email address
+                subject: 'Verify Your Email Address',
+                text: ` 
+    
+                    Hello Dear,
+                    
+                    Thank you for choosing Campus Express Nigeria! To complete your registration or login, please use the following one-time password (OTP):
+                    
+                    Verification Code: ${token}
+                    
+                    This OTP is valid for 5 minutes. Please do not share this OTP with anyone, as it is used for identity verification purposes only.
+                    
+                    If you did not initiate this action, please contact our support team immediately.
+                    
+                    Thank you for using Campus Express Nigeria.
+                    
+                    Best regards,
+                    Campus Express Nigeria. 
+                `
+            };
+    
+            // Send the email
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                }
+            });
+    
+    
+        }
+    
+        let response1 = await createEmailToken();
 
+        if(response1 > 0){
+            console.log(response1)
+            let response2 = sendEmailToken();
+            res.send(true)
+        }
+      
+    }
+
+    try{
+        new Promise((resolve, reject) => {
+        let newSeller = CreateNewSeller()
+        newSeller ? resolve(true) : reject(false)
+        })
+        .then((result) => {
+            console.log('overview',result)
+
+            let newSellerOverview = result ? CreateNewSellerOverview() : false;
+            return(newSellerOverview ? (true) : (false))
+        })
+        .then((result) => {
+            console.log('wallet',result)
+            let newSellerWallet = result ? CreateNewSellerWallet() : false;
+            return(newSellerWallet ? (true) : (false))
+        })
+        .then((result) => {
+            console.log('email',result)
+
+            let newSellerEmailToken = result ? SendEmail() : false;
+            return(newSellerEmailToken ? (true) : (false))
+        })
+        .catch((err) => {
+            console.log(err)
+            res.send(false)
+        })
+    }catch(err){
+        console.log(err)
+    }
 }
 
 async function LogSellerIn(req, res) {
@@ -412,4 +517,94 @@ async function GetEditedItem(req,res)  {
     res.status(200).send({meta_data, photos})
 }
 
-module.exports = {uploadProduct,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct}
+
+async function ResetPwd(req,res){
+
+    let {email} = req.body;
+
+    console.log(email)
+    let date = new Date()
+    async function SendEmail(params) {
+        let token = shortId.generate()
+
+        function createEmailToken(params) {
+            return(
+                NeonDB.then((pool) => 
+                    pool.query(`insert into password_token(id,email,token,date) values(DEFAULT, '${email}', '${token}', '${date}')`)
+                    .then(result => (result.rowCount))
+                    .catch(err => {
+                        console.log(err)
+                    })
+                )
+                .catch(err => {
+                    console.log(err)
+                })
+            )
+        }
+
+        function sendEmailToken(params) {
+            const nodemailer = require('nodemailer');
+    
+            // Create a transporter using SMTP
+            const transporter = nodemailer.createTransport({
+            host: 'mail.privateemail.com',  // Replace with your SMTP server hostname
+            port: 465, // Replace with your SMTP server port
+            secure: true, // Set to true if using SSL/TLS
+            auth: { 
+                user: 'security-team@campusexpressng.com', // Replace with your email address
+                pass: 'A!nianuli82003', // Replace with your email password or app-specific password
+            },
+            }); 
+    
+            // Email content 
+            const mailOptions = {
+                from: 'security-team@campusexpressng.com', // Replace with your email address
+                to: `${email}`, // Replace with the recipient's email address
+                subject: 'Password Reset',
+                text: ` 
+    
+                    Hello Dear,
+                    
+                    Thank you for choosing Campus Express Nigeria! To complete your password reset, please click the link below:
+                    
+                    <button><a href="www.campusexpressng.com/seller/password-reset/${token}">Reset Password</a></button>
+                    
+                    This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
+                    
+                    If you did not initiate this action, please contact our support team immediately.
+                    
+                    Thank you for using Campus Express Nigeria.
+                    
+                    Best regards,
+                    Campus Express Nigeria. 
+                `
+            };
+    
+            // Send the email
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                }
+            });
+    
+    
+        }
+    
+        let response1 = await createEmailToken();
+
+        if(response1 > 0){
+            console.log(response1)
+            let response2 = sendEmailToken();
+            res.send(true)
+        }
+      
+    }
+
+    SendEmail()
+
+    
+}
+
+module.exports = {uploadProduct,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd}

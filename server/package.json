@@ -10,6 +10,8 @@
   "author": "fabian",
   "license": "ISC",
   "dependencies": {
+    "@getbrevo/brevo": "^1.0.1",
+    "@google-cloud/local-auth": "^2.1.0",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -19,6 +21,7 @@
     "express": "^4.18.2",
     "flutterwave-node-v3": "^1.1.6",
     "fs": "^0.0.1-security",
+    "googleapis": "^105.0.0",
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.0",
     "mailtrap": "^3.2.0",
@@ -32,6 +35,7 @@
     "redis": "^4.6.10",
     "request-promise": "^4.2.6",
     "short-id": "^0.1.0-1",
+    "sib-api-v3-sdk": "^8.5.0",
     "sms-service": "^1.1.7",
     "socket.io": "^4.6.1",
     "universal-cookie": "^4.0.4"

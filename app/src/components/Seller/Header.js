@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthenticateSeller } from "../../api/seller";
+import menuSvg from '../../assets/menu-grid-svgrepo-com (1).svg'
 
 const Header = () => {
+
+    let navigate = useNavigate()
 
     let [screenWidth, setScreenWidth] = useState(0)
     let [activeHead, setActiveHead] = useState('')
@@ -9,6 +13,17 @@ const Header = () => {
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
+    }, [])
+
+    useEffect(() => {
+        AuthenticateSeller(window.localStorage.getItem('CE_seller_id'))
+        .then((result) => {
+
+            if(!result){
+                navigate('seller/login')
+            }
+        })
+        .catch((err) => console.log(err))
     }, [])
 
     let handleMenu = e => {
@@ -54,12 +69,12 @@ const Header = () => {
 
 
                 {
-                    location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login'
+                    location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password'
                     ?  
                     <h5>Campus Express</h5>
                     : 
-                    <button onClick={handleMenu} style={{display: screenWidth <= 760 ? 'block' : 'none', float: 'right', width: '100px', outline: 'none', border: 'none', marginTop: '4px',  padding: '10px', borderRadius: '5px', background: 'orangered', color: '#fff', position: 'absolute', right: '10px', }}>
-                        Menu
+                    <button onClick={handleMenu} style={{display: screenWidth <= 760 ? 'block' : 'none', float: 'right', width: '50px', outline: 'none', border: 'none', marginTop: '4px',  padding: '10px', borderRadius: '5px', background: '#fff', color: '#fff', position: 'absolute', right: '10px', }}>
+                        <img src={menuSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                     </button>
                 }
                 

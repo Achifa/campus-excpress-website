@@ -22,7 +22,7 @@ const Settings = () => {
                             <div  className='seller-list-settings-log'>
                                 <div style={{height: '100%', display: 'flex', alignItems: 'center', width: '100%', textAlign: 'left', fontWeight: '400', fontSize: 'medium'}}>
                                     <span style={{fontSize: 'medium', fontWeight: '500'}}>{item.text}</span>
-                                    <span style={{fontSize: 'small', height: '20px', width: '20px', position: 'absolute', right: '10px', fontWeight: '500', borderRadius: '50%', background: 'orangered', color: '#fff', textAlign: 'center'}}>2</span>    
+                                    {/* <span style={{fontSize: 'small', height: '20px', width: '20px', position: 'absolute', right: '10px', fontWeight: '500', borderRadius: '50%', background: 'orangered', color: '#fff', textAlign: 'center'}}>2</span>     */}
                                 </div>
                             </div>
                             

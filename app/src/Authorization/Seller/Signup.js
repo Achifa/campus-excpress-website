@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../../styles/Seller/signup.css'
 import { useNavigate } from 'react-router-dom';
-import { RegisterSeller } from '../../api/seller';
+import { RegisterSeller, SendEmailToken, SendToken } from '../../api/seller';
 import { data, school_choices } from '../../location';
 
 const Signup = () => {
@@ -26,17 +26,23 @@ const Signup = () => {
     const [CampusisFocus, setCampusIsFocus] = useState(false);
 
     let Registration = (e) => {
-        e.target.disabled = true;
+        // e.target.disabled = true;
         Validation();
         if(validation){
+            e.target.disabled = true;
+
             RegisterSeller(fname,lname,email,phone,pwd,state,campus)
             .then((result) => result ? navigate('/seller/login') : '')
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err)
+                e.target.disabled = false;
+
+            })
         }
         
     }
 
-    function Validation(element) {
+    function Validation() {
 
         let inputs = [...document.querySelectorAll('input')]
         let select = [...document.querySelectorAll('select')]
@@ -59,6 +65,11 @@ const Signup = () => {
 
                     }else{
                         setvalidation(true)
+                        let check = pElem.querySelector('.err-mssg');
+
+                        if(check){
+                            pElem.querySelector('.err-mssg').remove()
+                        }
                     }
                    
                     
@@ -75,6 +86,11 @@ const Signup = () => {
 
                     }else{
                         setvalidation(true)
+                        let check = pElem.querySelector('.err-mssg');
+
+                        if(check){
+                            pElem.querySelector('.err-mssg').remove()
+                        }
                     }
                 }
                 
@@ -132,16 +148,6 @@ const Signup = () => {
                     addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
                 }
 
-            }else{
-                if(item.name === 'phone'){ 
-                    
-                    let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
-                    let length = item.value.length === 11 ? {bool: true, mssg: ''} :  {bool: false, mssg: 'Phone number is invalid'}
-                    let errs = [empty,length];
-                    
-                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
-
-                } 
             }
         })
 
@@ -167,6 +173,14 @@ const Signup = () => {
 
     }
 
+    function handleVerification(email,seller_id){
+        SendToken(email,seller_id)
+        .then((result) => {
+            navigate('/seller/login')
+        })
+        .catch((err) => console.log(err))
+        
+    }
 
     useEffect(() => {
         setCampusLocaleList([])
@@ -183,8 +197,6 @@ const Signup = () => {
         <>
             <div className="seller-signup">
                 
-
- 
                 <div id="left">
 
                 </div>
@@ -205,23 +217,18 @@ const Signup = () => {
 
 
                         <div className="seller-input-cnt">
-                            <section style={{width: '70%'}}>
+                            <section style={{width: '100%'}}>
                                 <label htmlFor="">Email</label>
                                 <input name='email' onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
-                            </section>
-                            <section style={{width: '30%'}}>
-                                <button>Verify</button>
                             </section>
                         </div>
 
                         <div className="seller-input-cnt">
-                            <section style={{width: '70%', float: 'left'}}>
-                                <label htmlFor="">Phone</label>
+                            <section style={{width: '100%', float: 'left'}}>
+                                <label htmlFor="">Phone (Optional)</label>
                                 <input name='phone' onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
                             </section>
-                            <section style={{width: '30%'}}>
-                                <button>Verify</button>
-                            </section>
+                            
                         </div>
 
                         <div className="seller-input-cnt">

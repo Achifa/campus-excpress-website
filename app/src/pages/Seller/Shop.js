@@ -5,8 +5,11 @@ import { SHOP } from '../../api/seller'
 import jsAgo from 'js-ago'
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 import Thumbnail from '../../components/Seller/Thumbnail'
+import { useNavigate } from 'react-router-dom'
 
 const Shop = () => {
+    let navigate = useNavigate()
+
     let [Items, setItems] = useState([])
     let [activeImg, setActiveImg] = useState(imgSvg)
 
@@ -27,6 +30,8 @@ const Shop = () => {
         <>
             <div className="seller-libs">
                {
+                Items.length > 0
+                ?
                 Items.map((item, index) => {
                     return(
                         <div key={index} className="seller-libs-card shadow-sm">
@@ -66,6 +71,11 @@ const Shop = () => {
 
                     )
                 })
+                :
+                <>
+                    <br />
+                    <small onClick={e => navigate('/seller/editor') } style={{color: 'orangered'}}>No item for sale, click here to start selling</small>
+                </>
                }
             </div>
         </>

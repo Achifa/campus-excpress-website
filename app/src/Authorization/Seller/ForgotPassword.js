@@ -1,6 +1,11 @@
+import { useState } from 'react';
+import { ResetPwd } from '../../api/seller';
 import '../../styles/settings.css';
 
 const PasswordReset = () => {
+
+    let [email, setemail] = useState('')
+
     return ( 
         <>
 
@@ -11,10 +16,10 @@ const PasswordReset = () => {
                     <br />
                     <div className="input-cnt">
                         <label htmlFor="">Enter registered email</label>
-                        <input type="text" placeholder="Enter Registered Email Here..."/>
+                        <input onInput={e => setemail(e.target.value)} type="text" placeholder="Enter Registered Email Here..."/>
                     </div>
 
-                    <button>Send Password</button>
+                    <button onClick={e =>{e.preventDefault(); ResetPwd(email);}}>Send Password</button>
                     <br />
                     <br />
                     <small>A default password will be sent to your registered email.</small>
