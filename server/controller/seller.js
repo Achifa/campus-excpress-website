@@ -339,11 +339,11 @@ async function RegisterSeller(req,res) {
     
                     Hello Dear,
                     
-                    Thank you for choosing Campus Express Nigeria! To complete your registration or login, please use the following one-time password (OTP):
+                    Thank you for choosing Campus Express Nigeria! To complete your verify your email please follow the link below:
                     
-                    Verification Code: ${token}
+                    www.campusexpressng.com/seller/email-verification/?TOKEN=${token}
                     
-                    This OTP is valid for 5 minutes. Please do not share this OTP with anyone, as it is used for identity verification purposes only.
+                    This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
                     
                     If you did not initiate this action, please contact our support team immediately.
                     
