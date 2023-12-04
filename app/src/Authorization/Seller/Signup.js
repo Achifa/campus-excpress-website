@@ -24,17 +24,24 @@ const Signup = () => {
     const [campusLocaleList, setCampusLocaleList] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
     const [CampusisFocus, setCampusIsFocus] = useState(false);
+    let [btn, setBtn] = useState("Signup")
 
     let Registration = (e) => {
         // e.target.disabled = true;
+        
+
         Validation();
         if(validation){
+            setBtn(
+                <div className="Authloader" style={{background: '#fff'}}></div>
+            )
             e.target.disabled = true;
 
             RegisterSeller(fname,lname,email,phone,pwd,state,campus)
             .then((result) => result ? navigate('/seller/login') : '')
             .catch((err) => {
                 console.log(err)
+                setBtn("Signup")
                 e.target.disabled = false;
 
             })
@@ -285,7 +292,7 @@ const Signup = () => {
                     
                         <div className="seller-input-cnt">
                             
-                            <button onClick={e => {e.preventDefault(); Registration(e)}}>Register</button>
+                            <button onClick={e => {e.preventDefault(); Registration(e)}}>{btn}</button>
                             
                         </div>
 

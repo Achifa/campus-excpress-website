@@ -10,8 +10,11 @@
     }
 
     .seller-signup{
-        height: 100vh;
+        height: calc(100vh - 80px);
         width: 100vw;
+        display: flex;
+        justify-content: center;
+        background-color: orangered;
     }
 
     .seller-signup #left{
@@ -19,13 +22,18 @@
         width: calc(100% - 600px);
         padding: 0;
         float: left;
+        display: none;
+        overflow: auto;
         background-color: orangered;
     }
 
     .seller-signup #right{
-        height: 100%;
-        width: 600px;
+        height: 90%;
+        width: 500px;
+        overflow: auto;
         float: right;
+        margin: auto;
+        background-color: #fff;
         padding: 20px;
     }
 
@@ -89,6 +97,7 @@
         height: 100vh;
         width: 100vw;
         display: flex;
+        background-color: orangered;
         justify-content: center;
     }
 
@@ -102,11 +111,13 @@
     }
 
     .seller-signup #right{
-        height: 100%;
-        width: 70%;
+        height: 90%;
+        width: 500px;
         float: right;
+        background-color: #fff;
         margin: auto;
         padding: 20px;
+        overflow: auto;
     }
 
     .seller-input-cnt{

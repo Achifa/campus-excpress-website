@@ -156,7 +156,7 @@ const Editor = () => {
     }
 
     function closeOverlay(params) {
-        let overlay = document.querySelector('.editor-overlay')
+        let overlay = document.querySelector('.overlay')
         overlay.onclick = e => {
             overlay.removeAttribute('id')
         }
@@ -193,12 +193,12 @@ const Editor = () => {
 
 
         if(result.length > 0){
-            // let overlay = document.querySelector('.editor-overlay')
-            // overlay.setAttribute('id', 'editor-overlay');
+            // let overlay = document.querySelector('.overlay')
+            // overlay.setAttribute('id', 'overlay');
 
         }else{
-            let overlay = document.querySelector('.editor-overlay')
-            overlay.setAttribute('id', 'editor-overlay');
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
             updateItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,window.localStorage.getItem("CE_seller_id"),edit.product_id)
             .then((result) => {
                 result
@@ -238,23 +238,20 @@ const Editor = () => {
                 falseyList.push(false)
             }else{
                 falseyList.push(true) 
-
             }
 
-
-            
         }
 
         let result = falseyList.filter(item => item === false)
 
 
         if(result.length > 0){
-            let overlay = document.querySelector('.editor-overlay')
-            overlay.setAttribute('id', 'editor-overlay');
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
 
         }else{
-            let overlay = document.querySelector('.editor-overlay')
-            overlay.setAttribute('id', 'editor-overlay');
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
             uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,window.localStorage.getItem("CE_seller_id"))
             .then((result) => {
                 result
@@ -278,6 +275,9 @@ const Editor = () => {
 
     useEffect(() => {
         if(location.search !== ''){
+
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
             setUpdate(true)
 
             GetEditedItem(location.search.split('=').splice(-1)[0])
@@ -292,6 +292,7 @@ const Editor = () => {
                 setProductType(result.meta_data[0].type)
                 setProductCondition(result.meta_data[0].condition)
                 setProductLocale(result.meta_data[0].locale)
+                overlay.removeAttribute('id')
             })
             .catch(err => console.log(err))
         }else{
@@ -326,16 +327,17 @@ const Editor = () => {
         
         let f = document.querySelector("#files");
 
+        [...f.files].map(item => {
+            let reader = new FileReader();
 
-        let reader = new FileReader();
+            reader.onload = (result) => {
+                let img = reader.result;
+                setProductPhotos(file => [...file, img])
+            }
+            reader.readAsDataURL(item);
+        })
 
-        reader.onload = (result) => {
-
-             let img = reader.result;
-             setProductPhotos(item => [...item, img])
-
-        }
-        reader.readAsDataURL([...f.files][0]);
+        
     } 
 
     let removeImg = i => {
@@ -348,11 +350,9 @@ const Editor = () => {
 
     return ( 
         <>
-            <div className="editor-overlay" onClick={closeOverlay}>
+            <div className="overlay" >
                 <div className="loader">
                 </div>
-
-                
             </div>
             <div className="seller-shop">
 
@@ -465,7 +465,7 @@ const Editor = () => {
                             <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center', }}>
                                 <small>Click here to Upload photo</small>
                             </label>
-                            <input type="file" name="file" style={{display: 'none'}} id="files" onChange={handleImage} />
+                            <input type="file" name="file" multiple style={{display: 'none'}} id="files" onChange={handleImage} />
 
                             <section className='seller-product-image-cnt'>
                                 {
@@ -473,7 +473,7 @@ const Editor = () => {
                                     
                                         <div style={{position: 'relative', padding: '0', height: '100%'}}>
                                             <div onClick={e => removeImg(index)} className="delete-sample-img" style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', background: 'red', zIndex: '1000', width: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2.5px', height: '20px'}}>x</div>
-                                            <img src={item} key={index} style={{height: '100%', width: screenWidth <= 480 ? '100px' : '200px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} alt="" />
+                                            <img src={item} key={index} style={{height: '100%', width: screenWidth <= 480 ? '100px' : '250px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} alt="" />
                                         </div>
                                     )
                                 }

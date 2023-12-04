@@ -1,6 +1,6 @@
 const { AuthorizeWalletAccess, create_bill } = require("../Transactions/Sellers");
-const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData, GetSeller, GetEditedItem, updateProduct, updateSellerProfile, SendEmailToken, SendToken, ResetPwd } = require("../controller/seller");
-const { seller_authentication, check_seller } = require("../middleware/seller");
+const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData, GetSeller, GetEditedItem, updateProduct, updateSellerProfile, SendEmailToken, SendToken, ResetPwd, updatePwd, DeleteProduct } = require("../controller/seller");
+const { seller_authentication, check_seller, CheckPwdResetToken } = require("../middleware/seller");
 const { express, parser } = require("../modules");
 
 let seller_route = express.Router();  
@@ -31,6 +31,10 @@ seller_route.post('/seller/wallet-bill', parser, create_bill);
 
 seller_route.post('/seller/shop', parser, Shop);
 
+seller_route.post('/seller/password-update', parser, updatePwd);
+seller_route.post('/seller/password-token-check', parser, CheckPwdResetToken);
+
+seller_route.delete('/seller/product-delete', DeleteProduct);
 
 module.exports = {seller_route}
 

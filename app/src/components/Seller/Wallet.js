@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { AuthorizeWalletAccess, WalletData, createBill } from '../../api/seller';
 import PayStack from './PayStack';
 import { socket } from '../../socket';
+import '../../styles/Seller/overlay.css' 
 
 const Wallets = () => {
     
@@ -14,13 +15,15 @@ const Wallets = () => {
     let [Transactions, setTransactions] = useState([]);
 
     useEffect(() => {
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
         WalletData(window.localStorage.getItem("CE_seller_id"))
         .then(({walletBalance, TransactionHistory}) => {
             setBalance(`${walletBalance[0].wallet_balance}.00`)
             //setTransactions([...JSON.parse(TransactionHistory[0].document)])
             let files = TransactionHistory.map(item => JSON.parse(item.document))
             setTransactions(files)
-            console.log(files)
+            overlay.removeAttribute('id')
         })
         .catch((err) => {
             console.log(err)
@@ -66,6 +69,10 @@ const Wallets = () => {
 
     return ( 
         <>
+            <div className="overlay">
+                <div className="loader">
+                </div>
+            </div>
             <div className="seller-overlay">
                 <PayStack />
             </div>

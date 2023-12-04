@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { OVERVIEW } from "../../api/seller";
+import '../../styles/Seller/overlay.css' 
 
 const Home = () => {
 
@@ -13,14 +14,20 @@ const Home = () => {
     let [seller_id, setseller_id] = useState('')
 
     useEffect(() => {
+        let overlay = document.querySelector('.overlay')
+
+        overlay.setAttribute('id', 'overlay');
         
         OVERVIEW(window.localStorage.getItem("CE_seller_id"))
         .then((result) => {
+            
             set_total_for_sale(result.total_sale)
             set_total_reported(result.total_reported)
             set_total_sold(result.total_sold)
             set_total_unsold(result.total_unsold)
             console.log(result)
+            overlay.removeAttribute('id')
+
         })
         .catch((err) => {
             console.log(err)
@@ -30,9 +37,16 @@ const Home = () => {
         
     }, [])
 
+    
+
    
     return ( 
         <>
+
+            <div className="overlay">
+                <div className="loader">
+                </div>
+            </div>
             
             <div className="seller-home">
                 <div className="seller-home-overview">

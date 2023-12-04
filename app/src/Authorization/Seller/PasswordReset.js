@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
-import { GetSeller, ResetPwd } from '../../api/seller';
+import { CheckPwdResetToken, GetSeller, ResetPwd, updatePwd } from '../../api/seller';
 import '../../styles/settings.css';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const PasswordReset = () => {
     let [userData, setUserData] = useState('')
+    let [pwd, setPwd] = useState('')
+    let [isTokenVerified, setIsTokenVerified] = useState(false)
+    let navigate = useNavigate();
+    let location = useLocation()
 
     useEffect(() => {
         GetSeller(window.localStorage.getItem('CE_seller_id'))
@@ -13,26 +18,65 @@ const PasswordReset = () => {
         })
         .catch((err) => console.log(err))
     }, [])
+
+    useEffect(() => {
+        CheckPwdResetToken(userData.seller_id,location.pathname.split('/').splice(-1)[0])
+        .then((result) => {
+            if(result){
+                setIsTokenVerified(true)
+            }else{
+                setIsTokenVerified(false)
+            }
+        })
+        .catch((err) => console.log(err))
+    }, [])
+
+    function ResetPwd(params) {
+        updatePwd(userData.seller_id,pwd)
+        .then((result) => {
+            navigate('/seller/login')
+        })
+        .catch((err) => console.log(err))
+    }
+
     return ( 
         <>
 
             <div className="password-reset">
-                <form action="">
-                <br />
-                    <h4 style={{color: 'orangered'}}>Password Reset</h4>
+                {
+                    isTokenVerified
 
-                    <br />
-                    <div className="input-cnt">
-                        <label htmlFor="">Enter New Password</label>
-                        <input type="password" placeholder="Enter New Password Here..."/>
-                    </div>
+                    ?
+                    <>
+                        <form action="">
+                            <br />
+                            <h4 style={{color: 'orangered'}}>Password Reset</h4>
 
-                    <button onClick={e =>{e.preventDefault(); ResetPwd();}}>Reset Password</button>
-                    <br />
+                            <br />
+                            <div className="input-cnt">
+                                <label htmlFor="">Enter New Password</label>
+                                <input type="password" onInput={e => setPwd(e.target.value)} placeholder="Enter New Password Here..."/>
+                            </div>
 
-                    <br />
+                            <button onClick={e =>{e.preventDefault(); ResetPwd();}}>Reset Password</button>
+                            <br />
 
-                </form>
+                            <br />
+
+                        </form>
+                    </>
+
+                    :
+                    <>
+                        <div>
+                            <h2>Bad Link</h2>
+                            <h4>
+                                The Link You Entered Is Not Valid
+                            </h4>
+                        </div>
+                    </>
+
+                }
                 
             </div>
         </>

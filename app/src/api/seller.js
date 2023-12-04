@@ -33,6 +33,20 @@ export function updateItem(productTitle,productDescription,productCategory,produ
     })
 }
 
+export function DeleteItem(seller_id,product_id) {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${plug}/seller/product-delete`, {
+            params: {seller_id,product_id}
+        })
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
 export function updateSellerProfile(fname,lname,state,campus,seller_id) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/profile-update`, {
@@ -148,7 +162,6 @@ export function GET_PRODUCT_THUMBNAIL(product_id) {
     })
 }
 
-
 export function GetEditedItem(product_id) {
     
     return new Promise((resolve, reject) => {
@@ -210,5 +223,53 @@ export function ResetPwd(email,seller_id) {
             reject(err);
         })
 
+    })
+}
+
+export function updatePwd(seller_id, pwd) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/password-update`, {seller_id, pwd})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function CheckPwdResetToken(seller_id,token) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/password-token-check`, {seller_id, token})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function GetSellerInbox(seller_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/inbox`, {seller_id})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function GetSellerOrder(seller_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/orders`, {seller_id})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
     })
 }

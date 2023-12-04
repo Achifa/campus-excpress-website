@@ -6,19 +6,30 @@ import jsAgo from 'js-ago'
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 import Thumbnail from '../../components/Seller/Thumbnail'
 import { useNavigate } from 'react-router-dom'
+import '../../styles/Seller/overlay.css' 
 
 const Shop = () => {
     let navigate = useNavigate()
 
     let [Items, setItems] = useState([])
     let [activeImg, setActiveImg] = useState(imgSvg)
+    let [loaderText, setLoaderText] = useState('Loading...')
 
 
     useEffect(() => {
+
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
         
         SHOP(window.localStorage.getItem("CE_seller_id"))
         .then((result) => { 
             setItems(result)
+            overlay.removeAttribute('id')
+            result.length < 1 
+            ?
+            setLoaderText('No item for sale, click here to start selling')
+            :
+            setLoaderText('')
         })
         .catch((err) => {
             console.log(err)
@@ -26,8 +37,13 @@ const Shop = () => {
 
         
     }, [])
+
     return ( 
         <>
+            <div className="overlay">
+                <div className="loader">
+                </div>
+            </div>
             <div className="seller-libs">
                {
                 Items.length > 0
@@ -74,7 +90,7 @@ const Shop = () => {
                 :
                 <>
                     <br />
-                    <small onClick={e => navigate('/seller/editor') } style={{color: 'orangered'}}>No item for sale, click here to start selling</small>
+                    <small onClick={e => navigate('/seller/editor') } style={{color: 'orangered', cursor: 'pointer'}}>{loaderText}</small>
                 </>
                }
             </div>

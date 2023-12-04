@@ -42,5 +42,24 @@ const check_seller = (req, res, next) => {
 }
 
 
+function CheckPwdResetToken(req, res, next){
+    const {seller_id,token} = req.body; 
+    NeonDB.then((pool) => 
+        pool.query(`SELECt * FROM token WHERE seller_id = '${seller_id}' AND token = '${token}`)
+        .then(result => {
+            console.log(result)
+            if(result.rows.length < 1){
 
-module.exports = { seller_authentication, check_seller };
+                res.status(200).send(false)
+            }else{
+                res.status(200).send(true)
+            }
+        })
+
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+}
+
+
+module.exports = { seller_authentication, check_seller, CheckPwdResetToken };

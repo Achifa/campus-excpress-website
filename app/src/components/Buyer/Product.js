@@ -12,6 +12,7 @@ import imgSvg from '../../assets/image-svgrepo-com (4).svg';
 import ItemImgs from './ItemImgs'
 import { setCartTo } from '../../redux/buyer/Cart'
 import { setSaveTo } from '../../redux/buyer/Save'
+import { DeleteItem } from '../../api/seller'
 
 
 
@@ -53,10 +54,13 @@ const Product = () => {
     }, [location])
 
     useEffect(() => {
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
         
         GetItem([location.pathname.split('/')[2]])
         .then((result) => {
             setItem(result[0])
+            overlay.removeAttribute('id')
         })
         .catch(err => console.log(err))
 
@@ -182,8 +186,27 @@ const Product = () => {
     }
 
 
+    function DeleteProduct(e,product_id) {
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+        DeleteItem(window.localStorage.getItem('CE_buyer_id'),product_id)
+        .then((result) => {
+            console.log(result)
+            // e.target.disabled = false;
+            overlay.removeAttribute('id')
+            navigate('/seller/shop')
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
     return ( 
         <>
+            <div className="overlay">
+                <div className="loader">
+                </div>
+            </div>
             <div className="buyer-product">
                 <div className="buyer-product-cnt">
                     <div className="buyer-product-data">
@@ -241,7 +264,7 @@ const Product = () => {
                                 backgroundColor: '#fff',
                                 margin: '0'
                             }}>
-                                <button onClick={e => AddToCart(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0
                                         ?

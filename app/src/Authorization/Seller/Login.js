@@ -4,12 +4,15 @@ import '../../styles/Buyer/login.css'
 import { LogSellerIn } from "../../api/seller";
 const SellerLogin = () => {
     let navigate = useNavigate();
+    let [btn, setBtn] = useState("Login")
+
 
     let [email, setEmail] = useState('')
     let [pwd, setPwd] = useState('')
     const [validation, setvalidation] = useState(false);
 
     let Login = (e) => {
+        
         let check = document.querySelector('form').querySelector('.err-mssg');
 
         if(check){
@@ -18,6 +21,9 @@ const SellerLogin = () => {
 
         Validation();
         if(validation){
+            setBtn(
+                <div className="Authloader" style={{background: '#fff'}}></div>
+            )
             e.target.disabled = true;
 
             LogSellerIn(email,pwd)
@@ -49,6 +55,7 @@ const SellerLogin = () => {
                     document.querySelector('form').append(div)
                 }
                 e.target.disabled = false;
+                setBtn("Login")
             })
         }
         
@@ -140,6 +147,7 @@ const SellerLogin = () => {
       
 
     }
+
     return ( 
         <>
             <div className="seller-login-cnt">
@@ -170,7 +178,11 @@ const SellerLogin = () => {
                       
                         <div className="seller-input-cnt">
                             
-                           <button onClick={e => {e.preventDefault(); Login(e)}}>Login</button>
+                           <button onClick={e => {e.preventDefault(); Login(e)}}>
+                            {
+                                btn
+                            }
+                           </button>
                             
                         </div>
                     </form>

@@ -7,10 +7,35 @@ import walletSvg from '../../assets/wallet-money-svgrepo-com.svg'
 import profileSvg from '../../assets/profile-circle-svgrepo-com (3).svg'
 import shopSvg from '../../assets/shop-2-svgrepo-com.svg'
 import mssgSvg from '../../assets/inbox-in-svgrepo-com.svg'
+import { useEffect } from 'react';
 
 const Aside = () => {
 
     let navigate = useNavigate();
+
+    let handleMenu = e => {
+        let menu = document.querySelector('.seller-aside');
+        let isMenuVisible = menu.hasAttribute('id') ? true : false
+        if(isMenuVisible){
+            menu.removeAttribute('id')
+        }else{
+            menu.setAttribute('id', 'seller-aside')
+        }
+
+    }
+
+    function setActiveMenu(e) {
+        let list = [...document.querySelectorAll('.aside-list-item')];
+        let activeElem = list.filter(item => item.lastChild.hasAttribute('id'))[0];
+        activeElem.lastChild.removeAttribute('id')
+        
+        e.currentTarget.lastChild.setAttribute('id', 'aside-list-item')
+        handleMenu()
+    }
+
+    useEffect(() => {
+        
+    },[])
     return ( 
         <>
             <div className="seller-aside">
@@ -20,15 +45,15 @@ const Aside = () => {
                 
                 <div className="seller-aside-nav">
                     <ul>
-                        <li onClick={e => navigate('/seller/')}>
+                        <li  className="aside-list-item" onClick={e => {setActiveMenu(e);; navigate('/seller/')}}>
                             <span>
                                 <img src={homeSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
                             &nbsp;                            &nbsp;
-                            <span>Home</span>
+                            <span id='aside-list-item'>Home</span>
                         </li>
 
-                        <li onClick={e => navigate('/seller/editor')}>
+                        <li className="aside-list-item" onClick={e => {setActiveMenu(e); navigate('/seller/editor')}}>
                             <span>
                                 <img src={sellSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
@@ -36,7 +61,7 @@ const Aside = () => {
                             <span>Create</span>
                         </li>
 
-                        <li onClick={e => navigate('/seller/inbox')}>
+                        <li className="aside-list-item" onClick={e => {setActiveMenu(e); navigate('/seller/inbox')}}>
                             <span>
                                 <img src={mssgSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
@@ -44,7 +69,7 @@ const Aside = () => {
                             <span>Inbox</span>
                         </li>
 
-                        <li onClick={e => navigate('/seller/shop')}>
+                        <li className="aside-list-item" onClick={e => {setActiveMenu(e); navigate('/seller/shop')}}>
                             <span>
                                 <img src={shopSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
@@ -52,7 +77,7 @@ const Aside = () => {
                             <span>Shop</span>
                         </li>
 
-                        <li onClick={e => navigate('/seller/orders')}>
+                        <li className="aside-list-item" onClick={e => {setActiveMenu(e); navigate('/seller/orders')}}>
                             <span>
                                 <img src={ordersSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
@@ -65,7 +90,7 @@ const Aside = () => {
 
                 <div className="seller-aside-nav-others">
                     <ul>
-                        <li onClick={e => navigate('/seller/settings')}>
+                        <li className="aside-list-item" onClick={e => {setActiveMenu(e); navigate('/seller/settings')}}>
                             <span>
                                 <img src={settingsSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
@@ -73,7 +98,7 @@ const Aside = () => {
                             <span>Settings</span>
                         </li>
 
-                        <li onClick={e => navigate('/seller/wallet')}>
+                        <li className="aside-list-item" onClick={e => {setActiveMenu(e); navigate('/seller/wallet')}}>
                             <span>
                                 <img src={walletSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>
@@ -81,7 +106,7 @@ const Aside = () => {
                             <span>Wallet</span>
                         </li>
 
-                        {/* <li onClick={e => navigate('/seller/profile')}>
+                        {/* <li onClick={e => {setActiveMenu(e); navigate('/seller/profile')}}>
                             <span>
                                 <img src={profileSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
                             </span>

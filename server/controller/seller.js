@@ -75,6 +75,8 @@ function updateSellerProfile(req,res) {
         fname,lname,state,campus,seller_id
     } = req.body;
 
+    console.log(fname,lname,state,campus,seller_id)
+
     let date = new Date();
 
     new Promise((resolve, reject) => {
@@ -146,6 +148,52 @@ function uploadProduct(req,res) {
     .catch(err => console.log(err))
 
 
+}
+
+function DeleteProduct(req,res) {
+    let {
+        seller_id,product_id
+    } = req.query;
+    let book = []
+
+    console.log( seller_id,product_id)
+
+    new Promise((resolve, reject) => {
+        NeonDB.then((pool) => 
+            pool.query(`DELETE FROM seller_shop WHERE product_id = '${product_id}'  `)
+            .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
+            .catch(err => console.log('mssg',err))
+        )
+        .catch(err => console.log('mssg',err))
+
+    })
+    .then((response) => 
+
+        NeonDB.then((pool) => 
+            pool.query(`DELETE FROM  product_photo WHERE product_id = '${product_id}' `)
+            .then(result => result.rowCount > 0 ? book.push(true) : book.push(false))
+            .catch(err => console.log('mssg',err))
+        )    
+
+    )
+    .then(async(response) => {
+        let bool = book.filter(item => item !== true)
+
+
+        if(bool.length < 1){
+            console.log('overview number', response)
+            NeonDB.then((pool) => 
+                pool.query(`UPDATE seller_overview set total_sale = total_sale - 1 WHERE seller_id = '${seller_id}'`)
+                .then(result => result.rowCount > 0 ? res.send(true) : res.send(false))
+                .catch(err => console.log('mssg',err))
+            )
+            .catch(err => console.log(err))
+        }else{
+            res.send(false)
+        }
+
+    })
+    .catch(err => console.log('mssg',err))
 }
 
 function updateProduct(req,res) {
@@ -517,7 +565,6 @@ async function GetEditedItem(req,res)  {
     res.status(200).send({meta_data, photos})
 }
 
-
 async function ResetPwd(req,res){
 
     let {email,seller_id} = req.body;
@@ -607,4 +654,20 @@ async function ResetPwd(req,res){
     
 }
 
-module.exports = {uploadProduct,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd}
+async function updatePwd(req,res) {
+    let {seller_id, pwd} = req.body;
+    
+    let hPwd = await bcrypt.hash(pwd, 10)
+
+    NeonDB.then((pool) => 
+        pool.query(`UPDATE campus_sellers set password='${hPwd}' WHERE seller_id = '${seller_id}'`)
+        .then(result => {
+            result.rowCount > 0 ? resolve(true) : reject(false)
+        })
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
+module.exports = {uploadProduct,updatePwd,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd,DeleteProduct}
