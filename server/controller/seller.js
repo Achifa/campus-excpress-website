@@ -670,4 +670,34 @@ async function updatePwd(req,res) {
 
 }
 
-module.exports = {uploadProduct,updatePwd,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd,DeleteProduct}
+async function GetSellerInbox(req,res) {
+    let {seller_id} = req.body;
+    
+    
+    NeonDB.then((pool) => 
+        pool.query(`SELECT * FROM seller_inbox  WHERE seller_id = '${seller_id}'`)
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
+async function GetSellerOrder(req,res) {
+    let {seller_id} = req.body;
+    
+    NeonDB.then((pool) => 
+        pool.query(`SELECT * FROM seller_order  WHERE seller_id = '${seller_id}'`)
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+}
+
+
+
+module.exports = {uploadProduct,updatePwd,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd,DeleteProduct,GetSellerInbox,GetSellerOrder}
