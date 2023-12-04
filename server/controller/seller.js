@@ -689,7 +689,7 @@ async function GetSellerOrder(req,res) {
     let {seller_id} = req.body;
     
     NeonDB.then((pool) => 
-        pool.query(`SELECT * FROM seller_order  WHERE seller_id = '${seller_id}'`)
+        pool.query(`SELECT * FROM seller_orders  WHERE seller_id = '${seller_id}'`)
         .then(result => {
             res.send(result.rows)
         })
