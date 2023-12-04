@@ -32,6 +32,7 @@ import Cart from './components/Buyer/Cart';
 import Wallets from './components/Buyer/Wallet';
 import Checkout from './pages/Buyer/Checkout';
 import PasswordReset from './Authorization/Seller/ForgotPassword';
+import ErrorPage from './components/ErrorPage';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -71,9 +72,9 @@ function App() {
         {
           activeDom
         }
-        <Routes key={location.key}>
+        <Routes key={location.key}> 
 
-            <Route path='/' element={<Dashboard />}></Route>
+            {/* <Route path='/' element={<Dashboard />}></Route>
             <Route path='/orders' element={<Orders />}></Route>
             <Route path='/history' element={<History />}></Route>
             <Route path='/cart' element={<Cart />}></Route>
@@ -83,7 +84,8 @@ function App() {
             <Route path='/checkout/:id' element={<Checkout />}></Route>
             <Route path='/checkout/:id/:id' element={<Checkout />}></Route>
             <Route path='/signup' element={<BuyerSignup />}></Route>
-            <Route path='/login' element={<BuyerLogin />}></Route>
+            <Route path='/login' element={<BuyerLogin />}></Route> */}
+            <Route path='*' element={<ErrorPage/>} />
 
 
 
