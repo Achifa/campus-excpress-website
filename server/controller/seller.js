@@ -341,7 +341,7 @@ async function RegisterSeller(req,res) {
                     
                     Thank you for choosing Campus Express Nigeria! To complete your verify your email please follow the link below:
                     
-                    www.campusexpressng.com/seller/email-verification/?TOKEN=${token}
+                    www.campusexpressng.com/email-verification/?TOKEN=${token}
                     
                     This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
                     
