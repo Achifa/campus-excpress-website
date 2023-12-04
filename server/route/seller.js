@@ -34,6 +34,9 @@ seller_route.post('/seller/shop', parser, Shop);
 seller_route.post('/seller/password-update', parser, updatePwd);
 seller_route.post('/seller/password-token-check', parser, CheckPwdResetToken);
 
+seller_route.post('/seller/order', parser, CheckPwdResetToken);
+seller_route.post('/seller/inbox', parser, CheckPwdResetToken);
+
 seller_route.delete('/seller/product-delete', DeleteProduct);
 
 module.exports = {seller_route}
