@@ -677,7 +677,7 @@ async function GetSellerInbox(req,res) {
     NeonDB.then((pool) => 
         pool.query(`SELECT * FROM seller_inbox  WHERE seller_id = '${seller_id}'`)
         .then(result => {
-            res.send(result.rows)
+            res.send(result)
         })
         .catch(err => console.log(err))
     )
@@ -691,7 +691,7 @@ async function GetSellerOrder(req,res) {
     NeonDB.then((pool) => 
         pool.query(`SELECT * FROM seller_orders  WHERE seller_id = '${seller_id}'`)
         .then(result => {
-            res.send(result.rows)
+            res.send(result)
         })
         .catch(err => console.log(err))
     )
