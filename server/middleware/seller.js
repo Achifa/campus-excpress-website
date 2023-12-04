@@ -41,7 +41,6 @@ const check_seller = (req, res, next) => {
     .catch(err => console.log(err))
 }
 
-
 function CheckPwdResetToken(req, res, next){
     const {seller_id,token} = req.body; 
     NeonDB.then((pool) => 
@@ -61,5 +60,42 @@ function CheckPwdResetToken(req, res, next){
     .catch(err => console.log(err))
 }
 
+async function ValidateEmail(req,res) {
 
-module.exports = { seller_authentication, check_seller, CheckPwdResetToken };
+    let {token} = req.body
+
+    NeonDB.then((pool) => 
+        pool.query(`select * from email_token WHERE token = '${token}'`)
+        .then(result => {
+            if(result.rows.length > 0){
+                NeonDB.then((pool) => 
+                    pool.query(`DELETE from email_token WHERE token = '${token}'`)
+                    .then(result => {
+                        if(result.roeCount > 0){
+                            res.send(true)
+                        }else{
+                            res.send(false)
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                )
+                .catch(err => {
+                    console.log(err)
+                })
+            }else{
+                res.send(false)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    )
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+
+module.exports = { seller_authentication, ValidateEmail, check_seller, CheckPwdResetToken };

@@ -33,6 +33,7 @@ import Wallets from './components/Buyer/Wallet';
 import Checkout from './pages/Buyer/Checkout';
 import PasswordReset from './Authorization/Seller/ForgotPassword';
 import ErrorPage from './components/ErrorPage';
+import Verification from './Authorization/Seller/Verification';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -108,7 +109,7 @@ function App() {
 ' element={<Me />}></Route>
 
             <Route path='/password-reset/:id' element={<Editor />}></Route>
-            <Route path='/email-verification/:id' element={<Editor />}></Route>
+            <Route path='/email-verification/:id' element={<Verification />}></Route>
 
 
 

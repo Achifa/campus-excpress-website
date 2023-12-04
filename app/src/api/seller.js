@@ -3,7 +3,7 @@ import axios from 'axios'
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.75.146:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u2;
+let plug = u1;
 
 export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id) {
     return new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ export function DeleteItem(seller_id,product_id) {
             reject(err) 
         })
     })
-}
+} 
 
 export function updateSellerProfile(fname,lname,state,campus,seller_id) {
     return new Promise((resolve, reject) => {
@@ -265,6 +265,30 @@ export function GetSellerInbox(seller_id) {
 export function GetSellerOrder(seller_id) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/orders`, {seller_id})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function ValidateEmail(token) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/email-validation`, {token})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function SendEmail(email,seller_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/send-email`, {email,seller_id})
         .then((result) => {
             resolve(result)
         })

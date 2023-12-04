@@ -339,9 +339,9 @@ async function RegisterSeller(req,res) {
     
                     Hello Dear,
                     
-                    Thank you for choosing Campus Express Nigeria! To complete your verify your email please follow the link below:
+                    Thank you for choosing Campus Express Nigeria! To complete your Email Verification, please click the link below:
                     
-                    www.campusexpressng.com/email-verification/?TOKEN=${token}
+                    www.campusexpressng.com/email-verification/${token}?email=${email}
                     
                     This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
                     
@@ -698,6 +698,92 @@ async function GetSellerOrder(req,res) {
     .catch(err => console.log(err))
 }
 
+async function SendEmail(req,res) {
+
+    let {email} = req.body;
+    console.log(email)
+    let date = new Date()
+    async function SendEmail(params) {
+        let token = shortId.generate()
+
+        function createEmailToken(params) {
+            return(
+                NeonDB.then((pool) => 
+                    pool.query(`insert into email_token(id,email,user_id,token,date) values(DEFAULT,'${email}','','${token}','${date}')`)
+                    .then(result => (result.rowCount))
+                    .catch(err => {
+                        console.log(err)
+                    })
+                )
+                .catch(err => {
+                    console.log(err)
+                })
+            )
+        }
+
+        function sendEmailToken(params) {
+            const nodemailer = require('nodemailer');
+    
+            // Create a transporter using SMTP
+            const transporter = nodemailer.createTransport({
+            host: 'mail.privateemail.com',  // Replace with your SMTP server hostname
+            port: 465, // Replace with your SMTP server port
+            secure: true, // Set to true if using SSL/TLS
+            auth: { 
+                user: 'security-team@campusexpressng.com', // Replace with your email address
+                pass: 'A!nianuli82003', // Replace with your email password or app-specific password
+            },
+            }); 
+    
+            // Email content 
+            const mailOptions = {
+                from: 'security-team@campusexpressng.com', // Replace with your email address
+                to: `${email}`, // Replace with the recipient's email address
+                subject: 'Email Verification',
+                html: ` 
+    
+                    Hello Dear,
+                    
+                    Thank you for choosing Campus Express Nigeria! 
+                    To complete your Email Verification, please click the link below:
+                    
+                    www.campusexpressng.com/email-verification/${token}?email=${email}
+                    
+                    This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
+                    
+                    If you did not initiate this action, please contact our support team immediately.
+                    
+                    Thank you for using Campus Express Nigeria.
+                    
+                    Best regards,
+                    Campus Express Nigeria. 
+                `
+            };
+    
+            // Send the email
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                }
+            });
+    
+    
+        }
+    
+        let response1 = await createEmailToken();
+
+        if(response1 > 0){
+            console.log(response1)
+            let response2 = sendEmailToken();
+            res.send(true)
+        }
+      
+    }
+
+    SendEmail()
+}
 
 
-module.exports = {uploadProduct,updatePwd,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd,DeleteProduct,GetSellerInbox,GetSellerOrder}
+module.exports = {uploadProduct,SendEmail,updatePwd,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd,DeleteProduct,GetSellerInbox,GetSellerOrder}
