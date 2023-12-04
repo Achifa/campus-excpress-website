@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../styles/Seller/signup.css'
 import { useNavigate } from 'react-router-dom';
 import { RegisterSeller, SendEmailToken, SendToken } from '../../api/seller';
@@ -19,7 +19,8 @@ const Signup = () => {
     let [campus, setCampus] = useState('')
 
     const [value, setValue] = useState('Select State');
-    const [validation, setvalidation] = useState(false);
+    const validation = useRef(false);
+    // const [validation, setvalidation] = useState(false);
     const [campusLocale, setCampusLocale] = useState('Select Campus');
     const [campusLocaleList, setCampusLocaleList] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
@@ -31,7 +32,7 @@ const Signup = () => {
         
 
         Validation();
-        if(validation){
+        if(validation.current){
             setBtn(
                 <div className="Authloader" style={{background: '#fff'}}></div>
             )
@@ -45,6 +46,8 @@ const Signup = () => {
                 e.target.disabled = false;
 
             })
+        }else{
+            setBtn("Signup")
         }
         
     }
@@ -68,10 +71,10 @@ const Signup = () => {
                     if(err.length > 0 ){
                         div.innerHTML = err[0].mssg;
                         pElem.append(div)
-                        setvalidation(false)
+                        validation.current = (false)
 
                     }else{
-                        setvalidation(true)
+                        validation.current = (true)
                         let check = pElem.querySelector('.err-mssg');
 
                         if(check){
@@ -89,10 +92,10 @@ const Signup = () => {
                     if(err.length !== 0 ){
                         div.innerHTML = err[0].mssg;
                         pElem.append(div)
-                        setvalidation(false)
+                        validation.current = (false)
 
                     }else{
-                        setvalidation(true)
+                        validation.current = (true)
                         let check = pElem.querySelector('.err-mssg');
 
                         if(check){
@@ -163,7 +166,7 @@ const Signup = () => {
                 let empty = state !== '' ?  {bool: true, mssg: ''} :  {bool: false, mssg: 'Please select a state'}
                 let errs = [empty];
                     
-                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
             }else if(item.name === 'campus'){
                 let empty = campus !== '' ?  {bool: true, mssg: ''} :  {bool: false, mssg: 'Please select a campus'}
                 let errs = [empty];
@@ -304,7 +307,7 @@ const Signup = () => {
                         <small style={{color: 'orangered'}}>Forgot Password? Recover Password Here</small>
                     </div> */}
                     <div onClick={e => navigate('/seller/login')}>
-                        <small>Already Have An Account, Signin Here</small>
+                        <small style={{cursor: 'pointer'}}>Already Have An Account, Signin Here</small>
                     </div>
 
                     <br />

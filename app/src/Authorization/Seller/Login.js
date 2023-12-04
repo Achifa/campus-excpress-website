@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import '../../styles/Buyer/login.css'
 import { LogSellerIn } from "../../api/seller";
@@ -9,7 +9,8 @@ const SellerLogin = () => {
 
     let [email, setEmail] = useState('')
     let [pwd, setPwd] = useState('')
-    const [validation, setvalidation] = useState(false);
+    const validation = useRef(false);
+
 
     let Login = (e) => {
         
@@ -20,7 +21,7 @@ const SellerLogin = () => {
         }
 
         Validation();
-        if(validation){
+        if(validation.current){
             setBtn(
                 <div className="Authloader" style={{background: '#fff'}}></div>
             )
@@ -81,10 +82,10 @@ const SellerLogin = () => {
                     if(err.length > 0 ){
                         div.innerHTML = err[0].mssg;
                         pElem.append(div)
-                        setvalidation(false)
+                        validation.current=(false)
 
                     }else{
-                        setvalidation(true)
+                        validation.current=(true)
                         let check = pElem.querySelector('.err-mssg');
 
                         if(check){
@@ -102,10 +103,10 @@ const SellerLogin = () => {
                     if(err.length !== 0 ){
                         div.innerHTML = err[0].mssg;
                         pElem.append(div)
-                        setvalidation(false)
+                        validation.current=(false)
 
                     }else{
-                        setvalidation(true)
+                        validation.current=(true)
                         let check = pElem.querySelector('.err-mssg');
 
                         if(check){
@@ -187,11 +188,11 @@ const SellerLogin = () => {
                         </div>
                     </form>
 
-                    <div onClick={e => navigate('/seller/reset-password')}>
-                        <small>Forgot Password? Recover Password Here</small>
-                    </div>
+                    {/* <div onClick={e => navigate('/seller/reset-password')}>
+                        <small style={{cursor: 'pointer'}}>Forgot Password? Recover Password Here</small>
+                    </div> */}
                     <div onClick={e => navigate('/seller/signup')}>
-                        <small>Don't Have An Account, Signup Here</small>
+                        <small style={{cursor: 'pointer'}}>Don't Have An Account, Signup Here</small>
                     </div>
                 </section>
             </div>
