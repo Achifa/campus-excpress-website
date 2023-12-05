@@ -3,6 +3,7 @@ import '../../styles/Seller/signup.css'
 import { useNavigate } from 'react-router-dom';
 import { RegisterSeller, SendEmailToken, SendToken } from '../../api/seller';
 import { data, school_choices } from '../../location';
+import { socket } from '../../socket';
 
 const Signup = () => {
 
@@ -27,11 +28,32 @@ const Signup = () => {
     const [CampusisFocus, setCampusIsFocus] = useState(false);
     let [btn, setBtn] = useState("Signup")
 
+    let book = useRef({
+        fname: false,
+        lname: false,
+        email: false,
+        pwd: false,
+        // phn: false,
+        campus: false,
+        state: false
+    })
+
+    function checkEmailDuplicate(params) {
+        socket.emit('emailCheck', email);
+        let data;
+        socket.on('emailCheck', (email) => data = email)
+
+        return data
+    }
+
+
+
     let Registration = (e) => {
         // e.target.disabled = true;
-        
-
         Validation();
+
+        console.log(book.current)
+        Object.values(book.current).filter(item => item !== true).length > 0 ? validation.current = false : validation.current = true;
         if(validation.current){
             setBtn(
                 <div className="Authloader" style={{background: '#fff'}}></div>
@@ -48,6 +70,9 @@ const Signup = () => {
             })
         }else{
             setBtn("Signup")
+            e.target.disabled = false;
+            ;
+
         }
         
     }
@@ -57,9 +82,13 @@ const Signup = () => {
         let inputs = [...document.querySelectorAll('input')]
         let select = [...document.querySelectorAll('select')]
 
-        let book = []
+        
+
+        
+
 
         function addErrMssg(err,pElem) {
+            
             // if(!err[0].bool){
 
                 let check = pElem.querySelector('.err-mssg');
@@ -71,10 +100,10 @@ const Signup = () => {
                     if(err.length > 0 ){
                         div.innerHTML = err[0].mssg;
                         pElem.append(div)
-                        validation.current = (false)
+                        
 
                     }else{
-                        validation.current = (true)
+                        
                         let check = pElem.querySelector('.err-mssg');
 
                         if(check){
@@ -92,10 +121,10 @@ const Signup = () => {
                     if(err.length !== 0 ){
                         div.innerHTML = err[0].mssg;
                         pElem.append(div)
-                        validation.current = (false)
+                        
 
                     }else{
-                        validation.current = (true)
+                        
                         let check = pElem.querySelector('.err-mssg');
 
                         if(check){
@@ -119,28 +148,41 @@ const Signup = () => {
                     let specialCharFree = /^[a-zA-Z]+$/.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
                     let errs = [empty,length,specialCharFree];
                     
-                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement);
+                    let list =errs.filter(item => item.mssg !== '')
 
-
+                    list.length > 0 ? book.current.fname = false : book.current.fname = true
                     
                 }else if(item.name === 'lname'){
 
                     let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty'}
                     let length = item.value.length > 3 ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please name must be at least 3 characters.'}
                     let specialCharFree = /^[a-zA-Z]+$/.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
+
                     let errs = [empty,length,specialCharFree];
                     
                     addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.lname = false : book.current.lname = true
 
                 }else if(item.name === 'email'){
+
+                    let validity = checkEmailDuplicate()
 
                     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
                     let validEmail = emailRegex.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter a valid email address.'}
-                    let errs = [empty,validEmail];
-                    console.log('empty',errs)
-                    
+                    let emailDuplicate =  validity ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
+
+                    console.log(validity)
+
+                    let errs = [empty,validEmail,emailDuplicate];
+
                     addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.email = false : book.current.email = true
 
                 }
                 
@@ -151,13 +193,11 @@ const Signup = () => {
                     let errs = [empty,length];
                     
                     addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
-                }else if(item.name === 'confirm-password'){
-                    let validity = item.value !== pwd ? {bool: false, mssg: 'Password does not match'} :  {bool: true, mssg: ''} 
-                    let errs = [validity];
-                    
-                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
-                }
 
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.pwd = false : book.current.pwd = true
+                }
             }
         })
 
@@ -167,11 +207,17 @@ const Signup = () => {
                 let errs = [empty];
                     
                 addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                let list =errs.filter(item => item.mssg !== '')
+
+                list.length > 0 ? book.current.state = false : book.current.state = true
             }else if(item.name === 'campus'){
                 let empty = campus !== '' ?  {bool: true, mssg: ''} :  {bool: false, mssg: 'Please select a campus'}
                 let errs = [empty];
                     
                 addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                let list =errs.filter(item => item.mssg !== '')
+
+                list.length > 0 ? book.current.campus = false : book.current.campus = true
             }
         })
 
@@ -244,18 +290,29 @@ const Signup = () => {
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Password</label>
-                                <input name='password' onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
+                                <input name='password' className='pwd' onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
+                            </section>
+                            <section>
+                                <button onClick={e => {
+                                    e.target.disabled = true
+                                    e.preventDefault();
+                                    let pwd = document.querySelector('.pwd');
+                                    if(pwd.type !== 'text'){
+                                        pwd.type = 'text'
+                                        setTimeout(( ) => {pwd.type = 'password'; e.target.disabled = false}, 800)
+                                    }
+                                }}>Show</button>
                             </section>
                             
                         </div>
 
-                        <div className="seller-input-cnt">
+                        {/* <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Confirm Password</label>
                                 <input name='confirm-password' onInput={e => setCPwd(e.target.value)}  placeholder='Confirm Password...' type="password" />
                             </section>
                             
-                        </div>
+                        </div> */}
 
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
@@ -295,7 +352,7 @@ const Signup = () => {
                     
                         <div className="seller-input-cnt">
                             
-                            <button onClick={e => {e.preventDefault(); Registration(e)}}>{btn}</button>
+                            <button  onClick={e => {e.preventDefault(); Registration(e)}}>{btn}</button>
                             
                         </div>
 

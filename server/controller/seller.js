@@ -373,6 +373,28 @@ async function RegisterSeller(req,res) {
             let response2 = sendEmailToken();
             res.send(true)
         }
+
+        function deleteToken(params) {
+            NeonDB.then((pool) => 
+                pool.query(`DELETE from email_token WHERE token = '${token}'`)
+                .then(result => {
+                    if(result.rowCount > 0){
+                        res.send(true)
+                    }else{
+                        res.send(false)
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+    
+                })
+            )
+            .catch(err => {
+                console.log(err)
+            })
+        }
+
+        setTimeout(deleteToken, 300000)
       
     }
 
@@ -398,6 +420,7 @@ async function RegisterSeller(req,res) {
             let newSellerEmailToken = result ? SendEmail() : false;
             return(newSellerEmailToken ? (true) : (false))
         })
+        
         .catch((err) => {
             console.log(err)
             res.send(false)
@@ -779,6 +802,28 @@ async function SendEmail(req,res) {
             let response2 = sendEmailToken();
             res.send(true)
         }
+
+        function deleteToken(params) {
+            NeonDB.then((pool) => 
+                pool.query(`DELETE from email_token WHERE token = '${token}'`)
+                .then(result => {
+                    if(result.rowCount > 0){
+                        res.send(true)
+                    }else{
+                        res.send(false)
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+    
+                })
+            )
+            .catch(err => {
+                console.log(err)
+            })
+        }
+
+        setTimeout(deleteToken, 300000)
       
     }
 

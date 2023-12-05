@@ -52,8 +52,8 @@ const Wallets = () => {
     const initializePayment = usePaystackPayment(config);
 
     function handleDeposit(params) {
-       let overlay = document.querySelector('.seller-overlay');
-       overlay.setAttribute('id', 'seller-overlay')
+       let overlay = document.querySelector('.buyer-overlay');
+       overlay.setAttribute('id', 'buyer-overlay')
     }
 
     useEffect(() => {
@@ -66,13 +66,13 @@ const Wallets = () => {
 
     return ( 
         <>
-            <div className="seller-overlay">
+            <div className="buyer-overlay">
                 <PayStack />
             </div>
             
-            <div className="seller-wallet-cnt">
+            <div className="buyer-wallet-cnt">
 
-                <div className="seller-wallet-top shadow-sm">
+                <div className="buyer-wallet-top shadow-sm">
                     <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span><small>&#8358;</small>&nbsp;{balance}</span></p>
                     <div>
                         <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Withdraw Funds</span>
@@ -84,14 +84,14 @@ const Wallets = () => {
                     
                 </div>
 
-               {/* <div className="seller-wallet-middle shadow-sm">
+               {/* <div className="buyer-wallet-middle shadow-sm">
                     <div>
-                        <section><Link to={'https://sandbox-flw-web-v3.herokuapp.com/pay/campus-express-seller-wallet'} target='_blank'>Withdraw</Link></section>
+                        <section><Link to={'https://sandbox-flw-web-v3.herokuapp.com/pay/campus-express-buyer-wallet'} target='_blank'>Withdraw</Link></section>
                         <br />
                         <section><small>Withdraw funds from campus express every Tuesday.</small></section>
                     </div>
                     <div>
-                        <section><Link to={'https://sandbox-flw-web-v3.herokuapp.com/pay/campus-express-seller-wallet'} target='_blank'>Deposit</Link></section>
+                        <section><Link to={'https://sandbox-flw-web-v3.herokuapp.com/pay/campus-express-buyer-wallet'} target='_blank'>Deposit</Link></section>
                         <br />
 
                         <section><small>Fund your campus express account.</small></section>
@@ -106,7 +106,7 @@ const Wallets = () => {
                     </div>
                 </div>*/}
 
-                <div className="seller-wallet-bottom shadow-sm">
+                <div className="buyer-wallet-bottom shadow-sm">
 
                     <h4>Transactions</h4>
                     <br />

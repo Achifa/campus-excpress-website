@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { AuthorizeWalletAccess, WalletData, createBill } from '../../api/seller';
 import PayStack from './PayStack';
 import { socket } from '../../socket';
-import '../../styles/Seller/overlay.css' 
-
+import '../../styles/Seller/overlay.css'
+    
 const Wallets = () => {
     
     let navigate = useNavigate();

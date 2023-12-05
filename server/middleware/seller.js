@@ -63,38 +63,42 @@ function CheckPwdResetToken(req, res, next){
 async function ValidateEmail(req,res) {
 
     let {token} = req.body
+    console.log(token)
 
-    NeonDB.then((pool) => 
-        pool.query(`select * from email_token WHERE token = '${token}'`)
-        .then(result => {
-            if(result.rows.length > 0){
-                NeonDB.then((pool) => 
-                    pool.query(`DELETE from email_token WHERE token = '${token}'`)
-                    .then(result => {
-                        if(result.roeCount > 0){
-                            res.send(true)
-                        }else{
-                            res.send(false)
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-                )
-                .catch(err => {
-                    console.log(err)
-                })
-            }else{
-                res.send(false)
-            }
-        })
+    function checkToken(params) {
+        return(NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM email_token`)
+            .then(result => result.rows.filter(item => item.token === token).length > 0 ? true : false)
+            .catch(err => {console.log(err); return(false)})
+        )
+        .catch(err => {
+            console.log(err)
+        }))
+    }
+
+    function deleteToken(params) {
+        NeonDB.then((pool) => 
+            pool.query(`DELETE from email_token WHERE token = '${token}'`)
+            .then(result => {
+                if(result.rowCount > 0){
+                    res.send(true)
+                }else{
+                    res.send(false)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+
+            })
+        )
         .catch(err => {
             console.log(err)
         })
-    )
-    .catch(err => {
-        console.log(err)
-    })
+    }
+
+    let checker = await checkToken()
+    console.log(checker)
+    checker ? deleteToken() : res.send(false)
 }
 
 

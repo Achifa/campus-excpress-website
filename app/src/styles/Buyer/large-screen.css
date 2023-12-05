@@ -909,7 +909,7 @@
         border-radius: 5px;
     }
    
-    .seller-wallet-cnt{
+    .buyer-wallet-cnt{
         height: calc(100vh - 100px);
         width: calc(100%);
         margin: auto;
@@ -917,14 +917,14 @@
         padding: 20px;
         background-color: #f9f9f9;
     }
-    .seller-wallet-top{
+    .buyer-wallet-top{
         height: 120px;
         width: 100%;
         background-color: #fff;
         position: relative;
         padding: 20px;
     }
-    .seller-wallet-top p{
+    .buyer-wallet-top p{
         font-size: x-large;
         font-weight: 500;
         float: left;
@@ -934,7 +934,7 @@
         align-items: flex-start;
 
     }
-    .seller-wallet-top div{
+    .buyer-wallet-top div{
         font-size: small;
         text-decoration: none;
         font-weight: 500;
@@ -949,7 +949,7 @@
         justify-content: flex-start;
         align-items: flex-start;
     }
-    .seller-wallet-middle{
+    .buyer-wallet-middle{
         height: 140px;
         width: 100%;
         background-color: #fff;
@@ -961,7 +961,7 @@
         justify-content: space-between;
         align-items: center;
     }
-    .seller-wallet-middle div{
+    .buyer-wallet-middle div{
         width: calc(33.3% - 10px);
         height: 100%;
         float: left;
@@ -976,7 +976,7 @@
         border-radius: 5px;
         color: #fff;
     }
-    .seller-wallet-bottom{
+    .buyer-wallet-bottom{
         height: fit-content;
 
         width: 100%;
@@ -989,7 +989,7 @@
         justify-content: flex-start;
         align-items: flex-start;
     }
-    .seller-wallet-bottom div{
+    .buyer-wallet-bottom div{
         width: 100%;
         height: fit-content;
         float: left;
@@ -1005,7 +1005,7 @@
         border-radius: 5px;
         color: #fff;
     }
-    .seller-wallet-bottom div section{
+    .buyer-wallet-bottom div section{
         width: 100%;
         margin-bottom: 10px;
     }
