@@ -3,7 +3,7 @@ import axios from 'axios'
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.75.146:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u2;
+let plug = u1;
 
 export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id) {
     return new Promise((resolve, reject) => {

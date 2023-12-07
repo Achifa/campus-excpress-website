@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import PayStack from "./PayStack";
 import { usePaystackPayment } from "react-paystack";
 import CEStack from "./CEStack";
-import Settings from "../Seller/Settings";
 
 const CheckOut = () => {
     let [item, setItem] = useState('')

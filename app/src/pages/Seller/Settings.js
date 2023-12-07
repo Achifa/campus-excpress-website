@@ -1,10 +1,10 @@
 import { useLocation } from "react-router-dom";
-import Settings from "../../components/Seller/Settings";
+import Settings from "../../components/Seller/settings/Settings";
 import { useEffect, useState } from "react";
-import PasswordReset from "../../components/Seller/PasswordReset";
-import Verification from "../../components/Seller/Verification";
-import NoticeSetup from "../../components/Seller/NoticeSetup";
-import ProfileSetup from "../../components/Seller/ProfileSetup";
+import PasswordReset from "../../components/Seller/settings/PasswordReset";
+import Verification from "../../components/Seller/settings/Verification";
+import NoticeSetup from "../../components/Seller/settings/NoticeSetup";
+import ProfileSetup from "../../components/Seller/settings/ProfileSetup";
 
 const Setting = () => {
 

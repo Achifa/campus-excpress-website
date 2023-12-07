@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { data, school_choices } from '../../location';
-import { GetSeller, updateSellerProfile } from "../../api/seller";
-import '../../styles/Seller/overlay.css' 
-import '../../styles/settings.css'
+import { data, school_choices } from '../../../location';
+import { GetSeller, updateSellerProfile } from "../../../api/seller";
+import '../../../styles/Seller/overlay.css' 
+import '../../../styles/settings.css';
+
 const ProfileSetup = () => {
 
     let navigate = useNavigate();

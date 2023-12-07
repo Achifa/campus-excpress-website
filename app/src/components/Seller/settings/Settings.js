@@ -1,5 +1,5 @@
-import img from '../../assets/download (3).jpeg'
-import audioSvg from '../../assets/audio-input-microphone-svgrepo-com.svg'
+import img from '../../../assets/download (3).jpeg'
+import audioSvg from '../../../assets/audio-input-microphone-svgrepo-com.svg'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 

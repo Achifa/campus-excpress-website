@@ -11,6 +11,10 @@ import '../../styles/Buyer/large-screen.css'
 import SearchBar from "../../components/SeachBar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Ads from "../../components/Buyer/Ads";
+import FlashAds from "../../components/Buyer/FlashAds";
+import FlashSales from "../../components/Buyer/FlashSales";
+import Recommended from "../../components/Buyer/Recommended";
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
@@ -23,7 +27,7 @@ const Dashboard = () => {
     }, [])
     
     return ( 
-        <>  
+        <div className="buyer-main-cnt">  
             {/*<BuyerAside />*/}
             {
                 screenWidth > 479
@@ -33,10 +37,16 @@ const Dashboard = () => {
                 <SearchBar />
             }
 
-            <Category />
+            <Ads />
+
+            <FlashAds />
+
+            <FlashSales />
+
+            <Recommended />
             
             <Home />
-        </>
+        </div>
      );
 }
  

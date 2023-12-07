@@ -5,7 +5,7 @@
             {
                 "Food": 
                 [
-                    "Meat","Fruits","Vegetables","Oil","Grains","Legumes","Junk Food/Snaks","Sea Food","Processed Food"
+                    "Meat","Fruits","Vegetables","Oil","Grains","Legumes","Junk Food/Snaks","Sea Food","Processed Food","Beverages"
                 ]
             },
 
@@ -19,7 +19,7 @@
             {
                 "Fashion": 
                 [
-                    "Bags","Clothing","Jewelry","Shoe","Watch","Clothing Accessories"
+                    "Bags","Clothing","Jewelry","Shoe","Watch"
                 ]
             },
 
@@ -80,12 +80,7 @@
                 ]
             },
 
-            {
-                "Services": 
-                [
-                    "Ghostwriters","Barber","Cleaner","Cooker","Partner(Hookup/Relationship)","Plumber","Electrician","Mechanic","Sales Person"
-                ]
-            },
+            
 
             {
                 "Lodge/Apartments": 

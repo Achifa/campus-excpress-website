@@ -79,9 +79,9 @@ const Product = () => {
     }, [ActiveImg])
 
     let BtnStyles = {
-        height: '70px',
+        height: '50px',
         width: '100%',
-        borderRadius: '10px',
+        borderRadius: '5px',
         outline: 'none',
         border: 'none',
         cursor: 'pointer',
@@ -91,8 +91,8 @@ const Product = () => {
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
-        fontSize: 'large',
-        fontWeight: '1000',
+        fontSize: 'medium',
+        fontWeight: '400',
         backgroundColor: 'orangered',
         margin: '0'
     }
@@ -211,7 +211,7 @@ const Product = () => {
                 <div className="buyer-product-cnt">
                     <div className="buyer-product-data">
                         <div id="left">
-                            <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, backgroundRepeat: 'no-repeat', backgroundSize: '150px 150px', backgroundPosition: 'center'}}>
+                            <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, backgroundRepeat: 'no-repeat', backgroundSize: '200px 200px', backgroundPosition: 'center'}}>
                                 {/* <img src={activeImg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" /> */}
                             </div>
                             <ItemImgs />
@@ -219,9 +219,9 @@ const Product = () => {
 
                         <div id="right">
  
-                            <h3>{item['title']}</h3>
+                            <h6>{item['title']}</h6>
 
-                            <section>
+                            {/* <section>
                                 <div>
                                     <span><span style={{color: '#626262'}}>Shop ID :</span> <span style={{color: 'orangered'}}>CE_4590-ddf</span></span> <span>&#x2022;</span> <span><span style={{color: '#626262'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700'}}>{item.product_id}</span></span>
                                 </div>
@@ -230,24 +230,28 @@ const Product = () => {
                                 </div>
 
                                 
-                            </section>
-                            <hr />
+                            </section> */}
 
-                            <h2 style={{fontWeight: '700', padding: '20px'}}>
-                                &#8358;{new Intl.NumberFormat('en-us').format(item.price)}
-                            </h2>
+                            <hr style={{margin: '10px'}} />
 
-                            <hr />
+                            <p style={{fontWeight: '700', padding: '0px', fontSize: 'large'}}>
+                                <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item.price)}
+                            </p>
+
+                            <p style={{fontWeight: '400', padding: '0px'}}>0 in stock</p>
+
+                            <p>+ shipping from ₦ 640 to AWKA TOWN</p>
+
+                            {/* <hr /> */}
                             <br />
 
                             <div style={BtnStyles} onClick={e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price)}`) : navigate(`/seller/editor?product_id=${item.product_id}`)}>
                                 Buy Now
                             </div>
 
-                            <br />
 
                             <div style={{
-                                height: '70px',
+                                height: '60px',
                                 width: '100%',
                                 borderRadius: '10px',
                                 outline: 'none',
@@ -262,9 +266,9 @@ const Product = () => {
                                 fontSize: 'medium',
                                 fontWeight: '500',
                                 backgroundColor: '#fff',
-                                margin: '0'
+                                marginTop: '40px'
                             }}>
-                                <button onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0
                                         ?
@@ -279,7 +283,7 @@ const Product = () => {
                                         'Delete'
                                     }
                                 </button>
-                                <button onClick={e => role !== 0 ? navigate(`/seller/editor?product_id=${item.product_id}`) : Saver(e,item.product_id)} style={{height: '60px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => role !== 0 ? navigate(`/seller/editor?product_id=${item.product_id}`) : Saver(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0 
                                         ?
@@ -306,7 +310,7 @@ const Product = () => {
                                 <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
                             </section> */}
 
-                            <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', padding: '10px', position: 'relative', width: '100%',}}>
+                            {/* <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', padding: '10px', position: 'relative', width: '100%',}}>
                                 <div>Share With Your Friends</div>
                                 <ul>
                                     <li style={{border: 'none', padding: '0',cursor: 'pointer'}}>
@@ -323,7 +327,7 @@ const Product = () => {
                                 </ul>
 
                                 
-                            </section>
+                            </section> */}
 
 
                         </div>

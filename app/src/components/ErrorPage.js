@@ -11,8 +11,10 @@ const ErrorPage = () => {
                 <br />
                 <br />
                 <br />
+
+                <h1>404 Error</h1>
                 
-                <h2>Page Not Found</h2>
+                <h5>[Page Does Not Exist]</h5>
 
             </section>
         </>

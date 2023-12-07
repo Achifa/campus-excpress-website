@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { GetSellerOrder } from '../../api/seller'
+import { GetSellerInbox } from "../../api/seller";
+import { useNavigate } from "react-router-dom";
+import '../../styles/Seller/overlay.css' 
+import InboxCard from "../../components/Seller/inbox/InboxCard";
 
-const Order = () => {
-    let [orderList, setOrderList] = useState([])
+const Inbox = () => {
+    let [inboxList, setInboxList] = useState([])
     let [loaderText, setLoaderText] = useState('Loading...')
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         overlay.setAttribute('id', 'overlay');
-        GetSellerOrder()
+        GetSellerInbox()
         .then(({data}) => {
-            console.log(data)
+            setInboxList(data)
             overlay.removeAttribute('id')
             data.length < 1 
             ?
@@ -24,20 +27,27 @@ const Order = () => {
     },[])
     return ( 
         <>
-            <div className="overlay">
+            <div className="overlay" >
                 <div className="loader">
                 </div>
             </div>
-            <div className="seller-order-cnt">
-                
 
+            
+            {
+                inboxList.length > 0
+                ?
+                <InboxCard inboxList={inboxList} />
+                :
                 <>
                     <br />
+                    <br />
+                   
                     <small style={{color: 'orangered'}}>{loaderText}</small>
                 </>
-            </div>
+
+            }
         </>
      );
 }
  
-export default Order;
+export default Inbox;

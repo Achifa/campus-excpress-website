@@ -1,4 +1,4 @@
-import '../../styles/settings.css';
+import '../../../styles/settings.css';
 
 const Verification = () => {
     return ( 

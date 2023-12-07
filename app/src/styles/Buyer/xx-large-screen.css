@@ -10,16 +10,108 @@
     }
 
     .buyer-header{
-        height: 90px;
+        height: 60px;
         width: 100%;
         background-color: #fff;
         display: flex;
+        position: sticky;
+        top: 0;
         align-items: center;
         padding: 0 20px 0 20px;
         
     }
 
-    .buyer-category{
+    .buyer-main-cnt{
+        padding: 40px 80px 40px 80px; 
+        background-color: #f9f9f9;
+    }
+
+    .buyer-flash-ads{
+        height: fit-content;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #fff;
+    }
+
+    .buyer-flash-ads ul{
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: left;
+
+    }
+
+    .buyer-flash-ads ul li{
+        height: 150px;
+        flex-shrink: 0;
+        width: calc(20% - 10px);
+        background-color: #f9f9f9;
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .buyer-flash-sales{
+        height: fit-content;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #fff;
+    }
+
+    .buyer-flash-sales ul{
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: left;
+
+    }
+
+    .buyer-flash-sales ul li{
+        height: 180px;
+        flex-shrink: 0;
+        width: calc(20% - 10px);
+        background-color: #f9f9f9;
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .buyer-ads-cnt{
+        height: 450px;
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        background-color: red;
+    }
+
+    .buyer-ads-cnt section:nth-child(odd){
+        width: 250px;
+        margin: 0 10px 0 10px;
+        height: 100%;
+        border-radius: 10px;
+        background-color: blue;
+    }
+
+    .buyer-ads-cnt section:nth-child(even){
+        width: calc(100% - 500px);
+        margin: 0 10px 0 10px;
+        height: 100%;
+        border-radius: 10px;
+        background-color: blue;
+    }
+
+    
+
+    /* .buyer-category{
         height: fit-content;
         width: 100%;
         float: right;
@@ -54,24 +146,25 @@
         font-size: large;
         color: #000;
         font-weight: 500;
-    }
+    } */
 
     .buyer-header .input-cnt{
-        height: fit-content;
+        height: 100%;
         width: 500px;
         position: relative;
         display: flex;
         margin: auto;
+        align-items: center;
         flex-direction: row;
 
     }
 
-    .buyer-header section{
+    /* .buyer-header section{
         height: fit-content;
         width: fit-content;
-    }
+    } */
 
-    .buyer-header section ul{
+    /* .buyer-header-list-cnt{
         list-style-type: none;
         display: flex;
         align-items: center;
@@ -79,51 +172,48 @@
         overflow: auto;
         margin: 0;
         padding: 10px 10px 10px 10px;
-    }
+    } */
 
-    .buyer-header section ul li{
+    /* .buyer-header-list-cnt .buyer-header-list{
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 8px;
-        border-radius: 5px;
         flex-wrap: nowrap;
         flex-shrink: 0;
         cursor: pointer;
         margin: 0 5px 0 5px;
         font-size: large;
-        background-color: orangered;
         color: #fff;
         font-weight: 500;
-    }
+    } */
 
-    .buyer-header section ul li span{
-        margin: 0 5px 0 5px;
-    }
-
-
+   
     .buyer-header .input-cnt input{
-        height: 60px;
+        height: 50px;
         float: left;
-        border-top-left-radius: 35px;
-        border-bottom-left-radius: 35px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
         font-size: large;
         padding: 20px;
+        font-family: 'Times New Roman', Times, serif;
         font-weight: bolder;
         width: 100%;
 
     }
 
     .buyer-header .input-cnt button{
-        height: 60px;
+        font-family: 'Times New Roman', Times, serif;
+        height: 50px;
+        font-weight: bold;
         float: right;
-        border-top-right-radius: 35px;
-        border-bottom-right-radius: 35px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
         position: relative;
         width: 100px;
         background-color: orangered;
         color: #fff;
         outline: none;
+        margin-left: 5px;
         font-weight: 500;
         border: none;
 
@@ -165,19 +255,16 @@
         width: 100%;
         overflow: auto;
         float: right;
-
-        padding: 50px;
+        margin: 10px 0 10px 0;
         background-color: #f9f9f9;
     }
 
-  
 
     .buyer-dashboard-body .card{
         height: 400px;
         width: calc(20% - 16px);
         flex-shrink: 0;
         float: left;
-        margin: 8px;
         padding: 10px;
         text-align: left;
         cursor: pointer;
@@ -205,18 +292,18 @@
         font-weight: 400;
     }
 
-    .buyer-dashboard-body .card .card-body h6{
+    .buyer-dashboard-body .card .card-body small{
         font-size: medium;
         height: 45px;
         text-overflow: ellipsis;
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
-        line-clamp: 2;
-        line-height: 25px;
+        line-clamp: 1;
+        line-height: 20px;
         -webkit-box-orient: vertical;
         font-family: Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,sans-serif;
-        font-weight: 500;
+        font-weight: 400;
     }
 
     .buyer-dashboard-body .card .card-body div{
@@ -248,16 +335,20 @@
     }
 
     .buyer-product-data {
-        height: 650px;
+        height: 400px;
         width: 100%;
         background-color: #fff;
     }
 
     .buyer-product-data #left{
         float: left;
-        width: 50%;
+        width: 400px;
         height: 100%;
-        padding: 40px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        padding: 10px;
     }
 
     .buyer-product-data #left .img-cnt{
@@ -267,7 +358,7 @@
     }
 
     .buyer-product-data #left .img-list-cnt{
-        height: 100px;
+        height: 150px;
         width: 100%;
         padding: 10px 0 10px 0;
         display: flex;
@@ -279,7 +370,7 @@
     }
 
     .buyer-product-data #left .img-list-cnt div{
-        height: 100%;
+        height: 70px;
         margin: 0 5px 0 5px;
         width: 100px;
         flex-shrink: 0;
@@ -288,15 +379,17 @@
 
     .buyer-product-data #right{
         float: right;
-        width: 50%;
+        width: calc(100% - 450px);
         height: 100%;
-        padding: 40px;
+        padding: 40px 10px;
         text-align: left;
+        font-size: small;
 
     }
 
-    .buyer-product-data #right h3{
-        font-size: 3vh;
+    .buyer-product-data #right h6{
+        font-size: large;
+        font-weight: 500;
     }
 
     .buyer-product-data #right section div{
@@ -304,7 +397,7 @@
     }
 
     .buyer-product-data #right section div span{
-        font-size: large;
+        font-size: small;
 
     }
 

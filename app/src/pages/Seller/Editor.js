@@ -7,32 +7,63 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import items from '../../items.json'
 import { GetEditedItem, updateItem, uploadItem } from '../../api/seller';
 import { GetItem } from '../../api/buyer';
-const Editor = () => {
+import TypeSelect from '../../components/Seller/editor/TypeSelect';
+import StockSelect from '../../components/Seller/editor/StockSelect';
+import PriceSelect from '../../components/Seller/editor/PriceSelect';
+import ConditionSelect from '../../components/Seller/editor/ConditionSelect';
+import ClothingCategory from '../../components/Seller/editor/ClothingSelect';
+import SizeSelect from '../../components/Seller/editor/SizeSelect';
+import GenderSelect from '../../components/Seller/editor/GenderSelect';
+import LocationSelect from '../../components/Seller/editor/LocationSelect';
+import CategorySelect from '../../components/Seller/editor/CategorySelect';
+import EditorTitle from '../../components/Seller/editor/EditorTitle';
+import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
+import EditorDescription from '../../components/Seller/editor/EditorDescription';
+const Editor = ({editorTitle}) => {
 
+    let [edit,setEdit] = useState('');
     let location = useLocation();
+    let navigate = useNavigate();
+    let [update, setUpdate] = useState(false);
 
-    let [edit,setEdit] = useState('')
 
-    let navigate = useNavigate()
-    let [productTitle, setProductTitle] = useState('')
-    let [productDescription, setProductDescription] = useState('')
-    let [productCategory, setProductCategory] = useState('')
-    let [productType, setProductType] = useState('')
-    let [productPrice, setProductPrice] = useState(0)
-    let [productLocale, setProductLocale] = useState('')
-    let [productStock, setProductStock] = useState(0)
-    let [productCondition, setProductCondition] = useState('')
-    let [productPackage, setProductPackage] = useState('')
-    let [productPhotos, setProductPhotos] = useState([])
-    let [screenWidth, setScreenWidth] = useState(0)
+    let [title, setTitle] = useState('')
+    function productTitle(data) {setTitle(data)}
 
-    let [categories, setCategories] = useState('')
-    let [type, setType] = useState('')
+    let [description, setDescription] = useState('')
+    function productDescription(data) {setDescription(data)}
+
+    let [category, setCategory] = useState('')
+    function productCategory(data) {setCategory(data)}
+
+    let [gender, setGender] = useState('')
+    function productGender(data) {setGender(data)}
+
+    let [cType, setCtype] = useState('')
+    function productType(data) {setCtype(data)}
+
+    let [size, setsize] = useState('')
+    function productSizeSelect(data) {setsize(data)}
+    
+    let [clothingCategory, setclothingCategory] = useState('')
+    function productClothingCategory(data) {setclothingCategory(data)}
+
     let [price, setPrice] = useState('')
+    function productPrice(data) {setPrice(data)}
 
-    let [titleCount, setTitleCount] = useState(0)
-    let [descriptionCount, setDescriptionCount] = useState(0)
+    let [locale, setLocale] = useState('')
+    function productLocale(data) {setLocale(data)}
 
+    let [stock, setStock] = useState('')
+    function productStock(data) {setStock(data)}
+
+    let [condition, setCondition] = useState('')
+    function productCondition(data) {setCondition(data)}
+
+    let [photos, setPhotos] = useState('')
+    function productPhotos(data) {setPhotos(data)}
+
+    let [productPackage, setProductPackage] = useState('')
     let validationBoolean = useRef({
         title: false,
         description: false,
@@ -44,24 +75,13 @@ const Editor = () => {
         price: false
     })
 
-
-    useEffect(() => {
-        setTitleCount(productTitle.length)
-    }, [productTitle])
-
-    useEffect(() => {
-        setDescriptionCount(productDescription.length)
-    }, [productDescription])
-
-    let [role, setRole] = useState(0)
-
     function Validation(element) {
 
         let name = element.name
         let type = element.tagName.toLowerCase();
         if(type === 'textarea'){
             if(element.name === 'title'){
-                if(productTitle.split(' ').length >= 2){
+                if(title.split(' ').length >= 2){
                     element.style.border = '1px solid #000'
                     validationBoolean.current.title = true;
 
@@ -70,7 +90,7 @@ const Editor = () => {
                     validationBoolean.current.title = false;
                 }
             }else{
-                if(productDescription.split(' ').length >= 10){
+                if(description.split(' ').length >= 10){
                     element.style.border = '1px solid #000'
                     validationBoolean.current.description = true;
 
@@ -85,7 +105,7 @@ const Editor = () => {
         }else if(type === 'input'){
             if(element.type !== 'file'){
                 if(element.name === 'stock'){
-                    if(productStock > 0){
+                    if(stock > 0){
                         element.style.border = '1px solid #000'
                         validationBoolean.current.stock = true;
                     }else{
@@ -93,7 +113,7 @@ const Editor = () => {
                         validationBoolean.current.stock = false;
                     }
                 }else if(element.name === 'price'){
-                    if(productPrice >= 25){
+                    if(price >= 25){
                         element.style.border = '1px solid #000'
                         validationBoolean.current.price = true;
                     }else{
@@ -102,7 +122,7 @@ const Editor = () => {
                     }
                 }
             }else{
-                if(productPhotos.length > 0){
+                if(photos.length > 0){
                     document.querySelector('.seller-shop-samples').style.border = '1px solid #000'
                     validationBoolean.current.photos = true;
                 }else{
@@ -114,7 +134,7 @@ const Editor = () => {
             
         }else if(type === 'select'){
             if(element.name === 'category'){
-                if(productCategory !== ''){
+                if(category !== ''){
                     element.style.border = '1px solid #000'
 
                     validationBoolean.current.category = true;
@@ -125,7 +145,7 @@ const Editor = () => {
 
                 }
             }else if(element.name === 'type'){
-                if(productType !== ''){
+                if(cType !== ''){
                     element.style.border = '1px solid #000'
 
                     validationBoolean.current.type = true;
@@ -136,7 +156,7 @@ const Editor = () => {
                     
                 }
             }else if(element.name === 'condition'){
-                if(productCondition !== ''){
+                if(condition !== ''){
                     element.style.border = '1px solid #000'
 
                     validationBoolean.current.condition = true;
@@ -149,9 +169,6 @@ const Editor = () => {
             }
     
         }
-
-
-        
 
     }
 
@@ -191,7 +208,6 @@ const Editor = () => {
 
         let result = falseyList.filter(item => item === false)
 
-
         if(result.length > 0){
             // let overlay = document.querySelector('.overlay')
             // overlay.setAttribute('id', 'overlay');
@@ -199,7 +215,7 @@ const Editor = () => {
         }else{
             let overlay = document.querySelector('.overlay')
             overlay.setAttribute('id', 'overlay');
-            updateItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,window.localStorage.getItem("CE_seller_id"),edit.product_id)
+            updateItem(title,description,category,cType,condition,price,locale,stock,productPackage,photos,window.localStorage.getItem("CE_seller_id"),edit.product_id)
             .then((result) => {
                 result
                 ?
@@ -216,7 +232,6 @@ const Editor = () => {
 
       
     }
-
 
     let handleForm = () => {
         let inputs = [...document.querySelectorAll('input')]
@@ -252,7 +267,7 @@ const Editor = () => {
         }else{
             let overlay = document.querySelector('.overlay')
             overlay.setAttribute('id', 'overlay');
-            uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,window.localStorage.getItem("CE_seller_id"))
+            uploadItem(title,description,category,cType,condition,price,locale,stock,productPackage,photos,gender,size,clothingCategory,window.localStorage.getItem("CE_seller_id"))
             .then((result) => {
                 result
                 ?
@@ -270,9 +285,6 @@ const Editor = () => {
       
     }
 
-    
-    let [update, setUpdate] = useState(false)
-
     useEffect(() => {
         if(location.search !== ''){
 
@@ -282,16 +294,16 @@ const Editor = () => {
 
             GetEditedItem(location.search.split('=').splice(-1)[0])
             .then((result) => {
-                setProductPhotos(result.photos.map(item => item.file))
+                productPhotos(result.photos.map(item => item.file))
                 setEdit(result.meta_data[0])
-                setProductCategory(result.meta_data[0].category)
-                setProductTitle(result.meta_data[0].title)
-                setProductDescription(result.meta_data[0].description)
-                setProductPrice(result.meta_data[0].price)
-                setProductStock(result.meta_data[0].stock)
-                setProductType(result.meta_data[0].type)
-                setProductCondition(result.meta_data[0].condition)
-                setProductLocale(result.meta_data[0].locale)
+                productCategory(result.meta_data[0].category)
+                productTitle(result.meta_data[0].title)
+                productDescription(result.meta_data[0].description)
+                productPrice(result.meta_data[0].price)
+                productStock(result.meta_data[0].stock)
+                productType(result.meta_data[0].type)
+                productCondition(result.meta_data[0].condition)
+                productLocale(result.meta_data[0].locale)
                 overlay.removeAttribute('id')
             })
             .catch(err => console.log(err))
@@ -303,50 +315,17 @@ const Editor = () => {
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([])
 
-    let plans = [
-        {price: 3000, title: 'Premium', description: 'Exclusive Features for you to sell', package: 3, features: ['Appear on the Search List', 'Appear on Trends', 'Visible to more Buyers']}, 
-        {price: 1500, title: 'Standard', description: 'Top Notch Features for you to sell', package: 2, features: ['Appear on the Search List', 'Appear on Trends', 'Visible to more Buyers']},
-        {price: 750, title: 'Basic', description: 'Basic Features for you to sell', package: 1, features: ['Appear on the Search List', 'Appear on Trends', 'Visible to more Buyers']}, 
-        {price: 0, title: 'Free', description: 'Startup Features for you to sell', package: 0, features: ['Appear on the Search List', 'Appear on Trends', 'Visible to more Buyers']}]
-
-
     useEffect(() => {
         setCategoriesList(items.items.category)
     },[])
 
     useEffect(() => {
-       let type = categoriesList.filter(item => Object.keys(item)[0] === productCategory)[0]
+       let type = categoriesList.filter(item => Object.keys(item)[0] === category)[0]
        if(type){
-            console.log(productCategory)
-            setTypeList(type[productCategory])
+            console.log(category)
+            setTypeList(type[category])
        }
-    },[productCategory])
-
-    let handleImage = () => {
-
-        
-        let f = document.querySelector("#files");
-
-        [...f.files].map(item => {
-            let reader = new FileReader();
-
-            reader.onload = (result) => {
-                let img = reader.result;
-                setProductPhotos(file => [...file, img])
-            }
-            reader.readAsDataURL(item);
-        })
-
-        
-    } 
-
-    let removeImg = i => {
-
-        let list = productPhotos.filter((item, index) => index !== i)
-        setProductPhotos(list)
-        
-    }   
-
+    },[category,categoriesList])
 
     return ( 
         <>
@@ -354,83 +333,84 @@ const Editor = () => {
                 <div className="loader">
                 </div>
             </div>
+
             <div className="seller-shop">
 
                 <div className='seller-shop-form-body'>
                     <div className="seller-shop-form shadow-sm">
                     
-                        <div className='seller-shop-form-cnt'> 
-                            <div className="seller-shop-form-group-2">
-                                <div className="input-cnt">
-                                    <label htmlFor="">Category</label>
-                                    <select name="category" onInput={e => setProductCategory(e.target.value)} id="">
-                                        <option value={''}>Select A Category</option>
-
-                                        {
-                                            categoriesList.map((item, index) => {
-                                                {/* <option key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option> */}
-
-                                                return(Object.keys(item)[0] === edit.category
-                                                ?
-                                                <option selected key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
-                                                :
-                                                <option key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>)
-                                            })
-                                        }
-                                    </select>
-                                </div>
-
-                                <div className="input-cnt">
-                                    <label htmlFor="">Type</label>
-                                    <select onInput={e => setProductType(e.target.value)} name="type" id="">
-                                        <option value={''}>Select Product Type</option>
-
-                                        {
-                                            typeList.map((item, index) => 
-                                                item === edit.type
-                                                ?
-                                                <option selected key={index} value={item}>{item}</option>
-                                                :
-                                                <option key={index} value={item}>{item}</option>
-                                            )
-                                        }
-                                    </select>
-                                </div>
-
-                                <div className="input-cnt">
-                                    <label htmlFor="">Condition</label>
-                                    <select onInput={e => setProductCondition(e.target.value)} name="condition" id="">
-                                        <option value={''}>Select Product Type</option>
-
-                                        {
-                                            ["Brand New", "Fairly Used", "Refurbished","Used"].map((item, index) => 
-                                                item === edit.condition
-                                                ?
-                                                <option selected key={index} value={item}>{item}</option>
-                                                :
-                                                <option key={index} value={item}>{item}</option>
-                                            )
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="seller-shop-form-group-1">
+                        <div className='seller-shop-form-cnt'>
+                            <CategorySelect productCategory={productCategory} edit={edit} /> 
+                            <div className="seller-shop-form-group-2" style={{opacity: category !== '' ? '1' : '.4', pointerEvents: category !== '' ? 'all' : 'none'}}>
                                 
 
-                                <div className="input-cnt">
-                                    <label htmlFor="">Stock <small>(Quantity Availble For Sale)</small></label>
-                                    <input type="number" defaultValue={edit.stock} name='stock' placeholder="Stock" onInput={e => setProductStock(e.target.value)} />
-                                </div>
-                                <div className="input-cnt">
-                                    <label htmlFor="">Price</label>
-                                    <input min={0} defaultValue={edit.price} name='price' onInput={e => setProductPrice(e.target.value)} type="number" placeholder="Price"  />
-                                </div>
+                                {
+                                    category !== 'Fashion' 
+                                    ? 
+                                    ""
+                                    : 
 
-                                {/*<div className="input-cnt">
-                                    <label htmlFor="">Location</label>
-                                    <input onInput={e => setProductLocale(e.target.value)}  type="text" placeholder="Location" />
-                                    </div>*/}
+                                    <GenderSelect edit={edit} productGender={productGender} />
+                                }
 
+                                <TypeSelect typeList={typeList} edit={edit} productType={productType} />
+
+                                {
+                                    category !== 'Fashion' 
+                                    ? 
+                                    ""
+                                    : 
+
+                                    <ClothingCategory edit={edit} productClothingCategory={productClothingCategory} />
+                                }
+                                 
+
+                                {
+                                    cType !== 'Clothing' 
+                                    ? 
+                                    ""
+                                    : 
+
+                                    <SizeSelect edit={edit} productSizeSelect={productSizeSelect}   />
+                                }
+                                
+
+                                {
+                                    category === 'Lodge/Apartments' || category === 'Pets' || category === 'Food'
+                                    ? 
+                                    ""
+                                    : 
+                                    <ConditionSelect productCategory={productCategory} edit={edit} />
+                                }
+
+                                
+                            </div>
+                            <div style={{opacity: category !== '' ? '1' : '.4', pointerEvents: category !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
+                                
+                                {
+
+                                    category === 'Lodge/Apartments' 
+                                    ? 
+                                    ""
+                                    : 
+
+                                    <StockSelect edit={edit} productStock={productStock} />
+
+                                }
+
+                                
+                                <PriceSelect edit={edit} productPrice={productPrice} />
+
+                               
+
+                                {
+                                    category !== 'Lodge/Apartments' 
+                                    ? 
+                                    ""
+                                    : 
+
+                                    <LocationSelect productLocale={productLocale} edit={edit} />
+                                }
                                 
                             </div>
 
@@ -450,152 +430,20 @@ const Editor = () => {
 
 
                     <div className="seller-shop-description shadow-sm" style={{textAlign: 'left', justifyContent: 'left'}}>
-                        <div className="input-cnt" style={{width: '100%', padding: '0', position: 'relative'}}>
-                            {/*<label htmlFor="">Description</label>*/}
-                            <textarea defaultValue={edit.title} maxLength={60} placeholder="Title" name='title' className="seller-shop-title shadow-sm" onInput={e => {
-                                setProductTitle(e.target.value)
-                            }}>
-                                
-                            </textarea>
+                        <EditorTitle productTitle={productTitle}  edit={edit} />
 
-                            <div style={{height: 'fit-content', position: 'absolute', fontSize: 'small', right: '10px', bottom: '25px'}}>{titleCount}/60</div>
-                        </div>
-                        <div className="seller-shop-samples shadow-sm">
-                            
-                            <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center', }}>
-                                <small>Click here to Upload photo</small>
-                            </label>
-                            <input type="file" name="file" multiple style={{display: 'none'}} id="files" onChange={handleImage} />
+                        <EditorPhotoStore edit={edit} productPhotos={productPhotos} />
 
-                            <section className='seller-product-image-cnt'>
-                                {
-                                    productPhotos.map((item, index) => 
-                                    
-                                        <div style={{position: 'relative', padding: '0', height: '100%'}}>
-                                            <div onClick={e => removeImg(index)} className="delete-sample-img" style={{position: 'absolute', top: '5px', right: '5px', color: '#fff', background: 'red', zIndex: '1000', width: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2.5px', height: '20px'}}>x</div>
-                                            <img src={item} key={index} style={{height: '100%', width: screenWidth <= 480 ? '100px' : '250px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} alt="" />
-                                        </div>
-                                    )
-                                }
-                            </section>
-                        </div>
-
-                        <div className="input-cnt" style={{width: '100%', position: 'relative', padding: '0'}}>
-                            {/*<label htmlFor="">Description</label>*/}
-                            <textarea defaultValue={edit.description} maxLength={650} name='description' onInput={e => setProductDescription(e.target.value)} placeholder="Description" className="seller-shop-desc shadow-sm"></textarea>
-                            <div style={{height: 'fit-content', position: 'absolute', right: '10px', fontSize: 'small', bottom: '5px'}}>{descriptionCount}/650</div>
-                        </div>
+                        <EditorDescription productDescription={productDescription} edit={edit} />
 
                         
-                        {/* <div className="seller-Ads-deal">
-                    
-                            {
-                                plans.reverse().map((item, index) => 
-                                    index === 0
-                                    ?
-                                    <div id='activePack' className="plan" key={index}>
-                                        <div className="inner">
-                                            <span className="pricing">
-                                                <span>
-                                                &#8358;{item.price} <small>/ m</small>
-                                                </span>
-                                            </span>
-                                            <p className="title">{item.title}</p>
-                                            <p className="info">{item.description}</p>
-                                            <ul className="features">
-                                                {
-                                                    item.features.map((item) => 
-                                                        <li>
-                                                            <span className="icon">
-                                                                <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                                                </svg>
-                                                            </span>
-                                                            <span>{item}</span>
-                                                        </li>
-                                                    )
-                                                }
-                                            </ul>
-                                            <div className="action">
-                                            <button data-package={item.package} onClick={e => {
-                                                e.preventDefault(); 
-                                                setProductPackage(e.target.dataset.package);
-                                                let topElem = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
-                                                let pElem = e.currentTarget.parentElement.parentElement.parentElement;
-
-                                                let activePack = [...topElem.children].filter(item => item.hasAttribute('id'));
-                                                console.log(topElem)
-
-                                                activePack[0].removeAttribute('id')
-                                                pElem.setAttribute('id', 'activePack');
-
-                                            }} className="button" href="#">
-                                                Choose plan
-                                            </button>
-                                            </div>
-                                        </div>
-                                    </div>  
-                                    
-                                    :
-
-                                    <div className="plan" key={index}>
-                                        <div className="inner">
-                                            <span className="pricing">
-                                                <span>
-                                                &#8358;{item.price} <small>/ m</small>
-                                                </span>
-                                            </span>
-                                            <p className="title">{item.title}</p>
-                                            <p className="info">{item.description}</p>
-                                            <ul className="features">
-                                                {
-                                                    item.features.map((item) => 
-                                                        <li>
-                                                            <span className="icon">
-                                                                <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                                                </svg>
-                                                            </span>
-                                                            <span>{item}</span>
-                                                        </li>
-                                                    )
-                                                }
-                                            </ul>
-                                            <div className="action">
-                                            <button data-package={item.package} onClick={e => {
-                                                e.preventDefault(); 
-                                                setProductPackage(e.target.dataset.package);
-                                                let topElem = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
-                                                let pElem = e.currentTarget.parentElement.parentElement.parentElement;
-
-                                                let activePack = [...topElem.children].filter(item => item.hasAttribute('id'));
-                                                console.log(topElem)
-
-                                                activePack[0].removeAttribute('id')
-                                                pElem.setAttribute('id', 'activePack');
-
-                                            }} className="button" href="#">
-                                                Choose plan
-                                            </button>
-                                            </div>
-                                        </div>
-                                    </div>  
-                                    
-                                )
-                            }
-
-                        </div> */}
+                        
                     </div>
 
                     
                     
                 </div>
 
-                
-
-                
             </div>
         </>
      );

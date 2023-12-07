@@ -23,7 +23,6 @@ import ProductPage from './pages/Buyer/Product';
 import Signup from './Authorization/Seller/Signup';
 import BuyerSignup from './Authorization/Buyer.js/Signup';
 import BuyerLogin from './Authorization/Buyer.js/Login';
-import Inbox from './components/Seller/Inbox';
 import SellerLogin from './Authorization/Seller/Login';
 import Orders from './components/Buyer/Orders';
 import History from './components/Buyer/History';
@@ -34,6 +33,7 @@ import Checkout from './pages/Buyer/Checkout';
 import PasswordReset from './Authorization/Seller/ForgotPassword';
 import ErrorPage from './components/ErrorPage';
 import Verification from './Authorization/Seller/Verification';
+import Inbox from './pages/Seller/Inbox';
 function App() {
   let location = useLocation()
   let [activeDom, setActiveDom] = useState()
@@ -75,18 +75,19 @@ function App() {
         }
         <Routes key={location.key}> 
 
-            {/* <Route path='/' element={<Dashboard />}></Route>
-            <Route path='/orders' element={<Orders />}></Route>
+            <Route path='/' element={<Dashboard />}></Route>
+            <Route path='/product/:id' element={<ProductPage />}></Route>
+
+            {/* <Route path='/orders' element={<Orders />}></Route>
             <Route path='/history' element={<History />}></Route>
             <Route path='/cart' element={<Cart />}></Route>
             <Route path='/wallet' element={<Wallets />}></Route>
             <Route path='/saved-item' element={<SavedItem />}></Route>
-            <Route path='/product/:id' element={<ProductPage />}></Route>
             <Route path='/checkout/:id' element={<Checkout />}></Route>
             <Route path='/checkout/:id/:id' element={<Checkout />}></Route>
             <Route path='/signup' element={<BuyerSignup />}></Route>
             <Route path='/login' element={<BuyerLogin />}></Route> */}
-            <Route path='*' element={<ErrorPage/>} />
+            <Route path='*' element={<ErrorPage/>} /> 
 
 
 
@@ -98,7 +99,7 @@ function App() {
             <Route path='/product/:id' element={<ProductPage />}></Route>
             <Route path='/seller/shop' element={<Shop />}></Route>
             <Route path='/seller/orders' element={<Order/>}></Route>
-            <Route path='/seller/inbox' element={<Inbox/>}></Route>
+            <Route path='/seller/inbox' element={<Inbox />}></Route>
             <Route path='/seller/settings' element={<Setting />}></Route>
             <Route path='/seller/wallet' element={<Wallet />}></Route>
             <Route path='/seller/profile' element={<Me />}></Route>

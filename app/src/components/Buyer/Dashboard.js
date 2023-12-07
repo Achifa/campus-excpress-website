@@ -164,9 +164,9 @@ const Home = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</h6>
+                                        <small style={{fontSize: 'small', lineHeight: '18px'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                         : 
-                                        <h3 onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</h3>
+                                        <small style={{fontSize: 'small', lineHeight: '18px'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                     }
 
                                     <hr  />
@@ -174,9 +174,9 @@ const Home = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h4 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{
+                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{
                                             new Intl.NumberFormat('en-us').format(item.price)
-                                        }</h4>
+                                        }</h6>
                                         : 
                                         <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
                                     }
@@ -199,7 +199,7 @@ const Home = () => {
 
                                     <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '5px', bottom: '35px', background: '#fff', color: '#626262', height: 'fit-content', width: 'fit-content'}}>
                                         <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
-                                        <section style={{marginTop: '-8px'}}>
+                                        <section style={{marginTop: '-8px', fontSize: 'small'}}>
                                             {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
                                         </section>
                                     </button>
