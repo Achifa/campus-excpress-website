@@ -5,7 +5,7 @@ import '../../styles/Seller/overlay.css'
 import Link from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import items from '../../items.json'
-import { GetEditedItem, updateItem, uploadItem } from '../../api/seller';
+import { GetEditedItem, GetSeller, updateItem, uploadItem } from '../../api/seller';
 import { GetItem } from '../../api/buyer';
 import TypeSelect from '../../components/Seller/editor/TypeSelect';
 import StockSelect from '../../components/Seller/editor/StockSelect';
@@ -21,12 +21,24 @@ import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
 import EditorDescription from '../../components/Seller/editor/EditorDescription';
 const Editor = ({editorTitle}) => {
 
-    let [edit,setEdit] = useState('');
     let location = useLocation();
     let navigate = useNavigate();
+    
     let [update, setUpdate] = useState(false);
+    let [edit,setEdit] = useState('');
+    let [screenWidth, setScreenWidth] = useState('')
 
+    useEffect(() => {setScreenWidth(window.innerWidth)},[])
 
+    function setAllInputsToNull(params) {
+         setGender('')
+         setCtype('')
+         setsize('')
+         setclothingCategory('')
+         setLocale('')
+         setCondition('')
+    }
+    
     let [title, setTitle] = useState('')
     function productTitle(data) {setTitle(data)}
 
@@ -60,10 +72,12 @@ const Editor = ({editorTitle}) => {
     let [condition, setCondition] = useState('')
     function productCondition(data) {setCondition(data)}
 
-    let [photos, setPhotos] = useState('')
-    function productPhotos(data) {setPhotos(data)}
+    let [photos, setPhotos] = useState([])
+    function productPhotos(data) {setPhotos(file => [...file, data])}
+    function deletePhoto(data) {setPhotos(data)}
 
     let [productPackage, setProductPackage] = useState('')
+
     let validationBoolean = useRef({
         title: false,
         description: false,
@@ -247,7 +261,7 @@ const Editor = ({editorTitle}) => {
         let falseyList = []
 
         for(let x in validationBoolean.current){
-            console.log(x)
+            console.log(validationBoolean.current[x])
 
             if(validationBoolean.current[x] === false){
                 falseyList.push(false)
@@ -261,13 +275,17 @@ const Editor = ({editorTitle}) => {
 
 
         if(result.length > 0){
-            let overlay = document.querySelector('.overlay')
-            overlay.setAttribute('id', 'overlay');
+            console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),[cType,condition,locale,stock,gender,size,clothingCategory] )
+            // let overlay = document.querySelector('.overlay')
+            // overlay.setAttribute('id', 'overlay');
 
         }else{
             let overlay = document.querySelector('.overlay')
             overlay.setAttribute('id', 'overlay');
-            uploadItem(title,description,category,cType,condition,price,locale,stock,productPackage,photos,gender,size,clothingCategory,window.localStorage.getItem("CE_seller_id"))
+
+            let dynamicInput = [cType,condition,locale,stock,gender,size,clothingCategory];
+            let dynamicInputValues = dynamicInput.filter(item => item !== '')
+            uploadItem(title,description,category,photos,window.localStorage.getItem("CE_seller_id"),dynamicInputValues)
             .then((result) => {
                 result
                 ?
@@ -276,9 +294,7 @@ const Editor = ({editorTitle}) => {
                 alert('Error Uploading Data...')
                 
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch((err) => console.log(err))
         }
 
 
@@ -315,9 +331,8 @@ const Editor = ({editorTitle}) => {
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([])
 
-    useEffect(() => {
-        setCategoriesList(items.items.category)
-    },[])
+    useEffect(() => {setCategoriesList(items.items.category)},[])
+    useEffect(() => {setAllInputsToNull('')},[category])
 
     useEffect(() => {
        let type = categoriesList.filter(item => Object.keys(item)[0] === category)[0]
@@ -340,38 +355,52 @@ const Editor = ({editorTitle}) => {
                     <div className="seller-shop-form shadow-sm">
                     
                         <div className='seller-shop-form-cnt'>
-                            <CategorySelect productCategory={productCategory} edit={edit} /> 
+
                             <div className="seller-shop-form-group-2" style={{opacity: category !== '' ? '1' : '.4', pointerEvents: category !== '' ? 'all' : 'none'}}>
+
+                                <CategorySelect productCategory={productCategory} edit={edit} /> 
                                 
 
                                 {
-                                    category !== 'Fashion' 
+                                    category === 'Fashion' 
+                                    
                                     ? 
-                                    ""
-                                    : 
-
+                                    
                                     <GenderSelect edit={edit} productGender={productGender} />
+
+                                    :
+                                    ""
                                 }
 
                                 <TypeSelect typeList={typeList} edit={edit} productType={productType} />
 
                                 {
-                                    category !== 'Fashion' 
+                                    category === 'Fashion' && cType === 'Clothing'
                                     ? 
-                                    ""
-                                    : 
+                                    
 
                                     <ClothingCategory edit={edit} productClothingCategory={productClothingCategory} />
+
+                                    : 
+
+                                    ""
                                 }
                                  
 
                                 {
-                                    cType !== 'Clothing' 
+                                    category === 'Fashion'
                                     ? 
-                                    ""
+
+                                        cType === 'Clothing' ||  cType === 'Shoe'
+                                        ?
+                                        <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType}  />
+                                        :
+
+                                        ""
+
                                     : 
 
-                                    <SizeSelect edit={edit} productSizeSelect={productSizeSelect}   />
+                                    ""
                                 }
                                 
 
@@ -380,7 +409,7 @@ const Editor = ({editorTitle}) => {
                                     ? 
                                     ""
                                     : 
-                                    <ConditionSelect productCategory={productCategory} edit={edit} />
+                                    <ConditionSelect category={category} productCategory={productCategory} edit={edit} clothingCategory={clothingCategory}  />
                                 }
 
                                 
@@ -416,23 +445,33 @@ const Editor = ({editorTitle}) => {
 
                         </div>
 
+                        {
+                            screenWidth > 761
 
-                        <div className="seller-upload-btn " style={{width: '100%', padding: '0', marginTop: '20px', height: 'fit-content'}}>
-                            {/* <div className="seller-item-preview-cnt">
+                            ?
 
-                            </div> */}
-                            <button onClick={e => update ? updateForm(e) : handleForm(e)} style={{width: '100%', height: '55px', marginTop: '10px', borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
-                                <div>{update ? 'Update' : 'Upload'}</div>
-                            </button>
+                            <div className="seller-upload-btn " style={{width: '100%', padding: '0', height: '60px', position: 'relative'}}>
+                                    {/* <div className="seller-item-preview-cnt">
 
-                        </div>
+                                    </div> */}
+                                <button onClick={e => update ? updateForm(e) : handleForm(e)} style={{width: '100%', height: '55px',  borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
+                                    <div>{update ? 'Update' : 'Upload'}</div>
+                                </button>
+
+                            </div>
+
+                            :
+
+                            ''
+                        }
+
                     </div>
 
 
                     <div className="seller-shop-description shadow-sm" style={{textAlign: 'left', justifyContent: 'left'}}>
                         <EditorTitle productTitle={productTitle}  edit={edit} />
 
-                        <EditorPhotoStore edit={edit} productPhotos={productPhotos} />
+                        <EditorPhotoStore edit={edit} productPhotos={productPhotos} photoList={photos} deletePhoto={deletePhoto} />
 
                         <EditorDescription productDescription={productDescription} edit={edit} />
 
@@ -440,9 +479,27 @@ const Editor = ({editorTitle}) => {
                         
                     </div>
 
-                    
-                    
                 </div>
+
+                {
+                    screenWidth < 761
+
+                    ?
+
+                    <div className="seller-upload-btn " style={{width: '100%', padding: '0', marginTop: '20px', height: '60px', position: 'relative'}}>
+                            {/* <div className="seller-item-preview-cnt">
+
+                            </div> */}
+                        <button onClick={e => update ? updateForm(e) : handleForm(e)} style={{width: '100%', height: '55px', marginTop: '10px', borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
+                            <div>{update ? 'Update' : 'Upload'}</div>
+                        </button>
+
+                    </div>
+
+                    :
+
+                    ''
+                }
 
             </div>
         </>

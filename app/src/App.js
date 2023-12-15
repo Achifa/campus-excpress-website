@@ -75,10 +75,10 @@ function App() {
         }
         <Routes key={location.key}> 
 
-            <Route path='/' element={<Dashboard />}></Route>
+            {/* <Route path='/' element={<Dashboard />}></Route>
             <Route path='/product/:id' element={<ProductPage />}></Route>
 
-            {/* <Route path='/orders' element={<Orders />}></Route>
+            <Route path='/orders' element={<Orders />}></Route>
             <Route path='/history' element={<History />}></Route>
             <Route path='/cart' element={<Cart />}></Route>
             <Route path='/wallet' element={<Wallets />}></Route>

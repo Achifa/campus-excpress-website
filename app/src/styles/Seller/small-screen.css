@@ -392,13 +392,13 @@
         height: fit-content;
         width: 100%;
         display: block;
-        margin-top: 20px;
+        
         overflow-x: auto;
         overflow-y: hidden;
         outline: none;
-        padding: 10px;
+        
         border: none;
-        padding: 10px;
+        
         color: #fff;
     }
 

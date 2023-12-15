@@ -98,54 +98,53 @@ function updateSellerProfile(req,res) {
 function uploadProduct(req,res) {
 
     let {
-        productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id
+        title,description,category,photos,seller_id,others
     } = req.body;
+    console.log(others)
+
 
     let date = new Date();
     let productId = shortId.generate()
-    let description = productDescription.replace(/'/g, '"');;
-    let title = productTitle.replace(/'/g, '"');;
+    let replacedDescription = description.replace(/'/g, '"');;
+    let replacedTitle = title.replace(/'/g, '"');;
     let imageId = shortId.generate();
     let book = []
 
-    new Promise((resolve, reject) => {
-        let uploadData = NeonDB.then((pool) => 
-            pool.query(`insert into seller_shop (id,product_id,date,seller_id,title,category,type,condition,stock,locale,price,description,package) values(DEFAULT, '${productId}', '${date}', '${seller_id}', '${title}', '${productCategory}', '${productType}', '${productCondition}', '${productStock}', '${productLocale}', '${productPrice}', '${description}', '${productPackage}' )`)
-            .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
-            .catch(err => console.log(err))
-        )
-        .catch(err => console.log(err))
-
-    })
-    .then((response) => 
-
-        productPhotos.map(item => 
-            NeonDB.then((pool) => 
-                pool.query(`insert into product_photo(id,product_id,seller_id,file,image_id) values(DEFAULT, '${productId}', '${seller_id}', '${item}', '${imageId}')`)
-                .then(result => result.rowCount > 0 ? book.push(true) : book.push(false))
-                .catch(err => console.log(err))
-            )    
-        )
-
-    )
-    .then(async(response) => {
-        let bool = book.filter(item => item !== true)
+    console.log(title,description,category,seller_id,others)
 
 
-        if(bool.length < 1){
-            console.log('overview number', response)
-            NeonDB.then((pool) => 
-                pool.query(`UPDATE seller_overview set total_sale = total_sale + 1 WHERE seller_id = '${seller_id}'`)
-                .then(result => result.rowCount > 0 ? res.send(true) : res.send(false))
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        }else{
-            res.send(false)
-        }
+    // new Promise((resolve, reject) => {
+    //     let uploadData = NeonDB.then((pool) => 
+    //         pool.query(`insert into seller_shop (id,product_id,seller_id,title,description,productPrice,package,category,others,date) values(DEFAULT, '${productId}','${seller_id}','${replacedTitle}','${replacedDescription}','${price}','${package}','${category}',{"document": [${others}]},'${date}' )`)
+    //         .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
+    //         .catch(err => console.log(err))
+    //     )
+    //     .catch(err => console.log(err))
 
-    })
-    .catch(err => console.log(err))
+    // })
+    // .then((response) => 
+
+    //     photos.map(item => 
+    //         NeonDB.then((pool) => 
+    //             pool.query(`insert into product_photo(id,product_id,seller_id,file,image_id) values(DEFAULT, '${productId}', '${seller_id}', '${item}', '${imageId}')`)
+    //             .then(result => result.rowCount > 0 ? book.push(true) : book.push(false))
+    //             .catch(err => console.log(err))
+    //         )    
+    //     )
+
+    // )
+    // .then(async(response) => {
+    //     let bool = book.filter(item => item !== true)
+
+
+    //     if(bool.length < 1){
+    //         res.send(true)
+    //     }else{
+    //         res.send(false)
+    //     }
+
+    // })
+    // .catch(err => console.log(err))
 
 
 }
@@ -700,7 +699,7 @@ async function GetSellerInbox(req,res) {
     NeonDB.then((pool) => 
         pool.query(`SELECT * FROM seller_inbox  WHERE seller_id = '${seller_id}'`)
         .then(result => {
-            res.send(result)
+            res.send(result.rows)
         })
         .catch(err => console.log(err))
     )
@@ -714,7 +713,7 @@ async function GetSellerOrder(req,res) {
     NeonDB.then((pool) => 
         pool.query(`SELECT * FROM seller_orders  WHERE seller_id = '${seller_id}'`)
         .then(result => {
-            res.send(result)
+            res.send(result.rows)
         })
         .catch(err => console.log(err))
     )
