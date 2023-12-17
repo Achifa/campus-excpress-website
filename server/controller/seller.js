@@ -394,36 +394,36 @@ async function RegisterSeller(req,res) {
       
     }
 
-    try{
-        new Promise((resolve, reject) => {
-        let newSeller = CreateNewSeller()
-        newSeller ? resolve(true) : reject(false)
-        })
-        .then((result) => {
-            console.log('overview',result)
+    // try{
+    //     new Promise((resolve, reject) => {
+    //     let newSeller = CreateNewSeller()
+    //     newSeller ? resolve(true) : reject(false)
+    //     })
+    //     .then((result) => {
+    //         console.log('overview',result)
 
-            let newSellerOverview = result ? CreateNewSellerOverview() : false;
-            return(newSellerOverview ? (true) : (false))
-        })
-        .then((result) => {
-            console.log('wallet',result)
-            let newSellerWallet = result ? CreateNewSellerWallet() : false;
-            return(newSellerWallet ? (true) : (false))
-        })
-        .then((result) => {
-            console.log('email',result)
+    //         let newSellerOverview = result ? CreateNewSellerOverview() : false;
+    //         return(newSellerOverview ? (true) : (false))
+    //     })
+    //     .then((result) => {
+    //         console.log('wallet',result)
+    //         let newSellerWallet = result ? CreateNewSellerWallet() : false;
+    //         return(newSellerWallet ? (true) : (false))
+    //     })
+    //     .then((result) => {
+    //         console.log('email',result)
 
-            let newSellerEmailToken = result ? SendEmail() : false;
-            return(newSellerEmailToken ? (true) : (false))
-        })
+    //         let newSellerEmailToken = result ? SendEmail() : false;
+    //         return(newSellerEmailToken ? (true) : (false))
+    //     })
         
-        .catch((err) => {
-            console.log(err)
-            res.send(false)
-        })
-    }catch(err){
-        console.log(err)
-    }
+    //     .catch((err) => {
+    //         console.log(err)
+    //         res.send(false)
+    //     })
+    // }catch(err){
+    //     console.log(err)
+    // }
 }
 
 async function LogSellerIn(req, res) {

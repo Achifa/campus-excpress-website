@@ -38,9 +38,68 @@ const Signup = () => {
         state: false
     })
 
-    let checkEmailDuplicate = e => {
+    let checkEmailDuplicate = async e => {
+        function addErrMssg(err,pElem) {
+            
+            // if(!err[0].bool){
+
+            let check = pElem.querySelector('.err-mssg');
+            if(check){
+                pElem.querySelector('.err-mssg').remove()
+                let div = document.createElement('div');
+                div.className = 'err-mssg';
+                // console.log(err)
+                if(err.length > 0 ){
+                    div.innerHTML = err[0].mssg;
+                    pElem.append(div)
+                    
+
+                }else{
+                    
+                    let check = pElem.querySelector('.err-mssg');
+
+                    if(check){
+                        pElem.querySelector('.err-mssg').remove()
+                    }
+                }
+                
+                
+            }else{
+
+                let div = document.createElement('div');
+                div.className = 'err-mssg';
+                // console.log(err)
+
+                if(err.length !== 0 ){
+                    div.innerHTML = err[0].mssg;
+                    pElem.append(div)
+                    
+
+                }else{
+                    
+                    let check = pElem.querySelector('.err-mssg');
+
+                    if(check){
+                        pElem.querySelector('.err-mssg').remove()
+                    }
+                }
+            }
+                
+
+            // }
+            
+        }
+
+
         socket.emit('emailCheck', email)
-        let response = new Promise((resolve) => socket.on('emailCheck', (email) => resolve(email))).then((email) => email).catch((err) => err)
+        let response = await new Promise((resolve) => socket.on('emailCheck', (email) => resolve(email))).then((email) => email).catch((err) => err)
+        let emailDuplicate =  response ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
+        let errs = [emailDuplicate];
+        addErrMssg(errs.filter(item => item.mssg !== ''),e.target.parentElement)
+        let list =errs.filter(item => item.mssg !== '')
+
+        list.length > 0 ? book.current.email = false : book.current.email = true
+        console.log(list)
 
         return response;
     };
@@ -48,29 +107,31 @@ const Signup = () => {
 
     let Registration = (e) => {
         // e.target.disabled = true;
+
+       
         Validation();
-        console.log(book.current)
+    
+        // console.log(book.current)
         Object.values(book.current).filter(item => item !== true).length > 0 ? validation.current = false : validation.current = true;
+
         if(validation.current){
             setBtn(
-                <div className="Authloader" style={{background: '#fff'}}></div>
+                <div className="Authloader" style={{background: '#fff',border: '1px solid orangered'}}></div>
             )
             e.target.disabled = true;
-
             RegisterSeller(fname,lname,email,phone,pwd,state,campus)
-            .then((result) => result ? navigate('/seller/login') : '')
+            // .then((result) => result ? navigate('/seller/login') : '')
             .catch((err) => {
                 console.log(err)
                 setBtn("Signup")
                 e.target.disabled = false;
-
             })
         }else{
             setBtn("Signup")
             e.target.disabled = false;
-            ;
-
         }
+
+       
         
     }
 
@@ -158,18 +219,14 @@ const Signup = () => {
 
                 }else if(item.name === 'email'){
 
-                    let emailvailidity = await checkEmailDuplicate()
 
                     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
                     let validEmail = emailRegex.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter a valid email address.'}
-                    let emailDuplicate =  emailvailidity ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
-                    console.log(emailvailidity)
-
-                    let errs = [empty,validEmail,emailDuplicate];
-
+                    // let emailDuplicate =  emailvailidity ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
+                    let errs = [empty,validEmail];
                     addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
-                    let list =errs.filter(item => item.mssg !== '')
+                    let list = errs.filter(item => item.mssg !== '')
 
                     list.length > 0 ? book.current.email = false : book.current.email = true
 
@@ -209,13 +266,6 @@ const Signup = () => {
                 list.length > 0 ? book.current.campus = false : book.current.campus = true
             }
         })
-
-
-       // console.log(book)
-       // book.map(item => console.log(Object.values(item)[0]))
-
-        
-
     }
 
     function handleVerification(email,seller_id){
@@ -226,6 +276,8 @@ const Signup = () => {
         .catch((err) => console.log(err))
         
     }
+
+    
 
     useEffect(() => {
         setCampusLocaleList([])
@@ -264,8 +316,8 @@ const Signup = () => {
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Email</label>
-                                <input name='email' onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
-                            </section>
+                                <input name='email' onInput={e => setEmail(e.target.value)} onBlur={e => checkEmailDuplicate(e)}  placeholder='Email...' type="text" />
+                            </section> 
                         </div>
 
                         <div className="seller-input-cnt">
