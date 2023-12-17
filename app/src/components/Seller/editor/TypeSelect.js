@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const TypeSelect = ({edit,productType,typeList}) => {
+const TypeSelect = ({edit,category,productType,typeList}) => {
+    useEffect(() => {
+        document.querySelector('.type').firstChild.selected = true
+    }, [category])
     return ( 
         <>
 
             <div className="input-cnt">
                 <label htmlFor="">Type</label>
-                <select onInput={e => productType(e.target.value)} name="type" id="">
+                <select className="type" defaultValue={''} onInput={e => productType(e.target.value)} name="type" id="">
                     <option value={''}>Select Product Type</option>
 
                     {

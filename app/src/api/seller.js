@@ -5,14 +5,14 @@ let u4 = `http://192.168.75.146:1111`
 let u2 = `https://ce-server.onrender.com`
 let plug = u2;
  
-export function uploadItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id) {
+export function uploadItem(title,description,category,price,photos,seller_id,others) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/product-upload`, {
-            productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id
+            title,description,category,price,photos,seller_id,others
         })
         .then((result) => {
             resolve(result)
-        })
+        }) 
         .catch((err) => {
             reject(err) 
         })

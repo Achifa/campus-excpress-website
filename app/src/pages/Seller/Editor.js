@@ -11,7 +11,6 @@ import TypeSelect from '../../components/Seller/editor/TypeSelect';
 import StockSelect from '../../components/Seller/editor/StockSelect';
 import PriceSelect from '../../components/Seller/editor/PriceSelect';
 import ConditionSelect from '../../components/Seller/editor/ConditionSelect';
-import ClothingCategory from '../../components/Seller/editor/ClothingSelect';
 import SizeSelect from '../../components/Seller/editor/SizeSelect';
 import GenderSelect from '../../components/Seller/editor/GenderSelect';
 import LocationSelect from '../../components/Seller/editor/LocationSelect';
@@ -19,14 +18,17 @@ import CategorySelect from '../../components/Seller/editor/CategorySelect';
 import EditorTitle from '../../components/Seller/editor/EditorTitle';
 import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
 import EditorDescription from '../../components/Seller/editor/EditorDescription';
+import SubCategory from '../../components/Seller/editor/ClothingSelect';
 const Editor = ({editorTitle}) => {
 
     let location = useLocation();
     let navigate = useNavigate();
+    let list = ['base','strata','tras']
     
     let [update, setUpdate] = useState(false);
     let [edit,setEdit] = useState('');
     let [screenWidth, setScreenWidth] = useState('')
+    let [productFormat, setProductFormat] = useState(list[1]);
 
     useEffect(() => {setScreenWidth(window.innerWidth)},[])
 
@@ -34,7 +36,7 @@ const Editor = ({editorTitle}) => {
          setGender('')
          setCtype('')
          setsize('')
-         setclothingCategory('')
+         setSubCategory('')
          setLocale('')
          setCondition('')
     }
@@ -57,8 +59,8 @@ const Editor = ({editorTitle}) => {
     let [size, setsize] = useState('')
     function productSizeSelect(data) {setsize(data)}
     
-    let [clothingCategory, setclothingCategory] = useState('')
-    function productClothingCategory(data) {setclothingCategory(data)}
+    let [subCategory, setSubCategory] = useState('')
+    function productSubCategory(data) {setSubCategory(data)}
 
     let [price, setPrice] = useState('')
     function productPrice(data) {setPrice(data)}
@@ -76,6 +78,17 @@ const Editor = ({editorTitle}) => {
     function productPhotos(data) {setPhotos(file => [...file, data])}
     function deletePhoto(data) {setPhotos(data)}
 
+    useEffect(() => {
+        if(category === 'Food' || category === 'Pet'){
+            setProductFormat(list[0])
+
+        }else if(category === 'Fashion'){
+            setProductFormat(list[2])
+        }else{
+            setProductFormat(list[1])
+        }
+    },[category])
+
     let [productPackage, setProductPackage] = useState('')
 
     let validationBoolean = useRef({
@@ -91,32 +104,140 @@ const Editor = ({editorTitle}) => {
 
     function Validation(element) {
 
-        let name = element.name
-        let type = element.tagName.toLowerCase();
-        if(type === 'textarea'){
-            if(element.name === 'title'){
-                if(title.split(' ').length >= 2){
-                    element.style.border = '1px solid #000'
-                    validationBoolean.current.title = true;
+        function select(format) {
+            if(category === 'fashion'){
+                if(element.name === 'category'){
+                    if(category !== ''){
+                        element.style.border = '1px solid #000'
 
-                }else{
-                    element.style.border = '1px solid red'
-                    validationBoolean.current.title = false;
+                        validationBoolean.current.category = true;
+
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.category = false;
+
+                    }
+                }else if(element.name === 'type'){
+                    if(cType !== ''){
+                        element.style.border = '1px solid #000'
+
+                        validationBoolean.current.type = true;
+            
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.type = false;
+                        
+                    }
+                }else if(element.name === 'condition'){
+                    if(condition !== ''){
+                        element.style.border = '1px solid #000'
+    
+                        validationBoolean.current.condition = true;
+            
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.condition = false;
+                        
+                    }
+                }else if(element.name === 'gender'){
+                    if(gender !== ''){
+                        element.style.border = '1px solid #000'
+    
+                        validationBoolean.current.condition = true;
+            
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.condition = false;
+                        
+                    }
+                }else if(element.name === 'size'){
+                    if(size !== ''){
+                        element.style.border = '1px solid #000'
+    
+                        validationBoolean.current.condition = true;
+            
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.condition = false;
+                        
+                    }
+                }else if(element.name === 'sub-category'){
+                    if(subCategory !== ''){
+                        element.style.border = '1px solid #000'
+    
+                        validationBoolean.current.condition = true;
+            
+                    }else{
+                        element.style.border = '1px solid red'
+                        validationBoolean.current.condition = false;
+                        
+                    }
                 }
             }else{
-                if(description.split(' ').length >= 10){
-                    element.style.border = '1px solid #000'
-                    validationBoolean.current.description = true;
-
+                if(format !== 'base'){
+                    if(element.name === 'category'){
+                        if(category !== ''){
+                            element.style.border = '1px solid #000'
+    
+                            validationBoolean.current.category = true;
+    
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.category = false;
+    
+                        }
+                    }else if(element.name === 'type'){
+                        if(cType !== ''){
+                            element.style.border = '1px solid #000'
+    
+                            validationBoolean.current.type = true;
+                
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.type = false;
+                            
+                        }
+                    }else if(element.name === 'condition'){
+                        if(condition !== ''){
+                            element.style.border = '1px solid #000'
         
+                            validationBoolean.current.condition = true;
+                
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.condition = false;
+                            
+                        }
+                    }
                 }else{
-                    element.style.border = '1px solid red'
-                    validationBoolean.current.description = false;
-
-                    
+                    if(element.name === 'category'){
+                        if(category !== ''){
+                            element.style.border = '1px solid #000'
+    
+                            validationBoolean.current.category = true;
+    
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.category = false;
+    
+                        }
+                    }else if(element.name === 'type'){
+                        if(cType !== ''){
+                            element.style.border = '1px solid #000'
+    
+                            validationBoolean.current.type = true;
+                
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.type = false;
+                            
+                        }
+                    }
                 }
             }
-        }else if(type === 'input'){
+        }
+
+        function inputs(params) {
             if(element.type !== 'file'){
                 if(element.name === 'stock'){
                     if(stock > 0){
@@ -145,42 +266,45 @@ const Editor = ({editorTitle}) => {
 
                 }
             }
-            
-        }else if(type === 'select'){
-            if(element.name === 'category'){
-                if(category !== ''){
-                    element.style.border = '1px solid #000'
+        }
 
-                    validationBoolean.current.category = true;
+        function textarea(params) {
+            if(element.name === 'title'){
+                if(title.split(' ').length >= 2){
+                    element.style.border = '1px solid #000'
+                    validationBoolean.current.title = true;
 
                 }else{
                     element.style.border = '1px solid red'
-                    validationBoolean.current.category = false;
-
+                    validationBoolean.current.title = false;
                 }
-            }else if(element.name === 'type'){
-                if(cType !== ''){
+            }else{
+                if(description.split(' ').length >= 10){
                     element.style.border = '1px solid #000'
+                    validationBoolean.current.description = true;
 
-                    validationBoolean.current.type = true;
         
                 }else{
                     element.style.border = '1px solid red'
-                    validationBoolean.current.type = false;
-                    
-                }
-            }else if(element.name === 'condition'){
-                if(condition !== ''){
-                    element.style.border = '1px solid #000'
+                    validationBoolean.current.description = false;
 
-                    validationBoolean.current.condition = true;
-        
-                }else{
-                    element.style.border = '1px solid red'
-                    validationBoolean.current.condition = false;
                     
                 }
             }
+        }
+
+        let name = element.name
+        let type = element.tagName.toLowerCase();
+
+        
+
+        if(type === 'textarea'){
+            textarea()
+        }else if(type === 'input'){
+            inputs()
+            
+        }else if(type === 'select'){
+            select()
     
         }
 
@@ -254,9 +378,7 @@ const Editor = ({editorTitle}) => {
 
         let allFields = [...inputs,...textareas,...selects]
 
-        allFields.map((item, index) => {
-            Validation(item)
-        })
+        allFields.map((item, index) => Validation(item))
 
         let falseyList = []
 
@@ -275,26 +397,62 @@ const Editor = ({editorTitle}) => {
 
 
         if(result.length > 0){
-            console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),[cType,condition,locale,stock,gender,size,clothingCategory] )
             // let overlay = document.querySelector('.overlay')
             // overlay.setAttribute('id', 'overlay');
 
+            if(category === 'Food' || category === 'Pet'){
+                setProductFormat(list[0])
+    
+            }else if(category === 'Fashion'){
+                setProductFormat(list[2])
+            }else{
+                setProductFormat(list[1])
+            }
+
+            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : [cType,condition,stock,gender,size,subCategory]
+            // let dynamicInputValues = dynamicInput.filter(item => item !== '')
+            console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInput)
+
         }else{
             let overlay = document.querySelector('.overlay')
-            overlay.setAttribute('id', 'overlay');
+            //overlay.setAttribute('id', 'overlay');
 
-            let dynamicInput = [cType,condition,locale,stock,gender,size,clothingCategory];
+            if(category === 'Food' || category === 'Pet'){
+                setProductFormat(list[0])
+    
+            }else if(category === 'Fashion'){
+                setProductFormat(list[2])
+            }else{
+                setProductFormat(list[1])
+            }
+
+            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : [cType,condition,stock,gender,size,cType === 'Shoe' ? "" : subCategory]
             let dynamicInputValues = dynamicInput.filter(item => item !== '')
-            uploadItem(title,description,category,photos,window.localStorage.getItem("CE_seller_id"),dynamicInputValues)
-            .then((result) => {
-                result
-                ?
-                navigate('/seller/shop')
-                :
-                alert('Error Uploading Data...')
-                
-            })
-            .catch((err) => console.log(err))
+
+            if(category === 'Lodge/Apartments'){
+                uploadItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),[cType,locale])
+                .then((result) => {
+                    result
+                    ?
+                    navigate('/seller/shop')
+                    :
+                    alert('Error Uploading Data...')
+                    
+                })
+                .catch((err) => console.log(err))
+            }else{
+                uploadItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInputValues)
+                .then((result) => {
+                    result
+                    ?
+                    navigate('/seller/shop')
+                    :
+                    alert('Error Uploading Data...')
+                    
+                })
+                .catch((err) => console.log(err))
+            }
+            
         }
 
 
@@ -372,17 +530,22 @@ const Editor = ({editorTitle}) => {
                                     ""
                                 }
 
-                                <TypeSelect typeList={typeList} edit={edit} productType={productType} />
+                                <TypeSelect typeList={typeList} category={category} edit={edit} productType={productType} />
 
                                 {
-                                    category === 'Fashion' && cType === 'Clothing'
+                                    category === 'Fashion' 
                                     ? 
-                                    
 
-                                    <ClothingCategory edit={edit} productClothingCategory={productClothingCategory} />
+                                        cType === 'Clothing' || cType === 'Foot Wear'
 
+                                        ?
+
+                                        <SubCategory edit={edit} gender={gender} cType={cType} productSubCategory={productSubCategory} />
+
+                                        :
+
+                                        ""
                                     : 
-
                                     ""
                                 }
                                  
@@ -391,7 +554,8 @@ const Editor = ({editorTitle}) => {
                                     category === 'Fashion'
                                     ? 
 
-                                        cType === 'Clothing' ||  cType === 'Shoe'
+
+                                        cType === 'Clothing' ||  cType === 'Foot Wear'
                                         ?
                                         <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType}  />
                                         :
@@ -409,7 +573,7 @@ const Editor = ({editorTitle}) => {
                                     ? 
                                     ""
                                     : 
-                                    <ConditionSelect category={category} productCategory={productCategory} edit={edit} clothingCategory={clothingCategory}  />
+                                    <ConditionSelect category={category} productCondition={productCondition} edit={edit} subCategory={subCategory}  />
                                 }
 
                                 

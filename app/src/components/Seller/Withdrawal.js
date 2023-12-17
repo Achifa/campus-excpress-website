@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { usePaystackPayment } from 'react-paystack';
-const PayStack = () => {
+const Withdrawal = () => {
 
     
   
@@ -45,20 +45,19 @@ const PayStack = () => {
         
             <form id="paymentForm">
 
-                <h5 style={{color: 'orangered'}}>Deposit Form</h5>
+                <h5 style={{color: 'orangered'}}>Withdrawal Form</h5>
                 
                 
-                <div className="seller-input-cnt">
-                    <section>
-                        <label htmlFor="">FirstName</label>
-                        <input onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
-                    </section>
-                    <section>
-                        <label htmlFor="">LastName</label>
-                        <input onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
-                    </section>
-                </div>
+                
 
+                <div className="seller-input-cnt">
+                    <section style={{width: '100%'}}>
+                        <label htmlFor="">Amount Availble</label>
+                        <h4>2000</h4>
+                    </section>
+                    
+                </div>
+                
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Amount</label>
@@ -66,24 +65,10 @@ const PayStack = () => {
                     </section>
                     
                 </div>
-                <div className="seller-input-cnt">
-                    <section style={{width: '100%'}}>
-                        <label htmlFor="">Email</label>
-                        <input onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
-                    </section>
-                    
-                </div>
-                <div className="seller-input-cnt">
-                    <section style={{width: '100%'}}>
-                        <label htmlFor="">Phone</label>
-                        <input onInput={e => setPhone(e.target.value)}  placeholder='Phone...' type="text" />
-                    </section>
-                    
-                </div>
                
                 <div className="seller-input-cnt">
                             
-                    <button style={{width: '45%'}} onClick={e => {e.preventDefault(); initializePayment(onSuccess, onClose)}}>Pay</button>
+                    <button style={{width: '45%'}} onClick={e => {e.preventDefault(); alert('Please Try again later... Thanks')}}>Withdraw</button>
 
                     <button style={{width: '45%'}} onClick={e => {
                         e.preventDefault();
@@ -98,4 +83,4 @@ const PayStack = () => {
      );
 }
  
-export default PayStack;
+export default Withdrawal;

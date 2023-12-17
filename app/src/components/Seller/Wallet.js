@@ -6,6 +6,7 @@ import { AuthorizeWalletAccess, WalletData, createBill } from '../../api/seller'
 import PayStack from './PayStack';
 import { socket } from '../../socket';
 import '../../styles/Seller/overlay.css'
+import Withdrawal from './Withdrawal';
     
 const Wallets = () => {
     
@@ -55,9 +56,19 @@ const Wallets = () => {
     const initializePayment = usePaystackPayment(config);
 
     function handleDeposit(params) {
+       setForm(<PayStack />)
+
        let overlay = document.querySelector('.seller-overlay');
        overlay.setAttribute('id', 'seller-overlay')
     }
+
+    function handleWithdraw(params) {
+       setForm(<Withdrawal />)
+
+        let overlay = document.querySelector('.seller-overlay');
+        overlay.setAttribute('id', 'seller-overlay')
+
+     }
 
     useEffect(() => {
         socket.on('transaction_verification', ({amount, seller_id}) => {
@@ -67,6 +78,8 @@ const Wallets = () => {
         })
     }, [])
 
+    let [form, setForm] = useState()
+
     return ( 
         <>
             <div className="overlay">
@@ -74,7 +87,9 @@ const Wallets = () => {
                 </div>
             </div>
             <div className="seller-overlay">
-                <PayStack />
+                {
+                    form
+                }
             </div>
             
             <div className="seller-wallet-cnt">
@@ -82,7 +97,7 @@ const Wallets = () => {
                 <div className="seller-wallet-top shadow-sm">
                     <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span><small>&#8358;</small>&nbsp;{balance}</span></p>
                     <div>
-                        <span style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Withdraw Funds</span>
+                        <span onClick={e => handleWithdraw()} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Withdraw Funds</span>
 
                         <span onClick={e => handleDeposit()} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Deposit Funds</span>
                        

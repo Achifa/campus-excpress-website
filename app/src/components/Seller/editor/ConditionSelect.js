@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ConditionSelect = ({edit,productCategory,category,clothingCategory}) => {
+const ConditionSelect = ({edit,productCondition,category,subCategory}) => {
 
 
     // let [productCondition, setProductCondition] = useState('')
@@ -8,7 +8,7 @@ const ConditionSelect = ({edit,productCategory,category,clothingCategory}) => {
         <>
             <div className="input-cnt">
                 <label htmlFor="">Condition</label>
-                <select  name="condition" id="">
+                <select onInput={e => productCondition(e.target.value)}  name="condition" id="">
                     <option value={''}>Select Product Condition</option>
 
                     {
@@ -22,7 +22,7 @@ const ConditionSelect = ({edit,productCategory,category,clothingCategory}) => {
 
                         :
  
-                        clothingCategory === "Underwear" ? ["Brand New"].map ((item, index) => 
+                        subCategory === "Underwear" ? ["Brand New"].map ((item, index) => 
                             item === edit.condition
                             ?
                             <option selected key={index} value={item}>{item}</option>
