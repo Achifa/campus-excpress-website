@@ -27,7 +27,7 @@ const Signup = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [CampusisFocus, setCampusIsFocus] = useState(false);
     let [btn, setBtn] = useState("Signup")
-
+    let [emailResponse,setEmailResponse] = useState('')
     let book = useRef({
         fname: false,
         lname: false,
@@ -38,20 +38,17 @@ const Signup = () => {
         state: false
     })
 
-    function checkEmailDuplicate(params) {
-        socket.emit('emailCheck', email);
-        let data;
-        socket.on('emailCheck', (email) => data = email)
+    let checkEmailDuplicate = e => {
+        socket.emit('emailCheck', email)
+        let response = new Promise((resolve) => socket.on('emailCheck', (email) => resolve(email))).then((email) => email).catch((err) => err)
 
-        return data
-    }
-
+        return response;
+    };
 
 
     let Registration = (e) => {
         // e.target.disabled = true;
         Validation();
-
         console.log(book.current)
         Object.values(book.current).filter(item => item !== true).length > 0 ? validation.current = false : validation.current = true;
         if(validation.current){
@@ -78,15 +75,8 @@ const Signup = () => {
     }
 
     function Validation() {
-
         let inputs = [...document.querySelectorAll('input')]
         let select = [...document.querySelectorAll('select')]
-
-        
-
-        
-
-
         function addErrMssg(err,pElem) {
             
             // if(!err[0].bool){
@@ -96,7 +86,7 @@ const Signup = () => {
                     pElem.querySelector('.err-mssg').remove()
                     let div = document.createElement('div');
                     div.className = 'err-mssg';
-                    console.log(err)
+                    // console.log(err)
                     if(err.length > 0 ){
                         div.innerHTML = err[0].mssg;
                         pElem.append(div)
@@ -116,7 +106,7 @@ const Signup = () => {
 
                     let div = document.createElement('div');
                     div.className = 'err-mssg';
-                    console.log(err)
+                    // console.log(err)
 
                     if(err.length !== 0 ){
                         div.innerHTML = err[0].mssg;
@@ -138,7 +128,7 @@ const Signup = () => {
             
         }
 
-        inputs.map(item => {
+        inputs.map(async(item) => {
             if(item.type === 'text'){
 
                 if(item.name === 'fname'){
@@ -168,14 +158,13 @@ const Signup = () => {
 
                 }else if(item.name === 'email'){
 
-                    let validity = checkEmailDuplicate()
+                    let emailvailidity = await checkEmailDuplicate()
 
                     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
                     let validEmail = emailRegex.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter a valid email address.'}
-                    let emailDuplicate =  validity ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
-
-                    console.log(validity)
+                    let emailDuplicate =  emailvailidity ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
+                    console.log(emailvailidity)
 
                     let errs = [empty,validEmail,emailDuplicate];
 

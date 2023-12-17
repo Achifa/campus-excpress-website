@@ -39,7 +39,10 @@ io(server, {cors: {origin: '*'}}).on('connection', socket => {
     NeonDB.then((pool) => 
       pool.query(`SELECt * FROM campus_sellers WHERE email = '${email}'`)
       .then(result => socket.emit('emailCheck', result.rows.length > 0 ? false : true))
-      .catch(err => console.log(err))
+      .catch(err => {
+        socket.emit('emailCheck', false)
+        console.log(err)
+      })
     )
     .catch(err => console.log(err))
   })

@@ -8,7 +8,7 @@ const ConditionSelect = ({edit,productCategory,category,clothingCategory}) => {
         <>
             <div className="input-cnt">
                 <label htmlFor="">Condition</label>
-                <select onInput={e => {productCategory(e.target.value)}} name="condition" id="">
+                <select  name="condition" id="">
                     <option value={''}>Select Product Condition</option>
 
                     {
@@ -21,7 +21,7 @@ const ConditionSelect = ({edit,productCategory,category,clothingCategory}) => {
                         )
 
                         :
-
+ 
                         clothingCategory === "Underwear" ? ["Brand New"].map ((item, index) => 
                             item === edit.condition
                             ?
