@@ -3,7 +3,7 @@ import axios from 'axios'
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.75.146:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u1; 
+let plug = u2; 
  
 export function uploadItem(title,description,category,price,photos,seller_id,others) {
     return new Promise((resolve, reject) => {
@@ -289,6 +289,30 @@ export function ValidateEmail(token) {
 export function SendEmail(email,seller_id) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/send-email`, {email,seller_id})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function bankVerification(acctNum,bank) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/bank-verification`, {acctNum,bank})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function Transfer(withdrwawalAmount,acctNum,bank,acctName) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/transfer`, {withdrwawalAmount,acctNum,bank,acctName})
         .then((result) => {
             resolve(result)
         })

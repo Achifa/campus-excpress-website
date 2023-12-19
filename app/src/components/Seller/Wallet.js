@@ -63,7 +63,7 @@ const Wallets = () => {
     }
 
     function handleWithdraw(params) {
-       setForm(<Withdrawal />)
+       setForm(<Withdrawal balance={balance} />)
 
         let overlay = document.querySelector('.seller-overlay');
         overlay.setAttribute('id', 'seller-overlay')

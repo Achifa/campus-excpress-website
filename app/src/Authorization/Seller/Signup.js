@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../styles/Seller/signup.css'
-import { useNavigate } from 'react-router-dom';
+import { Await, useNavigate } from 'react-router-dom';
 import { RegisterSeller, SendEmailToken, SendToken } from '../../api/seller';
 import { data, school_choices } from '../../location';
 import { socket } from '../../socket';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 const Signup = () => {
 
@@ -33,85 +35,62 @@ const Signup = () => {
         lname: false,
         email: false,
         pwd: false,
-        // phn: false,
+        phn: false,
         campus: false,
         state: false
     })
 
-    let checkEmailDuplicate = async e => {
-        function addErrMssg(err,pElem) {
+    
+
+    function addErrMssg(err,pElem) {
             
-            // if(!err[0].bool){
-
-            let check = pElem.querySelector('.err-mssg');
-            if(check){
-                pElem.querySelector('.err-mssg').remove()
-                let div = document.createElement('div');
-                div.className = 'err-mssg';
-                // console.log(err)
-                if(err.length > 0 ){
-                    div.innerHTML = err[0].mssg;
-                    pElem.append(div)
-                    
-
-                }else{
-                    
-                    let check = pElem.querySelector('.err-mssg');
-
-                    if(check){
-                        pElem.querySelector('.err-mssg').remove()
-                    }
-                }
+        let check = pElem.querySelector('.err-mssg');
+        if(check){
+            pElem.querySelector('.err-mssg').remove()
+            let div = document.createElement('div');
+            div.className = 'err-mssg';
+            // console.log(err)
+            if(err.length > 0 ){
+                div.innerHTML = err[0].mssg;
+                pElem.append(div)
                 
-                
+
             }else{
+                
+                let check = pElem.querySelector('.err-mssg');
 
-                let div = document.createElement('div');
-                div.className = 'err-mssg';
-                // console.log(err)
-
-                if(err.length !== 0 ){
-                    div.innerHTML = err[0].mssg;
-                    pElem.append(div)
-                    
-
-                }else{
-                    
-                    let check = pElem.querySelector('.err-mssg');
-
-                    if(check){
-                        pElem.querySelector('.err-mssg').remove()
-                    }
+                if(check){
+                    pElem.querySelector('.err-mssg').remove()
                 }
             }
+            
+            
+        }else{
+
+            let div = document.createElement('div');
+            div.className = 'err-mssg';
+            // console.log(err)
+
+            if(err.length !== 0 ){
+                div.innerHTML = err[0].mssg;
+                pElem.append(div)
                 
 
-            // }
-            
+            }else{
+                
+                let check = pElem.querySelector('.err-mssg');
+
+                if(check){
+                    pElem.querySelector('.err-mssg').remove()
+                }
+            }
         }
-
-
-        socket.emit('emailCheck', email)
-        let response = await new Promise((resolve) => socket.on('emailCheck', (email) => resolve(email))).then((email) => email).catch((err) => err)
-        let emailDuplicate =  response ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
-        let errs = [emailDuplicate];
-        addErrMssg(errs.filter(item => item.mssg !== ''),e.target.parentElement)
-        let list =errs.filter(item => item.mssg !== '')
-
-        list.length > 0 ? book.current.email = false : book.current.email = true
-        console.log(list)
-
-        return response;
-    };
-
+     
+    }
 
     let Registration = (e) => {
         // e.target.disabled = true;
-
-       
         Validation();
-    
-        // console.log(book.current)
         Object.values(book.current).filter(item => item !== true).length > 0 ? validation.current = false : validation.current = true;
 
         if(validation.current){
@@ -120,74 +99,28 @@ const Signup = () => {
             )
             e.target.disabled = true;
             RegisterSeller(fname,lname,email,phone,pwd,state,campus)
-            // .then((result) => result ? navigate('/seller/login') : '')
+            .then((result) => navigate('/seller/login'))
             .catch((err) => {
-                console.log(err)
+                console.log(err.response.data.err )
+                if(err.response.data === 'duplicate email'){
+                    addErrMssg([{mssg:'Email already exist, please try something else'}], document.querySelector('.email').parentElement)
+                }else if(err.response.data === 'duplicate phone'){
+                    addErrMssg([{mssg:'Phone Number already exist, please try something else'}], document.querySelector('.phone').parentElement)
+                }
                 setBtn("Signup")
+                // console.log(err)
                 e.target.disabled = false;
             })
         }else{
             setBtn("Signup")
             e.target.disabled = false;
         }
-
-       
-        
     }
 
     function Validation() {
         let inputs = [...document.querySelectorAll('input')]
         let select = [...document.querySelectorAll('select')]
-        function addErrMssg(err,pElem) {
-            
-            // if(!err[0].bool){
-
-                let check = pElem.querySelector('.err-mssg');
-                if(check){
-                    pElem.querySelector('.err-mssg').remove()
-                    let div = document.createElement('div');
-                    div.className = 'err-mssg';
-                    // console.log(err)
-                    if(err.length > 0 ){
-                        div.innerHTML = err[0].mssg;
-                        pElem.append(div)
-                        
-
-                    }else{
-                        
-                        let check = pElem.querySelector('.err-mssg');
-
-                        if(check){
-                            pElem.querySelector('.err-mssg').remove()
-                        }
-                    }
-                   
-                    
-                }else{
-
-                    let div = document.createElement('div');
-                    div.className = 'err-mssg';
-                    // console.log(err)
-
-                    if(err.length !== 0 ){
-                        div.innerHTML = err[0].mssg;
-                        pElem.append(div)
-                        
-
-                    }else{
-                        
-                        let check = pElem.querySelector('.err-mssg');
-
-                        if(check){
-                            pElem.querySelector('.err-mssg').remove()
-                        }
-                    }
-                }
-                
-
-            // }
-            
-        }
+        
 
         inputs.map(async(item) => {
             if(item.type === 'text'){
@@ -219,7 +152,7 @@ const Signup = () => {
 
                 }else if(item.name === 'email'){
 
-
+                    // let emailvailidity = await checkEmailDuplicate();
                     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
                     let validEmail = emailRegex.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter a valid email address.'}
@@ -227,7 +160,6 @@ const Signup = () => {
                     let errs = [empty,validEmail];
                     addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
                     let list = errs.filter(item => item.mssg !== '')
-
                     list.length > 0 ? book.current.email = false : book.current.email = true
 
                 }
@@ -243,6 +175,18 @@ const Signup = () => {
                     let list =errs.filter(item => item.mssg !== '')
 
                     list.length > 0 ? book.current.pwd = false : book.current.pwd = true
+                }
+            }else if(item.type === 'number'){
+                if(item.name === 'phone'){
+                    let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
+                    let length = item.value.length >= 11 ? {bool: true, mssg: ''} :  {bool: false, mssg: 'Invalid Phone Number'}
+                    let errs = [empty,length];
+                    
+                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.phn = false : book.current.phn = true
                 }
             }
         })
@@ -316,14 +260,17 @@ const Signup = () => {
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Email</label>
-                                <input name='email' onInput={e => setEmail(e.target.value)} onBlur={e => checkEmailDuplicate(e)}  placeholder='Email...' type="text" />
+                                <input name='email' onInput={e => {setEmail(e.target.value)}} className='email'  placeholder='Email...' type="text" />
                             </section> 
                         </div>
 
                         <div className="seller-input-cnt">
                             <section style={{width: '100%', float: 'left'}}>
-                                <label htmlFor="">Phone (Optional)</label>
-                                <input name='phone' onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
+                                <label htmlFor="">Phone</label>
+                                <input name='phone'
+                                className='phone' onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
+
+                                
                             </section>
                             
                         </div>

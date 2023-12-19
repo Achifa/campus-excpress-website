@@ -1,44 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePaystackPayment } from 'react-paystack';
-const Withdrawal = () => {
+import { socket } from '../../socket';
+import bankData from './bank.json'
+import { Transfer, bankVerification } from '../../api/seller';
+import '../../styles/Buyer/login.css'
+
+const Withdrawal = ({balance}) => {
 
     
-  
-    let [fname, setFname] = useState('')
-    let [lname, setLname] = useState('')
-    let [email, setEmail] = useState('')
-    let [phone, setPhone] = useState('')
+    
+    let [validAcct, setValidAcct] = useState(false)
+    let [data, setdata] = useState(0)
+    let [bank, setBank] = useState('')
+    let [acctNum, setAcctNum] = useState('')
     let [amount, setAmount] = useState('0.00')
+    let [withdrwawalAmount, setwithdrwawalAmount] = useState('0.00')
+    let [acctName,setAcctName] = useState(<div className="Authloader" style={{background: '#fff'}}></div>)
 
-    const config = {
-        reference: (new Date()).getTime().toString(),
-        email: "akpulufabian@gmail.com",
-        amount: amount + '00', //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-        publicKey: 'pk_live_c8a885e2b4bda68ee5940a527431030c4b32f6dd',
-        
-        metadata: {
-            seller_id: `${window.localStorage.getItem("CE_seller_id")}`,
-            amount: amount,
-            firstname: fname,
-            lastname: lname,
-            phone: phone,
-            email: email
-        }
-    };
-    
-    // you can call this function anything
-    const onSuccess = (reference) => {
-      // Implementation for whatever you want to do with reference and after success call.
-      console.log(reference);
-    };
-  
-    // you can call this function anything
-    const onClose = () => {
-      // implementation for  whatever you want to do when the Paystack dialog closed.
-      console.log('closed')
+    function Withdraw(params) {
+        // if(withdrwawalAmount >= 150){
+        //     if(withdrwawalAmount < amount && validAcct){
+        //         Transfer(withdrwawalAmount,acctNum,bank,acctName)
+        //         .then((result) => {
+                    
+        //         })
+        //         .catch((err) => {
+                    
+        //         })
+        //     }
+        // }
+        alert('Please try again later, thanks')
     }
 
-    const initializePayment = usePaystackPayment(config);
+   
+    // you can call this function anything
+  
 
     return ( 
         <>
@@ -47,13 +43,11 @@ const Withdrawal = () => {
 
                 <h5 style={{color: 'orangered'}}>Withdrawal Form</h5>
                 
-                
-                
 
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Amount Availble</label>
-                        <h4>2000</h4>
+                        <h4>{balance}</h4>
                     </section>
                     
                 </div>
@@ -61,14 +55,71 @@ const Withdrawal = () => {
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Amount</label>
-                        <input onInput={e => setAmount(e.target.value)}  placeholder='Amount...' type="text" />
+                        <input onInput={e => setwithdrwawalAmount(e.target.value)}  placeholder='Amount...' type="number" />
                     </section>
                     
+                </div>
+
+                <div className="seller-input-cnt">
+                    <section style={{width: '100%'}}>
+                        <label htmlFor="">Account Number</label>
+                        <input style={{width: '100%'}} onInput={e => setAcctNum(e.target.value)}  placeholder='Account Number...' type="text" />
+                    </section>
+
+                    
+                    
+                </div>
+
+
+                <div className="seller-input-cnt">
+                    <section style={{width: '100%'}}>
+                        {/* <label htmlFor="">Account Number</label> */}
+                        {/* <input onInput={e => setBank(e.target.value)}  placeholder='Bank Name' type="text" /> */}
+                        <select onInput={e => setBank(e.target.value)} name="" id="">
+                            <option value="">Select Bank</option>
+                            {
+                                bankData.map(item => 
+                                    <option value={item.code}>{item.name}</option>
+                                    
+                                )
+                            }
+                        </select>
+                    </section>
+
+                    <section>
+                        <button onClick={e => {
+                            // e.target.disabled = true
+                            setdata(1);
+                            setAcctName(<div className="Authloader" style={{background: '#fff'}}></div>)
+                            e.preventDefault();
+                            bankVerification(acctNum,bank)
+                            .then((result) => {
+                                console.log(result)
+                                if(result.data.status === 'success'){
+                                    setAcctName(result.data.data.account_name)
+                                    setValidAcct(true)
+                                    // console.log(data.account_name)
+                                }else{
+                                    setAcctName('Account Details Not Found')
+                                    setValidAcct(false)
+
+                                }
+                            })
+                            .catch(err => console.log(err))
+                        }}>Verify</button>
+                    </section>
+                    
+                </div>
+
+                <div style={{height: '50px', marginBottom: '20px', width: '90%', margin: 'auto', border: '1px solid #efefef', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', background: 'orangered', color: '#fff', borderRadius: '5px', display: !data ? 'none' : 'flex'}}>
+                    {
+                        acctName
+                    }
                 </div>
                
                 <div className="seller-input-cnt">
                             
-                    <button style={{width: '45%'}} onClick={e => {e.preventDefault(); alert('Please Try again later... Thanks')}}>Withdraw</button>
+                    <button style={{width: '45%'}} onClick={e => {e.preventDefault(); Withdraw()}}>Withdraw</button>
 
                     <button style={{width: '45%'}} onClick={e => {
                         e.preventDefault();

@@ -39,6 +39,8 @@
     "sib-api-v3-sdk": "^8.5.0",
     "sms-service": "^1.1.7",
     "socket.io": "^4.6.1",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "uuid": "^9.0.1",
+    "uuidv4": "^6.2.13"
   }
 }

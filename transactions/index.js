@@ -4,7 +4,6 @@ const {seller_route} = require('./route/seller')
 const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
-const { default: axios } = require('axios');
  
 greetingTime(new Date());
 require('dotenv').config();
@@ -35,8 +34,6 @@ io(server, {cors: {origin: '*'}}).on('connection', socket => {
   socket.on('getTime', () => {
     socket.emit('greetings', greetingTime(new Date()))
   })
-
-
 
   socket.on('emailCheck', (email) => {
     NeonDB.then((pool) => 
@@ -86,108 +83,6 @@ app.post("/paystack-webhook", parser, async (req, res) => {
   .catch(err => console.log(err))
 
 });
-
-app.post("/bank-verification", parser, (req,res) => {
-  let {acctNum,bank} = req.body
-
-  const Flutterwave = require('flutterwave-node-v3');
-    const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
-    const details = {
-      account_number: acctNum,
-      account_bank: bank
-    };
-    flw.Misc.verify_Account(details)
-    .then(result => res.send(result))
-    .catch(err => console.log(err));
-
-})
-
-app.post("/transfer", parser, async(req,res) => {
-  let {withdrwawalAmount,acctNum,bank,acctName} = req.body;
-  const https = require('https')
-  const { v4: uuidv4 } = require('uuid');
-  console.log(withdrwawalAmount)
-
-
-  function initiateTransfer(recipient) {
-    const params = JSON.stringify({
-      "source": "balance",
-      "amount": withdrwawalAmount,
-      "reference": uuidv4(),
-      "recipient": recipient,
-      "reason": "Withdrawal"
-    })
-  
-    const options = {
-      hostname: 'api.paystack.co',
-      port: 443,
-      path: '/transfer',
-      method: 'POST',
-      headers: {
-        Authorization: process.env.PAYSTACK_SECRET_KEY,
-        'Content-Type': 'application/json'
-      }
-    }
-  
-    const request = https.request(options, res => {
-      let data = ''
-  
-      res.on('data', (chunk) => {
-        data += chunk
-      });
-  
-      res.on('end', () => {
-        console.log(JSON.parse(data))
-      })
-    }).on('error', error => {
-      console.error(error)
-    })
-  
-    request.write(params)
-    request.end()
-  
-  }
-  
-  async function createRecipient() {
-    try {
-      const params = {
-        type: 'nuban',
-        name: acctName,
-        account_number: acctNum,
-        bank_code: bank,
-        currency: 'NGN',
-      };
-
-      const response = await axios.post('https://api.paystack.co/transferrecipient', params, {
-        headers: {
-          Authorization: process.env.PAYSTACK_SECRET_KEY,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const result = response.data;
-      let code = result.data.recipient_code;
-      return(code)
-
-      // Handle the result or return the code as needed
-
-    } catch (error) {
-      console.error(error);
-      // Handle error as needed
-    }
-  }
-  
-  try {
-    let code = await createRecipient();
-    initiateTransfer(code)
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-    
-
-    
 
 
 process.on('unhandledRejection', (reason, promise) => {

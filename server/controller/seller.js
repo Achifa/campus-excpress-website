@@ -272,17 +272,6 @@ async function RegisterSeller(req,res) {
         )
     }
     
-    async function CreateNewSellerOverview(params) {
-        return(
-            NeonDB.then((pool) => 
-                pool.query(`insert into seller_overview(id,seller_id,total_reported,total_sale,total_sold,total_unsold) values(DEFAULT,'${seller_id}',${0},${0},${0},${0})`)
-                .then(result => result.rowCount > 0 ? true : false)
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        )
-    }
-    
     async function CreateNewSellerWallet(params) {
         return(
             NeonDB.then((pool) => 
@@ -394,36 +383,71 @@ async function RegisterSeller(req,res) {
       
     }
 
-    // try{
-    //     new Promise((resolve, reject) => {
-    //     let newSeller = CreateNewSeller()
-    //     newSeller ? resolve(true) : reject(false)
-    //     })
-    //     .then((result) => {
-    //         console.log('overview',result)
+    async function checkEmail(params) {
+        return(
+            await NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_sellers WHERE email = '${email}'`)
+                .then(result => result.rows.length > 0 ? {err: 'duplicate email', bool: false} : {bool: true})
+                .catch(err => (err))
+            )
+        )
+    }
 
-    //         let newSellerOverview = result ? CreateNewSellerOverview() : false;
-    //         return(newSellerOverview ? (true) : (false))
-    //     })
-    //     .then((result) => {
-    //         console.log('wallet',result)
-    //         let newSellerWallet = result ? CreateNewSellerWallet() : false;
-    //         return(newSellerWallet ? (true) : (false))
-    //     })
-    //     .then((result) => {
-    //         console.log('email',result)
+    async function checkPhone(params) {
+        return(
+            await NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM campus_sellers WHERE phone = '${phone}'`)
+                .then(result => result.rows.length > 0 ? {err: 'duplicate phone', bool: false} : {bool: true})
+                .catch(err => (err))
+            )
+        )
+    }
 
-    //         let newSellerEmailToken = result ? SendEmail() : false;
-    //         return(newSellerEmailToken ? (true) : (false))
-    //     })
+    try{
+        let email = await checkEmail(data => data)
+        let phone = await checkPhone(data => data)
+        new Promise((resolve, reject) => {
+            
+
+            
+            console.log(email,phone)
+
+            if(!email.bool){
+                reject(email.err)
+            }else if(!phone.bool){
+                reject(phone.err)
+            }else{
+                resolve(true)
+            }
+
+
+
+        })
+        .then((result) => {
+            // console.log('overview',result)
+            let newSeller = CreateNewSeller()
+            return(newSeller ? (true) : (false))
+        })
+        .then((result) => {
+            // console.log('wallet',result)
+            let newSellerWallet = result ? CreateNewSellerWallet() : false;
+            return(newSellerWallet ? (true) : (false))
+        })
+        .then((result) => {
+            // console.log('email',result)
+            let newSellerEmailToken = result ? SendEmail() : false;
+            return(newSellerEmailToken ? (true) : (false))
+        })
         
-    //     .catch((err) => {
-    //         console.log(err)
-    //         res.send(false)
-    //     })
-    // }catch(err){
-    //     console.log(err)
-    // }
+        .catch((err) => {
+            // console.log(err)
+            res.status(500).send(err)
+        })
+    }catch(err){
+        // console.log(err)
+        res.status(500).send(err)
+
+    }
 }
 
 async function LogSellerIn(req, res) {
