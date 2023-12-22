@@ -154,7 +154,7 @@
     }
 
     .seller-home-list{
-        height: calc(100% - 120px);
+        height: calc(100% - 20px);
         border-radius: 10px;
         width:100%;
         margin-top: 20px;
@@ -205,13 +205,14 @@
     }
 
     .seller-shop{
-        height: calc(100vh - 100px);
+        height: 100%;
         width: 100%;
         margin: auto;
         display: flex;
         flex-direction: column;
         overflow: auto;
         padding: 5px;
+        margin-bottom: 20px;
         background-color: #fff;
     }
 
@@ -274,7 +275,7 @@
     }
 
     .seller-shop-form{
-        height: fit-content;
+        height: 100%;
         width: 100%;
         float: right;
         display: flex;
@@ -389,7 +390,7 @@
     }
 
     .seller-upload-btn{
-        height: fit-content;
+        height: 100%;
         width: 100%;
         display: block;
         

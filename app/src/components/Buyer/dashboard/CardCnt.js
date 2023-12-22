@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
-import img from '../../assets/download (3).jpeg'
-import locationSvg from '../../assets/location-svgrepo-com-1.svg'
-import timeSvg from '../../assets/clock-svgrepo-com.svg'
-import saveSvg from '../../assets/save-svgrepo-com.svg'
-import orderSvg from '../../assets/order-svgrepo-com (1).svg'
-import conditionSvg from '../../assets/condition-point-svgrepo-com.svg'
+import img from '../../../assets/download (3).jpeg'
+import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
+import timeSvg from '../../../assets/clock-svgrepo-com.svg'
+import saveSvg from '../../../assets/save-svgrepo-com.svg'
+import orderSvg from '../../../assets/order-svgrepo-com (1).svg'
+import conditionSvg from '../../../assets/condition-point-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
-import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
-import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
-import { AddItemToCart, DeleteItemFromCart, GetItems, SaveItem, UnSaveItem } from "../../api/buyer";
-import Thumbnail from "./Thumbnail";
+import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
+import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
+import { AddItemToCart, DeleteItemFromCart, GetItems, SaveItem, UnSaveItem } from "../../../api/buyer";
+import Thumbnail from "../Thumbnail";
 import { useDispatch, useSelector } from "react-redux";
-import { setCartTo } from "../../redux/buyer/Cart";
-import { setSaveTo } from "../../redux/buyer/Save";
+import { setCartTo } from "../../../redux/buyer/Cart";
+import { setSaveTo } from "../../../redux/buyer/Save"; 
+import FloatingMenu from "../Header/FloatingMenu";
 
-const Home = () => {
+const CardCnt = () => {
     let {Cart} = useSelector(s => s.Cart)
     let {Save} = useSelector(s => s.Save)
     let {category} = useSelector(s => s.Category)
 
     let [screenWidth, setScreenWidth] = useState(0)
-    let [items, setItems] = useState([])
+    let [items, setItems] = useState([1,2,3,4,5,6,7,8,9,0])
 
     let navigate = useNavigate()
 
@@ -29,14 +30,19 @@ const Home = () => {
         setScreenWidth(width)
     }, [])
 
-    useEffect(() => {
-        GetItems(category)
-        .then((result) => {
-            setItems(result)
-        })
-        .catch(err => console.log(err))
+    // useEffect(() => {
+    //     GetItems(category)
+    //     .then((result) => {
+    //         setItems(result)
+    //     })
+    //     .catch(err => console.log(err))
 
-    }, [category])
+    // }, [category])
+    
+
+
+
+
 
 
     let BtnStyles = {
@@ -136,10 +142,54 @@ const Home = () => {
             })
         }
     }
+    let [list, setList] = useState([]) 
+    let [right, setright] = useState(0)
+    let [top, settop] = useState(0)
+    let [visible, setvisible] = useState('none')
+    let [selectedOption, setSelectedOption] = useState('Popularity')
+
+
+
+    function openFloatingMenu(e) {
+        if(visible === 'none')
+          {
+            let list = ['Popularity', 'Newest Arrivals', 'Price: Low to High', 'Price: High to Low', 'Product Rating']
+
+            setList(list)
+            setvisible('flex')
+            let rect = e.target.getBoundingClientRect();
+    
+            let r = rect.right;
+            let t = rect.top;
+            setright(r)
+            settop(t)
+            setTimeout(() => {
+              setvisible('none')
+            }, 8000);
+          }
+          else{
+            setvisible('none')
+    
+          }
+      }
+
+    function getSelectedOption(data) {setSelectedOption(data)}
 
     return ( 
         <>
-            <div className="buyer-dashboard-body">
+            <div className="buyer-card-cnt shadow-sm" >
+                <div className="buyer-sort shadow-sm">
+                    <div className="left">
+                        Latst Items For Sale
+                    </div>
+                    <div onClick={openFloatingMenu} className="right">
+                        Sort by: {selectedOption}
+                    </div>
+                </div>
+
+                {
+                    <FloatingMenu getSelectedOption={getSelectedOption} list={list} visible={visible} top={top} right={right} />
+                }
 
                 { 
                     items.length > 0
@@ -257,4 +307,4 @@ const Home = () => {
      );
 }
  
-export default Home;
+export default CardCnt;

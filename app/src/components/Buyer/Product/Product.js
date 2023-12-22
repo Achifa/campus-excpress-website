@@ -1,18 +1,18 @@
-import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
+import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
 import { useEffect, useState } from 'react'
-import img from '../../assets/download (3).jpeg'
-import fbSvg from '../../assets/facebook-1-svgrepo-com (1).svg'
-import tweeterSvg from '../../assets/twitter-svgrepo-com (2).svg'
-import WhatsAppSvg from '../../assets/whatsapp-whats-app-svgrepo-com.svg'
-import { AddItemToCart, DeleteItemFromCart, GetItem, SaveItem, UnSaveItem } from '../../api/buyer'
+import img from '../../../assets/download (3).jpeg'
+import fbSvg from '../../../assets/facebook-1-svgrepo-com (1).svg'
+import tweeterSvg from '../../../assets/twitter-svgrepo-com (2).svg'
+import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
+import { AddItemToCart, DeleteItemFromCart, GetItem, SaveItem, UnSaveItem } from '../../../api/buyer'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import saveSvg from '../../assets/save-svgrepo-com1.svg'
-import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
-import ItemImgs from './ItemImgs'
-import { setCartTo } from '../../redux/buyer/Cart'
-import { setSaveTo } from '../../redux/buyer/Save'
-import { DeleteItem } from '../../api/seller'
+import saveSvg from '../../../assets/save-svgrepo-com1.svg'
+import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
+import ItemImgs from '../ItemImgs'
+import { setCartTo } from '../../../redux/buyer/Cart'
+import { setSaveTo } from '../../../redux/buyer/Save'
+import { DeleteItem } from '../../../api/seller'
 
 
 

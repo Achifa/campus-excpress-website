@@ -81,7 +81,7 @@ const ProfileSetup = () => {
                             <input value={userData ? userData.email : ''} placeholder='Email...' type="text" />
                         </section>
                         <section style={{width: '30%'}}>
-                            <button style={{fontSize: 'small'}}>Change</button>
+                            <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
                         </section>
                     </div>
 
@@ -91,7 +91,7 @@ const ProfileSetup = () => {
                             <input value={userData ? userData.phone : ''}  placeholder='Phone Number...' type="number" />
                         </section>
                         <section style={{width: '30%'}}>
-                            <button style={{fontSize: 'small'}}>Change</button>
+                            <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
                         </section>
                     </div>
 
@@ -141,7 +141,7 @@ const ProfileSetup = () => {
                 
                     <div className="seller-input-cnt">
                         
-                        <button onClick={e => {e.preventDefault(); UpdateProfile();}}>Update</button>
+                        <button style={{background: '#5b42f3'}} onClick={e => {e.preventDefault(); UpdateProfile();}}>Update</button>
                         
                     </div>
 

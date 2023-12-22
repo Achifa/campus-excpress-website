@@ -16,7 +16,7 @@ import Me from './pages/Seller/Profile';
 
 
 import BuyerAside from './components/Buyer/Aside';
-import BuyerHeader from './components/Buyer/Header';
+import BuyerHeader from './components/Buyer/Header/Header';
 import { useEffect, useState } from 'react';
 import Dashboard from './pages/Buyer/Dashboard';
 import ProductPage from './pages/Buyer/Product';
@@ -24,10 +24,10 @@ import Signup from './Authorization/Seller/Signup';
 import BuyerSignup from './Authorization/Buyer.js/Signup';
 import BuyerLogin from './Authorization/Buyer.js/Login';
 import SellerLogin from './Authorization/Seller/Login';
-import Orders from './components/Buyer/Orders';
+import Orders from './components/Buyer/Order/Orders';
 import History from './components/Buyer/History';
-import SavedItem from './components/Buyer/SavedItem';
-import Cart from './components/Buyer/Cart';
+import SavedItem from './components/Buyer/Saved/SavedItem';
+import Cart from './components/Buyer/Cart/Cart';
 import Wallets from './components/Buyer/Wallet';
 import Checkout from './pages/Buyer/Checkout';
 import PasswordReset from './Authorization/Seller/ForgotPassword';
@@ -74,6 +74,7 @@ function App() {
           activeDom
         }
         <Routes key={location.key}> 
+          <Route path='/asdfghjkl' element={<Dashboard />}></Route>
 
             {/* <Route path='/' element={<Dashboard />}></Route>
             <Route path='/product/:id' element={<ProductPage />}></Route>

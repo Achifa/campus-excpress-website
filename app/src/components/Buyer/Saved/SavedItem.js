@@ -1,13 +1,13 @@
-import img from '../../assets/download (3).jpeg'
-import deleteSvg from '../../assets/delete-svgrepo-com (1).svg'
+import img from '../../../assets/download (3).jpeg'
+import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
 import { useEffect, useState } from 'react'
 import jsAgo from 'js-ago'
-import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
-import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
-import { SHOP } from '../../api/seller';
-import { AddItemToCart, DeleteItemFromCart, GetSavedItemsData } from '../../api/buyer';
+import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
+import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
+import { SHOP } from '../../../api/seller';
+import { AddItemToCart, DeleteItemFromCart, GetSavedItemsData } from '../../../api/buyer';
 import js_ago from 'js-ago';
-import { setCartTo } from '../../redux/buyer/Cart';
+import { setCartTo } from '../../../redux/buyer/Cart';
 import { useDispatch, useSelector } from 'react-redux';
 
 const SavedItem = () => {   

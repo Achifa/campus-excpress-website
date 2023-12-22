@@ -19,6 +19,7 @@ import EditorTitle from '../../components/Seller/editor/EditorTitle';
 import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
 import EditorDescription from '../../components/Seller/editor/EditorDescription';
 import SubCategory from '../../components/Seller/editor/ClothingSelect';
+import UploadBtn from '../../components/Seller/editor/Button';
 const Editor = ({editorTitle}) => {
 
     let location = useLocation();
@@ -510,7 +511,7 @@ const Editor = ({editorTitle}) => {
             <div className="seller-shop">
 
                 <div className='seller-shop-form-body'>
-                    <div className="seller-shop-form shadow-sm">
+                    <div className="seller-shop-form">
                     
                         <div className='seller-shop-form-cnt'>
 
@@ -553,17 +554,12 @@ const Editor = ({editorTitle}) => {
                                 {
                                     category === 'Fashion'
                                     ? 
-
-
                                         cType === 'Clothing' ||  cType === 'Foot Wear'
                                         ?
                                         <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType}  />
                                         :
-
                                         ""
-
                                     : 
-
                                     ""
                                 }
                                 
@@ -581,27 +577,20 @@ const Editor = ({editorTitle}) => {
                             <div style={{opacity: category !== '' ? '1' : '.4', pointerEvents: category !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
                                 
                                 {
-
                                     category === 'Lodge/Apartments' 
                                     ? 
                                     ""
                                     : 
-
                                     <StockSelect edit={edit} productStock={productStock} />
-
                                 }
 
                                 
                                 <PriceSelect edit={edit} productPrice={productPrice} />
-
-                               
-
                                 {
                                     category !== 'Lodge/Apartments' 
                                     ? 
                                     ""
                                     : 
-
                                     <LocationSelect productLocale={productLocale} edit={edit} />
                                 }
                                 
@@ -611,28 +600,16 @@ const Editor = ({editorTitle}) => {
 
                         {
                             screenWidth > 761
-
                             ?
-
-                            <div className="seller-upload-btn " style={{width: '100%', padding: '0', height: '60px', position: 'relative'}}>
-                                    {/* <div className="seller-item-preview-cnt">
-
-                                    </div> */}
-                                <button onClick={e => update ? updateForm(e) : handleForm(e)} style={{width: '100%', height: '55px',  borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
-                                    <div>{update ? 'Update' : 'Upload'}</div>
-                                </button>
-
-                            </div>
-
+                            <UploadBtn update={update} updateForm={updateForm} handleForm={handleForm} />
                             :
-
                             ''
                         }
 
                     </div>
 
 
-                    <div className="seller-shop-description shadow-sm" style={{textAlign: 'left', justifyContent: 'left'}}>
+                    <div className="seller-shop-description" style={{textAlign: 'left', justifyContent: 'left'}}>
                         <EditorTitle productTitle={productTitle}  edit={edit} />
 
                         <EditorPhotoStore edit={edit} productPhotos={productPhotos} photoList={photos} deletePhoto={deletePhoto} />
@@ -643,27 +620,20 @@ const Editor = ({editorTitle}) => {
                         
                     </div>
 
+                    
+
                 </div>
 
                 {
                     screenWidth < 761
-
                     ?
-
-                    <div className="seller-upload-btn " style={{width: '100%', padding: '0', marginTop: '20px', height: '60px', position: 'relative'}}>
-                            {/* <div className="seller-item-preview-cnt">
-
-                            </div> */}
-                        <button onClick={e => update ? updateForm(e) : handleForm(e)} style={{width: '100%', height: '55px', marginTop: '10px', borderRadius: '8px', padding: '0', background: 'orangered', outline: 'none', border: 'none', color: '#fff', borderRadius: '2.5px'}}>
-                            <div>{update ? 'Update' : 'Upload'}</div>
-                        </button>
-
-                    </div>
+                    <UploadBtn update={update} updateForm={updateForm} handleForm={handleForm} />
 
                     :
-
                     ''
                 }
+
+                
 
             </div>
         </>

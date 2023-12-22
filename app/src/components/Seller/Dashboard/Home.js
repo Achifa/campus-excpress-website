@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { OVERVIEW } from "../../api/seller";
-import '../../styles/Seller/overlay.css' 
+import { OVERVIEW } from "../../../api/seller";
+import '../../../styles/Seller/overlay.css' 
+import Card from "./Card";
 
 const Home = () => {
 
@@ -49,7 +50,7 @@ const Home = () => {
             </div>
             
             <div className="seller-home">
-                <div className="seller-home-overview">
+                {/* <div className="seller-home-overview">
 
                     <ul>
 
@@ -78,12 +79,15 @@ const Home = () => {
                         </li>
                         
                        
-                    </ul>
+                    </ul> 
 
-                </div>
+                </div> */}
 
                 <div className="seller-home-list">
-                    
+                    <Card title={total_for_sale} summary={'Total Products For Sale '} />
+                    <Card title={total_sold} summary={'Total Products Sold'} />
+                    <Card title={total_unsold} summary={'Total Products Unsold'} />
+                    <Card title={total_reported} summary={'Total Products Reported'} />
                    
                 </div>
                 

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { GetItem } from "../../api/buyer";
+import { GetItem } from "../../../api/buyer";
 import { useLocation } from "react-router-dom";
-import PayStack from "./PayStack";
+import PayStack from "../PayStack";
 import { usePaystackPayment } from "react-paystack";
-import CEStack from "./CEStack";
+import CEStack from "../CEStack";
 
 const CheckOut = () => {
     let [item, setItem] = useState('')

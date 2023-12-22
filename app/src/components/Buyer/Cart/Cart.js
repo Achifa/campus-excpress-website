@@ -1,15 +1,14 @@
-import img from '../../assets/download (3).jpeg'
-import deleteSvg from '../../assets/delete-svgrepo-com (1).svg'
+import img from '../../../assets/download (3).jpeg'
+import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
 import { useEffect, useState } from 'react'
 import jsAgo from 'js-ago'
-import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
-import { SHOP } from '../../api/seller';
-import { AddItemToCart, DeleteItemFromCart, GetCart, GetCartItems, UpdateCartUnit } from '../../api/buyer';
+import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
+import { AddItemToCart, DeleteItemFromCart, GetCart, GetCartItems, UpdateCartUnit } from '../../../api/buyer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCartTo } from '../../redux/buyer/Cart';
+import { setCartTo } from '../../../redux/buyer/Cart';
 import { useNavigate } from 'react-router-dom';
 
-const Cart = () => {
+const Cart = () => { 
     let [Items, setItems] = useState([])
     let [activeImg, setActiveImg] = useState(imgSvg)
     let [subTotal, setSubTotal] = useState('0.00')

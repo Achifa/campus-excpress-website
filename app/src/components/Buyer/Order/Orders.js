@@ -1,6 +1,6 @@
-import img from '../../assets/download (3).jpeg'
-import locationSvg from '../../assets/location-svgrepo-com-1.svg'
-import deleteSvg from '../../assets/delete-svgrepo-com (1).svg'
+import img from '../../../assets/download (3).jpeg'
+import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
+import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
 
 
 const Orders = () => {

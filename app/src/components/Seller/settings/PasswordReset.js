@@ -17,8 +17,8 @@ const PasswordReset = () => {
     return ( 
         <>
 
-            <div className="password-reset">
-                <form action="">
+            <div className="password-reset" >
+                <form action="" style={{height: 'fit-content', width: '400px'}}>
                 <br />
                     <h4 style={{color: 'orangered'}}>Password Reset</h4>
 
@@ -28,7 +28,7 @@ const PasswordReset = () => {
                         <input type="text" placeholder="Enter Registered Email Here..."/>
                     </div> */}
 
-                    <button onClick={e =>{e.preventDefault(); ResetPwd(userData.email, userData.seller_id);}}>Reset</button>
+                    <button style={{background: '#5b42f3'}} onClick={e =>{e.preventDefault(); ResetPwd(userData.email, userData.seller_id);}}>Reset</button>
                     <br />
                     <br />
                     <small>A link will be sent to your registered email.</small>

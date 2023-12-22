@@ -63,28 +63,28 @@ const Header = () => {
     useEffect(() => {
         let path = location.pathname.split('/').splice(-1)[0]
         if(path === ''){
-            setActiveHead(<h4>{greetings} {userData.lname}</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive', textTransform: 'capitalize'}}>{greetings} {userData.lname}</h4>)
         }else if(path === 'editor'){
-            setActiveHead(<h4>Sell</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Sell</h4>)
         }else if(path === 'inbox'){
-            setActiveHead(<h4>Inbox</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Inbox</h4>)
         }else if(path === 'shop'){
-            setActiveHead(<h4>Items for sale</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Items for sale</h4>)
         }else if(path === 'orders'){
-            setActiveHead(<h4>Orders</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Orders</h4>)
         }else if(path === 'settings'){ 
-            setActiveHead(<h4>Settings</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Settings</h4>)
         }else if(path === 'wallet'){
-            setActiveHead(<h4>Wallet</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Wallet</h4>)
         }else if(path === 'profile'){
-            setActiveHead(<h4>Profile</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Profile</h4>)
         }
     }, [location])
 
     
     return ( 
         <>
-            <div className="seller-header" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+            <div className="seller-header shadow-sm" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
 
                 {
                     activeHead

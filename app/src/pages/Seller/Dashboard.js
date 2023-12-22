@@ -4,7 +4,7 @@ import '../../styles/Seller/large-screen.css'
 import '../../styles/Seller/medium-screen.css'
 import '../../styles/Seller/small-screen.css'
 import Aside from "../../components/Seller/Aside";
-import Home from "../../components/Seller/Home";
+import Home from "../../components/Seller/Dashboard/Home";
 
 const SellerDashboard = () => {
     return ( 

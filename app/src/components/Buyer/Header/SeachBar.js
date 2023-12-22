@@ -1,11 +1,11 @@
-import '../styles/Buyer/small-screen.css'
-import filterSvg from '../assets/filter-edit-svgrepo-com.svg'
+import '../../../styles/Buyer/small-screen.css'
+import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
 import { useEffect, useState } from 'react';
-import { setBuyerJsxTo } from '../redux/buyer/BuyerOverlayJsx';
+import { setBuyerJsxTo } from '../../../redux/buyer/BuyerOverlayJsx';
 import { useDispatch } from 'react-redux';
-import { GetSearchWord } from '../api/buyer';
-import '../styles/search.css'
-import SearchResult from './Buyer/SearchResult';
+import { GetSearchWord } from '../../../api/buyer';
+import '../../../styles/search.css'
+import SearchResult from './SearchResult';
 
 const SearchBar = () => {
   let [searchResultElem, setSearchResultElem] = useState('')

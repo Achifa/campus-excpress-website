@@ -1,4 +1,4 @@
-import CheckOut from "../../components/Buyer/Checkout";
+import CheckOut from "../../components/Buyer/Checkout/Checkout";
 
 const Checkout = () => {
     return ( 

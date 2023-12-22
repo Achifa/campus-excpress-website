@@ -10,13 +10,141 @@
     }
 
     .buyer-header{
-        height: 90px;
+        height: 60px;
         width: 100%;
         background-color: #fff;
         display: flex;
         align-items: center;
-        padding: 0 20px 0 20px;
+        padding: 2px 85px 2px 15px;
+
         
+    }
+
+    .buyer-header ul{
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 20%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .buyer-header ul li{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        color: orangered;
+        font-weight: 500;
+        font-size: small;
+        height: 35px;
+        white-space: nowrap;
+        border-radius: 5px;
+        padding: 0 10px 0 10px;
+        justify-content: space-between;
+    }
+
+    .buyer-header ul li:hover{
+        background-color: rgb(255, 68, 0);
+        background-color: rgb(255, 68, 0, .1);
+        
+    }
+
+    .buyer-main-cnt{
+        padding: 40px 20px 40px 20px; 
+        background-color: orangered;
+    }
+
+    .buyer-flash-ads{
+        height: fit-content;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #fff;
+    }
+
+    .buyer-flash-ads ul{
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: left;
+
+    }
+
+    .buyer-flash-ads ul li{
+        height: 100px;
+        flex-shrink: 0;
+        width: calc(20% - 11px);
+        background-color: #f9f9f9;
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .buyer-flash-sales{
+        height: fit-content;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #fff;
+    }
+
+    .buyer-flash-sales ul{
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: left;
+
+    }
+
+    .buyer-flash-sales ul li{
+        height: 180px;
+        flex-shrink: 0;
+        width: calc(20% - 10px);
+        background-color: #f9f9f9;
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .buyer-ads-cnt{
+        height: 300px;
+        width: 100%;
+        padding: 0px;
+        
+        background-color: orangered;
+    }
+
+    .buyer-ads-cnt section:nth-child(odd){
+        width: 270px;
+        margin: 0 0 0 0;
+        height: 100%;
+        float: left;
+        border-radius: 1px;
+        background-color: #fff;
+    }
+
+    .buyer-ads-cnt section:nth-child(even){
+        width: calc(100% - 270px);
+        margin: 0 0 0 0;
+        height: 100%;
+        padding: 0;
+        float: right;
+        position: relative;
+        border-radius: 1px;
+        background-color: rgb(255, 68, 0);
+
+    }
+    .buyer-ads-cnt .img-cnt img{
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border-radius: 1px;
     }
 
     .buyer-category{
@@ -57,10 +185,12 @@
     }
 
     .buyer-header .input-cnt{
-        height: fit-content;
-        width: 500px;
+        height: 60px;
+        width: 60%;
         position: relative;
         display: flex;
+        align-items: center;
+        justify-content: center;
         margin: auto;
         flex-direction: row;
 
@@ -103,22 +233,22 @@
 
 
     .buyer-header .input-cnt input{
-        height: 60px;
+        height: 40px;
         float: left;
-        border-top-left-radius: 35px;
-        border-bottom-left-radius: 35px;
-        font-size: large;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        font-size: medium;
         padding: 20px;
-        font-weight: bolder;
+        font-weight: 500;
         width: 100%;
 
     }
 
     .buyer-header .input-cnt button{
-        height: 60px;
+        height: 40px;
         float: right;
-        border-top-right-radius: 35px;
-        border-bottom-right-radius: 35px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
         position: relative;
         width: 100px;
         background-color: orangered;
@@ -160,39 +290,69 @@
     }
 
 
-    .buyer-dashboard-body{
-        min-height: calc(100vh - 100px);
-        width: 100%;
+    .buyer-card-cnt {
+        min-height: calc(100vh - 70px);
+        width: calc(100% - 280px);
         overflow: auto;
-        float: right;
-
         padding: 10px;
-        background-color: #f9f9f9;
+        float: right;
+        border-radius: 5px;
+        /* margin: 10px 0 10px 0; */
+        background-color: #fff;
+
     }
-
-  
-
-    .buyer-dashboard-body .card{
-        height: fit-content;
-        width: calc(33.3% - 16px);
+    .buyer-card-cnt .card{
+        height: 400px;
+        width: calc(50% - 12px);
         flex-shrink: 0;
         float: left;
-        margin: 8px;
+        margin: 0 5px 0 5px;
+        position: relative;
         padding: 10px;
         text-align: left;
         cursor: pointer;
         background-color: #fff;
     }
+    .buyer-card-cnt .buyer-sort{
+        height: 50px;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-size: small;
+        justify-content: space-between;
+        background-color: orangered;
+        color: #fff;
+        border-radius: 5px;
 
-    .buyer-dashboard-body .card .card-body{
+    }
+    .buyer-card-cnt .buyer-sort .left{
+        font-weight: 500;
+        padding: 10px;
+    }
+    .buyer-card-cnt .buyer-sort .right{
+        font-weight: 500;
+        padding: 10px;
+        width: fit-content;
+        border-radius: 5px;
+        white-space: nowrap;
+        color: #fff;
+        cursor: pointer;
+    }
+    .buyer-card-cnt .buyer-sort .right:hover{
+        background-color: rgb(255, 255, 255);
+        background-color: rgba(252, 252, 252, 0.2);
+    }
+    .buyer-card-cnt .card .card-body{
         height: fit-content;
         width: 100%;
         position: relative;
         text-align: left;
         padding: 10px;
     }
-
-    .buyer-dashboard-body .card .card-body h3{
+    .buyer-card-cnt .card .card-body h3{
         font-size: large;
         height: 45px;
         text-overflow: ellipsis;
@@ -204,8 +364,20 @@
         font-family: Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,sans-serif;
         font-weight: 400;
     }
-
-    .buyer-dashboard-body .card .card-body div{
+    .buyer-card-cnt .card .card-body small{
+        font-size: medium;
+        height: 45px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 1;
+        line-height: 20px;
+        -webkit-box-orient: vertical;
+        font-family: Helvetica Neue,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,sans-serif;
+        font-weight: 400;
+    }
+    .buyer-card-cnt .card .card-body div{
         padding: 5px;
         width: fit-content;
         border-radius: 2.5px;
@@ -215,8 +387,7 @@
         background-color: orangered;
         color: #fff;
     }
-
-    .buyer-dashboard-body .card .card-footer{
+    .buyer-card-cnt .card .card-footer{
         height: fit-content;
         width: 100%;
         position: relative;

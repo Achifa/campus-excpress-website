@@ -8,11 +8,11 @@ import conditionSvg from '../../assets/condition-point-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import cartSvg from '../../assets/cart-shopping-fast-svgrepo-com.svg'
 import filterSvg from '../../assets/filter-edit-svgrepo-com.svg'
-import { AddItemToCart, DeleteItemFromCart, GetItems, SaveItem, UnSaveItem } from "../../api/buyer";
-import Thumbnail from "./Thumbnail";
+import { AddItemToCart, DeleteItemFromCart, GetItems, SaveItem, UnSaveItem } from "../../../api/buyer";
+import Thumbnail from "../Thumbnail";
 import { useDispatch, useSelector } from "react-redux";
-import { setCartTo } from "../../redux/buyer/Cart";
-import { setSaveTo } from "../../redux/buyer/Save";
+import { setCartTo } from "../../../redux/buyer/Cart";
+import { setSaveTo } from "../../../redux/buyer/Save";
 
 const Home = () => {
     let {Cart} = useSelector(s => s.Cart)

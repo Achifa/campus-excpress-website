@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import items from '../../items.json'
-import { GetItems } from "../../api/buyer";
+import items from '../../../items.json'
+import { GetItems } from "../../../api/buyer";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryTo } from "../../redux/buyer/Category";
+import { setCategoryTo } from "../../../redux/buyer/Category";
 
 const Category = () => {
     let [categoriesList, setCategoriesList] = useState([])
