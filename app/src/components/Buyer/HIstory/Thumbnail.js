@@ -21,7 +21,7 @@ const Thumbnail = ({product_id}) => {
         .catch((err) => {
             console.log(err);
         })
-    },[])
+    })
 
     return ( 
         <>

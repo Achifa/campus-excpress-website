@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import '../../../styles/floating.css'
+import { useNavigate } from 'react-router-dom';
 
 const FloatingMenu = ({list,right,top,visible,getSelectedOption}) => {
+    let navigate = useNavigate()
 
     return ( 
         <>
@@ -10,7 +12,7 @@ const FloatingMenu = ({list,right,top,visible,getSelectedOption}) => {
                     {
                         list.map((item) =>  
                         
-                            <li onClick={e => getSelectedOption(item)}>{item}</li>
+                            <li onClick={e => navigate(`/${item}`)}>{item}</li>
                         )
                     }
                 </ul>

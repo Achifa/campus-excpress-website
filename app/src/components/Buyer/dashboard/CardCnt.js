@@ -30,14 +30,15 @@ const CardCnt = () => {
         setScreenWidth(width)
     }, [])
 
-    // useEffect(() => {
-    //     GetItems(category)
-    //     .then((result) => {
-    //         setItems(result)
-    //     })
-    //     .catch(err => console.log(err))
+    useEffect(() => {
+        GetItems(category)
+        .then((result) => {
+            setItems(result)
+            console.log(result)
+        })
+        .catch(err => console.log(err))
 
-    // }, [category])
+    }, [category])
     
 
 
@@ -214,9 +215,9 @@ const CardCnt = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <small style={{fontSize: 'small', lineHeight: '18px'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                         : 
-                                        <small style={{fontSize: 'small', lineHeight: '18px'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                     }
 
                                     <hr  />
@@ -224,11 +225,11 @@ const CardCnt = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{
+                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{
                                             new Intl.NumberFormat('en-us').format(item.price)
                                         }</h6>
                                         : 
-                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
+                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
                                     }
 
                                     <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', padding: '0'}}>
@@ -240,7 +241,7 @@ const CardCnt = () => {
                                         &nbsp;
 
                                         <span  style={{background: '#fff',color: 'rgb(98, 98, 98)', padding: '0',  fontSize: 'small', fontWeight: '500'}}>
-                                            {item.condition}
+                                            {item.others?.split(',')[2]}
                                         </span>
                                     </span>
                                         

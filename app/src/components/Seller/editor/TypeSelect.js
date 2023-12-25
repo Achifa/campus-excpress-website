@@ -14,8 +14,8 @@ const TypeSelect = ({edit,category,productType,typeList}) => {
 
                     {
                         typeList.map((item, index) => 
-                            item === edit.type
-                            ?
+                            item === edit.others?.split(',')[0]
+                            ? 
                             <option selected key={index} value={item}>{item}</option>
                             :
                             <option key={index} value={item}>{item}</option>

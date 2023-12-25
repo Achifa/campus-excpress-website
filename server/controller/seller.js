@@ -106,7 +106,7 @@ function uploadProduct(req,res) {
     let date = new Date();
     let productId = shortId.generate()
     let replacedDescription = description.replace(/'/g, '"');;
-    let replacedTitle = title.replace(/'/g, '"');;
+    let replacedTitle = title.replace(/'/g, '"');
     let imageId = shortId.generate();
     let book = []
 
@@ -195,18 +195,20 @@ function DeleteProduct(req,res) {
 function updateProduct(req,res) {
 
     let {
-        productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id,product_id
+        title,description,category,price,photos,seller_id,product_id,others
     } = req.body;
 
+    console.log(product_id)
+
     let date = new Date();
-    let description = productDescription.replace(/'/g, '"');;
-    let title = productTitle.replace(/'/g, '"');;
+    let replacedDescription = description.replace(/'/g, '"');;
+    let replacedTitle = title.replace(/'/g, '"');
     let book = []
     let imageId = shortId.generate();
 
     new Promise((resolve, reject) => {
         NeonDB.then((pool) => 
-            pool.query(`UPDATE seller_shop set date='${date}', title='${title}', category='${productCategory}', type='${productType}', condition='${productCondition}', stock='${productStock}', locale='${productLocale}', price='${productPrice}', description='${description}' WHERE product_id = '${product_id}'`)
+            pool.query(`UPDATE seller_shop set date='${date}', title='${replacedTitle}', category='${category}', others='${others}', price='${price}', description='${replacedDescription}' WHERE product_id = '${product_id}'`)
             .then(result => {
                 result.rowCount > 0 ? resolve(true) : reject(false)
             })
@@ -229,14 +231,14 @@ function updateProduct(req,res) {
     )
     .then(async(response) => {
        
-        productPhotos.map(item => 
+        photos.map(item => 
             NeonDB.then((pool) => 
                 pool.query(`insert into product_photo(id,product_id,seller_id,file,image_id) values(DEFAULT, '${product_id}', '${seller_id}', '${item}', '${imageId}')`)
                 .then(result => {
-                    console.log(result)
+                    console.log('jbkjbk',result)
 
                     result.rowCount > 0 ? book.push(true) : book.push(false)
-                    if(book.length === productPhotos.length){
+                    if(book.length === photos.length){
                         res.send(true)
                     }
                 })
@@ -246,7 +248,7 @@ function updateProduct(req,res) {
 
     })
     
-    .catch(err => console.log(err))
+    .catch(err => console.log('hbkhk',err))
 
 
 }

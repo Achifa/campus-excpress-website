@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { GetItem } from "../../../api/buyer";
 import { useLocation } from "react-router-dom";
-import PayStack from "../PayStack";
+import PayStack from "../Forms/PayStack";
 import { usePaystackPayment } from "react-paystack";
 import CEStack from "../CEStack";
+import Summary from "./Summary";
+import Info from "./Info";
+import Method from "./Method";
+import Address from "./Address";
+import Btn from "./Btn";
 
 const CheckOut = () => {
     let [item, setItem] = useState('')
@@ -77,87 +82,24 @@ const CheckOut = () => {
         }
     },[paymentMethodSelected])
 
+    function setPayment(data) {
+        SetPaymentMethod(data)
+    }
+
     return ( 
         <>
             <div className="seller-overlay">
                 {payment}
             </div>
             <div className="buyer-checkout">
-                <div className="buyer-checkout-payment-method">
-                    <h4>Payment Method</h4>
-                    <hr />
-                    <div className="input-cnt">
-                        <input type="radio" onInput={e => SetPaymentMethod('cewallet')} name="paymentMethod" id="ceWallet" />
-                        <label htmlFor="ceWallet">Pay Via Campus Wallet</label>
-
-                    </div>
-
-                    <div className="input-cnt">
-                        <input type="radio" onInput={e => SetPaymentMethod('paystack')} name="paymentMethod" id="Card" />
-                        <label htmlFor="Card">Pay Via With Card, Bank Transfer, USSD</label>
-
-                    </div>
-
-                </div>
-                <div className="buyer-checkout-customer-address">
-                    <h4>Customer Address</h4>
-                    <hr />
-                    <div className="input-cnt">
-                        <input type="radio" checked name="" id="" />
-                        <label htmlFor="">Unizik, Awka, Anambra State</label>
-
-                    </div>
-
-                   
-                </div>
-                <div className="buyer-checkout-delivery-info">
-                    <h4>Delivery Details</h4>
-                    <hr />
-                    <div className="input-cnt">
-                        <ul>
-                            <li>
-                                <div><b>Pick Up Station</b></div>
-                                <div><small>Unizik School Gate, Awka</small></div>
-                            </li>
-                        </ul>
-
-                    </div>
-
-                    <div className="input-cnt">
-                        <ul>
-                            <li>
-                                <div><b>Pick Date</b></div>
-                                <div><small>Delivers Between 24 November and 30 November.</small></div>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-                <div className="buyer-checkout-order-summary">
-                    <h4>Order Summary</h4>
-                    <hr />
-                    <div className="input-cnt">
-                        <span>Item Total ({totalItem})</span>
-                        <span>&#8358; {new Intl.NumberFormat('en-us').format(Total - 3000)}</span>
-                    </div>
-
-                    <div className="input-cnt">
-                        <span>Delivery Fee</span>
-                        <span>&#8358; {new Intl.NumberFormat('en-us').format(deliveryPrice.current)}</span>
-                    </div>
-
-                    <div className="input-cnt">
-                        <span>Total </span>
-                        <span>&#8358; {new Intl.NumberFormat('en-us').format(Total)}</span>
-                    </div>
-                </div>
+                <Address setPayment={setPayment} />
+                <Method />
+                <Info />
+                <Summary totalItem={totalItem} deliveryPrice={deliveryPrice} Total={Total} />
             </div>
 
             <div className="buyer-checkout-btn" onClick={e => handleDeposit()}>
-                <button className="checkout-btn">
-                    <span>Confirm Order </span>
-                    <span>({new Intl.NumberFormat('en-us').format(Total)})</span>
-                </button>
+                <Btn deliveryPrice={deliveryPrice} />
             </div>
 
         </>

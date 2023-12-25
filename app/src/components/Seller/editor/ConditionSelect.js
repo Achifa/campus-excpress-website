@@ -13,7 +13,7 @@ const ConditionSelect = ({edit,productCondition,category,subCategory}) => {
 
                     {
                         category === "Health/Beauty" ? ["Brand New"].map ((item, index) => 
-                            item === edit.condition
+                            item === edit.others?.split(',')[2]
                             ?
                             <option selected key={index} value={item}>{item}</option>
                             :
@@ -23,7 +23,7 @@ const ConditionSelect = ({edit,productCondition,category,subCategory}) => {
                         :
  
                         subCategory === "Underwear" ? ["Brand New"].map ((item, index) => 
-                            item === edit.condition
+                            item === edit.others?.split(',')[2]
                             ?
                             <option selected key={index} value={item}>{item}</option>
                             :
@@ -33,7 +33,7 @@ const ConditionSelect = ({edit,productCondition,category,subCategory}) => {
                         : 
                         
                         ["Brand New", "Fairly Used", "Refurbished","Used"].map((item, index) => 
-                            item === edit.condition
+                            item === edit.others?.split(',')[2]
                             ?
                             <option selected key={index} value={item}>{item}</option>
                             :

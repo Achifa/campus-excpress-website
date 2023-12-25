@@ -13,8 +13,8 @@ const LocationSelect = ({edit,productLocale}) => {
         .then((result) => {
             setCampus(result.campus)
             setState(result.state)
+            productLocale(state + ',' + ' ' + campus)
             overlay.removeAttribute('id')
-
         }) 
         .catch((err) => console.log(err))
     }, [])

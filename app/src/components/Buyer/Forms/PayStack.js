@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { usePaystackPayment } from 'react-paystack';
-import { GetBuyer } from '../../api/buyer';
+import { GetBuyer } from '../../../api/buyer';
 const PayStack = ({amt}) => {
 
     let [fname, setFname] = useState('')

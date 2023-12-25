@@ -4,7 +4,7 @@ import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
 import dArrowSvg from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import { CE_buyer_ID, CE_buyer_INITIAL } from "../Secrets";
+import { CE_buyer_ID, CE_buyer_INITIAL } from "../dashboard/Secrets";
 import '../../../styles/Buyer/overlays.css'
 import '../../../styles/search.css'
 import BuyerAside from "../Aside";
@@ -24,19 +24,26 @@ const BuyerHeader = () => {
 
   let {buyerJsx} = useSelector(s => s.buyerJsx)
   let {Cart} = useSelector(s => s.Cart)
+  let navigate = useNavigate()
+  let dispatch = useDispatch()
+  let location = useLocation()
 
-  let location = useLocation();
   let [buyerId,setBuyerId] = useState(null)
   let [buyerName,setBuyerName] = useState(null)
   //let [activeJsx, setActiveJsx]= useState(null)
   let [cartList,setCartList] = useState(0)
   let [searchChar, setSearchChar] = useState('')
-
   let [screenWidth, setScreenWidth] = useState(0)
-
-  let navigate = useNavigate()
-  let dispatch = useDispatch()
-  let [searchResultElem, setSearchResultElem] = useState('')
+  let [searchRes, setSearchRes] = useState([])
+  
+  let [searchResultElem, setSearchResultElem] = useState(
+    <SearchResult list={[searchRes]} />
+  )
+  let [list, setList] = useState([])
+  let [right, setright] = useState(0)
+  let [visible, setvisible] = useState('none')
+  let [task, settask] = useState('none')
+  let [top, settop] = useState(0)
 
   useEffect(() => {
       let width = window.innerWidth;
@@ -67,7 +74,6 @@ const BuyerHeader = () => {
   }, [Cart])
   let [width, setWidth] = useState(0)
 
-
   useEffect(() => {
 
     let id = CE_buyer_ID();
@@ -84,18 +90,7 @@ const BuyerHeader = () => {
         setWidth(`calc(100% - 350px)`)
     }
   }, [location])
-
-  useEffect(() => {
-    GetSearchWord(searchChar)
-    .then((result) => { 
-      console.log(result)
-      setSearchResultElem(<SearchResult list={result} />)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, [searchChar])
-
+  
   function handleOverlay(e) {
     let elem = document.querySelector('.buyer-overlay');
     if(elem.hasAttribute('id')){
@@ -104,13 +99,6 @@ const BuyerHeader = () => {
       elem.setAttribute('id', 'buyer-overlay')
     }
   }
-
-  let [list, setList] = useState([])
-  let [right, setright] = useState(0)
-  let [visible, setvisible] = useState('none')
-  let [task, settask] = useState('none')
-  let [top, settop] = useState(0)
-
 
   function openFloatingMenu(e,task) {
     settask(task)
@@ -171,6 +159,27 @@ const BuyerHeader = () => {
     document.querySelector('.aside-overlay').setAttribute('id', 'aside-overlay')
   }
 
+  function openSearchResult(e) {
+    let position = e.target.getBoundingClientRect();
+    let top = position.top
+    let left = position.left
+    document.querySelector('.buyer-search-overlay').setAttribute('id', 'buyer-search-overlay')
+
+    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top} list={[searchRes]} />)
+  }
+
+  useEffect(() => {
+    
+    GetSearchWord(searchChar)
+    .then((result) => { 
+        setSearchRes(result)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [searchChar])
+
+
   return ( 
     <>
       {
@@ -180,7 +189,10 @@ const BuyerHeader = () => {
       {
         <Aside />
       }
-        
+
+      
+
+      
       <div className="buyer-overlay" onClick={e =>e.target === document.querySelector('.buyer-overlay') ? handleOverlay() : ''}>
         {
           buyerJsx === 'filter' ? <BuyerAside /> : <BuyerMenu />
@@ -196,15 +208,17 @@ const BuyerHeader = () => {
           screenWidth > 479
           ?
           <div className="input-cnt">
-            <input onInput={e => setSearchChar(e.target.value)} type="search" name="" placeholder="What Are You Looking For..." id="" />
+            <input onBlur={e => {
+
+            }} onFocus={e =>openSearchResult(e)} onInput={e => {setSearchChar(e.target.value);}} type="search" name="" placeholder="What Are You Looking For..." id="" />
             <button>Search</button>
-          </div>
+          </div> 
           : 
           ''
         }
 
         <ul>
-          <li>
+          <li onClick={e => navigate('/cart')}>
             <span>
               <img src={cartSvg} style={{height: '25px', width: '25px'}} alt="" />
             </span>
@@ -224,6 +238,7 @@ const BuyerHeader = () => {
                 <img src={dArrowSvg} style={{height: '22px', width: '12px', marginTop: '5px', marginLeft: '5px', rotate: visible === 'flex' && task === 'user' ? '0deg' : '180deg'}} alt="" />
               </span>
               </li>
+
               <li onClick={e => openFloatingMenu(e,'help')}> 
                 <span>Help</span>
                 <span>
@@ -248,6 +263,8 @@ const BuyerHeader = () => {
         
 
       </div>
+
+
       {
           screenWidth > 479
           ?
@@ -256,6 +273,9 @@ const BuyerHeader = () => {
           <SearchBar />
       }
         
+      {
+        searchResultElem
+      }
     </>
   );
 }

@@ -1,4 +1,4 @@
-import Wallets from "../../components/Buyer/Wallet";
+import Wallets from "../../components/Buyer/Wallet/Wallet";
 import '../../styles/Seller/overlays.css';
 
 const Wallet = () => {

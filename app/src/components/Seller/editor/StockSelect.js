@@ -4,7 +4,7 @@ const StockSelect = ({edit,productStock}) => {
         <>
             <div className="input-cnt">
                 <label htmlFor="">Stock <small>(Quantity Availble For Sale)</small></label>
-                <input type="number" defaultValue={edit.stock} name='stock' placeholder="Stock" onInput={e => productStock(e.target.value)} />
+                <input type="number" defaultValue={edit.others?.split(',')[1]} name='stock' placeholder="Stock" onInput={e => productStock(e.target.value)} />
             </div>
         </>
      );

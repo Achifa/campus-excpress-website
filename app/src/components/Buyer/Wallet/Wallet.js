@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { usePaystackPayment } from 'react-paystack';
 import { useEffect, useState } from 'react';
-import { AuthorizeWalletAccess, WalletData, createBill } from '../../api/seller';
-import PayStack from './PayStack';
-import { socket } from '../../socket';
+import { AuthorizeWalletAccess, WalletData, createBill } from '../../../api/seller';
+import PayStack from '../Forms/PayStack';
+import { socket } from '../../../socket';
 
 const Wallets = () => {
     

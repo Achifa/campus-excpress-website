@@ -15,7 +15,7 @@ const CEStack = ({amt}) => {
             setLname(result.lname)
             setEmail(result.email)
             setPhone(result.phone)
-        })
+        })   
         .catch(err => console.log(err))
     },[])
 

@@ -24,12 +24,13 @@ const Editor = ({editorTitle}) => {
 
     let location = useLocation();
     let navigate = useNavigate();
-    let list = ['base','strata','tras']
+    let list = ['base','strata','tras','quan']
     
     let [update, setUpdate] = useState(false);
     let [edit,setEdit] = useState('');
     let [screenWidth, setScreenWidth] = useState('')
     let [productFormat, setProductFormat] = useState(list[1]);
+    let [product_id,setProduct_id] = useState('')
 
     useEffect(() => {setScreenWidth(window.innerWidth)},[])
 
@@ -85,6 +86,8 @@ const Editor = ({editorTitle}) => {
 
         }else if(category === 'Fashion'){
             setProductFormat(list[2])
+        }else if(category === 'Lodge/Apartments'){
+            setProductFormat(list[3])
         }else{
             setProductFormat(list[1])
         }
@@ -210,6 +213,30 @@ const Editor = ({editorTitle}) => {
                             
                         }
                     }
+                }else if(format === 'quan'){
+                    if(element.name === 'category'){
+                        if(category !== ''){
+                            element.style.border = '1px solid #000'
+    
+                            validationBoolean.current.category = true;
+    
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.category = false;
+    
+                        }
+                    }else if(element.name === 'type'){
+                        if(cType !== ''){
+                            element.style.border = '1px solid #000'
+    
+                            validationBoolean.current.type = true;
+                
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.type = false;
+                            
+                        }
+                    }
                 }else{
                     if(element.name === 'category'){
                         if(category !== ''){
@@ -223,6 +250,17 @@ const Editor = ({editorTitle}) => {
     
                         }
                     }else if(element.name === 'type'){
+                        if(cType !== ''){
+                            element.style.border = '1px solid #000'
+    
+                            validationBoolean.current.type = true;
+                
+                        }else{
+                            element.style.border = '1px solid red'
+                            validationBoolean.current.type = false;
+                            
+                        }
+                    }else if(element.name === 'stock'){
                         if(cType !== ''){
                             element.style.border = '1px solid #000'
     
@@ -325,60 +363,6 @@ const Editor = ({editorTitle}) => {
 
         let allFields = [...inputs,...textareas,...selects]
 
-        allFields.map((item, index) => {
-            Validation(item)
-        })
-
-        let falseyList = []
-
-        for(let x in validationBoolean.current){
-            console.log(x)
-
-            if(validationBoolean.current[x] === false){
-                falseyList.push(false)
-            }else{
-                falseyList.push(true) 
-
-            }
-
-
-            
-        }
-
-        let result = falseyList.filter(item => item === false)
-
-        if(result.length > 0){
-            // let overlay = document.querySelector('.overlay')
-            // overlay.setAttribute('id', 'overlay');
-
-        }else{
-            let overlay = document.querySelector('.overlay')
-            overlay.setAttribute('id', 'overlay');
-            updateItem(title,description,category,cType,condition,price,locale,stock,productPackage,photos,window.localStorage.getItem("CE_seller_id"),edit.product_id)
-            .then((result) => {
-                result
-                ?
-                navigate('/seller/shop')
-                :
-                alert('Error Uploading Data...')
-                
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-
-
-      
-    }
-
-    let handleForm = () => {
-        let inputs = [...document.querySelectorAll('input')]
-        let textareas = [...document.querySelectorAll('textarea')]
-        let selects = [...document.querySelectorAll('select')]
-
-        let allFields = [...inputs,...textareas,...selects]
-
         allFields.map((item, index) => Validation(item))
 
         let falseyList = []
@@ -406,6 +390,8 @@ const Editor = ({editorTitle}) => {
     
             }else if(category === 'Fashion'){
                 setProductFormat(list[2])
+            }else if(category === 'Lodge/Apartments'){
+                setProductFormat(list[3])
             }else{
                 setProductFormat(list[1])
             }
@@ -415,19 +401,114 @@ const Editor = ({editorTitle}) => {
             console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInput)
 
         }else{
+            
             let overlay = document.querySelector('.overlay')
-            //overlay.setAttribute('id', 'overlay');
+            overlay.setAttribute('id', 'overlay');
 
             if(category === 'Food' || category === 'Pet'){
                 setProductFormat(list[0])
     
+            }else if(category === 'Lodge/Apartments'){
+                setProductFormat(list[3])
             }else if(category === 'Fashion'){
                 setProductFormat(list[2])
             }else{
                 setProductFormat(list[1])
             }
 
-            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : [cType,condition,stock,gender,size,cType === 'Shoe' ? "" : subCategory]
+            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : productFormat === 'quan' ? [cType,locale]: [cType,condition,stock,gender,size,subCategory]
+
+            let dynamicInputValues = dynamicInput.filter(item => item !== '')
+
+            if(category === 'Lodge/Apartments'){
+                updateItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),[cType,locale])
+                .then((result) => {
+                    result
+                    ?
+                    navigate('/seller/shop')
+                    :
+                    alert('Error Uploading Data...')
+                    
+                })
+                .catch((err) => console.log(err))
+            }else{
+                updateItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInputValues)
+                .then((result) => {
+                    result
+                    ?
+                    navigate('/seller/shop')
+                    :
+                    alert('Error Uploading Data...')
+                    
+                })
+                .catch((err) => console.log(err))
+            }
+            
+        }
+
+    }
+
+    let handleForm = () => {
+        let inputs = [...document.querySelectorAll('input')]
+        let textareas = [...document.querySelectorAll('textarea')]
+        let selects = [...document.querySelectorAll('select')]
+
+        let allFields = [...inputs,...textareas,...selects]
+
+        allFields.map((item, index) => Validation(item))
+
+        let falseyList = []
+
+        for(let x in validationBoolean.current){
+            console.log(validationBoolean.current[x])
+
+            if(validationBoolean.current[x] === false){
+                falseyList.push(false)
+            }else{
+                falseyList.push(true) 
+            }
+        }
+
+        let result = falseyList.filter(item => item === false)
+
+
+        if(result.length > 0){
+            // let overlay = document.querySelector('.overlay')
+            // overlay.setAttribute('id', 'overlay');
+
+            if(category === 'Food' || category === 'Pet'){
+                setProductFormat(list[0])
+    
+            }else if(category === 'Fashion'){
+                setProductFormat(list[2])
+            }else if(category === 'Lodge/Apartments'){
+                setProductFormat(list[3])
+            }else{
+                setProductFormat(list[1])
+            }
+
+            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : productFormat === 'quan' ? [cType,locale]: [cType,condition,stock,gender,size,subCategory]
+            // let dynamicInputValues = dynamicInput.filter(item => item !== '')
+            console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInput)
+
+        }else{
+            
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
+
+            if(category === 'Food' || category === 'Pet'){
+                setProductFormat(list[0])
+    
+            }else if(category === 'Lodge/Apartments'){
+                setProductFormat(list[3])
+            }else if(category === 'Fashion'){
+                setProductFormat(list[2])
+            }else{
+                setProductFormat(list[1])
+            }
+
+            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : productFormat === 'quan' ? [cType,locale]: [cType,condition,stock,gender,size,subCategory]
+
             let dynamicInputValues = dynamicInput.filter(item => item !== '')
 
             if(category === 'Lodge/Apartments'){
@@ -469,17 +550,24 @@ const Editor = ({editorTitle}) => {
 
             GetEditedItem(location.search.split('=').splice(-1)[0])
             .then((result) => {
-                productPhotos(result.photos.map(item => item.file))
-                setEdit(result.meta_data[0])
-                productCategory(result.meta_data[0].category)
-                productTitle(result.meta_data[0].title)
-                productDescription(result.meta_data[0].description)
-                productPrice(result.meta_data[0].price)
-                productStock(result.meta_data[0].stock)
-                productType(result.meta_data[0].type)
-                productCondition(result.meta_data[0].condition)
-                productLocale(result.meta_data[0].locale)
-                overlay.removeAttribute('id')
+                console.log(result.meta_data)
+                if(result.meta_data.category !== 'Lodge/Apartments'){
+
+                    productPhotos(result.photos.map(item => item.file))
+                    setEdit(result.meta_data[0])
+                    productCategory(result.meta_data[0].category)
+                    productTitle(result.meta_data[0].title)
+                    setPhotos(result.photos.map(item => item.file))
+                    productDescription(result.meta_data[0].description)
+                    productPrice(result.meta_data[0].price)
+                    setProduct_id(result.meta_data[0].product_id)
+                    productStock(result.meta_data[0].others[1])
+                    productType(result.meta_data[0].others[0])
+                    productCondition(result.meta_data[0].others[2])
+                    productLocale(result.meta_data[0].locale)
+                    overlay.removeAttribute('id')
+
+                }
             })
             .catch(err => console.log(err))
         }else{
@@ -491,6 +579,7 @@ const Editor = ({editorTitle}) => {
     let [typeList, setTypeList] = useState([])
 
     useEffect(() => {setCategoriesList(items.items.category)},[])
+    
     useEffect(() => {setAllInputsToNull('')},[category])
 
     useEffect(() => {
@@ -615,9 +704,6 @@ const Editor = ({editorTitle}) => {
                         <EditorPhotoStore edit={edit} productPhotos={productPhotos} photoList={photos} deletePhoto={deletePhoto} />
 
                         <EditorDescription productDescription={productDescription} edit={edit} />
-
-                        
-                        
                     </div>
 
                     

@@ -3,11 +3,13 @@ import closeSvg from '../../../assets/close-square-svgrepo-com (1).svg'
 import items from '../../../items.json'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 const Aside = () => {
 
     let [categoriesList, setCategoriesList] = useState([])
+    let navigate = useNavigate()
     let {category} = useSelector(s => s.Category)
 
     useEffect(() => {
@@ -25,7 +27,7 @@ const Aside = () => {
     let list3 = categoriesList
 
     let CEservices = list1.map((item, i) => 
-        <li key={i}>
+        <li onClick={e => navigate(`${item}`)} key={i}>
             <span></span>
             &nbsp;
             &nbsp;
@@ -34,7 +36,7 @@ const Aside = () => {
     )
 
     let Help = list2.map((item, i) => 
-        <li key={i}>
+        <li onClick={e => navigate(`${item}`)} key={i}>
             <span></span>
             &nbsp;
             &nbsp;
@@ -43,7 +45,7 @@ const Aside = () => {
     )
 
     let Categories = list3.map((item, i) => 
-        <li key={i}>
+        <li onClick={e => navigate(`${item}`)} key={i}>
             <span></span>
             &nbsp;
             &nbsp;

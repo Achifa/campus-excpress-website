@@ -19,10 +19,11 @@ export function uploadItem(title,description,category,price,photos,seller_id,oth
     })
 }
 
-export function updateItem(productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id,product_id) {
+export function updateItem(title,description,category,price,photos,seller_id,product_id,others) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/product-update`, {
-            productTitle,productDescription,productCategory,productType,productCondition,productPrice,productLocale,productStock,productPackage,productPhotos,seller_id,product_id
+            title,description,category,price,photos,seller_id,product_id,others
+
         })
         .then((result) => { 
             resolve(result)
