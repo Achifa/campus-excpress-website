@@ -1,4 +1,4 @@
-const { AuthorizeWalletAccess, create_bill } = require("../../transactions/roles/Sellers");
+// const { AuthorizeWalletAccess, create_bill } = require("../../transactions/roles/Sellers");
 const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData, GetSeller, GetEditedItem, updateProduct, updateSellerProfile, SendEmailToken, SendToken, ResetPwd, updatePwd, DeleteProduct, GetSellerOrder, GetSellerInbox, SendEmail } = require("../controller/seller");
 const { seller_authentication, check_seller, CheckPwdResetToken, ValidateEmail } = require("../middleware/seller");
 const { express, parser } = require("../modules");
@@ -26,8 +26,8 @@ seller_route.post('/seller', parser, GetSeller);
 seller_route.post('/seller/wallet-data', parser, WalletData);
 
 seller_route.get('/seller-edited-item', GetEditedItem);
-seller_route.post('/seller/wallet-access', parser, AuthorizeWalletAccess);
-seller_route.post('/seller/wallet-bill', parser, create_bill);
+// seller_route.post('/seller/wallet-access', parser, AuthorizeWalletAccess);
+// seller_route.post('/seller/wallet-bill', parser, create_bill);
 
 seller_route.post('/seller/shop', parser, Shop);
 
