@@ -16,8 +16,11 @@ let NeonDB = new Promise((resolve, reject) => {
         ssl: {
             rejectUnauthorized: false,
         },
-        idleTimeoutMillis: 0,
-        connectionTimeoutMillis: 0,
+        createTimeoutMillis: 8000,
+        acquireTimeoutMillis: 8000,
+        idleTimeoutMillis: 8000,
+        reapIntervalMillis: 1000,
+        createRetryIntervalMillis: 100
     });
     let conn = pool.connect();
     if(conn){
