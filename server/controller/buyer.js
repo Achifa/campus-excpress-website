@@ -115,17 +115,36 @@ async function GetItems(req,res) {
 
     if(category === 'trends'){
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop`)
+            ppool.query(`select * from seller_shop WHERE NOT EXISTS
+            (SELECT *  
+               FROM  seller_shop
+               WHERE category = 'Lodge/Apartments')`)
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
     }else{
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop`)
+            pool.query(`select * from seller_shop WHERE NOT EXISTS
+            (SELECT *  
+               FROM  seller_shop
+               WHERE category = 'Lodge/Apartments')`)
             .then(result =>  res.send(result.rows.filter(item => item.category.toLowerCase() === category)))
             .catch(err => console.log(err))
         )
     }
+
+    
+    
+
+}
+
+async function GetLodges(req,res) {
+
+    NeonDB.then((pool) => 
+        pool.query(`select * from seller_shop WHERE category = 'Lodge/Apartments'`)
+        .then(result =>  res.send(result.rows))
+        .catch(err => console.log(err))
+    )
 
     
     
@@ -506,7 +525,7 @@ function GetSearchWord(req,res) {
 
 
 
-module.exports = {RegisterBuyer,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, GetBuyer, UpdateCart, GetSearchWord}
+module.exports = {RegisterBuyer,GetLodges,LogBuyerIn,GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, GetBuyer, UpdateCart, GetSearchWord}
 
 
 

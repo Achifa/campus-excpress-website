@@ -5,6 +5,15 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import orderSvg from '../../../assets/order-svgrepo-com (1).svg'
+import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
+import settingsSvg from '../../../assets/settings-svgrepo-com (3).svg'
+import adsSvg from '../../../assets/ad-svgrepo-com.svg'
+import savedSvg from '../../../assets/bookmark-outlined-saved-svgrepo-com.svg'
+import subSvg from '../../../assets/subscriptions-svgrepo-com.svg'
+import walletSvg from '../../../assets/wallet-2-svgrepo-com.svg'
+import sellSvg from '../../../assets/sell-svgrepo-com (1).svg'
+import logoutSvg from '../../../assets/logout-2-svgrepo-com.svg'
 
 const Aside = () => {
 
@@ -22,31 +31,37 @@ const Aside = () => {
         
     }, [category])
 
-    let list1 = ['My Account', 'Order', 'Inbox', 'Saved Item', 'Voucher', 'Logout']
-    let list2 = ['Help Center', 'Refund & Return', 'Cancel An Order', 'Track An Order', 'Payment Option', 'Contact Us']
+    let list1 = [{text: 'My Account', img: ''}, {text:'Order', img: orderSvg}, {text: 'Inbox', img: ''}, {text: 'Saved Item', img: savedSvg}, {text: 'Voucher', img: ''}, {text: 'Logout', img: logoutSvg}]
+    let list2 = [{text: 'Help Center', img: ''}, {text: 'Refund & Return', img: ''}, {text: 'Cancel An Order', img: ''}, {text: 'Track An Order', img: ''}, {text: 'Payment Option', img: ''}, {text: 'Contact Us', img: ''}]
     let list3 = categoriesList
 
     let CEservices = list1.map((item, i) => 
         <li onClick={e => navigate(`${item}`)} key={i}>
-            <span></span>
+            <span>
+                <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+            </span>
             &nbsp;
             &nbsp;
-            <span style={{fontSize: 'small'}}>{item}</span>
+            <span style={{fontSize: 'small'}}>{item.text}</span>
         </li>
     )
 
     let Help = list2.map((item, i) => 
         <li onClick={e => navigate(`${item}`)} key={i}>
-            <span></span>
+            <span>
+                <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
+            </span>
             &nbsp;
             &nbsp;
-            <span style={{fontSize: 'small'}}>{item}</span>
+            <span style={{fontSize: 'small'}}>{item.text}</span>
         </li>
     )
 
     let Categories = list3.map((item, i) => 
-        <li onClick={e => navigate(`${item}`)} key={i}>
-            <span></span>
+        <li onClick={e => navigate(`$.text{item}`)} key={i}>
+            <span>
+                {/* <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" /> */}
+            </span>
             &nbsp;
             &nbsp;
             <span style={{fontSize: 'small'}}>{Object.keys(item)[0]}</span>

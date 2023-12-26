@@ -61,28 +61,28 @@ const Cart = () => {
 
     
 
-    // function StockChange(type,item) {
-    //     if(type === 'add'){
-    //         let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
+    function StockChange(type,item) {
+        if(type === 'add'){
+            let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
             
-    //         if(oldUnit < item[0].stock){
-    //             //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
+            if(oldUnit < item[0].stock){
+                //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
 
-    //             document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
-    //             getTotalPrice()
-    //         }
+                document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
+                getTotalPrice()
+            }
 
-    //     }else{
-    //         let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
+        }else{
+            let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
 
-    //         if(oldUnit > 1){
-    //             //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
-    //             document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit - 1;
-    //             getTotalPrice()
-    //         }
+            if(oldUnit > 1){
+                //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
+                document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit - 1;
+                getTotalPrice()
+            }
             
-    //     }
-    // }
+        }
+    }
 
     
 
@@ -101,9 +101,7 @@ const Cart = () => {
                {
                 Items.map((item, index) => {
                     return(
-                        <Card />
-
-
+                        <Card unit={unit} getTotalPrice={getTotalPrice} item={item} index={index} />
                     )
                 })
                }

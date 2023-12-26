@@ -8,7 +8,7 @@ import { CE_buyer_ID, CE_buyer_INITIAL } from "../dashboard/Secrets";
 import '../../../styles/Buyer/overlays.css'
 import '../../../styles/search.css'
 import BuyerAside from "../Aside";
-import img from '../../../images/Campus_Express-logos_transparent-removebg-preview (1).png'
+import img from '../../../images/Campus express (3).png'
 import BuyerMenu from "./Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { setBuyerJsxTo } from "../../../redux/buyer/BuyerOverlayJsx";
@@ -201,9 +201,8 @@ const BuyerHeader = () => {
       </div>
       <div className="buyer-header">
 
-        <h6>campus express</h6>
 
-        {/* <img src={img} style={{height: '75px', width: '75px'}}  alt="" /> */}
+        <img src={img} style={{height: '100%', width: '70px'}}  alt="" />
         {
           screenWidth > 479
           ?

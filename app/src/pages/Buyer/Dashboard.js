@@ -13,6 +13,7 @@ import FlashSales from "../../components/Buyer/dashboard/FlashSales";
 import Recommended from "../../components/Buyer/dashboard/Recommended";
 import FilterAside from "../../components/Buyer/dashboard/FilterAside";
 import Main from "../../components/Buyer/dashboard/Main";
+import Lodge from "../../components/Buyer/dashboard/Lodge";
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
@@ -33,6 +34,7 @@ const Dashboard = () => {
             <Ads />
 
             <FlashAds />
+            <Lodge />
 
             {/* <FlashSales />
 

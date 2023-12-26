@@ -1,7 +1,10 @@
 import { useDispatch } from "react-redux";
-import { UpdateCartUnit } from "../../../api/buyer";
+import { DeleteItemFromCart, UpdateCartUnit } from "../../../api/buyer";
+import { useState } from "react";
+import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
+import { setCartTo } from "../../../redux/buyer/Cart";
 
-const Card = () => {
+const Card = ({item,index,unit,getTotalPrice}) => {
 
     let dispatch = useDispatch()
 

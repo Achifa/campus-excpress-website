@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 let u1 = `http://localhost:1111`
-let u2 = `http://192.168.0.4:1111`
+let u2 = `http://192.168.94.146:1111`
 let u3 = `https://ce-server.onrender.com`
 
-let plug = u2; 
+let plug = u1; 
 
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
@@ -55,6 +55,22 @@ export function GetItems(category) {
         axios.get(`${plug}/`, {
             params: {
                 category
+            }
+        })
+        .then((result) => {
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+export function GetLodges() {
+    return new Promise((resolve, reject) => {
+        axios.get(`${plug}/lodges`, {
+            params: {
+                
             }
         })
         .then((result) => {

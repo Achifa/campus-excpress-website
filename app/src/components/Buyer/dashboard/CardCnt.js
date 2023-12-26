@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import img from '../../../assets/download (3).jpeg'
 import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
+import '../../../styles/loader.css'
+import '../../../styles/Seller/overlay.css' 
+
 import timeSvg from '../../../assets/clock-svgrepo-com.svg'
 import saveSvg from '../../../assets/save-svgrepo-com.svg'
 import orderSvg from '../../../assets/order-svgrepo-com (1).svg'
@@ -21,7 +24,7 @@ const CardCnt = () => {
     let {category} = useSelector(s => s.Category)
 
     let [screenWidth, setScreenWidth] = useState(0)
-    let [items, setItems] = useState([1,2,3,4,5,6,7,8,9,0])
+    let [items, setItems] = useState([])
 
     let navigate = useNavigate()
 
@@ -31,21 +34,18 @@ const CardCnt = () => {
     }, [])
 
     useEffect(() => {
+        let overlay = document.querySelector('.overlay');
+        overlay.setAttribute('id', 'overlay');
+
         GetItems(category)
         .then((result) => {
             setItems(result)
-            console.log(result)
+            overlay.removeAttribute('id');
         })
         .catch(err => console.log(err))
 
     }, [category])
     
-
-
-
-
-
-
     let BtnStyles = {
         height: screenWidth > 480 ? '60px' : '40px',
         width: '100%',
@@ -178,6 +178,10 @@ const CardCnt = () => {
 
     return ( 
         <>
+            <div className="overlay" >
+                <div className="loader">
+                </div>
+            </div>
             <div className="buyer-card-cnt shadow-sm" >
                 <div className="buyer-sort shadow-sm">
                     <div className="left">
@@ -215,9 +219,9 @@ const CardCnt = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <small style={{fontSize: 'small', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', height: '50px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                         : 
-                                        <small style={{fontSize: 'small', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', height: '50px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                     }
 
                                     <hr  />
@@ -297,7 +301,7 @@ const CardCnt = () => {
                         </div> 
                     )
                     :
-                    <div><h3>No items under this category at the moment, please check back later</h3></div>
+                    ''
                 }
                 
             </div>
