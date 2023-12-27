@@ -1,6 +1,7 @@
 const { express,path,fs,parser,mocha,morgan,cors,shortId,jwt,io} = require('./modules');
 const {NeonDB} = require('./db');
 const {seller_route} = require('./route/seller')
+const {admin_route} = require('./route/admin')
 const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
@@ -26,6 +27,7 @@ app.use(cors({
 
 app.use(seller_route)
 app.use(buyer_route)
+app.use(admin_route)
 
 
 

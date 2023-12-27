@@ -1,10 +1,10 @@
 import img from '../../assets/download (3).jpeg'
 import deleteSvg from '../../assets/delete-svgrepo-com (1).svg'
 import { useEffect, useState } from 'react'
-import { DeleteItem, SHOP } from '../../api/seller'
+import { DeleteItem, SHOP } from '../../api/admin'
 import jsAgo from 'js-ago'
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
-import Thumbnail from '../../components/Seller/Thumbnail'
+import Thumbnail from '../../components/Admin/Thumbnail'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/Seller/overlay.css' 
 

@@ -12,27 +12,44 @@ import SellerOrder from './pages/Seller/Order';
 import Setting from './pages/Seller/Settings';
 import SellerWallet from './pages/Seller/Wallet';
 import Me from './pages/Seller/Profile';
+import Signup from './Authorization/Seller/Signup';
+import Inbox from './pages/Seller/Inbox'; 
+import SellerLogin from './Authorization/Seller/Login';
+import PasswordReset from './Authorization/Seller/ForgotPassword';
+import Verification from './Authorization/Seller/Verification';
 
+
+import AdminDashboard from './pages/Admin/Dashboard';
+import AdminAside from './components/Admin/Aside';
+import AdminHeader from './components/Admin/Header';
+import AdminEditor from './pages/Admin/Editor';
+import AdminShop from './pages/Admin/Shop';
+import AdminSellerOrder from './pages/Admin/Order';
+// import AdminMessage from './pages/Admin/Messages';
+import AdminSetting from './pages/Admin/Settings';
+import AdminSellerWallet from './pages/Admin/Wallet';
+import AdminMe from './pages/Admin/Profile';
+import AdminSignup from './Authorization/Admin/Signup';
+import AdminInbox from './pages/Admin/Inbox';
+import AdminSellerLogin from './Authorization/Admin/Login';
+import AdminPasswordReset from './Authorization/Admin/ForgotPassword';
+import AdminVerification from './Authorization/Admin/Verification';
 
 
 import BuyerHeader from './components/Buyer/Header/Header';
 import { useEffect, useState } from 'react';
 import Dashboard from './pages/Buyer/Dashboard';
 import ProductPage from './pages/Buyer/Product';
-import Signup from './Authorization/Seller/Signup';
 import BuyerSignup from './Authorization/Buyer.js/Signup';
 import BuyerLogin from './Authorization/Buyer.js/Login';
-import SellerLogin from './Authorization/Seller/Login';
 import Checkout from './pages/Buyer/Checkout';
-import PasswordReset from './Authorization/Seller/ForgotPassword';
 import ErrorPage from './components/ErrorPage';
-import Verification from './Authorization/Seller/Verification';
-import Inbox from './pages/Seller/Inbox';
 import Order from './pages/Buyer/Order';
 import Historhy from './pages/Buyer/History';
-import Cart from './pages/Buyer/Cart';
+import Cart from './pages/Buyer/Cart'; 
 import SavedItem from './pages/Buyer/SavedItem';
 import Wallet from './pages/Buyer/Wallet';
+import Users from './pages/Admin/Users';
 
 function App() {
   let location = useLocation()
@@ -63,7 +80,15 @@ function App() {
             <Aside />
           </>
         )
+      }else if(location.pathname.split('/')[1] === 'admin'){
+        setActiveDom(
+          <>
+            <AdminHeader />
+            <AdminAside />
+          </>
+        )
       }
+      
       
     }
   }, [location])
@@ -74,7 +99,7 @@ function App() {
           activeDom
         }
         <Routes key={location.key}> 
-          <Route path='/asdfghjkl' element={<Dashboard />}></Route>
+        
 
             <Route path='/' element={<Dashboard />}></Route>
 
@@ -112,6 +137,26 @@ function App() {
             <Route path='/password-reset/:id' element={<Editor />}></Route>
             <Route path='/email-verification/:id' element={<Verification />}></Route>
 
+
+
+
+            <Route path='/admin/' element={<AdminDashboard />}></Route>  
+            <Route path='/admin/users' element={<Users />}></Route>  
+            <Route path='/admin/signup' element={<AdminSignup />}></Route>
+            <Route path='/admin/login' element={<AdminSellerLogin />}></Route>
+            <Route path='/admin/editor' element={<AdminEditor />}></Route>
+            <Route path='/admin/editor/:id' element={<AdminEditor />}></Route>
+            {/* <Route path='/product/:id' element={<AdminProductPage />}></Route> */}
+            <Route path='/admin/shop' element={<AdminShop />}></Route>
+            <Route path='/admin/orders' element={<AdminSellerOrder/>}></Route>
+            <Route path='/admin/inbox' element={<AdminInbox />}></Route>
+            <Route path='/admin/settings' element={<AdminSetting />}></Route>
+            <Route path='/admin/wallet' element={<AdminSellerWallet />}></Route>
+            <Route path='/admin/profile' element={<AdminMe />}></Route>
+            <Route path='/admin/reset-password' element={<AdminPasswordReset />}></Route>
+
+            <Route path='/password-reset/:id' element={<AdminEditor />}></Route>
+            <Route path='/email-verification/:id' element={<AdminVerification />}></Route>
 
 
 

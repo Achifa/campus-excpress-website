@@ -3,11 +3,12 @@ import axios from 'axios'
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.75.146:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u1;  
+let plug = u1; 
+
  
 export function uploadItem(title,description,category,price,photos,seller_id,others) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/product-upload`, {
+        axios.post(`${plug}/admin/product-upload`, {
             title,description,category,price,photos,seller_id,others
         })
         .then((result) => {
@@ -21,7 +22,7 @@ export function uploadItem(title,description,category,price,photos,seller_id,oth
 
 export function updateItem(title,description,category,price,photos,seller_id,product_id,others) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/product-update`, {
+        axios.post(`${plug}/admin/product-update`, {
             title,description,category,price,photos,seller_id,product_id,others
 
         })
@@ -36,7 +37,7 @@ export function updateItem(title,description,category,price,photos,seller_id,pro
 
 export function DeleteItem(seller_id,product_id) {
     return new Promise((resolve, reject) => {
-        axios.delete(`${plug}/seller/product-delete`, {
+        axios.delete(`${plug}/admin/product-delete`, {
             params: {seller_id,product_id}
         })
         .then((result) => {
@@ -50,7 +51,7 @@ export function DeleteItem(seller_id,product_id) {
 
 export function updateSellerProfile(fname,lname,state,campus,seller_id) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/profile-update`, {
+        axios.post(`${plug}/admin/profile-update`, {
             fname,lname,state,campus,seller_id
         })
         .then((result) => {
@@ -62,10 +63,10 @@ export function updateSellerProfile(fname,lname,state,campus,seller_id) {
     })
 }
 
-export function RegisterSeller(fname,lname,email,phone,pwd,state,campus) {
+export function RegisterAdmin(fname,lname,email,phone,pwd) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/registration`, {
-            fname,lname,email,phone,pwd,state,campus
+        axios.post(`${plug}/admin/registration`, {
+            fname,lname,email,phone,pwd
         })
         .then((result) => {
             resolve(result.data)
@@ -76,9 +77,9 @@ export function RegisterSeller(fname,lname,email,phone,pwd,state,campus) {
     })
 }
 
-export function LogSellerIn(email,pwd) {
+export function LogAdminIn(email,pwd) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/login`, {
+        axios.post(`${plug}/admin/login`, {
             email,pwd
         })
         .then((result) => {
@@ -90,10 +91,10 @@ export function LogSellerIn(email,pwd) {
     })
 }
 
-export function GetSeller(seller_id) {
+export function GetAdmin(admin_id) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller`, {
-            seller_id
+        axios.post(`${plug}/admin`, {
+            admin_id
         })
         .then((result) => {
             resolve(result.data)
@@ -106,7 +107,7 @@ export function GetSeller(seller_id) {
 
 export function OVERVIEW(id) {
     return new Promise((resolve, reject) => 
-        axios.post(`${plug}/seller/overview`, {id})
+        axios.post(`${plug}/admin/overview`, {})
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )
@@ -114,7 +115,15 @@ export function OVERVIEW(id) {
 
 export function SHOP(id) {
     return new Promise((resolve, reject) => 
-        axios.post(`${plug}/seller/shop`, {id})
+        axios.post(`${plug}/admin/shop`, {id})
+        .then((result) => resolve(result.data))
+        .catch(err => reject(err))
+    )
+}
+
+export function GetUsers(id) {
+    return new Promise((resolve, reject) => 
+        axios.post(`${plug}/admin/users`, {id})
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )
@@ -122,7 +131,7 @@ export function SHOP(id) {
 
 export function AuthorizeWalletAccess(pin) {
     return new Promise((resolve, reject) => 
-        axios.post(`${plug}/seller/wallet-access`, {pin})
+        axios.post(`${plug}/admin/wallet-access`, {pin})
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )
@@ -130,7 +139,7 @@ export function AuthorizeWalletAccess(pin) {
 
 export function WalletData(seller_id) {
     return new Promise((resolve, reject) => 
-        axios.post(`${plug}/seller/wallet-data`, {seller_id})
+        axios.post(`${plug}/admin/wallet-data`, {seller_id})
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )
@@ -138,7 +147,7 @@ export function WalletData(seller_id) {
 
 export function createBill(seller_id) {
     return new Promise((resolve, reject) => 
-        axios.post(`${plug}/seller/wallet-bill`, {seller_id})
+        axios.post(`${plug}/admin/wallet-bill`, {seller_id})
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )
@@ -167,7 +176,7 @@ export function GetEditedItem(product_id) {
     
     return new Promise((resolve, reject) => {
 
-        axios.get(`${plug}/seller-edited-item`, {
+        axios.get(`${plug}/admin-edited-item`, {
             params: {
                 product_id
             } 
@@ -186,7 +195,7 @@ export function SendToken(email,phn) {
     
     return new Promise((resolve, reject) => {
 
-        axios.post(`${plug}/seller/verification`, {email,phn})
+        axios.post(`${plug}/admin/verification`, {email,phn})
         .then((result) => {
             resolve(result.data);
         })
@@ -197,11 +206,11 @@ export function SendToken(email,phn) {
     })
 }
 
-export function AuthenticateSeller(seller_id) {
+export function AuthenticateAdmin(admin_id) {
     
     return new Promise((resolve, reject) => {
 
-        axios.post(`${plug}/seller/authentication`, {seller_id})
+        axios.post(`${plug}/admin/authentication`, {admin_id})
         .then((result) => {
             resolve(result.data);
         })
@@ -216,7 +225,7 @@ export function ResetPwd(email,seller_id) {
     
     return new Promise((resolve, reject) => {
 
-        axios.post(`${plug}/seller/password-reset`, {email,seller_id})
+        axios.post(`${plug}/admin/password-reset`, {email,seller_id})
         .then((result) => {
             resolve(result.data);
         })
@@ -229,7 +238,7 @@ export function ResetPwd(email,seller_id) {
 
 export function updatePwd(seller_id, pwd) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/password-update`, {seller_id, pwd})
+        axios.post(`${plug}/admin/password-update`, {seller_id, pwd})
         .then((result) => {
             resolve(result)
         })
@@ -241,7 +250,7 @@ export function updatePwd(seller_id, pwd) {
 
 export function CheckPwdResetToken(seller_id,token) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/password-token-check`, {seller_id, token})
+        axios.post(`${plug}/admin/password-token-check`, {seller_id, token})
         .then((result) => {
             resolve(result)
         })
@@ -253,7 +262,7 @@ export function CheckPwdResetToken(seller_id,token) {
 
 export function GetSellerInbox(seller_id) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/inbox`, {seller_id})
+        axios.post(`${plug}/admin/inbox`, {seller_id})
         .then((result) => {
             resolve(result)
         })
@@ -265,7 +274,7 @@ export function GetSellerInbox(seller_id) {
 
 export function GetSellerOrder(seller_id) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/orders`, {seller_id})
+        axios.post(`${plug}/admin/orders`, {seller_id})
         .then((result) => {
             resolve(result)
         })
@@ -277,7 +286,7 @@ export function GetSellerOrder(seller_id) {
 
 export function ValidateEmail(token) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/email-validation`, {token})
+        axios.post(`${plug}/admin/email-validation`, {token})
         .then((result) => {
             resolve(result)
         })
@@ -289,7 +298,7 @@ export function ValidateEmail(token) {
 
 export function SendEmail(email,seller_id) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/send-email`, {email,seller_id})
+        axios.post(`${plug}/admin/send-email`, {email,seller_id})
         .then((result) => {
             resolve(result)
         })

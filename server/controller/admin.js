@@ -59,14 +59,33 @@ require('dotenv').config();
 //     .then(console.log, console.error);
 // }
 
-async function GetSeller(req,res) {
-    let {seller_id} = req.body;
+async function GetAdmin(req,res) {
+    let {admin_id} = req.body;
     NeonDB.then((pool) => 
-        pool.query(`SELECt * FROM campus_sellers WHERE seller_id = '${seller_id}'`)
+        pool.query(`SELECt * FROM campus_admin WHERE admin_id = '${admin_id}'`)
         .then(result => res.send(result.rows[0]))
         .catch(err => console.log(err))
     )
     .catch(err => console.log(err))
+
+}
+
+async function GetUsers(req,res) {
+    let sellers = await NeonDB.then((pool) => 
+        pool.query(`SELECt * FROM campus_sellers`)
+        .then(result => result.rows)
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+    let buyers = await NeonDB.then((pool) => 
+        pool.query(`SELECt * FROM campus_buyers`)
+        .then(result => result.rows)
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+    res.send({buyers: buyers, sellers: sellers})
 
 }
 
@@ -253,20 +272,20 @@ function updateProduct(req,res) {
 
 }
 
-async function RegisterSeller(req,res) {
+async function RegisterAdmin(req,res) {
 
-    let {fname,lname,email,phone,pwd,state,campus} = req.body;
+    let {fname,lname,email,phone,pwd} = req.body;
     // console.log(fname,lname,email,phone,pwd,state,campus)
     let date = new Date().toLocaleString();
     let isActive,isVerified,isEmailVerified,isPhoneVerified = false;
     let hPwd = await bcrypt.hash(pwd, 10)
-    let seller_id = `CE-${shortId.generate()}`
-    let wallet_id = `CEW-${seller_id}`
+    let admin_id = `CE-${shortId.generate()}`
+    let wallet_id = `CEW-${admin_id}`
 
-    async function CreateNewSeller(params) {
+    async function CreateNewAdmin(params) {
         return(
             NeonDB.then((pool) => 
-                pool.query(`insert into campus_sellers(id,fname, lname,seller_id,email,phone,password,state,campus,isActive,isVerified,isEmailVerified,isPhoneVerified,date ) values(DEFAULT, '${fname}', '${lname}', '${seller_id}', '${email}', '${phone}', '${hPwd}', '${state}', '${campus}', '${false}','${false}','${false}','${false}', '${date}')`)
+                pool.query(`insert into campus_admin(id,fname, lname,admin_id,email,phone,password,isActive,isVerified,isEmailVerified,isPhoneVerified,date ) values(DEFAULT, '${fname}', '${lname}', '${admin_id}', '${email}', '${phone}', '${hPwd}', '${false}','${false}','${false}','${false}', '${date}')`)
                 .then(result => result.rowCount > 0 ?(true) : (false))
                 .catch(err => console.log(err))
             )
@@ -274,16 +293,6 @@ async function RegisterSeller(req,res) {
         )
     }
     
-    async function CreateNewSellerWallet(params) {
-        return(
-            NeonDB.then((pool) => 
-                pool.query(`insert into campus_express_seller_wallet(id,wallet_id,seller_id,wallet_balance,wallet_pin,wallet_number,date) values(DEFAULT,'${wallet_id}','${seller_id}','${0.00}','${pwd}','${phone}','${date}')`)
-                .then(result => result.rowCount > 0 ? true : false)
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        )
-    }
     
     async function SendEmail(params) {
         let token = shortId.generate()
@@ -291,7 +300,7 @@ async function RegisterSeller(req,res) {
         function createEmailToken(params) {
             return(
                 NeonDB.then((pool) => 
-                    pool.query(`insert into email_token(id,email,user_id,token,date) values(DEFAULT, '${email}', '${seller_id}', '${token}', '${date}')`)
+                    pool.query(`insert into email_token(id,email,user_id,token,date) values(DEFAULT, '${email}', '${admin_id}', '${token}', '${date}')`)
                     .then(result => (result.rowCount))
                     .catch(err => {
                         console.log(err)
@@ -388,7 +397,7 @@ async function RegisterSeller(req,res) {
     async function checkEmail(params) {
         return(
             await NeonDB.then((pool) => 
-                pool.query(`SELECt * FROM campus_sellers WHERE email = '${email}'`)
+                pool.query(`SELECt * FROM campus_admin WHERE email = '${email}'`)
                 .then(result => result.rows.length > 0 ? {err: 'duplicate email', bool: false} : {bool: true})
                 .catch(err => (err))
             )
@@ -398,7 +407,7 @@ async function RegisterSeller(req,res) {
     async function checkPhone(params) {
         return(
             await NeonDB.then((pool) => 
-                pool.query(`SELECt * FROM campus_sellers WHERE phone = '${phone}'`)
+                pool.query(`SELECt * FROM campus_admin WHERE phone = '${phone}'`)
                 .then(result => result.rows.length > 0 ? {err: 'duplicate phone', bool: false} : {bool: true})
                 .catch(err => (err))
             )
@@ -427,13 +436,8 @@ async function RegisterSeller(req,res) {
         })
         .then((result) => {
             // console.log('overview',result)
-            let newSeller = CreateNewSeller()
+            let newSeller = CreateNewAdmin()
             return(newSeller ? (true) : (false))
-        })
-        .then((result) => {
-            // console.log('wallet',result)
-            let newSellerWallet = result ? CreateNewSellerWallet() : false;
-            return(newSellerWallet ? (true) : (false))
         })
         .then((result) => {
             // console.log('email',result)
@@ -452,7 +456,7 @@ async function RegisterSeller(req,res) {
     }
 }
 
-async function LogSellerIn(req, res) {
+async function LogAdminIn(req, res) {
 
     
     let {email,pwd} = req.body;
@@ -461,7 +465,7 @@ async function LogSellerIn(req, res) {
         NeonDB
         .then(async(pool) => {
                 
-            pool.query(`select "id" from "campus_sellers" where "email" = '${email}'`, (err, result) => {
+            pool.query(`select "id" from "campus_admin" where "email" = '${email}'`, (err, result) => {
                 
                 if(!err){
                     if(result.rows.length > 0){
@@ -484,7 +488,7 @@ async function LogSellerIn(req, res) {
             NeonDB
             .then(async(pool) => {
                 let database_return_value = await pool.query(
-                    `select "seller_id","email","password","fname","lname" from  "campus_sellers" where "id" = '${id}'`
+                    `select "admin_id","email","password","fname","lname" from  "campus_admin" where "id" = '${id}'`
                 )
                 .then(result => result.rows[0])
                 .catch(err => console.log(err))
@@ -499,8 +503,8 @@ async function LogSellerIn(req, res) {
             console.log(email,pwd)
             const auth = await bcrypt.compare(pwd, user.password);
             if (auth) {
-                const token = createToken(user.seller_id);
-                res.status(200).send({bool: true, id: user.seller_id, name: `${user.fname[0]}.${user.lname[0]}`});
+                const token = createToken(user.admin_id);
+                res.status(200).send({bool: true, id: user.admin_id, name: `${user.fname[0]}.${user.lname[0]}`});
     
             }else{
                 res.status(400).send({
@@ -515,22 +519,18 @@ async function LogSellerIn(req, res) {
     })
     .catch(err => {
         console.log(err)
-        res.status(400).send({
-            Mssg: "Email is not registered"
-        })
-
     })
     
 }
 
 async function Overview(req,res)  {
     let {id} = req.body;
-    
+    console.log('admin overview')
 
     async function getTotalSale(params) {
         return (
             await NeonDB.then((pool) => 
-                pool.query(`select * from seller_shop where seller_id = '${id.trim()}'`)
+                pool.query(`select * from seller_shop`)
                 .then(result => result.rows.length)
                 .catch(err => console.log(err))
             )
@@ -541,7 +541,7 @@ async function Overview(req,res)  {
     async function getSold(params) {
         return (
             await NeonDB.then((pool) => 
-                pool.query(`select * from seller_shop where seller_id = '${id.trim()}' AND status = 'sold'`)
+                pool.query(`select * from seller_shop' AND status = 'sold'`)
                 .then(result => result.rows.length)
                 .catch(err => console.log(err))
             )
@@ -552,7 +552,7 @@ async function Overview(req,res)  {
     async function getUnsold(params) {
         return (
             await NeonDB.then((pool) => 
-                pool.query(`select * from seller_shop where seller_id = '${id.trim()}' AND status = 'unsold'`)
+                pool.query(`select * from seller_shop where status = 'unsold'`)
                 .then(result => result.rows.length)
                 .catch(err => console.log(err))
             )
@@ -563,7 +563,7 @@ async function Overview(req,res)  {
     async function getReport(params) {
         return (
             await NeonDB.then((pool) => 
-                pool.query(`select * from product_report where seller_id = '${id.trim()}'`)
+                pool.query(`select * from product_report`)
                 .then(result => result.rows.length)
                 .catch(err => console.log(err))
             )
@@ -577,7 +577,7 @@ async function Overview(req,res)  {
 async function Shop(req,res)  {
     let {id} = req.body;
     NeonDB.then((pool) => 
-        pool.query(`select * from seller_shop where seller_id = '${id}'`)
+        pool.query(`select * from seller_shop`)
         .then(result => res.send(result.rows))
         .catch(err => console.log(err))
     )
@@ -898,4 +898,4 @@ async function SendEmail(req,res) {
 }
 
 
-module.exports = {uploadProduct,SendEmail,updatePwd,GetEditedItem,GetSeller,Shop,RegisterSeller,updateSellerProfile,WalletData,LogSellerIn,Overview,updateProduct,ResetPwd,DeleteProduct,GetSellerInbox,GetSellerOrder}
+module.exports = {uploadProduct,GetUsers,SendEmail,updatePwd,GetEditedItem,GetAdmin,Shop,RegisterAdmin,updateSellerProfile,WalletData,LogAdminIn,Overview,updateProduct,ResetPwd,DeleteProduct,GetSellerInbox,GetSellerOrder}

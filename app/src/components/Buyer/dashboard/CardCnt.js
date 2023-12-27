@@ -245,7 +245,7 @@ const CardCnt = () => {
                                         &nbsp;
 
                                         <span  style={{background: '#fff',color: 'rgb(98, 98, 98)', padding: '0',  fontSize: 'small', fontWeight: '500'}}>
-                                            {item.others?.split(',')[2]}
+                                            {item.others?.split(',')[1]}
                                         </span>
                                     </span>
                                         

@@ -115,16 +115,13 @@ async function GetItems(req,res) {
 
     if(category === 'trends'){
         NeonDB.then((pool) => 
-            ppool.query(`select * from seller_shop`)
+            pool.query(`select * from seller_shop`)
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
     }else{
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop WHERE NOT EXISTS
-            (SELECT *  
-               FROM  seller_shop
-               WHERE category = 'Lodge/Apartments')`)
+            pool.query(`select * from seller_shop`)
             .then(result =>  res.send(result.rows.filter(item => item.category.toLowerCase() === category)))
             .catch(err => console.log(err))
         )
