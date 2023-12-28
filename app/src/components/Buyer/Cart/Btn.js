@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Btn = ({subTotal}) => {
+const Btn = ({subTotal,url}) => {
     let navigate = useNavigate();
 
     return ( 

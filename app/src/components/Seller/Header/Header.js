@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import img from '../../../images/Campus express (3).png'
+
 import { useLocation, useNavigate } from "react-router-dom";
-import { AuthenticateSeller } from "../../api/seller";
-import menuSvg from '../../assets/menu-grid-svgrepo-com (1).svg'
-import { GetSeller, ResetPwd } from '../../api/seller';
-import { socket } from "../../socket";
+import { AuthenticateSeller } from "../../../api/seller";
+import { GetSeller, ResetPwd } from '../../../api/seller';
+import { socket } from "../../../socket";
+import Menu from "./MenuBtn";
 
  
 const Header = () => {
@@ -31,14 +33,23 @@ const Header = () => {
 
     let handleMenu = e => {
         let menu = document.querySelector('.seller-aside');
+        let overlay = document.querySelector('.seller-aside-overlay');
         let isMenuVisible = menu.hasAttribute('id') ? true : false
-        if(isMenuVisible){
+        let isOverlayVisible = menu.hasAttribute('id') ? true : false
+
+        if(isMenuVisible && isOverlayVisible){
             menu.removeAttribute('id')
+            overlay.removeAttribute('id')
         }else{
+            overlay.setAttribute('id', 'seller-aside-overlay')
+            setTimeout(() => {
             menu.setAttribute('id', 'seller-aside')
+                
+            }, 0);
         }
 
     }
+
     let location = useLocation()
 
     let [userData, setUserData] = useState('')
@@ -85,6 +96,7 @@ const Header = () => {
     return ( 
         <>
             <div className="seller-header shadow-sm" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+                <img src={img} style={{height: '35px', width: '35px', position: 'absolute', left: '10px', top: '15px',  color: '#fff', fontSize: 'medium', display: screenWidth <= 760 ? 'flex' : 'none'}} alt="" />
 
                 {
                     activeHead
@@ -97,9 +109,7 @@ const Header = () => {
                     ?  
                     <h3>Campus Express</h3>
                     : 
-                    <button onClick={handleMenu} style={{display: screenWidth <= 760 ? 'block' : 'none', float: 'right', width: '50px', outline: 'none', border: 'none', marginTop: '4px',  padding: '10px', borderRadius: '5px', background: '#fff', color: '#fff', position: 'absolute', right: '10px', }}>
-                        <img src={menuSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
-                    </button>
+                    <Menu handleMenu={handleMenu} />
                 }
                 
 

@@ -108,7 +108,7 @@ const Cart = () => {
             </div>
 
             <div className="buyer-cart-checkout">
-                <Btn subTotal={subTotal} />
+                <Btn url={url} subTotal={subTotal} />
             </div>
         </>
      );

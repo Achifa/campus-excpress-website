@@ -1,9 +1,8 @@
-import Header from "../../components/Seller/Header";
+import '../../styles/Seller/xx-large-screen.css'
 import '../../styles/Seller/x-large-screen.css'
 import '../../styles/Seller/large-screen.css'
 import '../../styles/Seller/medium-screen.css'
 import '../../styles/Seller/small-screen.css'
-import Aside from "../../components/Seller/Aside";
 import Home from "../../components/Seller/Dashboard/Home";
 
 const SellerDashboard = () => {

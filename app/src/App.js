@@ -3,8 +3,8 @@ import './App.css';
 
 import {Route, Routes, useLocation } from 'react-router-dom'
 import SellerDashboard from './pages/Seller/Dashboard';
-import Aside from './components/Seller/Aside';
-import Header from './components/Seller/Header';
+import Aside from './components/Seller/Aside/Aside';
+import Header from './components/Seller/Header/Header';
 import Editor from './pages/Seller/Editor';
 import Shop from './pages/Seller/Shop';
 import SellerOrder from './pages/Seller/Order';

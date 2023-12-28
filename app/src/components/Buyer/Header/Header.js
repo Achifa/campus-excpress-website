@@ -202,7 +202,7 @@ const BuyerHeader = () => {
       <div className="buyer-header">
 
 
-        <img src={img} style={{height: '100%', width: '70px'}}  alt="" />
+        <img src={img} style={{height: '70px', width: '70px'}}  alt="" />
         {
           screenWidth > 479
           ?

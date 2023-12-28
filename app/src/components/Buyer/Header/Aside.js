@@ -10,7 +10,7 @@ import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
 import settingsSvg from '../../../assets/settings-svgrepo-com (3).svg'
 import adsSvg from '../../../assets/ad-svgrepo-com.svg'
 import savedSvg from '../../../assets/bookmark-outlined-saved-svgrepo-com.svg'
-import subSvg from '../../../assets/subscriptions-svgrepo-com.svg'
+import inboxSvg from '../../../assets/inbox-in-svgrepo-com.svg'
 import walletSvg from '../../../assets/wallet-2-svgrepo-com.svg'
 import sellSvg from '../../../assets/sell-svgrepo-com (1).svg'
 import logoutSvg from '../../../assets/logout-2-svgrepo-com.svg'
@@ -31,8 +31,8 @@ const Aside = () => {
         
     }, [category])
 
-    let list1 = [{text: 'My Account', img: ''}, {text:'Order', img: orderSvg}, {text: 'Inbox', img: ''}, {text: 'Saved Item', img: savedSvg}, {text: 'Voucher', img: ''}, {text: 'Logout', img: logoutSvg}]
-    let list2 = [{text: 'Help Center', img: ''}, {text: 'Refund & Return', img: ''}, {text: 'Cancel An Order', img: ''}, {text: 'Track An Order', img: ''}, {text: 'Payment Option', img: ''}, {text: 'Contact Us', img: ''}]
+    let list1 = [{text:'Order', img: orderSvg}, {text: 'Inbox', img: inboxSvg}, {text: 'Saved Item', img: savedSvg},  {text: 'Cart', img: cartSvg}]
+    let list2 = [{text: 'My Account', img: ''},{text: 'Help Center', img: ''}, {text: 'Refund & Return', img: ''}, {text: 'Cancel An Order', img: ''}, {text: 'Track An Order', img: ''}, {text: 'Payment Option', img: ''}, {text: 'Contact Us', img: ''}, {text: 'Logout', img: logoutSvg}]
     let list3 = categoriesList
 
     let CEservices = list1.map((item, i) => 
