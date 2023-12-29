@@ -98,7 +98,7 @@ const Signup = () => {
                 <div className="Authloader" style={{background: '#fff',border: '1px solid orangered'}}></div>
             )
             e.target.disabled = true;
-            RegisterSeller(fname,lname,email,phone,pwd,state,campus)
+            RegisterSeller(fname.trim(),lname.trim(),email,phone,pwd,state,campus)
             .then((result) => navigate('/seller/login'))
             .catch((err) => {
                 console.log(err.response.data.err )
@@ -128,8 +128,8 @@ const Signup = () => {
                 if(item.name === 'fname'){
 
                     let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty'}
-                    let length = item.value.length > 3 ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please name must be at least 3 characters.'}
-                    let specialCharFree = /^[a-zA-Z]+$/.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
+                    let length = item.value.length > 3 ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please name must be at least 3 letters.'}
+                    let specialCharFree = /^[a-zA-Z]+$/.test(item.value.trim()) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
                     let errs = [empty,length,specialCharFree];
                     
                     addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement);
@@ -140,8 +140,8 @@ const Signup = () => {
                 }else if(item.name === 'lname'){
 
                     let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty'}
-                    let length = item.value.length > 3 ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please name must be at least 3 characters.'}
-                    let specialCharFree = /^[a-zA-Z]+$/.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
+                    let length = item.value.length > 3 ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please name must be at least 3 letters.'}
+                    let specialCharFree = /^[a-zA-Z]+$/.test(item.value.trim()) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
 
                     let errs = [empty,length,specialCharFree];
                     
