@@ -309,32 +309,33 @@ const Editor = ({editorTitle}) => {
 
         function textarea(params) {
             if(element.name === 'title'){
-                if(title.split(' ').length >= 2){
+                if(title.split(' ').length >= 3){
                     element.style.border = '1px solid #000'
                     validationBoolean.current.title = true;
-                    if(element.nextElementSibling.hasAttribute('id'))
+                    if(element.parentElement.nextElementSibling.hasAttribute('id'))
                     {
-                        element.nextElementSibling.removeAttribute('id')
+                        element.parentElement.nextElementSibling.removeAttribute('id')
                     }
                 }else{
                     element.style.border = '1px solid red'
                     validationBoolean.current.title = false;
-                    element.nextElementSibling.setAttribute('id', 'err-mssg')
+                    // alert()
+                    element.parentElement.nextElementSibling.setAttribute('id', 'editor-err-mssg')
                 }
             }else{
                 if(description.split(' ').length >= 10){
                     element.style.border = '1px solid #000'
                     validationBoolean.current.description = true;
-                    if(element.nextElementSibling.hasAttribute('id'))
+                    if(element.parentElement.nextElementSibling.hasAttribute('id'))
                     {
-                        element.nextElementSibling.removeAttribute('id')
+                        element.parentElement.nextElementSibling.removeAttribute('id')
                     }
 
         
                 }else{
                     element.style.border = '1px solid red'
                     validationBoolean.current.description = false;
-                    element.nextElementSibling.setAttribute('id', 'err-mssg')
+                    element.parentElement.nextElementSibling.setAttribute('id', 'editor-err-mssg')
                     
                 }
             }

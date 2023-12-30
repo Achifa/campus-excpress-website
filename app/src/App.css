@@ -7,8 +7,15 @@
   pointer-events: none;
 }
 
-#err-mssg{
+#editor-err-mssg{
+  display: block;
+}
+
+.editor-err-mssg{
   display: none;
+  font-size: x-small;
+  color: red;
+  font-weight: 500;
 }
 
 @media (prefers-reduced-motion: no-preference) {
