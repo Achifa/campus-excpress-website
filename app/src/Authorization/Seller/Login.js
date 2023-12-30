@@ -188,9 +188,9 @@ const SellerLogin = () => {
                         </div>
                     </form>
 
-                    {/* <div onClick={e => navigate('/seller/reset-password')}>
+                    <div onClick={e => navigate('/seller/reset-password')}>
                         <small style={{cursor: 'pointer'}}>Forgot Password? Recover Password Here</small>
-                    </div> */}
+                    </div>
                     <div onClick={e => navigate('/seller/signup')}>
                         <small style={{cursor: 'pointer'}}>Don't Have An Account, Signup Here</small>
                     </div>

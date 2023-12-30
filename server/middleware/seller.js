@@ -44,7 +44,7 @@ const check_seller = (req, res, next) => {
 function CheckPwdResetToken(req, res, next){
     const {seller_id,token} = req.body; 
     NeonDB.then((pool) => 
-        pool.query(`SELECt * FROM token WHERE seller_id = '${seller_id}' AND token = '${token}`)
+        pool.query(`SELECT * FROM password_token WHERE seller_id = '${seller_id}' AND token = '${token}'`)
         .then(result => {
             console.log(result)
             if(result.rows.length < 1){

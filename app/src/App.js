@@ -15,7 +15,7 @@ import Me from './pages/Seller/Profile';
 import Signup from './Authorization/Seller/Signup';
 import Inbox from './pages/Seller/Inbox'; 
 import SellerLogin from './Authorization/Seller/Login';
-import PasswordReset from './Authorization/Seller/ForgotPassword';
+import PasswordReset from './Authorization/Seller/PasswordReset';
 import Verification from './Authorization/Seller/Verification';
 
 
@@ -50,6 +50,7 @@ import Cart from './pages/Buyer/Cart';
 import SavedItem from './pages/Buyer/SavedItem';
 import Wallet from './pages/Buyer/Wallet';
 import Users from './pages/Admin/Users';
+import ForgotPwd from './Authorization/Seller/ForgotPassword';
 
 function App() {
   let location = useLocation()
@@ -65,7 +66,7 @@ function App() {
         )
       )
     }else{
-      if(location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login'){
+      if(location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' || location.pathname.split('/').splice(-1)[0] === 'password-reset'){
         setActiveDom(
           <>
 
@@ -74,12 +75,21 @@ function App() {
           </>
         )
       }else if(location.pathname.split('/')[1] === 'seller'){
-        setActiveDom(
-          <>
-            <Header />
-            <Aside />
-          </>
-        )
+        if(location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' || location.pathname.split('/').splice(-1)[0] === 'password-reset'){
+
+          setActiveDom(
+            <>
+              <Header />
+            </>
+          )
+          }else{
+            setActiveDom(
+            <>
+              <Header />
+              <Aside />
+            </>
+            )
+          }
       }else if(location.pathname.split('/')[1] === 'admin'){
         setActiveDom(
           <>
@@ -117,8 +127,11 @@ function App() {
 
 
             <Route path='/seller/' element={<SellerDashboard />}></Route>
+
             <Route path='/seller/signup' element={<Signup />}></Route>
             <Route path='/seller/login' element={<SellerLogin />}></Route>
+            <Route path='/seller/reset-password' element={<ForgotPwd />}></Route>
+
             <Route path='/seller/editor' element={<Editor />}></Route>
             <Route path='/seller/editor/:id' element={<Editor />}></Route>
             <Route path='/product/:id' element={<ProductPage />}></Route>
@@ -128,14 +141,12 @@ function App() {
             <Route path='/seller/settings' element={<Setting />}></Route>
             <Route path='/seller/wallet' element={<SellerWallet />}></Route>
             <Route path='/seller/profile' element={<Me />}></Route>
-            <Route path='/seller/reset-password' element={<PasswordReset />}></Route>
 
             <Route path='/privacy-policy' element={<Me />}></Route>
-            <Route path='/public-terms-of-service
-' element={<Me />}></Route>
+            <Route path='/public-terms-of-service' element={<Me />}></Route>
 
-            <Route path='/password-reset/:id' element={<Editor />}></Route>
-            <Route path='/email-verification/:id' element={<Verification />}></Route>
+            <Route path='/seller/password-reset/:id' element={<PasswordReset />}></Route>
+            <Route path='/seller/email-verification/:id' element={<Verification />}></Route>
 
 
 

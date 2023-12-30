@@ -752,7 +752,7 @@ async function updatePwd(req,res) {
     NeonDB.then((pool) => 
         pool.query(`UPDATE campus_sellers set password='${hPwd}' WHERE seller_id = '${seller_id}'`)
         .then(result => {
-            result.rowCount > 0 ? resolve(true) : reject(false)
+            result.rowCount > 0 ? res.send(true) : res.send(false)
         })
         .catch(err => console.log(err))
     )

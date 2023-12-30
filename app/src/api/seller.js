@@ -197,6 +197,8 @@ export function SendToken(email,phn) {
     })
 }
 
+
+
 export function AuthenticateSeller(seller_id) {
     
     return new Promise((resolve, reject) => {

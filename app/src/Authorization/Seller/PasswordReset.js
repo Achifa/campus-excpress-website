@@ -42,15 +42,15 @@ const PasswordReset = () => {
     return ( 
         <>
 
-            <div className="password-reset">
+            <div className="password-reset" style={{height: '100vh', margin: '0', padding: '0', width: '100%', background: '#fff'}}>
                 {
                     isTokenVerified
 
                     ?
                     <>
-                        <form action="">
+                        <form action="" className='shadow-sm'style={{width: '350px'}}>
                             <br />
-                            <h4 style={{color: 'orangered'}}>Password Reset</h4>
+                            <h6 style={{color: 'orangered'}}>Password Reset</h6>
 
                             <br />
                             <div className="input-cnt">

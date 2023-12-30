@@ -12,6 +12,7 @@
     "https": "^1.0.0",
     "js-ago": "^2.0.2",
     "react": "^18.2.0",
+    "react-countdown": "^2.3.5",
     "react-dom": "^18.2.0",
     "react-framer": "^0.0.2",
     "react-loading-skeleton": "^3.3.1",
