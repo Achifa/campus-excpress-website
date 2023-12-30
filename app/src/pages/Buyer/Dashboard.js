@@ -14,6 +14,7 @@ import Recommended from "../../components/Buyer/dashboard/Recommended";
 import FilterAside from "../../components/Buyer/dashboard/FilterAside";
 import Main from "../../components/Buyer/dashboard/Main";
 import Lodge from "../../components/Buyer/dashboard/Lodge";
+import { useSelector } from "react-redux";
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
@@ -24,17 +25,28 @@ const Dashboard = () => {
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
-    
+
+    let {category} = useSelector(s => s.Category)
+    console.log(category)
+   
     return ( 
         <div className="buyer-main-cnt">  
             {/*<BuyerAside />*/}
             
 
 
-            <Ads />
+            {
+                category === 'trends'
+                ?
+                    <>
+                        <Ads />
 
-            <FlashAds />
-            <Lodge />
+                        <FlashAds />
+                        <Lodge />
+                    </>
+                :
+                ''
+            }
 
             {/* <FlashSales />
 

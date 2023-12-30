@@ -185,7 +185,7 @@ const CardCnt = () => {
             <div className="buyer-card-cnt shadow-sm" >
                 <div className="buyer-sort shadow-sm">
                     <div className="left">
-                        Latst Items For Sale
+                        Latest Items For Sale
                     </div>
                     <div onClick={openFloatingMenu} className="right">
                         Sort by: {selectedOption}

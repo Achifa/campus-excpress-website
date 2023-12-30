@@ -37,6 +37,7 @@ import refundSvg from '../../../assets/return-svgrepo-com.svg'
 import cancelSvg from '../../../assets/cancel-delivery-svgrepo-com.svg'
 import userSvg from '../../../assets/user-alt-1-svgrepo-com.svg'
 import contactSvg from '../../../assets/costumer-support-call-svgrepo-com.svg'
+import { setCategoryTo } from '../../../redux/buyer/Category'
 
 
 const Aside = () => {
@@ -100,7 +101,7 @@ const Aside = () => {
     )
 
     let Categories = categories.map((item, i) => 
-        <li onClick={e => navigate(`$.text{item}`)} key={i}>
+        <li data-category={item[0]} onClick={e => {navigate(`/?category=${item[0].toLowerCase()}`); dispatch(setCategoryTo(item[0].toLowerCase()))}} key={i}>
             <span>
             
                 <img src={(item[1])} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />

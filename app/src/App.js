@@ -112,6 +112,7 @@ function App() {
         
 
             <Route path='/' element={<Dashboard />}></Route>
+            <Route path='/:id' element={<Dashboard />}></Route>
 
             <Route path='/orders' element={<Order />}></Route>
             <Route path='/history' element={<Historhy />}></Route>
