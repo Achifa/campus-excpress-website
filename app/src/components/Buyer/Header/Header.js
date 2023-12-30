@@ -179,6 +179,12 @@ const BuyerHeader = () => {
     })
   }, [searchChar])
 
+  useEffect(() => {
+    if(location.pathname.split('/')){
+
+    }
+  }, [location])
+
 
   return ( 
     <>
@@ -199,7 +205,7 @@ const BuyerHeader = () => {
         }
 
       </div>
-      <div className="buyer-header">
+      <div className="buyer-header" style={{zIndex: '2000'}}>
 
 
         <img src={img} style={{height: '70px', width: '70px'}}  alt="" />

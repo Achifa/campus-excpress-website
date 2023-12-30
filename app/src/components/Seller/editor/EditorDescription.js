@@ -14,8 +14,9 @@ const EditorDescription = ({edit,productDescription}) => {
                 }} placeholder="Description" className="seller-shop-desc shadow-sm"></textarea>
                 <div style={{height: 'fit-content', position: 'absolute', right: '10px', fontSize: 'small', bottom: '5px'}}>{descriptionCount}/650</div>
             </div>
+            <div style={{textAlign: 'left', width: '100% ', margin: '6px 0 0 5px '}} className="err-mssg">Description must contain at least 10 words</div>
         </>
-     );
+     ); 
 }
  
 export default EditorDescription;

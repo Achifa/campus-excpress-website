@@ -53,7 +53,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
                 Handler()
             }
         }
-
+ 
     }
 
     function AddToCart(e,product_id) {
@@ -81,15 +81,15 @@ const Card = ({item,index,unit,getTotalPrice}) => {
 
                 <div className="buyer-cart-body">
 
-                    <div className='buyer-item-title'>
+                    <div className='buyer-item-title' style={{fontWeight: '500', fontSize: 'medium'}}>
                         <p>{item.item.title}</p>
                     </div>
 
-                    <div className='buyer-item-seller'>
+                    <div style={{fontWeight: '500', fontSize: 'small'}} className='buyer-item-seller'>
                         <span>Seller: Jason.N.N</span>
                     </div>
 
-                    <div className="buyer-item-price">
+                    <div className="buyer-item-price"> 
                         <span style={{fontWeight: 'bold'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.item.price)} </span>
                     </div>
 

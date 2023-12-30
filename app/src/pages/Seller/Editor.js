@@ -312,21 +312,29 @@ const Editor = ({editorTitle}) => {
                 if(title.split(' ').length >= 2){
                     element.style.border = '1px solid #000'
                     validationBoolean.current.title = true;
-
+                    if(element.nextElementSibling.hasAttribute('id'))
+                    {
+                        element.nextElementSibling.removeAttribute('id')
+                    }
                 }else{
                     element.style.border = '1px solid red'
                     validationBoolean.current.title = false;
+                    element.nextElementSibling.setAttribute('id', 'err-mssg')
                 }
             }else{
                 if(description.split(' ').length >= 10){
                     element.style.border = '1px solid #000'
                     validationBoolean.current.description = true;
+                    if(element.nextElementSibling.hasAttribute('id'))
+                    {
+                        element.nextElementSibling.removeAttribute('id')
+                    }
 
         
                 }else{
                     element.style.border = '1px solid red'
                     validationBoolean.current.description = false;
-
+                    element.nextElementSibling.setAttribute('id', 'err-mssg')
                     
                 }
             }

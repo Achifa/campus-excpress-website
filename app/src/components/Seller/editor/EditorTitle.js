@@ -21,6 +21,8 @@ const EditorTitle = ({edit,productTitle}) => {
 
                 <div style={{height: 'fit-content', position: 'absolute', fontSize: 'small', right: '10px', bottom: '25px'}}>{titleCount}/60</div>
             </div>
+            <div style={{textAlign: 'left', width: '100% ', margin: '-6px 0 10px 5px '}} className="err-mssg">Title must contain at least 3 words</div>
+
         </>
      );
 }

@@ -83,8 +83,14 @@ const Cart = () => {
             
         }
     }
+    let [screenWidth, setScreenWidth] = useState(0)
 
-    
+
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
+  
 
    useEffect(() => {
         getTotalPrice();
@@ -107,9 +113,32 @@ const Cart = () => {
                }
             </div>
 
-            <div className="buyer-cart-checkout">
+            {
+                screenWidth > 759
+                ?
+
+                <div className="buyer-cart-checkout">
+                <div style={{borderBottom: '1px solid #eeeeee'}}>
+                        <h6>Cart Summary</h6>
+                </div>
+
+                <div>
+                        <small style={{float: 'left'}}>Sub total</small>
+                        <small style={{float: 'right'}}><small>&#8358;</small>{new Intl.NumberFormat('en-us').format(subTotal)}</small>
+                </div>
+
+                <div style={{fontSize: 'small'}}>
+                        <small>Delivery is free</small>
+                </div>
+                <div style={{height: '80px'}}>
+                        <Btn url={url} subTotal={subTotal} />
+                </div>
+                </div>
+                :
                 <Btn url={url} subTotal={subTotal} />
-            </div>
+                
+
+            }
         </>
      );
 }

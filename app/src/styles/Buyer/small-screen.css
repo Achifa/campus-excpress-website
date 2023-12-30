@@ -634,6 +634,18 @@
 
     /**/
 
+    .buyer-cart-cnt{
+        height: 100vh;
+        width: 100%;
+        background-color: #f9f9f9;
+    }
+
+    .buyer-checkout-btn {
+        width: 95%;
+        
+        margin: auto;
+    }
+
     .buyer-cart{
         height: calc(100vh - 120px);
         width: 100%;
