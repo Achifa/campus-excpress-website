@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GetLodges } from "../../../api/buyer";
 import Thumbnail from "../Thumbnail";
 import LodgeThumbnail from "../LodgeThumbnail";
+import Video from "./Video";
 
 const Lodge = () => {
     let [items, setItems] = useState([])
@@ -26,40 +27,18 @@ const Lodge = () => {
 
                     <div style={{float: 'right', cursor: 'pointer'}}><i>SEE ALL</i></div>
                 </div>
-                <ul>
-                    {
-                        items.map(file => 
-                        
-                            <li style={{position: 'relative'}}>
-                                <LodgeThumbnail product_id={file.product_id} />
+                <section style={{display: 'flex', height: 'fit-content', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 0 10px 0', width: '100%'}}>
+                        {/* <Video />
+                        <Video /> */}
+                    </div>
 
-                                <div style={{position: 'absolute', bottom: '0', width: '100%', background: 'orangered', color: '#fff', left: '0', height: '35px', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', flexDirection: 'column', padding: '0 8px 0 8px', borderRadius: '5px', fontWeight: '500', fontSize: 'x-small'}}>
-                                
-                                    <div>
-                                        &#8358;{new Intl.NumberFormat('en-us').format(file.price)}
-                                    </div>
-                                    <div>
-                                        Unizik, Awka
-                                    </div>
-                                </div>
-
-
-
-                            </li>
-
-                        )
-                    }
-                    
-                    {/* <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li> */}
-                </ul>
-            </div>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+                        {/* <Video />
+                        <Video /> */}
+                    </div>
+                </section> 
+            </div> 
             <br />
         </>
      );

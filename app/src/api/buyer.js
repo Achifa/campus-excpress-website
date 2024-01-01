@@ -305,4 +305,65 @@ export function GetSearchWord(word) {
     })
 }
 
+export function ResetPwd(email,buyer_id) {
+    
+    return new Promise((resolve, reject) => {
 
+        axios.post(`${plug}/buyer/password-reset`, {email,buyer_id})
+        .then((result) => {
+            resolve(result.data);
+        })
+        .catch((err) => {
+            reject(err);
+        })
+
+    })
+}
+
+export function updatePwd(buyer_id, pwd) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/buyer/password-update`, {buyer_id, pwd})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function CheckPwdResetToken(buyer_id,token) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/buyer/password-token-check`, {buyer_id, token})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function ValidateEmail(token) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/buyer/email-validation`, {token})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}
+
+export function SendEmail(email,buyer_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/buyer/send-email`, {email,buyer_id})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}

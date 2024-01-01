@@ -326,7 +326,7 @@
 
     }
     .buyer-card-cnt .card{
-        height: 400px;
+        height: 360px;
         width: calc(50% - 10px);
         flex-shrink: 0;
         position: relative;

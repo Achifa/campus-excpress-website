@@ -1,4 +1,5 @@
-const { RegisterBuyer, LogBuyerIn, GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, UpdateCart, GetBuyer, GetSearchWord, GetLodges } = require("../controller/buyer");
+const { RegisterBuyer, LogBuyerIn, GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, UpdateCart, GetBuyer, GetSearchWord, GetLodges, SendEmail, ResetPwd } = require("../controller/buyer");
+const { ValidateEmail, CheckPwdResetToken } = require("../middleware/buyer");
 const { express, parser } = require("../modules");
 
 let buyer_route = express.Router();  
@@ -31,5 +32,12 @@ buyer_route.delete('/unsave-item', UnSaveItem);
 buyer_route.post('/update-cart-unit', parser, UpdateCart);
 
 buyer_route.get('/search-word', GetSearchWord);
+
+buyer_route.post('/buyer/password-update', parser, updatePwd);
+buyer_route.post('/buyer/password-reset', parser, ResetPwd);
+buyer_route.post('/buyer/password-token-check', parser, CheckPwdResetToken);
+
+seller_route.post('/seller/email-validation', parser, ValidateEmail);
+seller_route.post('/seller/send-email', parser, SendEmail);
 
 module.exports = {buyer_route}

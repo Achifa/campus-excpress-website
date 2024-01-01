@@ -47,7 +47,7 @@ const CardCnt = () => {
     }, [category])
     
     let BtnStyles = {
-        height: screenWidth > 480 ? '60px' : '40px',
+        height: screenWidth > 480 ? '60px' : '60px',
         width: '100%',
         borderRadius: '5px',
         outline: 'none',
@@ -219,9 +219,9 @@ const CardCnt = () => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <small style={{fontSize: 'small', height: '50px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                         : 
-                                        <small style={{fontSize: 'small', height: '50px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                                     }
 
                                     <hr  />
@@ -236,15 +236,15 @@ const CardCnt = () => {
                                         <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
                                     }
 
-                                    <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', padding: '0'}}>
-                                    <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', left: '20px', padding: '5px'}}>
+                                    <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
+                                    <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', left: '20px', padding: '5px 0 5px 0'}}>
                                         <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
                                             <img src={conditionSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
 
                                         </span>
                                         &nbsp;
 
-                                        <span  style={{background: '#fff',color: 'rgb(98, 98, 98)', padding: '0',  fontSize: 'small', fontWeight: '500'}}>
+                                        <span  style={{background: '#fff',color: 'rgb(98, 98, 98)', padding: '0',  fontSize: 'x-small', fontWeight: '500'}}> 
                                             {item.others?.split(',')[1]}
                                         </span>
                                     </span>
@@ -252,12 +252,14 @@ const CardCnt = () => {
                                         
                                     </div>
 
-                                    <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '5px', bottom: '35px', background: '#fff', color: '#626262', height: 'fit-content', width: 'fit-content'}}>
-                                        <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
-                                        <section style={{marginTop: '-8px', fontSize: 'small'}}>
+                                    <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '0px', top: '85px', background: '#fff', color: '#626262', height: 'fit-content', width: 'fit-content'}}>
+                                        <img src={saveSvg} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
+                                        <section style={{marginTop: '-5px', fontSize: 'x-small'}}>
                                             {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
                                         </section>
                                     </button>
+
+                                    
 
                                     {/*<div style={{position: 'absolute', right: '5px', bottom: '5px', fontSize: 'small', background: '#fff', color: '#626262'}}>
                                         <span>

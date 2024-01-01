@@ -8,11 +8,13 @@ import { CE_buyer_ID, CE_buyer_INITIAL } from "../dashboard/Secrets";
 import '../../../styles/Buyer/overlays.css'
 import '../../../styles/search.css'
 import BuyerAside from "../Aside";
+import login from '../../../assets/login.svg'
+
 import img from '../../../images/Campus express (3).png'
 import BuyerMenu from "./Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { setBuyerJsxTo } from "../../../redux/buyer/BuyerOverlayJsx";
-import { GetCart, GetSavedItem, GetSearchWord } from "../../../api/buyer";
+import { GetBuyer, GetCart, GetSavedItem, GetSearchWord } from "../../../api/buyer";
 import { setCartTo } from "../../../redux/buyer/Cart";
 import { setSaveTo } from "../../../redux/buyer/Save";
 import SearchResult from "./SearchResult";
@@ -44,6 +46,7 @@ const BuyerHeader = () => {
   let [visible, setvisible] = useState('none')
   let [task, settask] = useState('none')
   let [top, settop] = useState(0)
+  let [buyer, set_buyer] = useState('')
 
   useEffect(() => {
       let width = window.innerWidth;
@@ -170,7 +173,7 @@ const BuyerHeader = () => {
 
   useEffect(() => {
     
-    GetSearchWord(searchChar)
+    GetSearchWord(searchChar === '' || searchChar === ' ' ? '' : searchChar)
     .then((result) => { 
         setSearchRes(result)
     })
@@ -185,11 +188,22 @@ const BuyerHeader = () => {
     }
   }, [location])
 
+  useEffect(() => {
+    GetBuyer(window.localStorage.getItem('CE_buyer_id'))
+    .then((result) => {
+      set_buyer(result)
+      console.log(result)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  },[])
+
 
   return ( 
     <>
       {
-        <FloatingMenu list={list} top={top} visible={visible} right={right} />
+        <FloatingMenu buyer={buyer} list={list} top={top} visible={visible} right={right} />
       }
 
       {
@@ -205,7 +219,7 @@ const BuyerHeader = () => {
         }
 
       </div>
-      <div className="buyer-header" style={{zIndex: '2000'}}>
+      <div className="buyer-header" >
 
 
         <img src={img} style={{height: '70px', width: '70px'}}  alt="" />
@@ -224,6 +238,11 @@ const BuyerHeader = () => {
 
         <ul>
           <li onClick={e => navigate('/cart')}>
+            <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+              { 
+                cartList
+              }
+            </span>
             <span>
               <img src={cartSvg} style={{height: '25px', width: '25px'}} alt="" />
             </span>
@@ -237,10 +256,20 @@ const BuyerHeader = () => {
 
             <>
 
-              <li onClick={e => openFloatingMenu(e,'user')}>
-              <span>Hi Akpulu</span>
+              <li onClick={e => buyer.fname? openFloatingMenu(e,'user') : navigate('/login')}>
               <span>
-                <img src={dArrowSvg} style={{height: '22px', width: '12px', marginTop: '5px', marginLeft: '5px', rotate: visible === 'flex' && task === 'user' ? '0deg' : '180deg'}} alt="" />
+              
+                {
+                  buyer.fname
+                  ?
+                  buyer.fname
+                  :
+                  'Login'
+                }
+              </span>
+
+              <span> 
+                <img src={buyer.fname ? dArrowSvg : login} style={{height: buyer.fname ? '22px' : '16px', width: buyer.fname ? '12px' : '30px', marginTop: buyer.fname ? '5px' : '0px', marginLeft: buyer.fname ? '5px' : '-3px', rotate: visible === 'flex' && task === 'user' ? '0deg' : '180deg'}} alt="" />
               </span>
               </li>
 
