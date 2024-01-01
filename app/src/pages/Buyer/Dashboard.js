@@ -42,7 +42,7 @@ const Dashboard = () => {
                         <Ads />
 
                         <FlashAds />
-                        <Lodge />
+                        {/* <Lodge /> */}
                     </>
                 :
                 ''
