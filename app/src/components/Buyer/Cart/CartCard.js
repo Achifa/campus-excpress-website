@@ -3,6 +3,7 @@ import { DeleteItemFromCart, UpdateCartUnit } from "../../../api/buyer";
 import { useState } from "react";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import { setCartTo } from "../../../redux/buyer/Cart";
+import Thumbnail from "../Thumbnail";
 
 const Card = ({item,index,unit,getTotalPrice}) => {
 
@@ -74,7 +75,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
     return ( 
         <>
             <div key={index} className="buyer-cart-card shadow-sm">
-                <img src={activeImg} alt="" />
+                <Thumbnail product_id={item.item.product_id} />
                 <button  className="buyer-cart-remove-btn" style={{background: 'orangered'}} onClick={e => AddToCart(e,item.item.product_id)}>
                     Remove
                 </button>

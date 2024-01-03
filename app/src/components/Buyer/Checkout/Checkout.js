@@ -9,6 +9,7 @@ import Info from "./Info";
 import Method from "./Method";
 import Address from "./Address";
 import Btn from "./Btn";
+import CheckoutSummary from "./CheckoutSummary";
 
 const CheckOut = () => {
     let [item, setItem] = useState('')
@@ -76,9 +77,9 @@ const CheckOut = () => {
 
     useEffect(() => {
         if(paymentMethodSelected === true){
-            document.querySelector('.checkout-btn').disabled = false
+            // document.querySelector('.checkout-btn').disabled = false
         }else{
-            document.querySelector('.checkout-btn').disabled = true
+            // document.querySelector('.checkout-btn').disabled = true
         }
     },[paymentMethodSelected])
 
@@ -98,9 +99,11 @@ const CheckOut = () => {
                 <Summary totalItem={totalItem} deliveryPrice={deliveryPrice} Total={Total} />
             </div>
 
-            <div className="buyer-checkout-btn" onClick={e => handleDeposit()}>
+            <CheckoutSummary />
+
+            {/* <div className="buyer-checkout-btn" onClick={e => handleDeposit()}>
                 <Btn deliveryPrice={deliveryPrice} />
-            </div>
+            </div> */}
 
         </>
      );

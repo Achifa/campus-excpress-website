@@ -12,12 +12,9 @@ import Btn from './Btn';
 
 const Cart = () => { 
     let [Items, setItems] = useState([])
-    
     let [unit, setUnit] = useState([])
     let [url, setUrl] = useState('')
     let [subTotal, setSubTotal] = useState('0.00')
-
-
 
     function getTotalPrice() {
         let list = [...document.querySelectorAll(".buyer-items-stock")];
@@ -57,10 +54,6 @@ const Cart = () => {
         
     }, [])
 
-    //let {Cart} = useSelector(s => s.Cart)
-
-    
-
     function StockChange(type,item) {
         if(type === 'add'){
             let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
@@ -85,12 +78,10 @@ const Cart = () => {
     }
     let [screenWidth, setScreenWidth] = useState(0)
 
-
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
-  
 
    useEffect(() => {
         getTotalPrice();
@@ -119,7 +110,7 @@ const Cart = () => {
 
                 <div className="buyer-cart-checkout">
                 <div style={{borderBottom: '1px solid #eeeeee'}}>
-                        <h6>Cart Summary</h6>
+                        <span>Cart Summary</span>
                 </div>
 
                 <div>
@@ -140,7 +131,7 @@ const Cart = () => {
 
             }
         </>
-     );
+    );
 }
 
 

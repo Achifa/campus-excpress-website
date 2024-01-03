@@ -93,7 +93,7 @@ const Aside = () => {
     let list2 = [{text: 'My Account', img: userSvg},{text: 'Help Center', img: helpSvg}, {text: 'Refund & Return', img: refundSvg}, {text: 'Cancel An Order', img: cancelSvg}, {text: 'Contact Us', img: contactSvg}, {text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}]
     let list3 = categoriesList
 
-    let CEservices = list1.map((item, i) => 
+    let CEservices = list1.map((item,i) => 
         <li onClick={e => navigate(`${item}`)} key={i}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
@@ -115,7 +115,7 @@ const Aside = () => {
         </li>
     )
 
-    let Categories = categories.map((item, i) => 
+    let Categories = categories.map((item,i) => 
         <li data-category={item[0]} onClick={e => {navigate(`/?category=${item[0].toLowerCase()}`); dispatch(setCategoryTo(item[0].toLowerCase()))}} key={i}>
             <span>
             
@@ -131,7 +131,7 @@ const Aside = () => {
         document.querySelector('.aside-overlay').removeAttribute('id')
     
     }
-
+ 
 
     return ( 
         <>
@@ -201,4 +201,4 @@ const Aside = () => {
      );
 }
  
-export default Aside;
+export default Aside;  

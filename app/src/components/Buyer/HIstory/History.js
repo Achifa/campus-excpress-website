@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import jsAgo from 'js-ago'
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 import { SHOP } from '../../../api/seller';
-import Thumbnail from './Thumbnail';
+import Thumbnail from '../Thumbnail';
 import RmBtn from './RmBtn';
 import Body from './Body';
 

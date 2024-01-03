@@ -4,7 +4,7 @@ import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
 import dArrowSvg from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import { CE_buyer_ID, CE_buyer_INITIAL } from "../dashboard/Secrets";
+import { CE_buyer_ID, CE_buyer_INITIAL } from "../Dashboard/Secrets";
 import '../../../styles/Buyer/overlays.css'
 import '../../../styles/search.css'
 import BuyerAside from "../Aside";

@@ -9,10 +9,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import saveSvg from '../../../assets/save-svgrepo-com1.svg'
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
-import ItemImgs from '../ItemImgs'
+import ItemImgs from './ItemImgs'
 import { setCartTo } from '../../../redux/buyer/Cart'
 import { setSaveTo } from '../../../redux/buyer/Save'
 import { DeleteItem } from '../../../api/seller'
+import SimilarItems from './SimilarItems'
+import Description from './Description'
 
 
 
@@ -208,10 +210,10 @@ const Product = () => {
                 </div>
             </div>
             <div className="buyer-product">
-                <div className="buyer-product-cnt">
+                <div className="buyer-product-cnt" style={{display: 'flex', flexDirection: 'column'}}>
                     <div className="buyer-product-data">
                         <div id="left">
-                            <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, backgroundRepeat: 'no-repeat', backgroundSize: '200px 200px', backgroundPosition: 'center'}}>
+                            <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, borderRadius: '5px', backgroundRepeat: 'no-repeat', backgroundSize: '200px 200px', backgroundPosition: 'center'}}>
                                 {/* <img src={activeImg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" /> */}
                             </div>
                             <ItemImgs />
@@ -219,28 +221,38 @@ const Product = () => {
 
                         <div id="right">
  
-                            <h6>{item['title']}</h6>
+                            <p style={{fontWeight: '400', padding: '0px', fontSize: 'x-large'}}>{item['title']}</p>
 
-                            {/* <section>
-                                <div>
-                                    <span><span style={{color: '#626262'}}>Shop ID :</span> <span style={{color: 'orangered'}}>CE_4590-ddf</span></span> <span>&#x2022;</span> <span><span style={{color: '#626262'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700'}}>{item.product_id}</span></span>
+                            <section style={{display: 'flex', justifyContent: 'center'}}>
+                                <div style={{fontSize: 'x-small'}}>
+                                    <span ><span style={{color: '#626262', fontSize: 'x-small'}}>Shop ID :</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>CE_4590-ddf</span></span> 
                                 </div>
-                                <div>
-                                    <span><span style={{color: '#626262'}}>Shop Rating:</span> <span style={{color: 'orangered'}}>Jacob N.N</span></span>
+                                &nbsp;
+                                &nbsp;
+                                <div style={{fontSize: 'x-small'}}>
+                                    <span><span style={{color: '#626262', fontSize: 'x-small'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700', fontSize: 'x-small'}}>{item.product_id}</span></span>
+                                </div>
+                                &nbsp;
+                                &nbsp;
+                                <div style={{fontSize: 'x-small'}}>
+                                    <span><span style={{color: '#626262', fontSize: 'x-small'}}>Shop Rating:</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>Jacob N.N</span></span>
                                 </div>
 
                                 
-                            </section> */}
+                            </section>
 
-                            <hr style={{margin: '10px'}} />
+                            <hr style={{margin: '15px'}} />
 
-                            <p style={{fontWeight: '700', padding: '0px', fontSize: 'large'}}>
-                                <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item.price)}
-                            </p>
+                            {/* <br /> */}
 
-                            <p style={{fontWeight: '400', padding: '0px'}}>0 in stock</p>
+                            <div style={{background: '#fff4e0', padding: '10px', color: 'orangered', fontWeight: '500', borderRadius: '5px', height: 'fit-content'}}>
+                                <p style={{fontWeight: '400', padding: '0px', fontSize: 'xx-large'}}>
+                                    <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item.price)}
+                                </p>
+                                <p style={{fontWeight: '400', padding: '0px'}}>0 in stock</p>
 
-                            <p>+ shipping from ₦ 640 to AWKA TOWN</p>
+                                <p>+ shipping from ₦ 640 to AWKA TOWN</p> 
+                            </div>
 
                             {/* <hr /> */}
                             <br />
@@ -268,7 +280,7 @@ const Product = () => {
                                 backgroundColor: '#fff',
                                 marginTop: '40px'
                             }}>
-                                <button onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0
                                         ?
@@ -283,7 +295,7 @@ const Product = () => {
                                         'Delete'
                                     }
                                 </button>
-                                <button onClick={e => role !== 0 ? navigate(`/seller/editor?product_id=${item.product_id}`) : Saver(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => role !== 0 ? navigate(`/seller/editor?product_id=${item.product_id}`) : Saver(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0 
                                         ?
@@ -331,70 +343,11 @@ const Product = () => {
 
 
                         </div>
-                    </div>              
-                    <div className="buyer-product-description">
-                        <h4 style={{padding:'10px', height: 'fit-content'}}>Description</h4>
-                        <section style={{padding: '10px'}}>
-                            {item.description}
-                        </section>
-                    </div>
+                    </div>      
+                    <SimilarItems />
 
-                    {
-                        role === 0
-                        ?
-                        <>
-                            <div className="buyer-product-related-items">
-                            <h4 style={{padding:'10px'}}>Similar Items You May Like</h4>
+                    <Description item={item} />
 
-
-                            <ul>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
-                            
-                            </div>
-
-                            <div className="buyer-product-seller-details">
-
-                                <section className="buyer-seller-history">
-                                    <h4>Seller's History  (10)</h4>
-                                    <br />
-
-                                    <ul>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                    </ul>
-
-                                </section>
-
-                                {/*<section className="buyer-seller-products">
-                                    <h4>Seller's Products  (10)</h4>
-                                    <ul>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                        <li className="shadow-sm"></li>
-                                    </ul>
-            </section>*/}
-
-                            </div>
-
-                        </>
-
-                        :
-                        ''
-                    }
 
                 </div>
             </div>
