@@ -9,7 +9,7 @@ import SearchBar from "../../components/Buyer/Header/SeachBar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import Ads from "../../components/Buyer/Dashboard/Ads";
+// import Ads from "../../components/Buyer/Dashboard/Ads";
 // import FlashAds from "../../components/Buyer/Dashboard/FlashAds";
 // import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
 // import Recommended from "../../components/Buyer/Dashboard/Recommended";
@@ -42,7 +42,7 @@ const Dashboard = () => {
                 category === 'trends'
                 ?
                     <>
-                        <Ads />
+                        {/* <Ads /> */}
 
                         {/* <FlashAds /> */}
                         {/* <Lodge /> */}
