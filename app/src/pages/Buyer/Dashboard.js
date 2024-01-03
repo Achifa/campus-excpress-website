@@ -10,14 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Ads from "../../components/Buyer/Dashboard/Ads";
-import FlashAds from "../../components/Buyer/Dashboard/FlashAds";
-import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
-import Recommended from "../../components/Buyer/Dashboard/Recommended";
-import FilterAside from "../../components/Buyer/Dashboard/FilterAside";
+// import FlashAds from "../../components/Buyer/Dashboard/FlashAds";
+// import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
+// import Recommended from "../../components/Buyer/Dashboard/Recommended";
+// import FilterAside from "../../components/Buyer/Dashboard/FilterAside";
 import Main from "../../components/Buyer/Dashboard/Main";
-import Lodge from "../../components/Buyer/Dashboard/Lodge";
+// import Lodge from "../../components/Buyer/Dashboard/Lodge";
 import { useSelector } from "react-redux";
-
+ 
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
@@ -44,7 +44,7 @@ const Dashboard = () => {
                     <>
                         <Ads />
 
-                        <FlashAds />
+                        {/* <FlashAds /> */}
                         {/* <Lodge /> */}
                     </>
                 :
