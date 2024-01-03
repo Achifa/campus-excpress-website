@@ -4,7 +4,7 @@ let u1 = `http://localhost:1111`
 let u2 = `http://192.168.94.146:1111`
 let u3 = `https://ce-server.onrender.com`
 
-let plug = u3; 
+let plug = u1; 
 
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {

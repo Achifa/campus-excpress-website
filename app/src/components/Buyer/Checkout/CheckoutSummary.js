@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const CheckoutSummary = () => {
+const CheckoutSummary = ({Total}) => {
 
     let [screenWidth, setScreenWidth] = useState(0)
 
@@ -40,7 +40,7 @@ const CheckoutSummary = () => {
                 :
                     <button className="shadow-sm">
                         <span>Checkout SubTotal&nbsp; </span>
-                        <span><small>(₦</small>0)</span>
+                        <span><small>(&#8358; </small>{new Intl.NumberFormat('en-us').format(Total)})</span>
                     </button>
                 
 

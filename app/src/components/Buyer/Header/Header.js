@@ -4,7 +4,7 @@ import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
 import dArrowSvg from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import { CE_buyer_ID, CE_buyer_INITIAL } from "../Dashboard/Secrets";
+import { CE_buyer_ID, CE_buyer_INITIAL } from "../Secrets";
 import '../../../styles/Buyer/overlays.css'
 import '../../../styles/search.css'
 import BuyerAside from "../Aside";
@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBuyerJsxTo } from "../../../redux/buyer/BuyerOverlayJsx";
 import { GetBuyer, GetCart, GetSavedItem, GetSearchWord } from "../../../api/buyer";
 import { setCartTo } from "../../../redux/buyer/Cart";
-import { setSaveTo } from "../../../redux/buyer/Save";
+import { setSaveTo } from "../../../redux/buyer/Save"; 
 import SearchResult from "./SearchResult";
 import FloatingMenu from "./FloatingMenu";
 import Aside from "./Aside";

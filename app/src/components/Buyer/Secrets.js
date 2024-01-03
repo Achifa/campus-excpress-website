@@ -1,6 +1,7 @@
+
 export function CE_buyer_ID(params) {
     let buyer_id = window.localStorage.getItem("CE_buyer_id")
-    let buyer_initial = window.localStorage.getItem("CE_buyer_name_initial")
+    // let buyer_initial = window.localStorage.getItem("CE_buyer_name_initial")
     if(buyer_id){
       return buyer_id !== '' ? buyer_id : null
     }else{

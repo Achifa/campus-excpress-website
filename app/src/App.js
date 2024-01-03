@@ -187,6 +187,7 @@ function App() {
             <Route path='/checkout/:id' element={<Checkout />}></Route>
             <Route path='/checkout/:id/:id' element={<Checkout />}></Route>
             <Route path='/signup' element={<BuyerSignup />}></Route>
+            <Route path='/signup/:id' element={<BuyerSignup />}></Route>
             <Route path='/login' element={<BuyerLogin />}></Route>
             {/* <Route path='/buyer/password-reset/:id' element={<BuyerPasswordReset />}></Route>
             <Route path='/buyer/email-verification/:id' element={<BuyerVerification />}></Route> */}

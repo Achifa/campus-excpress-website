@@ -1,12 +1,17 @@
 import { useDispatch } from "react-redux";
 import { DeleteItemFromCart, UpdateCartUnit } from "../../../api/buyer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import { setCartTo } from "../../../redux/buyer/Cart";
 import Thumbnail from "../Thumbnail";
+import { isBuyerLoggedIn } from "../LoggedIn";
 
 const Card = ({item,index,unit,getTotalPrice}) => {
 
+    // let [isLoggedIn, setIsLoggedIn] = useState(false)
+    // useEffect(() => {
+    //     setIsLoggedIn(isBuyerLoggedIn)
+    // },[])
     let dispatch = useDispatch()
 
     let [activeImg, setActiveImg] = useState(imgSvg)

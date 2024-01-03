@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import '../../styles/Buyer/signup.css'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RegisterBuyer } from '../../api/buyer';
 import { data, school_choices } from '../../location';
 
 const BuyerSignup = () => {
     let navigate = useNavigate();
+    let location = useLocation()
 
     let [fname, setFname] = useState('')
     let [lname, setLname] = useState('')
@@ -16,6 +17,8 @@ const BuyerSignup = () => {
 
     let [state, setState] = useState('')
     let [campus, setCampus] = useState('')
+
+    let [query, setquery] = useState('')
 
     const [value, setValue] = useState('Select State');
     const [campusLocale, setCampusLocale] = useState('Select Campus');
@@ -38,6 +41,15 @@ const BuyerSignup = () => {
         index < 0 ? setCampusLocaleList([]) : setCampusLocaleList(campuses[index])
 
     }, [state])
+
+    useEffect(() => {
+        if(location.search){
+            let query = location.search.split('=')[1];
+            setquery(query);
+        }
+
+
+    },[])
     return (  
         <>
             <div className="seller-signup">

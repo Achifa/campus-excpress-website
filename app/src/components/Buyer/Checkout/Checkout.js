@@ -99,7 +99,7 @@ const CheckOut = () => {
                 <Summary totalItem={totalItem} deliveryPrice={deliveryPrice} Total={Total} />
             </div>
 
-            <CheckoutSummary />
+            <CheckoutSummary Total={Total} />
 
             {/* <div className="buyer-checkout-btn" onClick={e => handleDeposit()}>
                 <Btn deliveryPrice={deliveryPrice} />
