@@ -5,7 +5,6 @@ import '../../styles/Buyer/medium-screen.css'
 import '../../styles/Buyer/small-screen.css'
 import '../../styles/Buyer/large-screen.css'
 import '../../styles/Buyer/semi-medium-screen.css'
-import SearchBar from "../../components/Buyer/Header/SeachBar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -14,9 +13,12 @@ import { useEffect, useState } from "react";
 // import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
 // import Recommended from "../../components/Buyer/Dashboard/Recommended";
 // import FilterAside from "../../components/Buyer/Dashboard/FilterAside";
-import Main from "../../components/Buyer/Dashboard/Main";
 // import Lodge from "../../components/Buyer/Dashboard/Lodge";
 import { useSelector } from "react-redux";
+import Lodge from '../../components/Buyer/Dashboard/Lodge'
+import FlashAds from '../../components/Buyer/Dashboard/FlashAds'
+import Ads from '../../components/Buyer/Dashboard/Ads'
+import Main from '../../components/Buyer/Dashboard/Main'
  
 const Dashboard = () => {
 
@@ -42,10 +44,10 @@ const Dashboard = () => {
                 category === 'trends'
                 ?
                     <>
-                        {/* <Ads /> */}
+                        <Ads />
 
-                        {/* <FlashAds /> */}
-                        {/* <Lodge /> */}
+                        <FlashAds />
+                        <Lodge />
                     </>
                 :
                 ''
