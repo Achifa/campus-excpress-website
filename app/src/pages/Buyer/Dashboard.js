@@ -8,12 +8,6 @@ import '../../styles/Buyer/semi-medium-screen.css'
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-// import Ads from "../../components/Buyer/Dashboard/Ads";
-// import FlashAds from "../../components/Buyer/Dashboard/FlashAds";
-// import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
-// import Recommended from "../../components/Buyer/Dashboard/Recommended";
-// import FilterAside from "../../components/Buyer/Dashboard/FilterAside";
-// import Lodge from "../../components/Buyer/Dashboard/Lodge";
 import { useSelector } from "react-redux";
 import Lodge from '../../components/Buyer/Dashboard/Lodge'
 import FlashAds from '../../components/Buyer/Dashboard/FlashAds'
