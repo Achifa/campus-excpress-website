@@ -708,6 +708,7 @@ async function SendEmail(params) {
 }
 
 async function updatePwd(req,res) {
+    
     let {seller_id, pwd} = req.body;
     
     let hPwd = await bcrypt.hash(pwd, 10)

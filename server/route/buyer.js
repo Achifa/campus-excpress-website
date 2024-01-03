@@ -1,4 +1,4 @@
-const { RegisterBuyer, LogBuyerIn, GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, UpdateCart, GetBuyer, GetSearchWord, GetLodges, SendEmail, ResetPwd } = require("../controller/buyer");
+const { RegisterBuyer, LogBuyerIn, GetItems, GetItem, GetItemImages, GetThumbnail, AddToCart, RemoveFromCart, GetCart, GetCartItems, SaveItem, UnSaveItem, GetSavedItem, GetSavedItemsData, UpdateCart, GetBuyer, GetSearchWord, GetLodges, SendEmail, ResetPwd, updatePwd } = require("../controller/buyer");
 const { ValidateEmail, CheckPwdResetToken } = require("../middleware/buyer");
 const { express, parser } = require("../modules");
 
@@ -37,7 +37,7 @@ buyer_route.post('/buyer/password-update', parser, updatePwd);
 buyer_route.post('/buyer/password-reset', parser, ResetPwd);
 buyer_route.post('/buyer/password-token-check', parser, CheckPwdResetToken);
 
-seller_route.post('/seller/email-validation', parser, ValidateEmail);
-seller_route.post('/seller/send-email', parser, SendEmail);
+buyer_route.post('/buyer/email-validation', parser, ValidateEmail);
+buyer_route.post('/buyer/send-email', parser, SendEmail);
 
-module.exports = {buyer_route}
+module.exports = {buyer_route} 
