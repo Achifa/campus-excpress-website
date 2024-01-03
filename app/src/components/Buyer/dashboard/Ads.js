@@ -1,6 +1,6 @@
+
 import Category, { setCategoryTo } from "../../../redux/buyer/Category";
 import img from '../../../images/Slider.png'
-
 import foodSvg from '../../../assets/food-market-purchasing-svgrepo-com.svg'
 import electronicsSvg from '../../../assets/broadcast-device-electronics-svgrepo-com.svg'
 import vehicleSvg from '../../../assets/car-hand-drawn-outlined-vehicle-svgrepo-com.svg'
