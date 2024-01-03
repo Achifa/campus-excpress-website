@@ -17,7 +17,7 @@ import Main from '../../components/Buyer/Dashboard/Main'
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
-
+ 
     let navigate = useNavigate() 
 
     useEffect(() => {
