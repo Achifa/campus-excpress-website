@@ -5,14 +5,14 @@ const Address = ({setPayment}) => {
                 <h4>Payment Method</h4>
                 <hr />
                 <div className="input-cnt">
-                    <input type="radio" onInput={e => setPayment('cewallet')} name="paymentMethod" id="ceWallet" />
-                    <label htmlFor="ceWallet">Pay Via Campus Wallet</label>
+                    <input type="radio" onInput={e => setPayment('wallet')} name="paymentMethod" id="ceWallet" />
+                    <label htmlFor="ceWallet"><small>Pay With Campus Wallet</small></label>
 
                 </div>
 
                 <div className="input-cnt">
-                    <input type="radio" onInput={e => setPayment('paystack')} name="paymentMethod" id="Card" />
-                    <label htmlFor="Card">Pay Via With Card, Bank Transfer, USSD</label>
+                    <input defaultChecked type="radio" onInput={e => setPayment('bank')} name="paymentMethod" id="Card" />
+                    <label htmlFor="Card"><small>Pay With Card, Bank Transfer, USSD</small></label>
 
                 </div>
 

@@ -105,28 +105,33 @@ const Cart = () => {
             </div>
 
             {
-                screenWidth > 759
+                screenWidth > 659
+                
                 ?
 
-                <div className="buyer-cart-checkout">
-                <div style={{borderBottom: '1px solid #eeeeee'}}>
-                        <span>Cart Summary</span>
-                </div>
+                    <div className="buyer-cart-checkout">
+                        <div style={{borderBottom: '1px solid #eeeeee'}}>
+                                <span>Cart Summary</span>
+                        </div>
 
-                <div>
-                        <small style={{float: 'left'}}>Sub total</small>
-                        <small style={{float: 'right'}}><small>&#8358;</small>{new Intl.NumberFormat('en-us').format(subTotal)}</small>
-                </div>
+                        <div>
+                                <small style={{float: 'left'}}>Sub total</small>
+                                <small style={{float: 'right'}}><small>&#8358;</small>{new Intl.NumberFormat('en-us').format(subTotal)}</small>
+                        </div>
 
-                <div style={{fontSize: 'small'}}>
-                        <small>Delivery is free</small>
-                </div>
-                <div style={{height: '80px'}}>
-                        <Btn url={url} subTotal={subTotal} />
-                </div>
-                </div>
+                        <div style={{fontSize: 'small'}}>
+                                <small>Delivery is free</small>
+                        </div>
+                        <div style={{height: '80px'}}>
+                                <Btn url={url} subTotal={subTotal} />
+                        </div>
+                    </div>
                 :
-                <Btn url={url} subTotal={subTotal} />
+                <>
+                    <div style={{position: 'fixed', bottom: '0', padding: '20px', left: '0', width: '100%'}}>
+                        <Btn url={url} subTotal={subTotal} />
+                    </div>
+                </>
                 
 
             }

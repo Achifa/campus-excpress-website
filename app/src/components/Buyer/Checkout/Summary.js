@@ -11,7 +11,7 @@ const Summary = ({Total,totalItem,deliveryPrice}) => {
 
                 <div className="input-cnt">
                     <span>Delivery Fee</span>
-                    <span>&#8358; {new Intl.NumberFormat('en-us').format(deliveryPrice.current)}</span>
+                    <span>&#8358; {new Intl.NumberFormat('en-us').format(0)}</span>
                 </div>
 
                 <div className="input-cnt">

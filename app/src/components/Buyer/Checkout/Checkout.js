@@ -10,6 +10,7 @@ import Method from "./Method";
 import Address from "./Address";
 import Btn from "./Btn";
 import CheckoutSummary from "./CheckoutSummary";
+import Withdrawal from "../Withdrawal";
 
 const CheckOut = () => {
     let [item, setItem] = useState('')
@@ -66,26 +67,16 @@ const CheckOut = () => {
     }
 
     function SetPaymentMethod(type) {
-        if(type !== 'paystack'){
-            setPayMent(<CEStack amt={Total} />)
+        if(type === 'wallet'){
+            setPayMent(1)
             setPaymentMethodSelected(true)
         }else{
-            setPayMent(<PayStack amt={Total} />)
+            setPayMent(0)
             setPaymentMethodSelected(true)
         }
     }
 
-    useEffect(() => {
-        if(paymentMethodSelected === true){
-            // document.querySelector('.checkout-btn').disabled = false
-        }else{
-            // document.querySelector('.checkout-btn').disabled = true
-        }
-    },[paymentMethodSelected])
-
-    function setPayment(data) {
-        SetPaymentMethod(data)
-    }
+    function setPayment(data) {SetPaymentMethod(data)}
 
     return ( 
         <>
@@ -99,7 +90,7 @@ const CheckOut = () => {
                 <Summary totalItem={totalItem} deliveryPrice={deliveryPrice} Total={Total} />
             </div>
 
-            <CheckoutSummary Total={Total} />
+            <CheckoutSummary Method={payment} Total={Total} />
 
             {/* <div className="buyer-checkout-btn" onClick={e => handleDeposit()}>
                 <Btn deliveryPrice={deliveryPrice} />

@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
-import { DeleteItemFromCart, UpdateCartUnit } from "../../../api/buyer";
+import { DeleteItemFromCart, GET_PRODUCT_THUMBNAIL, UpdateCartUnit } from "../../../api/buyer";
 import { useEffect, useState } from "react";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import { setCartTo } from "../../../redux/buyer/Cart";
 import Thumbnail from "../Thumbnail";
 import { isBuyerLoggedIn } from "../LoggedIn";
+import { useNavigate } from "react-router-dom";
 
 const Card = ({item,index,unit,getTotalPrice}) => {
 
@@ -13,8 +14,6 @@ const Card = ({item,index,unit,getTotalPrice}) => {
     //     setIsLoggedIn(isBuyerLoggedIn)
     // },[])
     let dispatch = useDispatch()
-
-    let [activeImg, setActiveImg] = useState(imgSvg)
 
     function UpdateCart(type,item) {
         let oldUnit = unit.filter(data => data.product_id === item.item.product_id)[0].unit;
@@ -77,10 +76,23 @@ const Card = ({item,index,unit,getTotalPrice}) => {
             console.log(err)
         })
     }
+
+    let [img, set_img] = useState(imgSvg);
+  
+    useEffect(() => {
+        GET_PRODUCT_THUMBNAIL(item.product_id)
+        .then((result) => {
+            set_img(result.file)
+            console.log(result)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    },[])
     return ( 
         <>
             <div key={index} className="buyer-cart-card shadow-sm">
-                <Thumbnail product_id={item.item.product_id} />
+                <img src={img} alt="" />
                 <button  className="buyer-cart-remove-btn" style={{background: 'orangered'}} onClick={e => AddToCart(e,item.item.product_id)}>
                     Remove
                 </button>
