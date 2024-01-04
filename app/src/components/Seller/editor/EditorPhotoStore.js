@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photoList}) => {
+const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photoList,category}) => {
     let [screenWidth, setScreenWidth] = useState(0)
 
     useEffect(() => {
@@ -17,18 +17,32 @@ const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photoList}) => {
 
     let handleImage = () => {
 
+        if(category === 'Lodge/Apartment'){
+            let f = document.querySelector("#files");
+
+            [...f.files].map(item => {
+                let reader = new FileReader({type: '*/video'});
+
+                reader.onload = (result) => {
+                    let img = reader.result;
+                    productPhotos(img)
+                }
+                reader.readAsDataURL(item);
+            })
+        }else{
         
-        let f = document.querySelector("#files");
+            let f = document.querySelector("#files");
 
-        [...f.files].map(item => {
-            let reader = new FileReader();
+            [...f.files].map(item => {
+                let reader = new FileReader({type: '*/image'});
 
-            reader.onload = (result) => {
-                let img = reader.result;
-                productPhotos(img)
-            }
-            reader.readAsDataURL(item);
-        })
+                reader.onload = (result) => {
+                    let img = reader.result;
+                    productPhotos(img)
+                }
+                reader.readAsDataURL(item);
+            })
+        }
 
         
     } 
@@ -39,7 +53,7 @@ const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photoList}) => {
                 <label htmlFor="files" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center', }}>
                     <small>Click here to Upload photo</small>
                 </label>
-                <input type="file" name="file" multiple style={{display: 'none'}} id="files" onChange={handleImage} />
+                <input type="file" name="file" accept={category === 'Lodge/Apartment' ? '*/video' : '*/image'} multiple style={{display: 'none'}} id="files" onChange={handleImage} />
 
                 <section className='seller-product-image-cnt'>
                     {
@@ -47,7 +61,13 @@ const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photoList}) => {
                         
                             <div style={{position: 'relative', padding: '0', height: '100%'}}>
                                 <div onClick={e => removeImg(index)} className="delete-sample-img" style={{position: 'absolute', cursor: 'pointer', top: '5px', right: '5px', color: '#fff', background: 'red', zIndex: '1000', width: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2.5px', height: '20px'}}>x</div>
-                                <img src={item} key={index} style={{height: '100%', width: screenWidth > 480 ? '200px' : '100px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} alt="" />
+                                {
+                                    category === 'Lodge/Apartment'
+                                    ?
+                                    <video src={item} key={index} style={{height: '100%', width: screenWidth > 480 ? '200px' : '100px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} controls alt=""></video>
+                                    :
+                                    <img src={item} key={index} style={{height: '100%', width: screenWidth > 480 ? '200px' : '100px', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative', flexShrink: '0'}} alt="" />
+                                }
                             </div>
                         )
                     }
