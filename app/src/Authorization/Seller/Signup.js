@@ -40,8 +40,6 @@ const Signup = () => {
         state: false
     })
 
-    
-
     function addErrMssg(err,pElem) {
             
         let check = pElem.querySelector('.err-mssg');
