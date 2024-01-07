@@ -3,12 +3,12 @@ import axios from 'axios'
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.75.146:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u2;  
+let plug = u1;  
  
-export function uploadItem(title,description,category,price,photos,seller_id,others) {
+export function uploadItem(title,description,category,price,photos,videos,seller_id,others) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/product-upload`, {
-            title,description,category,price,photos,seller_id,others
+            title,description,category,price,photos,videos,seller_id,others
         })
         .then((result) => {
             resolve(result)

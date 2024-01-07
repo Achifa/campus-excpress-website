@@ -13,7 +13,7 @@ import { AddItemToCart, DeleteItemFromCart, SaveItem, UnSaveItem } from '../../.
 import { setSaveTo } from '../../../redux/buyer/Save'
 import { setCartTo } from '../../../redux/buyer/Cart'
 import { isBuyerLoggedIn } from '../LoggedIn'
-const Card = ({item}) => {
+const Card = ({item, index}) => {
     let [screenWidth, setScreenWidth] = useState(0)
  
     let BtnStyles = {
@@ -131,7 +131,7 @@ const Card = ({item}) => {
                 elem
             }
             <div className="cols" >
-                <div className="card" >
+                <div className="card" key={index}>
                     <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
                         <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
                             <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '8px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />

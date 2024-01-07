@@ -18,9 +18,17 @@ import cosmeticsSvg from '../../../assets/medical-medicine-health-23-svgrepo-com
 import tabletsSvg from '../../../assets/tablet-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 const Ads = () => {
-    let navigate = useNavigate()
+    let [screenWidth, setScreenWidth] = useState(0)
+ 
+    let navigate = useNavigate() 
+
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
     let dispatch = useDispatch()
 
     let categories = [
@@ -58,7 +66,7 @@ const Ads = () => {
                         }
                     </ul>
                 </section>
-                <section className="img-cnt">
+                <section className="img-cnt" >
                     <img src={img}  alt="" />
                 </section>
             </div>

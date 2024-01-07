@@ -59,6 +59,7 @@ import { useEffect, useState } from 'react';
 
 import Users from './pages/Admin/Users';
 import ForgotPwd from './Authorization/Seller/ForgotPassword';
+import Search from './components/Buyer/Header/Search';
 
 function App() {
   let location = useLocation()
@@ -189,6 +190,7 @@ function App() {
             <Route path='/signup' element={<BuyerSignup />}></Route>
             <Route path='/signup/:id' element={<BuyerSignup />}></Route>
             <Route path='/login' element={<BuyerLogin />}></Route>
+            <Route path='/search' element={<Search />}></Route>
             {/* <Route path='/buyer/password-reset/:id' element={<BuyerPasswordReset />}></Route>
             <Route path='/buyer/email-verification/:id' element={<BuyerVerification />}></Route> */}
             <Route path='*' element={<ErrorPage/>} /> 

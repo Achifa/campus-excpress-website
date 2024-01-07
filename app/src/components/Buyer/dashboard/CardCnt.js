@@ -20,10 +20,17 @@ const CardCnt = () => {
     let {Save} = useSelector(s => s.Save)
     let {category} = useSelector(s => s.Category)
 
+    let [list, setList] = useState([]) 
+    let [right, setright] = useState(0)
+    let [top, settop] = useState(0)
+    let [visible, setvisible] = useState('none')
+    let [selectedOption, setSelectedOption] = useState('')
+
+
     let [screenWidth, setScreenWidth] = useState(0)
     let [items, setItems] = useState([])
-
     let navigate = useNavigate()
+    let [cards, setCards] = useState([])
 
     useEffect(() => {
         let width = window.innerWidth;
@@ -33,53 +40,75 @@ const CardCnt = () => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
         overlay.setAttribute('id', 'overlay');
-
         GetItems(category)
         .then((result) => {
             setItems(result)
+            setCards(
+                result.map((item, index) => 
+                    <Card index={index} item={item} />
+                )
+            )
             overlay.removeAttribute('id');
         })
         .catch(err => console.log(err))
 
     }, [category])
-    
-    
-    let dispatch = useDispatch()
+    function getSelectedOption(data) {setSelectedOption(data)}
 
-    
-    
-    let [list, setList] = useState([]) 
-    let [right, setright] = useState(0)
-    let [top, settop] = useState(0)
-    let [visible, setvisible] = useState('none')
-    let [selectedOption, setSelectedOption] = useState('Popularity')
+    useEffect(() => {
+        let list = [ {text: 'Price: Low to High', type: 'priceL'}, {text: 'Price: High to Low', type: 'priceH'}]
 
+        let overlay = document.querySelector('.overlay');
+        overlay.setAttribute('id', 'overlay');
 
+        function sort(type) {
+            const compareItems = (a, b) => {
+                if(type === 'priceL'){
+                    return a.price - b.price
+                }else{ 
+                    return b.price - a.price
+                }
+            }
+                // Sorting the array by date (oldest to newest)
+            const sortedArray = items.sort(compareItems);
+            console.log(sortedArray)
+            // Logging the sorted array
+            setCards(
+                sortedArray.map((item, index) => 
+                    <Card index={index} item={item} />    
+                )
+            );
+            overlay.removeAttribute('id')
+        }
+        let type = list.filter(item => item.text.toLowerCase() === selectedOption)[0]?.type
+        sort(type) 
 
+    }, [selectedOption])
+   
     function openFloatingMenu(e) {
         if(visible === 'none')
-          {
-            let list = ['Popularity', 'Newest Arrivals', 'Price: Low to High', 'Price: High to Low', 'Product Rating']
+            {
+            let list = [{text: 'Price: Low to High', type: 'priceL'}, {text: 'Price: High to Low', price: 'priceH'}]
 
             setList(list)
             setvisible('flex')
             let rect = e.target.getBoundingClientRect();
-    
+
             let r = rect.right;
             let t = rect.top;
             setright(r)
             settop(t)
             setTimeout(() => {
-              setvisible('none')
+                setvisible('none')
             }, 8000);
-          }
-          else{
-            setvisible('none')
-    
-          }
-      }
+        }else{
+        setvisible('none')
 
-    function getSelectedOption(data) {setSelectedOption(data)}
+        }
+    }
+
+    function setDisplay(data) {setvisible(data)}
+
 
     return ( 
         <>
@@ -93,20 +122,18 @@ const CardCnt = () => {
                         Latest Items For Sale
                     </div>
                     <div onClick={openFloatingMenu} className="right">
-                        Sort by: {selectedOption}
+                        Filter {selectedOption}
                     </div>
                 </div>
 
                 {
-                    <FloatingMenu getSelectedOption={getSelectedOption} list={list} visible={visible} top={top} right={right} />
+                    <FloatingMenu getSelectedOption={getSelectedOption} setDisplay={setDisplay} list={list} visible={visible} top={top} right={right} />
                 }
 
                 { 
                     items.length > 0
                     ?
-                    items.map((item) => 
-                        <Card item={item} />
-                    )
+                    cards
                     :
                     ''
                 }

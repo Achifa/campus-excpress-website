@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import FlashAds from '../../components/Buyer/dashboard/FlashAds'
 import Ads from '../../components/Buyer/dashboard/Ads'
 import Main from '../../components/Buyer/dashboard/Main'
+import Lodge from '../../components/Buyer/dashboard/Lodge'
  
 const Dashboard = () => {
 
@@ -41,7 +42,7 @@ const Dashboard = () => {
                         <Ads />
 
                         <FlashAds />
-                        {/* <Lodge /> */}
+                        <Lodge />
                     </>
                 :
                 ''

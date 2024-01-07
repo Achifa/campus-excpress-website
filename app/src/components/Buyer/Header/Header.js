@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
+import searchSvg from '../../../assets/search-svgrepo-com.svg'
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
 import dArrowSvg from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
@@ -20,7 +21,6 @@ import { setSaveTo } from "../../../redux/buyer/Save";
 import SearchResult from "./SearchResult";
 import FloatingMenu from "./FloatingMenu";
 import Aside from "./Aside";
-import SearchBar from "./SeachBar";
 
 const BuyerHeader = () => {
 
@@ -172,14 +172,16 @@ const BuyerHeader = () => {
   }
 
   useEffect(() => {
-    
-    GetSearchWord(searchChar === '' || searchChar === ' ' ? '' : searchChar)
-    .then((result) => { 
-        setSearchRes(result)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    if(searchChar !== '' && searchChar !== ' '){ 
+      GetSearchWord(searchChar === '' || searchChar === ' ' ? '' : searchChar)
+      .then((result) => { 
+          setSearchRes(result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    }
   }, [searchChar])
 
   useEffect(() => {
@@ -219,17 +221,15 @@ const BuyerHeader = () => {
         }
 
       </div>
-      <div className="buyer-header" >
+      <div className="buyer-header" style={{position: 'sticky', top: '0', zIndex: '1000'}}>
 
 
-        <img src={img} style={{height: '70px', width: '70px'}}  alt="" />
+        <img src={img} style={{height: '40px', width: '50px'}}  alt="" />
         {
           screenWidth > 479
           ?
           <div className="input-cnt">
-            <input onBlur={e => {
-
-            }} onFocus={e =>openSearchResult(e)} onInput={e => {setSearchChar(e.target.value);}} type="search" name="" placeholder="What Are You Looking For..." id="" />
+            <input onFocus={e =>openSearchResult(e)} onInput={e => {setSearchChar(e.target.value);}} type="search" name="" placeholder="What Are You Looking For..." id="" />
             <button>Search</button>
           </div> 
           : 
@@ -283,13 +283,24 @@ const BuyerHeader = () => {
             </>
 
             : 
+
+            <>
             
-            <li onClick={e => openAside(e)}>
-              {/* <span>Menu</span> */}
-              <span>
-                <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
-              </span>
-            </li>
+              <li style={{padding: '5px'}} onClick={e => navigate('/search')}>
+                {/* <span>Menu</span> */}
+                <span>
+                  <img src={searchSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
+                </span>
+              </li>
+
+              <li style={{padding: '5px'}} onClick={e => openAside(e)}>
+                {/* <span>Menu</span> */}
+                <span>
+                  <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                </span>
+              </li>
+
+            </>
           }
         </ul>
 
@@ -299,13 +310,13 @@ const BuyerHeader = () => {
       </div>
 
 
-      {
+      {/* {
           screenWidth > 479
           ?
           ''
           :
           <SearchBar />
-      }
+      } */}
         
       {
         searchResultElem

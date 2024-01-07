@@ -10,7 +10,7 @@ import subSvg from '../../../assets/subscriptions-svgrepo-com.svg'
 import walletSvg from '../../../assets/wallet-2-svgrepo-com.svg'
 import sellSvg from '../../../assets/sell-svgrepo-com (1).svg'
 import logoutSvg from '../../../assets/logout-2-svgrepo-com.svg'
-const FloatingMenu = ({list,right,top,visible,buyer}) => {
+const FloatingMenu = ({list,right,top,visible,getSelectedOption,setDisplay}) => {
     let navigate = useNavigate()
 
     return ( 
@@ -20,12 +20,12 @@ const FloatingMenu = ({list,right,top,visible,buyer}) => {
                     {
                         list.map((item) =>  
                         
-                            <li onClick={e => navigate(`/${item.toLowerCase()}`)}>
+                        <li onClick={e => {getSelectedOption(item.text?.toLowerCase()); setDisplay('none')}}>
                                 <span>
 
                                 </span>
                                 <span>
-                                    {item}
+                                    {item.text}
                                 </span>
                             </li>
                         )

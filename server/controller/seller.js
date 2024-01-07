@@ -1,5 +1,9 @@
+const { file } = require("googleapis/build/src/apis/file");
 const { NeonDB } = require("../db");
+
 const { shortId, bcrypt, jwt } = require("../modules");
+const uploadMedia = require("../youtube");
+const { check_seller_actions, upload_meta_data, upload_photos } = require("../Functions/upload_items");
 const maxAge = 90 * 24 * 60 * 60; 
 const createToken = (id) => {
     return jwt.sign({ id }, 'seller_secret', {
@@ -7,57 +11,6 @@ const createToken = (id) => {
     });
 };
 require('dotenv').config();
-
-// async function SendTokenViaEmail(req,res) {
-//     let {email,fname,lname} = req.body;
-//     const { MailtrapClient } = require("mailtrap");
-
-//     const TOKEN = process.env.EMAIL_TOKEN;
-//     let key = shortId.generate()
-//     const ENDPOINT = "https://send.api.mailtrap.io/";
-
-//     const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });
-
-//     const sender = {
-//     email: "campusexpressnaija@gmail.com",
-//     name: "Campus Express Nigeria",
-//     };
-//     const recipients = [
-//         {
-//             email: email,
-//         }
-//     ];
-
-//     client
-//     .send({
-//         from: sender,
-//         to: recipients,
-//         subject: "Campus Express Email Verification",
-//         text: `
-
-//         Dear ${fname} ${lname},
-        
-//         Thank you for signing up with Campus Express Nigeria! We're thrilled to have you on board.
-        
-//         To ensure the security of your account and activate your subscription, we need to verify your email address. Please copy and paste the Token below in the field provided to complete the verification process:
-        
-//         ${key}
-        
-//         Once your email address is verified, you'll have full access to all the features and benefits of our platform.
-        
-//         If you did not sign up for Campus Express Nigeria, please ignore this email. Someone may have entered your email address by mistake.
-        
-//         If you have any questions or need assistance, feel free to reply to this email, and our support team will be happy to help.
-        
-//         Thank you for choosing Campus Express Nigeria.
-        
-//         Best regards,
-//         Campus Express Nigeria
-//         `,
-//         category: "Email Verification",
-//     })
-//     .then(console.log, console.error);
-// }
 
 async function GetSeller(req,res) {
     let {seller_id} = req.body;
@@ -98,50 +51,28 @@ function updateSellerProfile(req,res) {
 function uploadProduct(req,res) {
 
     let { 
-        title,description,category,price,photos,seller_id,others
+        title,description,category,price,photos,videos,seller_id,others
     } = req.body;
-    console.log(title,description,category,seller_id,others)
-
 
     let date = new Date();
     let productId = shortId.generate()
-    let replacedDescription = description.replace(/'/g, '"');;
-    let replacedTitle = title.replace(/'/g, '"');
     let imageId = shortId.generate();
     let book = []
 
-    new Promise((resolve, reject) => {
-        let uploadData = NeonDB.then((pool) => 
-            pool.query(`insert into seller_shop (id,product_id,seller_id,status,title,description,price,package,category,others,date) values(DEFAULT, '${productId}','${seller_id}','unsold','${replacedTitle}','${replacedDescription}','${price}','${0}','${category}','${others.map(item => item)}','${date}' )`)
-            .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
-            .catch(err => console.log(err))
-        )
-        .catch(err => console.log(err))
+    res.send('true')
 
-    })
-    .then((response) => 
+    check_seller_actions(seller_id);
 
-        photos.map(item => 
-            NeonDB.then((pool) => 
-                pool.query(`insert into product_photo(id,product_id,seller_id,file,image_id) values(DEFAULT, '${productId}', '${seller_id}', '${item}', '${imageId}')`)
-                .then(result => result.rowCount > 0 ? book.push(true) : book.push(false))
-                .catch(err => console.log(err))
-            )    
-        )
+    let replacedDescription = description.replace(/'/g, '"');
+    let replacedTitle = title.replace(/'/g, '"');
 
-    )
-    .then(async(response) => {
-        let bool = book.filter(item => item !== true)
+    upload_meta_data(replacedTitle,replacedDescription,category,price,photos,videos,seller_id,others,productId)
+    let photoresponse = upload_photos(productId, seller_id, photos, imageId)
 
+    console.log(photoresponse)
+    
 
-        if(bool.length < 1){
-            res.send(true)
-        }else{
-            res.send(false)
-        }
-
-    })
-    .catch(err => console.log(err))
+    
 
 
 }

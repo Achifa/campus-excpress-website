@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import '../../styles/plan_card.css'
 import '../../styles/loader.css'
 import '../../styles/Seller/overlay.css' 
-import Link from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import items from '../../items.json'
 import { GetEditedItem, GetSeller, updateItem, uploadItem } from '../../api/seller';
@@ -20,28 +19,26 @@ import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
 import EditorDescription from '../../components/Seller/editor/EditorDescription';
 import SubCategory from '../../components/Seller/editor/ClothingSelect';
 import UploadBtn from '../../components/Seller/editor/Button';
-const Editor = ({editorTitle}) => {
+import { upload, uploadForm } from '../../components/Functions/upload';
+
+const Editor = () => {
 
     let location = useLocation();
     let navigate = useNavigate();
+
     let list = ['base','strata','tras','quan']
-    
+    let validationBoolean = useRef({title: false,description: false,photos: false,category: false,condition: false,type: false,stock: false,price: false})
+
     let [update, setUpdate] = useState(false);
     let [edit,setEdit] = useState('');
     let [screenWidth, setScreenWidth] = useState('')
     let [productFormat, setProductFormat] = useState(list[1]);
     let [product_id,setProduct_id] = useState('')
+    let [categoriesList, setCategoriesList] = useState([])
+    let [typeList, setTypeList] = useState([])
 
-    useEffect(() => {setScreenWidth(window.innerWidth)},[])
-
-    function setAllInputsToNull(params) {
-         setGender('')
-         setCtype('')
-         setsize('')
-         setSubCategory('')
-         setLocale('')
-         setCondition('')
-    }
+    function setAllInputsToNull(params) {;setGender('');setCtype('');setsize('');setSubCategory('');setLocale('');setCondition('')}
+    function closeOverlay(params) {let overlay = document.querySelector('.overlay');overlay.onclick = e => {overlay.removeAttribute('id')}}
     
     let [title, setTitle] = useState('')
     function productTitle(data) {setTitle(data)}
@@ -50,7 +47,7 @@ const Editor = ({editorTitle}) => {
     function productDescription(data) {setDescription(data)}
 
     let [category, setCategory] = useState('')
-    function productCategory(data) {setCategory(data)}
+    function productCategory(data) {setCategory(data)} 
 
     let [gender, setGender] = useState('')
     function productGender(data) {setGender(data)}
@@ -80,10 +77,48 @@ const Editor = ({editorTitle}) => {
     function productPhotos(data) {setPhotos(file => [...file, data])}
     function deletePhoto(data) {setPhotos(data)}
 
+    let [videos, setVideos] = useState([])
+    function productVideos(data) {setVideos(file => [...file, data])}
+    function deleteVideo(data) {setVideos(data)}
+
+    useEffect(() => {setCategoriesList(items.items.category)},[])
+    useEffect(() => {setAllInputsToNull('')},[category])
+    useEffect(() => {setScreenWidth(window.innerWidth)},[])
+    useEffect(() => {let type = categoriesList.filter(item => Object.keys(item)[0] === category)[0]; if(type){setTypeList(type[category])}},[category,categoriesList])
+    useEffect(() => {
+        if(location.search !== ''){
+
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
+            setUpdate(true)
+
+            GetEditedItem(location.search.split('=').splice(-1)[0])
+            .then((result) => {
+                console.log(result.meta_data)
+                if(result.meta_data.category !== 'Lodge/Apartments'){
+
+                    productPhotos(result.photos.map(item => item.file))
+                    setEdit(result.meta_data[0])
+                    productCategory(result.meta_data[0].category)
+                    productTitle(result.meta_data[0].title)
+                    setPhotos(result.photos.map(item => item.file))
+                    productDescription(result.meta_data[0].description)
+                    productPrice(result.meta_data[0].price)
+                    setProduct_id(result.meta_data[0].product_id)
+                    productStock(result.meta_data[0].others[1])
+                    productType(result.meta_data[0].others[0])
+                    productCondition(result.meta_data[0].others[2])
+                    productLocale(result.meta_data[0].locale)
+                    overlay.removeAttribute('id')
+
+                }
+            })
+            .catch(err => console.log(err))
+        }
+    }, [location])
     useEffect(() => {
         if(category === 'Food' || category === 'Pet'){
             setProductFormat(list[0])
-
         }else if(category === 'Fashion'){
             setProductFormat(list[2])
         }else if(category === 'Lodge/Apartments'){
@@ -92,19 +127,6 @@ const Editor = ({editorTitle}) => {
             setProductFormat(list[1])
         }
     },[category])
-
-    let [productPackage, setProductPackage] = useState('')
-
-    let validationBoolean = useRef({
-        title: false,
-        description: false,
-        photos: false,
-        category: false,
-        condition: false,
-        type: false,
-        stock: false,
-        price: false
-    })
 
     function Validation(element) {
 
@@ -295,8 +317,8 @@ const Editor = ({editorTitle}) => {
                         validationBoolean.current.price = false;
                     }
                 }
-            }else{
-                if(photos.length > 0){
+            }else if(element.type === 'file'){
+                if(photos.length > 0 || videos.length > 0){
                     document.querySelector('.seller-shop-samples').style.border = '1px solid #000'
                     validationBoolean.current.photos = true;
                 }else{
@@ -304,6 +326,8 @@ const Editor = ({editorTitle}) => {
                     validationBoolean.current.photos = false;
 
                 }
+            }else{
+                console.log(element.name)
             }
         }
 
@@ -344,8 +368,6 @@ const Editor = ({editorTitle}) => {
         let name = element.name
         let type = element.tagName.toLowerCase();
 
-        
-
         if(type === 'textarea'){
             textarea()
         }else if(type === 'input'){
@@ -356,13 +378,6 @@ const Editor = ({editorTitle}) => {
     
         }
 
-    }
-
-    function closeOverlay(params) {
-        let overlay = document.querySelector('.overlay')
-        overlay.onclick = e => {
-            overlay.removeAttribute('id')
-        }
     }
 
     let updateForm = () => {
@@ -405,9 +420,9 @@ const Editor = ({editorTitle}) => {
                 setProductFormat(list[1])
             }
 
-            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : [cType,condition,stock,gender,size,subCategory]
-            // let dynamicInputValues = dynamicInput.filter(item => item !== '')
-            console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInput)
+            // let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : [cType,condition,stock,gender,size,subCategory]
+            // // let dynamicInputValues = dynamicInput.filter(item => item !== '')
+            // console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInput)
 
         }else{
             
@@ -425,52 +440,23 @@ const Editor = ({editorTitle}) => {
                 setProductFormat(list[1])
             }
 
-            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : productFormat === 'quan' ? [cType,locale]: [cType,condition,stock,gender,size,subCategory]
-
-            let dynamicInputValues = dynamicInput.filter(item => item !== '')
-
-            if(category === 'Lodge/Apartments'){
-                updateItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),[cType,locale])
-                .then((result) => {
-                    result
-                    ?
-                    navigate('/seller/shop')
-                    :
-                    alert('Error Uploading Data...')
-                    
-                })
-                .catch((err) => console.log(err))
-            }else{
-                updateItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInputValues)
-                .then((result) => {
-                    result
-                    ?
-                    navigate('/seller/shop')
-                    :
-                    alert('Error Uploading Data...')
-                    
-                })
-                .catch((err) => console.log(err))
-            }
+            let dynamicInput = productFormat === 'base' ? {category_type: cType, stock: stock} : productFormat === 'strata' ? {category_type: cType, condition: condition, stock: stock} : productFormat === 'quan' ? {category_type: cType, location: locale}: {category_type: cType, condition: condition, stock: stock, gender: gender, size: size, sub_category: subCategory}
+            updateForm(dynamicInput,title,description,category,price,photos,videos)
             
         }
 
-    }
+    } 
 
     let handleForm = () => {
         let inputs = [...document.querySelectorAll('input')]
         let textareas = [...document.querySelectorAll('textarea')]
         let selects = [...document.querySelectorAll('select')]
-
         let allFields = [...inputs,...textareas,...selects]
-
         allFields.map((item, index) => Validation(item))
-
         let falseyList = []
 
         for(let x in validationBoolean.current){
             console.log(validationBoolean.current[x])
-
             if(validationBoolean.current[x] === false){
                 falseyList.push(false)
             }else{
@@ -480,14 +466,9 @@ const Editor = ({editorTitle}) => {
 
         let result = falseyList.filter(item => item === false)
 
-
         if(result.length > 0){
-            // let overlay = document.querySelector('.overlay')
-            // overlay.setAttribute('id', 'overlay');
-
             if(category === 'Food' || category === 'Pet'){
                 setProductFormat(list[0])
-    
             }else if(category === 'Fashion'){
                 setProductFormat(list[2])
             }else if(category === 'Lodge/Apartments'){
@@ -495,11 +476,8 @@ const Editor = ({editorTitle}) => {
             }else{
                 setProductFormat(list[1])
             }
-
-            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : productFormat === 'quan' ? [cType,locale]: [cType,condition,stock,gender,size,subCategory]
-            // let dynamicInputValues = dynamicInput.filter(item => item !== '')
-            console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInput)
-
+            let dynamicInput = productFormat === 'base' ? {category_type: cType, stock: stock} : productFormat === 'strata' ? {category_type: cType, condition: condition, stock: stock} : productFormat === 'quan' ? {category_type: cType, location: locale}: {category_type: cType, condition: condition, stock: stock, gender: gender, size: size, sub_category: subCategory}
+            console.log(dynamicInput)
         }else{
             
             let overlay = document.querySelector('.overlay')
@@ -507,7 +485,6 @@ const Editor = ({editorTitle}) => {
 
             if(category === 'Food' || category === 'Pet'){
                 setProductFormat(list[0])
-    
             }else if(category === 'Lodge/Apartments'){
                 setProductFormat(list[3])
             }else if(category === 'Fashion'){
@@ -515,90 +492,15 @@ const Editor = ({editorTitle}) => {
             }else{
                 setProductFormat(list[1])
             }
-
-            let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : productFormat === 'quan' ? [cType,locale]: [cType,condition,stock,gender,size,subCategory]
-
-            let dynamicInputValues = dynamicInput.filter(item => item !== '')
-
-            if(category === 'Lodge/Apartments'){
-                uploadItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),[cType,locale])
-                .then((result) => {
-                    result
-                    ?
-                    navigate('/seller/shop')
-                    :
-                    alert('Error Uploading Data...')
-                    
-                })
-                .catch((err) => console.log(err))
-            }else{
-                uploadItem(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInputValues)
-                .then((result) => {
-                    result
-                    ?
-                    navigate('/seller/shop')
-                    :
-                    alert('Error Uploading Data...')
-                    
-                })
-                .catch((err) => console.log(err))
-            }
+            let dynamicInput = productFormat === 'base' ? {category_type: cType, stock: stock} : productFormat === 'strata' ? {category_type: cType, condition: condition, stock: stock} : productFormat === 'quan' ? {category_type: cType, location: locale}: {category_type: cType, condition: condition, stock: stock, gender: gender, size: size, sub_category: subCategory}
+            uploadForm(dynamicInput,title,description,category,price,photos,videos)
+            document.querySelector('.overlay').removeAttribute('id')
             
         }
-
-
       
     }
 
-    useEffect(() => {
-        if(location.search !== ''){
-
-            let overlay = document.querySelector('.overlay')
-            overlay.setAttribute('id', 'overlay');
-            setUpdate(true)
-
-            GetEditedItem(location.search.split('=').splice(-1)[0])
-            .then((result) => {
-                console.log(result.meta_data)
-                if(result.meta_data.category !== 'Lodge/Apartments'){
-
-                    productPhotos(result.photos.map(item => item.file))
-                    setEdit(result.meta_data[0])
-                    productCategory(result.meta_data[0].category)
-                    productTitle(result.meta_data[0].title)
-                    setPhotos(result.photos.map(item => item.file))
-                    productDescription(result.meta_data[0].description)
-                    productPrice(result.meta_data[0].price)
-                    setProduct_id(result.meta_data[0].product_id)
-                    productStock(result.meta_data[0].others[1])
-                    productType(result.meta_data[0].others[0])
-                    productCondition(result.meta_data[0].others[2])
-                    productLocale(result.meta_data[0].locale)
-                    overlay.removeAttribute('id')
-
-                }
-            })
-            .catch(err => console.log(err))
-        }else{
-            
-        }
-    }, [location])
-
-    let [categoriesList, setCategoriesList] = useState([])
-    let [typeList, setTypeList] = useState([])
-
-    useEffect(() => {setCategoriesList(items.items.category)},[])
     
-    useEffect(() => {setAllInputsToNull('')},[category])
-
-    useEffect(() => {
-       let type = categoriesList.filter(item => Object.keys(item)[0] === category)[0]
-       if(type){
-            console.log(category)
-            setTypeList(type[category])
-       }
-    },[category,categoriesList])
-
     return ( 
         <>
             <div className="overlay" >
@@ -714,7 +616,7 @@ const Editor = ({editorTitle}) => {
                     <div className="seller-shop-description" style={{textAlign: 'left', justifyContent: 'left'}}>
                         <EditorTitle productTitle={productTitle}  edit={edit} />
 
-                        <EditorPhotoStore edit={edit} productPhotos={productPhotos} photoList={photos} deletePhoto={deletePhoto} />
+                        <EditorPhotoStore category={category} edit={edit} productVideos={productVideos} productPhotos={productPhotos} videoList={videos} photoList={photos} deleteVideo={deleteVideo} deletePhoto={deletePhoto} />
 
                         <EditorDescription productDescription={productDescription} edit={edit} />
                     </div>

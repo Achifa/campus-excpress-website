@@ -1,4 +1,4 @@
-import img from '../../assets/download (3).jpeg'
+import edit from '../../assets/edit-svgrepo-com.svg'
 import deleteSvg from '../../assets/delete-svgrepo-com (1).svg'
 import { useEffect, useState } from 'react'
 import { DeleteItem, SHOP } from '../../api/seller'
@@ -70,7 +70,9 @@ const Shop = () => {
 
                             <div className="seller-libs-body">
 
+                                <img style={{right: '50px', height: '50px', width: '50px'}} onClick={e => navigate(`/seller/editor?product_id=${item.product_id}`)} src={edit} alt="" /> 
                                 <img onClick={e => DeleteProduct(e,item.product_id)} src={deleteSvg} alt="" /> 
+                               
                                 <div className='seller-item-title'>
                                     <p>{item.title}</p>
                                 </div>

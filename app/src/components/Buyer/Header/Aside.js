@@ -136,7 +136,7 @@ const Aside = () => {
     return ( 
         <>
 
-            <div className="aside-overlay">
+            <div className="aside-overlay" style={{zIndex: '10000'}}>
 
                 <div onClick={closeAside} className="aside-close">
                     <img src={closeSvg} style={{height: '30px', width: '30px'}} alt="" />

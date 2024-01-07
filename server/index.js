@@ -6,10 +6,10 @@ const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
+const { uploadVideoToYouTube } = require('./youtube');
  
 greetingTime(new Date());
 require('dotenv').config();
-
 
 const app = express();
 app.use(cookieParser());
@@ -28,7 +28,6 @@ app.use(cors({
 app.use(seller_route)
 app.use(buyer_route)
 app.use(admin_route)
-
 
 
 
