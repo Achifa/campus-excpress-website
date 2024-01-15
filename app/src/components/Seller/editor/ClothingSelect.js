@@ -12,7 +12,7 @@ const SubCategory = ({edit,productSubCategory,cType,gender}) => {
                         
                             
                             ["Sandals","Shoes","Cotina","Palms","Boots","Slippers"].map ((item, index) => 
-                                item === edit.condition
+                                item === window.localStorage.getItem('draft_sub_category')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :
@@ -27,7 +27,7 @@ const SubCategory = ({edit,productSubCategory,cType,gender}) => {
                             ?
 
                             ["Underwear","Tops","Trousees","Nicker/Shorts","Sports-wear","Swim-suit"].map ((item, index) => 
-                                item === edit.condition
+                                item === window.localStorage.getItem('draft_sub_category')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :
@@ -35,7 +35,7 @@ const SubCategory = ({edit,productSubCategory,cType,gender}) => {
                             )
                             :
                             ["Underwear","Tops","Trousees","Nicker/Shorts","Sports-wear","Gown","Skirt","Swim-suit"].map ((item, index) => 
-                                item === edit.condition
+                                item === window.localStorage.getItem('draft_sub_category')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :

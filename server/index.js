@@ -7,15 +7,14 @@ const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
 const { uploadVideoToYouTube } = require('./youtube');
- 
+
 greetingTime(new Date());
-require('dotenv').config();
+require('dotenv').config(); 
 
-const app = express();
+const app = express(); 
 app.use(cookieParser());
-app.use(morgan('dev'));
+app.use(morgan('dev')); 
 
- 
 let urls = ['http://localhost:3000', 'http://192.168.0.2:3000', 'https://campus-excpress-website-6fwkxq5ma-achifa.vercel.app'];
 
 app.use(cors({
@@ -53,7 +52,7 @@ io(server, {cors: {origin: '*'}}).on('connection', socket => {
   
 
 });
-
+ 
 app.post("/paystack-webhook", parser, async (req, res) => {
 	const payload = req.body;
 
@@ -186,14 +185,27 @@ app.post("/transfer", parser, async(req,res) => {
   }
 })
 
-    
-
-    
-
-
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', reason.stack || reason)
   // Recommended: send the information to sentry.io
   // or whatever crash reporting service you use
 });
+// 
+// const axios = require('axios');
 
+const apiUrl = 'https://my.kudisms.net/api';
+
+const requestData = {
+  token: 'rXdAgTsFBOS8ECK7MZk1i6WojUmqy9unDv34cQablpz0JLHhIV5NfPG2teYwxR',
+  senderID: 'CampusXpres',
+  recipients: '2348032639894',
+  message: 'Testing right from Node.js',
+};
+
+axios.post(apiUrl, requestData)
+  .then(response => {   
+    console.log('Response:', response.data);  
+  })
+  .catch(error => {
+    console.error('Error:', error.response ? error.response.data : error.message);
+  });

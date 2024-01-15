@@ -1,9 +1,37 @@
 import axios from 'axios'
 
 let u1 = `http://localhost:1111`
-let u4 = `http://192.168.75.146:1111`
+let u4 = `http://192.168.147.146:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u2;  
+let plug = u1;  
+
+export function send_mssg(action,item,product_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/admin/verify-item`, {
+            action,item,product_id
+        })
+        .then((result) => {
+            resolve(result)
+        }) 
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+} 
+
+export function verify_item(action,item,product_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/admin/verify-item`, {
+            action,item,product_id
+        })
+        .then((result) => {
+            resolve(result)
+        }) 
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+} 
 
  
 export function uploadItem(title,description,category,price,photos,seller_id,others) {
@@ -35,10 +63,10 @@ export function updateItem(title,description,category,price,photos,seller_id,pro
     })
 }
 
-export function DeleteItem(seller_id,product_id) {
+export function DeleteItem(product_id) {
     return new Promise((resolve, reject) => {
         axios.delete(`${plug}/admin/product-delete`, {
-            params: {seller_id,product_id}
+            params: {product_id}
         })
         .then((result) => {
             resolve(result)

@@ -48,33 +48,42 @@ function updateSellerProfile(req,res) {
     .catch(err => console.log(err))
 }
 
-function uploadProduct(req,res) {
+async function uploadProduct(req,res) {
 
-    let { 
-        title,description,category,price,photos,videos,seller_id,others
-    } = req.body;
+    let data= req.body;
 
-    let date = new Date();
-    let productId = shortId.generate()
-    let imageId = shortId.generate();
-    let book = []
+    // Object.keys(dynamicData).forEach(key => {
+    //     if (dynamicData[key] === '') {
+    //       delete dynamicData[key];
+    //     }
+    // });
 
-    res.send('true')
+    // // let date = new Date();
+    // let productId = shortId.generate()
+    // let imageId = shortId.generate();
+    // // let book = []
 
-    check_seller_actions(seller_id);
+    // let seller = await check_seller_actions(constantData.seller_id);
 
-    let replacedDescription = description.replace(/'/g, '"');
-    let replacedTitle = title.replace(/'/g, '"');
+    // if(seller){
+    //     let replacedDescription = constantData.description.replace(/'/g, '"');
+    //     let replacedTitle = constantData.title.replace(/'/g, '"');
 
-    upload_meta_data(replacedTitle,replacedDescription,category,price,photos,videos,seller_id,others,productId)
-    let photoresponse = upload_photos(productId, seller_id, photos, imageId)
-
-    console.log(photoresponse)
+    //     let meta_data_respons = await upload_meta_data(replacedTitle,replacedDescription,constantData.category,constantData.price,constantData.seller_id,productId,dynamicData)
+        
+    //     if(meta_data_respons){
+    //         let photoresponse = upload_photos(productId, constantData.seller_id, constantData.photos, imageId)
+            
+    //         if(photoresponse){
+    //             res.send(true)
+    //         }
+    //     }
     
+    // }
 
     
-
-
+    console.log(data)
+    
 }
 
 function DeleteProduct(req,res) {

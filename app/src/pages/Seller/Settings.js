@@ -25,14 +25,17 @@ const Setting = () => {
     }, [location])
     return ( 
         <>
-            {
 
-                location.search === ''
-                ? 
-                <Settings />
-                :
-                Jsx
-            }
+            <div className="seller-main">
+                {
+
+                    location.search === ''
+                    ? 
+                    <Settings />
+                    :
+                    Jsx
+                }
+            </div>
         </>
      );
 }

@@ -32,20 +32,21 @@ const Inbox = () => {
                 </div>
             </div>
 
-            
-            {
-                inboxList.length > 0
-                ?
-                <InboxCard inboxList={inboxList} />
-                :
-                <>
-                    <br />
-                    <br />
-                   
-                    <small style={{color: 'orangered'}}>{loaderText}</small>
-                </>
+            <div className="seller-main">
+                {
+                    inboxList.length > 0
+                    ?
+                    <InboxCard inboxList={inboxList} />
+                    :
+                    <>
+                        <br />
+                        <br />
+                    
+                        <small style={{color: 'orangered'}}>{loaderText}</small>
+                    </>
 
-            }
+                }
+            </div>
         </>
      );
 }

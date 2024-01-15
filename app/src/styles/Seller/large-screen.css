@@ -1,4 +1,4 @@
-@media screen  and (min-width: 760px) and (max-width: 1000px) {
+@media screen  and (min-width: 761px) and (max-width: 1000px) {
     *{
         box-sizing: border-box;
     }
@@ -7,6 +7,21 @@
         height: 100%;
         width: 100%;
         background-color: #fff;
+    }
+
+    
+    .seller-main{
+        height: calc(100vh - 80px);
+        width: calc(100% - 200px);
+        float: right;
+        display: flex;
+        scroll-behavior: smooth;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        overflow: auto;
+        position: relative;
+        padding: 10px;
+        background-color: #efefef;
     }
     
     .seller-header{
@@ -17,107 +32,27 @@
     }
 
     .seller-aside{
-        height: calc(100vh - 0px);
+        height: calc(100vh - 80px);
         width: 200px;
-        float: left;
-        position: relative;
-        font-weight: 500;
-        padding: 0;
-        background-color: orangered;
-        opacity: .9;
+        background-color: #fff;
+        position: fixed;
+        bottom: 0;
 
     }
 
-    .seller-aside-logo{
-        height: 100px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        border-radius: 0;
-        font-size: large;
-        font-weight: 1000;
-        color: orangered;
-        position: absolute;
-        top: 0;
+    .seller-aside ul{
+        list-style-type: none;
         padding: 10px;
-        left: 0;
-        margin-top: 0;
-        margin-bottom: 10px;
-        background-color: orangered;
-    }
-
-    .seller-aside-logo span h4{
-        border-radius: 50%;
-        height: 50px;
-        width: 50px;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        background-color: rgb(255, 88, 28);
-    }
-
-    .seller-aside-logo span small{
-        height: fit-content;
-        width: fit-content;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
-
-
-    .seller-aside .seller-aside-nav ul{
-        list-style-type: none;
-        padding: 0;
         margin: 0;
-        height: calc(60% - 100px);
-        width: 100%;
-        top: 100px;
-        opacity: .9;
-        overflow: auto;
-        border-top: 1px solid #fff;
-        /* border-bottom: 1px solid #fff; */
-        position: relative;
-        background-color: orangered;
     }
 
-    .seller-aside .seller-aside-nav ul li{
-        padding: 15px;
-        font-weight: 400;
-        color: #fff;
+    .seller-aside ul li{
+        padding: 10px;
         text-align: left;
         font-size: small;
         cursor: pointer;
-    }
-
-    .seller-aside .seller-aside-nav-others ul{
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        overflow: auto;
-        height: 40%;
-        width: 100%;
-        opacity: .9;
-        border-top: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-        position: relative;
-        background-color: orangered;
-        position: absolute;
-        bottom: 0px;
-    }
-
-    .seller-aside .seller-aside-nav-others ul li{
-        padding: 15px;
-        font-weight: 400;
-        color: #fff;
-        text-align: left;
-        font-size: small;
-        cursor: pointer;
+        color: orangered;
+        font-weight: 500;
     }
 
 
@@ -233,10 +168,10 @@
     }
 
     .seller-shop{
-        height: calc(100vh - 100px);
-        width: calc(100% - 200px);
+        height: auto;
+        width: 100%;
         margin: auto;
-        overflow: auto;
+        overflow: hidden;
         padding: 20px;
         background-color: #fff;
         
@@ -602,7 +537,7 @@
 
     .seller-messages{
         height: calc(100vh - 100px);
-        width: calc(100% - 200px);
+        width: 100%;
         margin: auto;
         overflow: auto;
         padding: 10px;
@@ -610,11 +545,12 @@
     }
 
     .seller-client-list{
-        width: 40%;
+        width: 100%;
         height: 100%;
         float: left;
         padding: 5px;
         overflow: auto;
+    
     }
 
     .seller-client-list section{
@@ -647,7 +583,8 @@
 
 
     .seller-chat-room{
-        width: calc(60% - 10px);
+        width: 100%;
+        display: none;
         height: 100%;
         background-color: #f9f9f9;
         float: right;

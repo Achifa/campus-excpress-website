@@ -77,7 +77,7 @@ const Messages = () => {
 
                 </div>
                 <div className="seller-chat-room">
-                    <div className="seller-chat-header">
+                    <div className="seller-chat-header" style={{height: '60px'}}>
                         
                     </div>
                     
@@ -94,8 +94,8 @@ const Messages = () => {
                                             </section>
                                         </div>
                                         :
-                                        <div className="seller-chat-cnt" style={{float: 'right', textAlign: 'right'}}>
-                                            <section id='sellerChat' style={{float: 'right', textAlign: 'right'}}>
+                                        <div className="seller-chat-cnt" style={{float: 'right', textAlign: 'left'}}>
+                                            <section id='sellerChat' style={{float: 'right', textAlign: 'left'}}>
                                                 {item.mssg}
                                             </section>
                                         </div>
@@ -105,9 +105,9 @@ const Messages = () => {
                             )
                         }
                     </div>
-                    <div className="seller-chat-tools">
+                    <div className="seller-chat-tools shadow-sm" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                         <textarea name="" style={{width: '60%', height: '100%', resize: 'none', padding: '10px 20px 10px 20px', outline: 'none', fontSize: 'large', fontWeight: '400', background: '#f9f9f9', borderRadius: '30px'}} placeholder='Message...'></textarea>
-                        <button style={{float: 'right', borderRadius: '20px', padding: '10px', outline: 'none', border: 'none'}}>
+                        <button style={{float: 'right', width: '60px', borderRadius: '20px', padding: '10px', outline: 'none', border: 'none'}}>  
                             <img src={audioSvg} style={{height: '25px', width: '25px', }} alt="" />
                         </button>
                     </div>

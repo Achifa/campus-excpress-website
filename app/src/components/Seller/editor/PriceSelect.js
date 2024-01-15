@@ -6,7 +6,7 @@ const PriceSelect = ({edit,productPrice}) => {
         <>
             <div className="input-cnt">
                 <label htmlFor="">Price</label>
-                <input min={0} defaultValue={edit.price} name='price' onInput={e => productPrice(e.target.value)} type="number" placeholder="Price"  />
+                <input min={0} defaultValue={window.localStorage.getItem('draft_price')} name='price' onInput={e => productPrice(e.target.value)} type="number" placeholder="Price"  />
             </div>
         </>
      );

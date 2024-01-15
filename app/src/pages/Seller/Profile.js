@@ -6,7 +6,9 @@ import '../../styles/Seller/small-screen.css'
 const Me = () => {
     return ( 
         <>
-            <Profile />
+            <div className="seller-main">
+                <Profile />
+            </div>
         </>
      );
 }

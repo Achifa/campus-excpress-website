@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../styles/plan_card.css'
 import '../../styles/loader.css'
+import '../../styles/notice.css'
 import '../../styles/Seller/overlay.css' 
 import { useLocation, useNavigate } from 'react-router-dom';
 import items from '../../items.json'
@@ -19,485 +20,250 @@ import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
 import EditorDescription from '../../components/Seller/editor/EditorDescription';
 import SubCategory from '../../components/Seller/editor/ClothingSelect';
 import UploadBtn from '../../components/Seller/editor/Button';
-import { upload, uploadForm } from '../../components/Functions/upload';
+// import  upload  from '../../components/Functions/upload';
+import { validate_inputs } from '../../components/Functions/validation';
+import { uploadForm } from '../../components/Functions/upload';
 
 const Editor = () => {
 
     let location = useLocation();
     let navigate = useNavigate();
 
-    let list = ['base','strata','tras','quan']
-    let validationBoolean = useRef({title: false,description: false,photos: false,category: false,condition: false,type: false,stock: false,price: false})
+    let book = []
+
+    
 
     let [update, setUpdate] = useState(false);
     let [edit,setEdit] = useState('');
     let [screenWidth, setScreenWidth] = useState('')
-    let [productFormat, setProductFormat] = useState(list[1]);
-    let [product_id,setProduct_id] = useState('')
+
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([])
 
-    function setAllInputsToNull(params) {;setGender('');setCtype('');setsize('');setSubCategory('');setLocale('');setCondition('')}
+    let [img_list, setimg_list] = useState([])
+
+
     function closeOverlay(params) {let overlay = document.querySelector('.overlay');overlay.onclick = e => {overlay.removeAttribute('id')}}
+
+    let gender = useRef('')
+    let [gender_state, set_gender_state] = useState('')
+    function productGender(data) {
+        gender.current = (data);
+        set_gender_state(data) 
+        window.localStorage.setItem('draft_gender', data)
+    }
+
+    let size = useRef('')
+    let [size_state,set_size_state] = useState('')
+    function productSizeSelect(data) {
+        size.current = (data); 
+        set_size_state(data)
+        window.localStorage.setItem('draft_size', data)
+    }
     
-    let [title, setTitle] = useState('')
-    function productTitle(data) {setTitle(data)}
+    let subCategory = useRef('')
+    let [subCategory_state,set_subCategory_state] = useState('')
+    function productSubCategory(data) {
+        subCategory.current = (data); 
+        set_subCategory_state(data);
+        window.localStorage.setItem('draft_sub_category', data)
+    }
 
-    let [description, setDescription] = useState('')
-    function productDescription(data) {setDescription(data)}
+    let locale = useRef('')
+    let [locale_state,set_locale_state] = useState('')
+    function productLocale(data) {
+        locale.current = (data); 
+        set_locale_state(data)
+        window.localStorage.setItem('draft_locale', data)
+    }
 
-    let [category, setCategory] = useState('')
-    function productCategory(data) {setCategory(data)} 
+    let condition= useRef('')
+    let [condition_state,set_condition_state]= useState('')
+    function productCondition(data) {
+        set_condition_state(data)
+        condition.current = (data); 
+        window.localStorage.setItem('draft_condition', data)
+    }
 
-    let [gender, setGender] = useState('')
-    function productGender(data) {setGender(data)}
 
-    let [cType, setCtype] = useState('')
-    function productType(data) {setCtype(data)}
 
-    let [size, setsize] = useState('')
-    function productSizeSelect(data) {setsize(data)}
     
-    let [subCategory, setSubCategory] = useState('')
-    function productSubCategory(data) {setSubCategory(data)}
+    let title = useRef('')
+    let [title_state,set_title_state] = useState('')
+    function productTitle(data) {
+        title.current = (data)
+        console.log(title.current)
+        set_title_state(data)
+        window.localStorage.setItem('draft_title', data)
+    } 
 
-    let [price, setPrice] = useState('')
-    function productPrice(data) {setPrice(data)}
+    let description = useRef('')
+    let [description_state,set_description_state] = useState('')
+    function productDescription(data) {
+        description.current = (data)
+        set_description_state(data)
+        window.localStorage.setItem('draft_description', data)
+    }
 
-    let [locale, setLocale] = useState('')
-    function productLocale(data) {setLocale(data)}
-
-    let [stock, setStock] = useState('')
-    function productStock(data) {setStock(data)}
-
-    let [condition, setCondition] = useState('')
-    function productCondition(data) {setCondition(data)}
-
-    let [photos, setPhotos] = useState([])
-    function productPhotos(data) {setPhotos(file => [...file, data])}
-    function deletePhoto(data) {setPhotos(data)}
-
-    let [videos, setVideos] = useState([])
-    function productVideos(data) {setVideos(file => [...file, data])}
-    function deleteVideo(data) {setVideos(data)}
-
-    useEffect(() => {setCategoriesList(items.items.category)},[])
-    useEffect(() => {setAllInputsToNull('')},[category])
-    useEffect(() => {setScreenWidth(window.innerWidth)},[])
-    useEffect(() => {let type = categoriesList.filter(item => Object.keys(item)[0] === category)[0]; if(type){setTypeList(type[category])}},[category,categoriesList])
-    useEffect(() => {
-        if(location.search !== ''){
-
-            let overlay = document.querySelector('.overlay')
-            overlay.setAttribute('id', 'overlay');
-            setUpdate(true)
-
-            GetEditedItem(location.search.split('=').splice(-1)[0])
-            .then((result) => {
-                console.log(result.meta_data)
-                if(result.meta_data.category !== 'Lodge/Apartments'){
-
-                    productPhotos(result.photos.map(item => item.file))
-                    setEdit(result.meta_data[0])
-                    productCategory(result.meta_data[0].category)
-                    productTitle(result.meta_data[0].title)
-                    setPhotos(result.photos.map(item => item.file))
-                    productDescription(result.meta_data[0].description)
-                    productPrice(result.meta_data[0].price)
-                    setProduct_id(result.meta_data[0].product_id)
-                    productStock(result.meta_data[0].others[1])
-                    productType(result.meta_data[0].others[0])
-                    productCondition(result.meta_data[0].others[2])
-                    productLocale(result.meta_data[0].locale)
-                    overlay.removeAttribute('id')
-
-                }
-            })
-            .catch(err => console.log(err))
-        }
-    }, [location])
-    useEffect(() => {
-        if(category === 'Food' || category === 'Pet'){
-            setProductFormat(list[0])
-        }else if(category === 'Fashion'){
-            setProductFormat(list[2])
-        }else if(category === 'Lodge/Apartments'){
-            setProductFormat(list[3])
-        }else{
-            setProductFormat(list[1])
-        }
-    },[category])
-
-    function Validation(element) {
-
-        function select(format) {
-            if(category === 'fashion'){
-                if(element.name === 'category'){
-                    if(category !== ''){
-                        element.style.border = '1px solid #000'
-
-                        validationBoolean.current.category = true;
-
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.category = false;
-
-                    }
-                }else if(element.name === 'type'){
-                    if(cType !== ''){
-                        element.style.border = '1px solid #000'
-
-                        validationBoolean.current.type = true;
-            
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.type = false;
-                        
-                    }
-                }else if(element.name === 'condition'){
-                    if(condition !== ''){
-                        element.style.border = '1px solid #000'
+    let category = useRef('')
+    let [category_state,set_category_state] = useState('')
+    function productCategory(data) {
+        category.current = (data); 
+        set_category_state(data)
+        window.localStorage.setItem('draft_category', data)
+    }
     
-                        validationBoolean.current.condition = true;
-            
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.condition = false;
-                        
-                    }
-                }else if(element.name === 'gender'){
-                    if(gender !== ''){
-                        element.style.border = '1px solid #000'
-    
-                        validationBoolean.current.condition = true;
-            
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.condition = false;
-                        
-                    }
-                }else if(element.name === 'size'){
-                    if(size !== ''){
-                        element.style.border = '1px solid #000'
-    
-                        validationBoolean.current.condition = true;
-            
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.condition = false;
-                        
-                    }
-                }else if(element.name === 'sub-category'){
-                    if(subCategory !== ''){
-                        element.style.border = '1px solid #000'
-    
-                        validationBoolean.current.condition = true;
-            
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.condition = false;
-                        
-                    }
-                }
-            }else{
-                if(format !== 'base'){
-                    if(element.name === 'category'){
-                        if(category !== ''){
-                            element.style.border = '1px solid #000'
-    
-                            validationBoolean.current.category = true;
-    
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.category = false;
-    
-                        }
-                    }else if(element.name === 'type'){
-                        if(cType !== ''){
-                            element.style.border = '1px solid #000'
-    
-                            validationBoolean.current.type = true;
-                
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.type = false;
-                            
-                        }
-                    }else if(element.name === 'condition'){
-                        if(condition !== ''){
-                            element.style.border = '1px solid #000'
-        
-                            validationBoolean.current.condition = true;
-                
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.condition = false;
-                            
-                        }
-                    }
-                }else if(format === 'quan'){
-                    if(element.name === 'category'){
-                        if(category !== ''){
-                            element.style.border = '1px solid #000'
-    
-                            validationBoolean.current.category = true;
-    
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.category = false;
-    
-                        }
-                    }else if(element.name === 'type'){
-                        if(cType !== ''){
-                            element.style.border = '1px solid #000'
-    
-                            validationBoolean.current.type = true;
-                
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.type = false;
-                            
-                        }
-                    }
-                }else{
-                    if(element.name === 'category'){
-                        if(category !== ''){
-                            element.style.border = '1px solid #000'
-    
-                            validationBoolean.current.category = true;
-    
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.category = false;
-    
-                        }
-                    }else if(element.name === 'type'){
-                        if(cType !== ''){
-                            element.style.border = '1px solid #000'
-    
-                            validationBoolean.current.type = true;
-                
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.type = false;
-                            
-                        }
-                    }else if(element.name === 'stock'){
-                        if(cType !== ''){
-                            element.style.border = '1px solid #000'
-    
-                            validationBoolean.current.type = true;
-                
-                        }else{
-                            element.style.border = '1px solid red'
-                            validationBoolean.current.type = false;
-                            
-                        }
-                    }
-                }
-            }
-        }
+    let cType = useRef('')
+    let [cType_state,set_cType_state] = useState('')
+    function productType(data) {
+        cType.current = (data); 
+        set_cType_state(data)
+        window.localStorage.setItem('draft_c_type', data)
+    }
 
-        function inputs(params) {
-            if(element.type !== 'file'){
-                if(element.name === 'stock'){
-                    if(stock > 0){
-                        element.style.border = '1px solid #000'
-                        validationBoolean.current.stock = true;
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.stock = false;
-                    }
-                }else if(element.name === 'price'){
-                    if(price >= 25){
-                        element.style.border = '1px solid #000'
-                        validationBoolean.current.price = true;
-                    }else{
-                        element.style.border = '1px solid red'
-                        validationBoolean.current.price = false;
-                    }
-                }
-            }else if(element.type === 'file'){
-                if(photos.length > 0 || videos.length > 0){
-                    document.querySelector('.seller-shop-samples').style.border = '1px solid #000'
-                    validationBoolean.current.photos = true;
-                }else{
-                    document.querySelector('.seller-shop-samples').style.border = '1px solid red'
-                    validationBoolean.current.photos = false;
+    let price = useRef('')
+    let [price_state,set_price_state] = useState('')
+    function productPrice(data) {
+        price.current = (data); 
+        set_price_state(data)
+        window.localStorage.setItem('draft_price', data)
+    }
 
-                }
-            }else{
-                console.log(element.name)
-            }
-        }
+    let stock = useRef('')
+    let [stock_state,set_stock_state] = useState('')
+    function productStock(data) {
+        stock.current = (data); 
+        set_stock_state(data)
+        window.localStorage.setItem('draft_stock', data)
+    }
 
-        function textarea(params) {
-            if(element.name === 'title'){
-                if(title.split(' ').length >= 3){
-                    element.style.border = '1px solid #000'
-                    validationBoolean.current.title = true;
-                    if(element.parentElement.nextElementSibling.hasAttribute('id'))
-                    {
-                        element.parentElement.nextElementSibling.removeAttribute('id')
-                    }
-                }else{
-                    element.style.border = '1px solid red'
-                    validationBoolean.current.title = false;
-                    // alert()
-                    element.parentElement.nextElementSibling.setAttribute('id', 'editor-err-mssg')
-                }
-            }else{
-                if(description.split(' ').length >= 10){
-                    element.style.border = '1px solid #000'
-                    validationBoolean.current.description = true;
-                    if(element.parentElement.nextElementSibling.hasAttribute('id'))
-                    {
-                        element.parentElement.nextElementSibling.removeAttribute('id')
-                    }
+    let photos = useRef([])
+    // let [photos_state,set_photos_state] = useRef([])
+    function productPhotos(data) {
+        let d = data !== '' ? photos.current.push(data) : ''
+        setimg_list(item => [...item, data])
+        console.log(photos.current.length)
+        window.localStorage.setItem('draft_images', JSON.stringify(photos.current));
+    }
 
-        
-                }else{
-                    element.style.border = '1px solid red'
-                    validationBoolean.current.description = false;
-                    element.parentElement.nextElementSibling.setAttribute('id', 'editor-err-mssg')
-                    
-                }
-            }
-        }
-
-        let name = element.name
-        let type = element.tagName.toLowerCase();
-
-        if(type === 'textarea'){
-            textarea()
-        }else if(type === 'input'){
-            inputs()
-            
-        }else if(type === 'select'){
-            select()
-    
-        }
+    function deletePhoto(data) {
+        photos.current = data;
+        setimg_list(data)
+        window.localStorage.setItem('draft_images', JSON.stringify(photos.current));
 
     }
 
-    let updateForm = () => {
-        let inputs = [...document.querySelectorAll('input')]
-        let textareas = [...document.querySelectorAll('textarea')]
-        let selects = [...document.querySelectorAll('select')]
 
-        let allFields = [...inputs,...textareas,...selects]
+    useEffect(() => {
+        if(window.localStorage.getItem('draft_category') !== null && window.localStorage.getItem('draft_category') !== undefined && window.localStorage.getItem('draft_category') !== ''){ 
 
-        allFields.map((item, index) => Validation(item))
+            // productPhotos(())
+            let img = 
+            JSON.parse(window.localStorage.getItem('draft_images')) !== null 
+            ? 
+            JSON.parse(window.localStorage.getItem('draft_images')).map(item => productPhotos(item)) 
+            : ''
 
-        let falseyList = []
-
-        for(let x in validationBoolean.current){
-            console.log(validationBoolean.current[x])
-
-            if(validationBoolean.current[x] === false){
-                falseyList.push(false)
-            }else{
-                falseyList.push(true) 
-            }
-
-        }
-
-        let result = falseyList.filter(item => item === false)
-
-
-        if(result.length > 0){
-            // let overlay = document.querySelector('.overlay')
-            // overlay.setAttribute('id', 'overlay');
-
-            if(category === 'Food' || category === 'Pet'){
-                setProductFormat(list[0])
-    
-            }else if(category === 'Fashion'){
-                setProductFormat(list[2])
-            }else if(category === 'Lodge/Apartments'){
-                setProductFormat(list[3])
-            }else{
-                setProductFormat(list[1])
-            }
-
-            // let dynamicInput = productFormat === 'base' ? [cType,stock] : productFormat === 'strata' ? [cType,condition,stock] : [cType,condition,stock,gender,size,subCategory]
-            // // let dynamicInputValues = dynamicInput.filter(item => item !== '')
-            // console.log(title,description,category,price,photos,window.localStorage.getItem("CE_seller_id"),dynamicInput)
-
+            productCategory(window.localStorage.getItem('draft_category')) 
+            productTitle(window.localStorage.getItem('draft_title'))
+            // setPhotos(result.photos.map(item => item.file))
+            productDescription(window.localStorage.getItem('draft_description'))
+            productPrice(window.localStorage.getItem('draft_price'))
+            // setProduct_id(result.meta_data[0].product_id)
+            productStock(window.localStorage.getItem('draft_stock'))
+            productType(window.localStorage.getItem('draft_c_type'))
+            productCondition(window.localStorage.getItem('draft_condition'))
+            productLocale(window.localStorage.getItem('draft_locale'))
         }else{
-            
-            let overlay = document.querySelector('.overlay')
-            overlay.setAttribute('id', 'overlay');
-
-            if(category === 'Food' || category === 'Pet'){
-                setProductFormat(list[0])
-    
-            }else if(category === 'Lodge/Apartments'){
-                setProductFormat(list[3])
-            }else if(category === 'Fashion'){
-                setProductFormat(list[2])
-            }else{
-                setProductFormat(list[1])
-            }
-
-            let dynamicInput = productFormat === 'base' ? {category_type: cType, stock: stock} : productFormat === 'strata' ? {category_type: cType, condition: condition, stock: stock} : productFormat === 'quan' ? {category_type: cType, location: locale}: {category_type: cType, condition: condition, stock: stock, gender: gender, size: size, sub_category: subCategory}
-            updateForm(dynamicInput,title,description,category,price,photos,videos)
-            
+            // setCategory('')
         }
-
-    } 
-
+       
+    }, [])
+    useEffect(() => {setCategoriesList(items.items.category)},[])
+    // useEffect(() => {setAllInputsToNull('')},[category_state])
+    useEffect(() => {setScreenWidth(window.innerWidth)},[])
+    useEffect(() => {let type = categoriesList.filter(item => Object.keys(item)[0] === category.current)[0]; if(type){setTypeList(type[category_state])}},[categoriesList,category_state])
+ 
+ 
     let handleForm = () => {
+       
+        book = []
         let inputs = [...document.querySelectorAll('input')]
         let textareas = [...document.querySelectorAll('textarea')]
         let selects = [...document.querySelectorAll('select')]
-        let allFields = [...inputs,...textareas,...selects]
-        allFields.map((item, index) => Validation(item))
-        let falseyList = []
+        // let allFields = [...inputs,...textareas,...selects]
 
-        for(let x in validationBoolean.current){
-            console.log(validationBoolean.current[x])
-            if(validationBoolean.current[x] === false){
-                falseyList.push(false)
-            }else{
-                falseyList.push(true) 
+        let result1 = validate_inputs('input', inputs, photos.current)
+        let result2 = validate_inputs('textarea', textareas)
+        let result3 = validate_inputs('select', selects)
+        let response = [...result1, ...result2, ...result3]
+        response.map((item) => {
+            if(item !== -1){
+                item.err !== '' ?  book.push(false) : book.push(true)
+                item.err !== '' ? item.element.style.border = '1px solid red' : item.element.style.border = '1px solid green'
+                item.err !== '' ? handleErr(item.element, item.err) : handleErr(item.element, item.err)
+
+                function handleErr(element, err) {
+                    let pElem = element.parentElement;
+
+                    if(pElem.lastChild.className === 'err-mssg'){
+                        pElem.lastChild.remove()
+
+                        let newElem = document.createElement('div')
+                        newElem.className = 'err-mssg';
+                        newElem.innerHTML = err;
+                        pElem.append(newElem);
+                    }else{
+                        let newElem = document.createElement('div')
+                        newElem.className = 'err-mssg';
+                        newElem.innerHTML = err;
+                        pElem.append(newElem);
+                    }
+                }
+
+
             }
-        }
+        })
 
-        let result = falseyList.filter(item => item === false)
+        let checkForError = book.filter(item => item === false)
 
-        if(result.length > 0){
-            if(category === 'Food' || category === 'Pet'){
-                setProductFormat(list[0])
-            }else if(category === 'Fashion'){
-                setProductFormat(list[2])
-            }else if(category === 'Lodge/Apartments'){
-                setProductFormat(list[3])
-            }else{
-                setProductFormat(list[1])
-            }
-            let dynamicInput = productFormat === 'base' ? {category_type: cType, stock: stock} : productFormat === 'strata' ? {category_type: cType, condition: condition, stock: stock} : productFormat === 'quan' ? {category_type: cType, location: locale}: {category_type: cType, condition: condition, stock: stock, gender: gender, size: size, sub_category: subCategory}
-            console.log(dynamicInput)
-        }else{
-            
+        if(checkForError.length < 1){
             let overlay = document.querySelector('.overlay')
             overlay.setAttribute('id', 'overlay');
+            let seller_id = window.localStorage.getItem("CE_seller_id")
+            //upload for here
 
-            if(category === 'Food' || category === 'Pet'){
-                setProductFormat(list[0])
-            }else if(category === 'Lodge/Apartments'){
-                setProductFormat(list[3])
-            }else if(category === 'Fashion'){
-                setProductFormat(list[2])
-            }else{
-                setProductFormat(list[1])
+            function remove_irrelevant_input(params) {
+                let check_dynamic_values = {cType: cType_state,locale: locale_state,subCategory: subCategory_state,gender: gender_state,condition: condition_state,stock: stock_state,size: size_state}
+
+                console.log(check_dynamic_values)
+                Object.keys(check_dynamic_values).forEach((key) => {
+                    if(check_dynamic_values[key] === '' || check_dynamic_values[key] === null || check_dynamic_values[key] === 'null'){
+                        delete check_dynamic_values[key]
+                    }
+                })
+                return(check_dynamic_values)
+
+                
             }
-            let dynamicInput = productFormat === 'base' ? {category_type: cType, stock: stock} : productFormat === 'strata' ? {category_type: cType, condition: condition, stock: stock} : productFormat === 'quan' ? {category_type: cType, location: locale}: {category_type: cType, condition: condition, stock: stock, gender: gender, size: size, sub_category: subCategory}
-            uploadForm(dynamicInput,title,description,category,price,photos,videos)
-            document.querySelector('.overlay').removeAttribute('id')
-            
+            let data = remove_irrelevant_input()
+            console.log(data)
+            uploadForm(
+                { 
+                    title: title.current,
+                    description: description.current,
+                    category: category.current,
+                    price: price.current,
+                    photos: photos.current,
+                    seller_id : seller_id
+                }, 
+                
+                {cType: cType_state,locale: locale_state,subCategory: window.localStorage.getItem('draft_sub_category'),gender: window.localStorage.getItem('draft_gender'),condition: condition_state,stock: stock_state,size: window.localStorage.getItem('draft_size')}
+            )
+
         }
-      
+        
+
     }
 
     
@@ -508,133 +274,139 @@ const Editor = () => {
                 </div>
             </div>
 
-            <div className="seller-shop">
+            <div className="seller-main">
 
-                <div className='seller-shop-form-body'>
-                    <div className="seller-shop-form">
-                    
-                        <div className='seller-shop-form-cnt'>
+                <div className="seller-shop">
 
-                            <div className="seller-shop-form-group-2" >
+                    <div className='seller-shop-form-body'>
+                        <div className="seller-shop-form">
+                        
+                            <div className='seller-shop-form-cnt'>
 
-                                <CategorySelect productCategory={productCategory} edit={edit} /> 
+                                <div className="seller-shop-form-group-2" >
 
-                                <div style={{opacity: category !== '' ? '1' : '.4', pointerEvents: category !== '' ? 'all' : 'none'}}>
-                                
+                                    <CategorySelect productCategory={productCategory} edit={edit} /> 
 
-                                    {
-                                        category === 'Fashion' 
-                                        
-                                        ? 
-                                        
-                                        <GenderSelect edit={edit} productGender={productGender} />
+                                    <div style={{opacity: category.current !== '' ? '1' : '.4', pointerEvents: category.current !== '' ? 'all' : 'none'}}>
+                                    
 
-                                        :
-                                        ""
-                                    }
-
-                                    <TypeSelect typeList={typeList} category={category} edit={edit} productType={productType} />
-
-                                    {
-                                        category === 'Fashion' 
-                                        ? 
-
-                                            cType === 'Clothing' || cType === 'Foot Wear'
-
-                                            ?
-
-                                            <SubCategory edit={edit} gender={gender} cType={cType} productSubCategory={productSubCategory} />
+                                        {
+                                            category_state === 'Fashion' 
+                                            
+                                            ? 
+                                            
+                                            <GenderSelect edit={edit} productGender={productGender} />
 
                                             :
-
                                             ""
-                                        : 
-                                        ""
-                                    }
-                                    
+                                        }
 
-                                    {
-                                        category === 'Fashion'
-                                        ? 
-                                            cType === 'Clothing' ||  cType === 'Foot Wear'
-                                            ?
-                                            <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType}  />
-                                            :
+                                        <TypeSelect typeList={typeList} category={category_state} edit={edit} productType={productType} />
+
+                                        {
+                                            category_state === 'Fashion' 
+                                            ? 
+
+                                                cType_state === 'Clothing' || cType_state === 'Foot Wear'
+
+                                                ?
+
+                                                <SubCategory edit={edit} gender={gender_state} cType={cType_state} productSubCategory={productSubCategory} />
+
+                                                :
+
+                                                ""
+                                            : 
                                             ""
-                                        : 
-                                        ""
-                                    }
-                                    
+                                        }
+                                        
 
-                                    {
-                                        category === 'Lodge/Apartments' || category === 'Pets' || category === 'Food'
-                                        ? 
-                                        ""
-                                        : 
-                                        <ConditionSelect category={category} productCondition={productCondition} edit={edit} subCategory={subCategory}  />
-                                    }
+                                        {
+                                            category_state === 'Fashion'
+                                            ? 
+                                                cType_state === 'Clothing' ||  cType_state === 'Foot Wear'
+                                                ?
+                                                <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType_state}  />
+                                                :
+                                                ""
+                                            : 
+                                            ""
+                                        }
+                                        
 
-                                    
+                                        {
+                                            category_state === 'Lodge/Apartments' || category_state === 'Pets' || category_state === 'Food'
+                                            ? 
+                                            ""
+                                            : 
+                                            <ConditionSelect category={category_state} productCondition={productCondition} edit={edit} subCategory={subCategory_state}  />
+                                        }
+
+                                        
+                                        </div>
+                                        <div style={{opacity: category_state !== '' ? '1' : '.4', pointerEvents: category_state !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
+                                        
+                                        {
+                                            category_state === 'Lodge/Apartments' 
+                                            ? 
+                                            ""
+                                            : 
+                                            <StockSelect edit={edit} productStock={productStock} />
+                                        }
+
+                                        
+                                        <PriceSelect edit={edit} productPrice={productPrice} />
+                                        {
+                                            category_state !== 'Lodge/Apartments' 
+                                            ? 
+                                            ""
+                                            : 
+                                            <LocationSelect productLocale={productLocale} edit={edit} />
+                                        }
+
                                     </div>
-                                    <div style={{opacity: category !== '' ? '1' : '.4', pointerEvents: category !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
                                     
-                                    {
-                                        category === 'Lodge/Apartments' 
-                                        ? 
-                                        ""
-                                        : 
-                                        <StockSelect edit={edit} productStock={productStock} />
-                                    }
-
-                                    
-                                    <PriceSelect edit={edit} productPrice={productPrice} />
-                                    {
-                                        category !== 'Lodge/Apartments' 
-                                        ? 
-                                        ""
-                                        : 
-                                        <LocationSelect productLocale={productLocale} edit={edit} />
-                                    }
-
                                 </div>
-                                
+
                             </div>
+
+                            {
+                                screenWidth > 761
+                                ?
+                                <UploadBtn update={update} updateForm={update} handleForm={handleForm} />
+                                :
+                                ''
+                            }
 
                         </div>
 
-                        {
-                            screenWidth > 761
-                            ?
-                            <UploadBtn update={update} updateForm={updateForm} handleForm={handleForm} />
-                            :
-                            ''
-                        }
+
+                        <div className="seller-shop-description" style={{textAlign: 'left', justifyContent: 'left', height: '100%'}}>
+                            
+                            <EditorTitle productTitle={productTitle}  edit={edit} />
+                            
+                            <EditorDescription productDescription={productDescription} edit={edit} />
+
+                            <EditorPhotoStore category={category_state} edit={edit} productPhotos={productPhotos} photos={img_list} deletePhoto={deletePhoto} />
+
+                        </div>
+
+                        
 
                     </div>
 
+                    {
+                        screenWidth < 761
+                        ?
+                        <UploadBtn update={update} updateForm={update} handleForm={handleForm} />
 
-                    <div className="seller-shop-description" style={{textAlign: 'left', justifyContent: 'left'}}>
-                        <EditorTitle productTitle={productTitle}  edit={edit} />
+                        :
+                        '' 
+                    }
 
-                        <EditorPhotoStore category={category} edit={edit} productVideos={productVideos} productPhotos={productPhotos} videoList={videos} photoList={photos} deleteVideo={deleteVideo} deletePhoto={deletePhoto} />
-
-                        <EditorDescription productDescription={productDescription} edit={edit} />
-                    </div>
-
-                    
+                     
 
                 </div>
-
-                {
-                    screenWidth < 761
-                    ?
-                    <UploadBtn update={update} updateForm={updateForm} handleForm={handleForm} />
-
-                    :
-                    ''
-                }
-
-                
 
             </div>
         </>

@@ -463,6 +463,9 @@
         height: calc(100vh - 100px);
         width: 100%;
         margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         overflow: auto;
         padding: 10px;
         background-color: #fff;
@@ -639,7 +642,7 @@
     }
 
     .seller-client-list{
-        width: 40%;
+        width: 100%;
         height: 100%;
         float: left;
         padding: 5px;
@@ -676,7 +679,8 @@
 
 
     .seller-chat-room{
-        width: calc(60% - 10px);
+        width: 100%;
+        display: none;
         height: 100%;
         background-color: #f9f9f9;
         float: right;

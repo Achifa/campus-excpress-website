@@ -28,13 +28,16 @@ const Order = () => {
                 <div className="loader">
                 </div>
             </div>
-            <div className="seller-order-cnt">
-                
 
-                <>
-                    <br />
-                    <small style={{color: 'orangered'}}>{loaderText}</small>
-                </>
+            <div className="seller-main">
+                <div className="seller-order-cnt">
+                    
+
+                    <>
+                        <br />
+                        <small style={{color: 'orangered'}}>{loaderText}</small>
+                    </>
+                </div>
             </div>
         </>
      );

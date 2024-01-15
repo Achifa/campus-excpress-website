@@ -85,8 +85,8 @@ const CheckOut = () => {
             </div>
             <div className="buyer-checkout">
                 <Address setPayment={setPayment} />
-                <Method />
-                <Info />
+                {/* <Method /> */}
+                {/* <Info /> */}
                 <Summary totalItem={totalItem} deliveryPrice={deliveryPrice} Total={Total} />
             </div>
 

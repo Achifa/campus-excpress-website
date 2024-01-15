@@ -41,7 +41,7 @@ const BuyerLogin = ({query}) => {
                         </div>
                     </form>
 
-                    <div style={{cursor: 'pointer'}}>
+                    <div onClick={e => navigate('/reset-password')} style={{cursor: 'pointer'}}>
                         <small>Forgot Password? Recover Password Here</small>
                     </div>
                     <div style={{cursor: 'pointer'}} onClick={e => query !== '' ? navigate(`/signup/?resource=${query}`) : navigate('/signup')}>

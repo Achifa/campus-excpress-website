@@ -14,7 +14,7 @@ const TypeSelect = ({edit,category,productType,typeList}) => {
 
                     {
                         typeList.map((item, index) => 
-                            item === edit.others?.split(',')[0]
+                            item === window.localStorage.getItem('draft_c_type')
                             ? 
                             <option selected key={index} value={item}>{item}</option>
                             :

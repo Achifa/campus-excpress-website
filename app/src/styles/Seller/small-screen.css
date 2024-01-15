@@ -10,7 +10,7 @@
     }
     
     .seller-header{
-        height: 60px;
+        height: fit-content;
         width: 100%;
         float: right;
         position: relative;
@@ -22,132 +22,25 @@
         background-color: #fff;
     }
 
-    .seller-aside{
-        height: calc(100vh - 0px);
-        width: 200px;
-        float: left;
-        position: absolute;
-        left: -100%;
-        font-weight: 500;
-        z-index: 1000;
-        transition: 1s;
-        padding: 10px;
-        background-color: orangered;
-    }
-
-    #seller-aside{
-        left: 0;
-        transition: 1s;
-        z-index: 1000;
-    }
-
-    .seller-aside-overlay{
-        display: none;
-        height: 100vh;
-        width: 100vw;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #000000;
-        background-color: rgb(0, 0, 0,.5);
-        z-index: 2000;
-    }
-
-    #seller-aside-overlay{
-        display: block;
-        z-index: 1000;
-    }
-
-    .seller-aside-logo{
-        height: 100px;
+    .seller-main{
+        height: calc(100% - 620px);
         width: 100%;
+        float: right;
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        border-radius: 0;
-        font-size: large;
-        font-weight: 1000;
-        color: orangered;
-        position: absolute;
-        top: 0;
-        padding: 10px;
-        left: 0;
-        margin-top: 0;
-        margin-bottom: 10px;
-        background-color: orangered;
-    }
-
-    .seller-aside-logo span h4{
-        border-radius: 50%;
-        height: 50px;
-        width: 50px;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        background-color: rgb(255, 88, 28);
-    }
-
-    .seller-aside-logo span small{
-        height: fit-content;
-        width: fit-content;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
-
-    .seller-aside .seller-aside-nav ul{
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        height: calc(60% - 100px);
-        width: 100%;
-        top: 100px;
-        opacity: .9;
+        scroll-behavior: smooth;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
         overflow: auto;
-        border-top: 1px solid #fff;
-        /* border-bottom: 1px solid #fff; */
         position: relative;
-        background-color: orangered;
+        background-color: #efefef;
     }
 
-    .seller-aside .seller-aside-nav ul li{
-        padding: 15px;
-        font-weight: 400;
-        color: #fff;
-        text-align: left;
-        font-size: small;
-        cursor: pointer;
-    } 
-
-    .seller-aside .seller-aside-nav-others ul{
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        overflow: auto;
-        height: 40%;
-        width: 100%;
-
-        opacity: .9;
-        border-top: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-        background-color: orangered;
-        position: absolute;
-        bottom: 0px;
-        left: 0;
+    .seller-aside{
+        display: none;
     }
 
-    .seller-aside .seller-aside-nav-others ul li{
-        padding: 15px;
-        font-weight: 400;
-        color: #fff;
-        text-align: left;
-        font-size: small;
-        cursor: pointer;
+    .seller__extra__menu{
+        display: none;
     }
 
 
@@ -474,6 +367,9 @@
     .seller-libs{
         height: calc(100vh - 100px);
         width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
         margin: auto;
         overflow: auto;
         padding: 5px;

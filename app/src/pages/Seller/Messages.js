@@ -3,7 +3,10 @@ import Messages from "../../components/Seller/Messages";
 const Message = () => {
     return ( 
         <>
-            <Messages />
+        
+            <div className="seller-main">
+                <Messages />
+            </div>
         </>
      );
 }

@@ -94,14 +94,14 @@ const BuyerSignup = () => {
             setBtn(
                 <div className="Authloader" style={{background: '#fff',border: '1px solid orangered'}}></div>
             )
-            e.currentTarget.disabled = true;
+            // e.currentTarget.disabled = true;
             RegisterBuyer(fname.trim(),lname.trim(),email,phone,pwd,state,campus)
             .then((result) => {
                 if(result){
                     if(location.search){
                         navigate(`/${query}`)
                     }else{
-                        navigate('/buyer/login')
+                        navigate('/login')
                     }
                 } 
             })

@@ -9,7 +9,9 @@ const SellerDashboard = () => {
     return ( 
         <>
             
-            <Home />
+            <div className="seller-main">
+                <Home />
+            </div>
         </>
      );
 }

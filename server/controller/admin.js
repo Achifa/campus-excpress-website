@@ -167,48 +167,38 @@ function uploadProduct(req,res) {
 
 function DeleteProduct(req,res) {
     let {
-        seller_id,product_id
+        product_id
     } = req.query;
+
     let book = []
 
-    console.log( seller_id,product_id)
+    console.log(product_id)
+
 
     new Promise((resolve, reject) => {
         NeonDB.then((pool) => 
-            pool.query(`DELETE FROM seller_shop WHERE product_id = '${product_id}'  `)
+            pool.query(`DELETE FROM seller_shop WHERE product_id = '${product_id}'`)
             .then(result => result.rowCount > 0 ? resolve(true) : reject(false))
             .catch(err => console.log('mssg',err))
         )
-        .catch(err => console.log('mssg',err))
-
+        .catch(err => console.log('mssg 1',err))
     })
     .then((response) => 
-
         NeonDB.then((pool) => 
-            pool.query(`DELETE FROM  product_photo WHERE product_id = '${product_id}' `)
+            pool.query(`DELETE FROM  product_photo WHERE product_id = '${product_id}'`)
             .then(result => result.rowCount > 0 ? book.push(true) : book.push(false))
-            .catch(err => console.log('mssg',err))
+            .catch(err => console.log('mssg 2',err))
         )    
-
     )
     .then(async(response) => {
         let bool = book.filter(item => item !== true)
-
-
         if(bool.length < 1){
-            console.log('overview number', response)
-            NeonDB.then((pool) => 
-                pool.query(`UPDATE seller_overview set total_sale = total_sale - 1 WHERE seller_id = '${seller_id}'`)
-                .then(result => result.rowCount > 0 ? res.send(true) : res.send(false))
-                .catch(err => console.log('mssg',err))
-            )
-            .catch(err => console.log(err))
+            res.send(true)
         }else{
             res.send(false)
         }
-
     })
-    .catch(err => console.log('mssg',err))
+    .catch(err => console.log('mssg 0',err))
 }
 
 function updateProduct(req,res) {
@@ -523,56 +513,6 @@ async function LogAdminIn(req, res) {
     
 }
 
-async function Overview(req,res)  {
-    let {id} = req.body;
-    console.log('admin overview')
-
-    async function getTotalSale(params) {
-        return (
-            await NeonDB.then((pool) => 
-                pool.query(`select * from seller_shop`)
-                .then(result => result.rows.length)
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        )
-    }
-
-    async function getSold(params) {
-        return (
-            await NeonDB.then((pool) => 
-                pool.query(`select * from seller_shop' AND status = 'sold'`)
-                .then(result => result.rows.length)
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        )
-    }
-
-    async function getUnsold(params) {
-        return (
-            await NeonDB.then((pool) => 
-                pool.query(`select * from seller_shop where status = 'unsold'`)
-                .then(result => result.rows.length)
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        )
-    }
-
-    async function getReport(params) {
-        return (
-            await NeonDB.then((pool) => 
-                pool.query(`select * from product_report`)
-                .then(result => result.rows.length)
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        )
-    }
-
-    res.send({total_sale: await getTotalSale(), total_sold: await getSold(),total_unsold: await getUnsold(), total_reported: await getReport()})
-}
 
 async function Shop(req,res)  {
     let {id} = req.body;
@@ -898,4 +838,15 @@ async function SendEmail(req,res) {
 }
 
 
-module.exports = {uploadProduct,GetUsers,SendEmail,updatePwd,GetEditedItem,GetAdmin,Shop,RegisterAdmin,updateSellerProfile,WalletData,LogAdminIn,Overview,updateProduct,ResetPwd,DeleteProduct,GetSellerInbox,GetSellerOrder}
+async function verify_item(req,res) {
+    let {action,item,product_id} = req.body;
+    NeonDB.then((pool) => 
+        pool.query(`UPDATE seller_shop set state='{"state": "${action}", "reason": "${item}"}' WHERE product_id = '${product_id}'`)
+        .then(result => res.send(result.rowsAffected))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+}
+ 
+
+module.exports = {uploadProduct,verify_item,GetUsers,SendEmail,updatePwd,GetEditedItem,GetAdmin,Shop,RegisterAdmin,updateSellerProfile,WalletData,LogAdminIn,updateProduct,ResetPwd,DeleteProduct,GetSellerInbox,GetSellerOrder}

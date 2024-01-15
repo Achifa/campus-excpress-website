@@ -7,7 +7,9 @@ import '../../styles/Seller/small-screen.css'
 const Wallet = () => {
     return ( 
         <>
-            <Wallets />
+            <div className="seller-main">
+                <Wallets />
+            </div>
         </>
      );
 }

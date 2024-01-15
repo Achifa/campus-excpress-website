@@ -1,0 +1,59 @@
+@media screen  and (min-width: 1200px) {
+    *{
+        box-sizing: border-box;
+    }
+
+    html,body{
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+    }
+
+    .admin-header{
+        height: 80px;
+        width: 100%;
+
+    }
+
+    .admin-aside{
+        height: calc(100vh - 80px);
+        width: 200px;
+        background-color: #fff;
+        position: fixed;
+        bottom: 0;
+
+    }
+
+    .admin-aside ul{
+        list-style-type: none;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .admin-aside h6{
+        color: #a7a7a7;
+    }
+
+    .admin-aside ul li{
+        padding: 10px;
+        text-align: left;
+        font-size: small;
+        cursor: pointer;
+        color: orangered;
+        font-weight: 500;
+    }
+
+    .admin-main{
+        height: calc(100vh - 80px);
+        width: calc(100% - 200px);
+        float: right;
+        display: flex;
+        scroll-behavior: smooth;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        overflow: auto;
+        position: relative;
+        padding: 10px;
+        background-color: #efefef;
+    }
+}

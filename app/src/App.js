@@ -1,6 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 
+import AdminDashboard from './pages/Admin/Dashboard';
+import AdminHeader from './components/Admin/Header/Header';
+import AdminAside from './components/Admin/Aside/Aside';
+import AdminUser from './pages/Admin/User';
+import AdminOrder from './pages/Admin/Order';
+import AdminInbox from './pages/Admin/Inbox';
+import AdminAds from './pages/Admin/Ads';
+ 
+
 import Dashboard from './pages/Buyer/Dashboard';
 import ProductPage from './pages/Buyer/Product';
 import BuyerSignup from './Authorization/Buyer.js/Signup';
@@ -36,30 +45,14 @@ import Verification from './Authorization/Seller/Verification';
 // import BuyerPasswordReset from './Authorization/Buyer/ForgotPassword';
 // import BuyerVerification from './Authorization/Buyer/Verification';
 
-import AdminDashboard from './pages/Admin/Dashboard';
-import AdminAside from './components/Admin/Aside';
-import AdminHeader from './components/Admin/Header';
-import AdminEditor from './pages/Admin/Editor';
-import AdminShop from './pages/Admin/Shop';
-import AdminSellerOrder from './pages/Admin/Order';
-// import AdminMessage from './pages/Admin/Messages';
-import AdminSetting from './pages/Admin/Settings'; 
-import AdminSellerWallet from './pages/Admin/Wallet';
-import AdminMe from './pages/Admin/Profile';
-import AdminSignup from './Authorization/Admin/Signup';
-import AdminInbox from './pages/Admin/Inbox';
-import AdminSellerLogin from './Authorization/Admin/Login';
-import AdminPasswordReset from './Authorization/Admin/ForgotPassword';
-import AdminVerification from './Authorization/Admin/Verification';
-
-
 import BuyerHeader from './components/Buyer/Header/Header';
 import { useEffect, useState } from 'react';
 
 
-import Users from './pages/Admin/Users';
 import ForgotPwd from './Authorization/Seller/ForgotPassword';
 import Search from './components/Buyer/Header/Search';
+import BuyerForgotPwd from './Authorization/Buyer.js/ForgotPassword';
+import Message from './pages/Seller/Messages';
 
 function App() {
   let location = useLocation()
@@ -129,11 +122,11 @@ function App() {
             <Route path='/seller/signup' element={<Signup />}></Route>
             <Route path='/seller/login' element={<SellerLogin />}></Route>
             <Route path='/seller/reset-password' element={<ForgotPwd />}></Route>
-
             <Route path='/seller/editor' element={<Editor />}></Route>
             <Route path='/seller/editor/:id' element={<Editor />}></Route>
             <Route path='/product/:id' element={<ProductPage />}></Route>
             <Route path='/seller/shop' element={<Shop />}></Route>
+            <Route path='/seller/messages' element={<Message />}></Route>
             <Route path='/seller/orders' element={<SellerOrder/>}></Route>
             <Route path='/seller/inbox' element={<Inbox />}></Route>
             <Route path='/seller/settings' element={<Setting />}></Route>
@@ -142,7 +135,6 @@ function App() {
 
             <Route path='/privacy-policy' element={<Me />}></Route>
             <Route path='/public-terms-of-service' element={<Me />}></Route>
-            <Route path='/admin/reset-password' element={<AdminPasswordReset />}></Route>
 
             <Route path='/seller/password-reset/:id' element={<PasswordReset />}></Route>
             <Route path='/seller/email-verification/:id' element={<Verification />}></Route>
@@ -150,26 +142,15 @@ function App() {
 
 
 
-            <Route path='/admin/' element={<AdminDashboard />}></Route>  
-            <Route path='/admin/users' element={<Users />}></Route>  
-            <Route path='/admin/signup' element={<AdminSignup />}></Route>
-            <Route path='/admin/login' element={<AdminSellerLogin />}></Route>
-            <Route path='/admin/editor' element={<AdminEditor />}></Route>
-            <Route path='/admin/editor/:id' element={<AdminEditor />}></Route>
-            {/* <Route path='/product/:id' element={<AdminProductPage />}></Route> */}
-            <Route path='/admin/shop' element={<AdminShop />}></Route>
-            <Route path='/admin/orders' element={<AdminSellerOrder/>}></Route>
+           
+
+
+
+            <Route path='/admin/' element={<AdminDashboard />}></Route>
+            <Route path='/admin/users' element={<AdminUser />}></Route>
+            <Route path='/admin/orders' element={<AdminOrder />}></Route>
             <Route path='/admin/inbox' element={<AdminInbox />}></Route>
-            <Route path='/admin/settings' element={<AdminSetting />}></Route>
-            <Route path='/admin/wallet' element={<AdminSellerWallet />}></Route>
-            <Route path='/admin/profile' element={<AdminMe />}></Route>
-            <Route path='/admin/reset-password' element={<AdminPasswordReset />}></Route>
-
-            <Route path='/password-reset/:id' element={<AdminEditor />}></Route>
-            <Route path='/email-verification/:id' element={<AdminVerification />}></Route>
-
-
-
+            <Route path='/admin/ads' element={<AdminAds />}></Route>
 
 
 
@@ -191,8 +172,10 @@ function App() {
             <Route path='/signup/:id' element={<BuyerSignup />}></Route>
             <Route path='/login' element={<BuyerLogin />}></Route>
             <Route path='/search' element={<Search />}></Route>
-            {/* <Route path='/buyer/password-reset/:id' element={<BuyerPasswordReset />}></Route>
-            <Route path='/buyer/email-verification/:id' element={<BuyerVerification />}></Route> */}
+            <Route path='/reset-password' element={<BuyerForgotPwd />}></Route>
+
+            {/* <Route path='/password-reset/:id' element={<BuyerPasswordReset />}></Route>
+            <Route path='/email-verification/:id' element={<BuyerVerification />}></Route> */}
             <Route path='*' element={<ErrorPage/>} /> 
 
         </Routes>

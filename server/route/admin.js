@@ -1,5 +1,5 @@
 // const { AuthorizeWalletAccess, create_bill } = require("../../transactions/roles/admins");
-const { RegisterAdmin, LogAdminIn, GetAdmin, Overview, Shop, GetUsers } = require("../controller/admin");
+const { RegisterAdmin, LogAdminIn, GetAdmin, Shop, GetUsers, verify_item, DeleteProduct } = require("../controller/admin");
 const { admin_authentication } = require("../middleware/admin");
 const { express, parser } = require("../modules");
 
@@ -14,9 +14,11 @@ admin_route.post('/admin/login', parser, LogAdminIn);
 
 admin_route.post('/admin', parser, GetAdmin);
 admin_route.post('/admin/authentication', parser, admin_authentication);
-admin_route.post('/admin/overview', parser, Overview);
 admin_route.post('/admin/shop', parser, Shop);
 admin_route.post('/admin/users', parser, GetUsers);
+
+admin_route.post('/admin/verify-item', parser, verify_item);
+
 
 
 // admin_route.post('/admin/authentication', parser, admin_authentication);
@@ -48,7 +50,7 @@ admin_route.post('/admin/users', parser, GetUsers);
 // admin_route.post('/admin/email-validation', parser, ValidateEmail);
 // admin_route.post('/admin/send-email', parser, SendEmail);
 
-// admin_route.delete('/admin/product-delete', DeleteProduct);
+admin_route.delete('/admin/product-delete', parser, DeleteProduct);
 
 module.exports = {admin_route}
 

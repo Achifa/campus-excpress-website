@@ -1,43 +1,10 @@
-import { useEffect, useState } from "react";
-import { GetSellerOrder } from '../../api/seller'
+import React from 'react'
+import Body from '../../components/Admin/Orders/Body'
 
-const Order = () => {
-    let [orderList, setOrderList] = useState([])
-    let [loaderText, setLoaderText] = useState('Loading...')
-
-    useEffect(() => {
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
-        GetSellerOrder()
-        .then(({data}) => {
-            console.log(data)
-            overlay.removeAttribute('id')
-            data.length < 1 
-            ?
-            setLoaderText('No item for sale, click here to start selling')
-            :
-            setLoaderText('')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    },[])
-    return ( 
-        <>
-            <div className="overlay">
-                <div className="loader">
-                </div>
-            </div>
-            <div className="seller-order-cnt">
-                
-
-                <>
-                    <br />
-                    <small style={{color: 'orangered'}}>{loaderText}</small>
-                </>
-            </div>
-        </>
-     );
+export default function Order() {
+  return (
+    <div>
+      <Body />
+    </div>
+  )
 }
- 
-export default Order;

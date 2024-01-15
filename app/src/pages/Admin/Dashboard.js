@@ -1,16 +1,11 @@
-import '../../styles/Seller/x-large-screen.css'
-import '../../styles/Seller/large-screen.css'
-import '../../styles/Seller/medium-screen.css'
-import '../../styles/Seller/small-screen.css'
-import Home from "../../components/Admin/Dashboard/Home";
+import React from 'react'
+import '../../styles/Admin/xx-large-screen.css'
+export default function Dashboard() {
+  return (
+    <div className='admin-main'>
 
-const SellerDashboard = () => {
-    return ( 
-        <>
-            
-            <Home />
-        </>
-     );
+        
+      
+    </div>
+  )
 }
- 
-export default SellerDashboard;

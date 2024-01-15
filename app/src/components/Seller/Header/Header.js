@@ -6,6 +6,7 @@ import { AuthenticateSeller } from "../../../api/seller";
 import { GetSeller, ResetPwd } from '../../../api/seller';
 import { socket } from "../../../socket";
 import Menu from "./MenuBtn";
+import Nav from "./Nav";
 
  
 const Header = () => {
@@ -95,13 +96,10 @@ const Header = () => {
     
     return ( 
         <>
-            <div className="seller-header shadow-sm" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-                <img src={img} style={{height: '35px', width: '35px', position: 'absolute', left: '10px', top: '15px',  color: '#fff', fontSize: 'medium', display: screenWidth <= 760 ? 'flex' : 'none'}} alt="" />
+            <div className="seller-header" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+                <img src={img} style={{height: '35px', width: '35px', position: 'absolute', left: '10px', top: '5px',  color: '#fff', fontSize: 'medium', display: screenWidth <= 760 ? 'flex' : 'none'}} alt="" />
 
-                {
-                    activeHead
-                }
-
+                
 
 
                 {
@@ -111,8 +109,12 @@ const Header = () => {
                     : 
                     <Menu handleMenu={handleMenu} />
                 }
-                
+                 
 
+            </div>
+
+            <div className="seller-nav" style={{marginTop: '15px', position: 'relative'}}>
+                <Nav />
             </div>
         </>
      );

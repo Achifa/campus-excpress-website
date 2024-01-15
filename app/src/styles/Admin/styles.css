@@ -1,0 +1,89 @@
+@media screen  and (min-width: 760px)  {
+    *{
+        box-sizing: border-box;
+    }
+
+    html,body{
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+    }
+
+    .admin-seller-tab-cnt{
+        height: calc(100vh - 100px);
+        width: calc(100% - 200px);
+        margin: auto;
+        overflow: auto;
+        padding: 40px;
+        background-color: #fff;
+    }
+    
+    .admin-seller-tab{
+        height: 120px;
+        width: 100%;
+        position: relative;
+        padding: 15px;
+        display: flex;
+        margin-bottom: 5px;
+        background-color: #fff;
+    }
+
+    .admin-seller-tab div{
+        flex-shrink: 0;
+    }
+
+    .message-form-cnt{
+        height: fit-content;
+        width: 300px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    #mssg-box{
+        height: 200px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        width: 100%;
+        resize: none;
+        outline: none;
+        border: none;
+    }
+
+    .admin-action-cnt{
+        height: fit-content;
+        width: 300px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .admin-action-tab{
+        height: 50px;
+        width: 100%;
+        position: relative;
+        padding: 5px;
+        display: flex;
+        margin-bottom: 2.5px;
+        background-color: #fff;
+    }
+
+    /* .input-cnt{
+        height: 40px;
+        width: 100%;
+        border: 1px solid orangered;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        border-radius: .5px;
+        cursor: pointer;
+        justify-content: space-between;
+    }
+
+    .input-cnt input{
+        height: 20px;
+        width: 20px;
+        margin: 0;
+        padding: 0;
+    } */
+}

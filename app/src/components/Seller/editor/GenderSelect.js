@@ -11,7 +11,7 @@ const GenderSelect = ({edit,productGender}) => {
                     <option value={''}>Select Gender</option>
                     {
                         ["Male", "Female", "Unisex"].map ((item, index) => 
-                            item === edit.condition
+                            item === window.localStorage.getItem('draft_gender')
                             ?
                             <option selected key={index} value={item}>{item}</option>
                             :

@@ -1,3 +1,5 @@
+const { NeonDB } = require("../db")
+
 const authorize_seller = (seller_id) => {
     return(
         NeonDB.then((pool) => 
