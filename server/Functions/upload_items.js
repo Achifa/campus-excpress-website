@@ -44,7 +44,7 @@ async function upload_photos(productId, seller_id, photos, imageId) {
             return response
         })
         .catch(err => err)
-
+        
     )
 }
 

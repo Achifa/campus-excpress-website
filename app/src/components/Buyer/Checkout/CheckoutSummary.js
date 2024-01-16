@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PayStack from "../PayStack";
+import PayStack from "../../Payments/PayStack";
 import Withdrawal from "../Withdrawal";
 
 const CheckoutSummary = ({Total, Method}) => {
@@ -46,10 +46,13 @@ const CheckoutSummary = ({Total, Method}) => {
                 <div>
                     <small style={{float: "left"}}>Sub total</small>
                     <small style={{float: "right"}}>
-                        <small>₦</small>0</small>
+                        <small>₦</small>{Total}</small>
                 </div> 
                 <div style={{fontSize: "small"}}>
-                    <small>Delivery is free</small>
+                    <small style={{float: "left"}}>Charges</small>
+                    <small style={{float: "right"}}>
+                        <small>Free</small>
+                    </small>
                 </div>
                 <div style={{height: "80px"}}>
                     <button className="shadow-sm" onClick={Method ? handlePayment : handleDeposit}>

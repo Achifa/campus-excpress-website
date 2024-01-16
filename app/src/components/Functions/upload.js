@@ -1,20 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import { updateItem, uploadItem } from "../../api/seller"
+import { openNotice } from "./notice";
 
 export function uploadForm(constantData, dynamicData) {
     // console.log(constantData, dynamicData)
     uploadItem(constantData, dynamicData)
-    .then((result) => {
-        if(result){
+    .then(({data}) => {
+        if(data){
+            window.location.href = '/seller/shop';
             document.querySelector('.overlay').removeAttribute('id')
+            // openNotice()
         }else{
-            alert('Error Uploading Data...'); 
+            // alert('Error Uploading Data...'); 
             let overlay = document.querySelector('.overlay'); 
             overlay.removeAttribute('id')
+            openNotice()
+
             // navigate('/seller/shop')
         }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+        let overlay = document.querySelector('.overlay'); 
+        overlay.removeAttribute('id')
+        openNotice()
+    })
 }
 
 export function updateForm(dynamicInput,title,description,category,price,photos,videos,cType,locale) {

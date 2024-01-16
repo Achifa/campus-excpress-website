@@ -1,4 +1,4 @@
-const Address = ({setPayment}) => {
+const PAymentMethod = ({setPayment}) => {
     return (  
         <>
             <div className="buyer-checkout-payment-method">
@@ -21,4 +21,4 @@ const Address = ({setPayment}) => {
     );
 }
  
-export default Address;
+export default PAymentMethod;

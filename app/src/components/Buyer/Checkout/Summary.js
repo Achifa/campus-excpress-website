@@ -1,4 +1,4 @@
-const Summary = ({Total,totalItem,deliveryPrice}) => {
+const Summary = ({Total,totalItem}) => {
     return ( 
         <>
             <div className="buyer-checkout-order-summary">
@@ -6,11 +6,11 @@ const Summary = ({Total,totalItem,deliveryPrice}) => {
                 <hr />
                 <div className="input-cnt">
                     <span>Item Total ({totalItem})</span>
-                    <span>&#8358; {new Intl.NumberFormat('en-us').format(Total - 3000)}</span>
+                    <span>&#8358; {new Intl.NumberFormat('en-us').format(Total)}</span>
                 </div>
 
                 <div className="input-cnt">
-                    <span>Delivery Fee</span>
+                    <span>Charges</span> 
                     <span>&#8358; {new Intl.NumberFormat('en-us').format(0)}</span>
                 </div>
 

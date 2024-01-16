@@ -3,11 +3,9 @@ import { GetItem } from "../../../api/buyer";
 import { useLocation } from "react-router-dom";
 import PayStack from "../Forms/PayStack";
 import { usePaystackPayment } from "react-paystack";
-import CEStack from "../CEStack";
+import CEStack from "../../Payments/CEStack";
 import Summary from "./Summary";
-import Info from "./Info";
-import Method from "./Method";
-import Address from "./Address";
+import PaymentMethod from "./PaymentMethod";
 import Btn from "./Btn";
 import CheckoutSummary from "./CheckoutSummary";
 import Withdrawal from "../Withdrawal";
@@ -24,7 +22,7 @@ const CheckOut = () => {
     let [amount, setAmount] = useState('0.00')
     let [totalItem, setTotalItem] = useState(0)
 
-    let deliveryPrice = useRef(3000)
+    let deliveryPrice = useRef(0)
     let location = useLocation()
 
    
@@ -84,10 +82,10 @@ const CheckOut = () => {
                 {payment}
             </div>
             <div className="buyer-checkout">
-                <Address setPayment={setPayment} />
+                <PaymentMethod setPayment={setPayment} />
                 {/* <Method /> */}
                 {/* <Info /> */}
-                <Summary totalItem={totalItem} deliveryPrice={deliveryPrice} Total={Total} />
+                <Summary totalItem={totalItem} Total={Total} />
             </div>
 
             <CheckoutSummary Method={payment} Total={Total} />

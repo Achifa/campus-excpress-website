@@ -30,7 +30,8 @@ const Editor = () => {
     let navigate = useNavigate();
 
     let book = []
-
+    
+   
     
 
     let [update, setUpdate] = useState(false);
@@ -154,6 +155,14 @@ const Editor = () => {
     }
 
 
+    function setAllInputsToNull(params) {
+        productGender('')
+        productType('')
+        productSizeSelect('')
+        productSubCategory('')
+        productLocale('')
+        productCondition('')
+   }
     useEffect(() => {
         if(window.localStorage.getItem('draft_category') !== null && window.localStorage.getItem('draft_category') !== undefined && window.localStorage.getItem('draft_category') !== ''){ 
 
@@ -180,7 +189,7 @@ const Editor = () => {
        
     }, [])
     useEffect(() => {setCategoriesList(items.items.category)},[])
-    // useEffect(() => {setAllInputsToNull('')},[category_state])
+    useEffect(() => {setAllInputsToNull('')},[category_state])
     useEffect(() => {setScreenWidth(window.innerWidth)},[])
     useEffect(() => {let type = categoriesList.filter(item => Object.keys(item)[0] === category.current)[0]; if(type){setTypeList(type[category_state])}},[categoriesList,category_state])
  
@@ -233,21 +242,7 @@ const Editor = () => {
             let seller_id = window.localStorage.getItem("CE_seller_id")
             //upload for here
 
-            function remove_irrelevant_input(params) {
-                let check_dynamic_values = {cType: cType_state,locale: locale_state,subCategory: subCategory_state,gender: gender_state,condition: condition_state,stock: stock_state,size: size_state}
-
-                console.log(check_dynamic_values)
-                Object.keys(check_dynamic_values).forEach((key) => {
-                    if(check_dynamic_values[key] === '' || check_dynamic_values[key] === null || check_dynamic_values[key] === 'null'){
-                        delete check_dynamic_values[key]
-                    }
-                })
-                return(check_dynamic_values)
-
-                
-            }
-            let data = remove_irrelevant_input()
-            console.log(data)
+            
             uploadForm(
                 { 
                     title: title.current,
@@ -272,6 +267,13 @@ const Editor = () => {
             <div className="overlay" >
                 <div className="loader">
                 </div>
+            </div>
+
+            <div className="notice-cnt" style={{margin: 'auto'}}>
+                <span style={{margin: "0 15px 0 .5px"}}>An Error Occured, Please Try Again</span>
+                <button className="notice-cnt-btn" style={{width: '40px', height: '30px', background: 'red', borderRadius: '2px', fontWeight: '500', fontSize: 'small'}}>
+                    close
+                </button>
             </div>
 
             <div className="seller-main">

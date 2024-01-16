@@ -1,4 +1,4 @@
-export function openNotice(params) {
+export function openNotice(mssg) {
     
     let n_cnt = document.querySelector('.notice-cnt');
     let n_cnt_btn = document.querySelector('.notice-cnt-btn');
