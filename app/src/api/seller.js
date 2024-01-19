@@ -3,7 +3,49 @@ import axios from 'axios'
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.217.147:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u1;   
+let plug = u1; 
+
+export function get_chat(seller_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/chats`, {
+            seller_id
+        })
+        .then((result) => {
+            resolve(result)
+        }) 
+        .catch((err) => {
+            reject(err) 
+        }) 
+    })
+}
+
+export function get_mssg(mssg_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/mssg`, {
+            mssg_id
+        })
+        .then((result) => {
+            resolve(result)
+        }) 
+        .catch((err) => {
+            reject(err) 
+        }) 
+    })
+}
+
+export function send_mssg(mssg, seller_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/seller/send-mssg`, {
+            mssg, seller_id
+        })
+        .then((result) => {
+            resolve(result)
+        }) 
+        .catch((err) => {
+            reject(err) 
+        }) 
+    })
+}
  
 export function uploadItem(constantData, dynamicData) {
     return new Promise((resolve, reject) => {

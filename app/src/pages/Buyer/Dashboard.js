@@ -4,6 +4,7 @@ import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
 import '../../styles/Buyer/small-screen.css'
 import '../../styles/Buyer/large-screen.css'
+import '../../styles/Buyer/buy_now.css'
 import '../../styles/Buyer/semi-medium-screen.css'
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";

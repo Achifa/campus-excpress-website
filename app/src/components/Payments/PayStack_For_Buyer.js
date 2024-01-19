@@ -1,26 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePaystackPayment } from 'react-paystack';
-const PayStack = ({price,type}) => {
+import { GetBuyer } from '../../api/buyer';
+const PayStack = ({price,product_id,buyer_id,stock}) => {
 
-    let [fname, setFname] = useState('')
-    let [lname, setLname] = useState('')
-    let [email, setEmail] = useState('')
-    let [phone, setPhone] = useState('')
+    let [fname, setFname] = useState('loading')
+    let [lname, setLname] = useState('loading')
+    let [email, setEmail] = useState('loading')
+    let [phone, setPhone] = useState('loading')
+
+    useEffect(() => {
+        GetBuyer(window.localStorage.getItem('CE_buyer_id'))
+        .then((result) => {
+            setFname(result.fname)
+            setLname(result.lname)
+            setEmail(result.email)
+            setPhone(result.phone) 
+        })   
+        .catch(err => console.log(err))
+
+        setAmount(price)
+    },[])
     let [amount, setAmount] = useState(`${price}`)
 
     const config = {
         reference: (new Date()).getTime().toString(),
-        email: "akpulufabian@gmail.com",
+        email: "akpulufabian@gmail.com", 
         amount: amount + '00', //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
         publicKey: 'pk_live_c8a885e2b4bda68ee5940a527431030c4b32f6dd',
         
         metadata: {
-            seller_id: `${window.localStorage.getItem("CE_seller_id")}`,
+            buyer_id: `${window.localStorage.getItem("CE_seller_id")}`,
             amount: amount,
             firstname: fname,
             lastname: lname,
             phone: phone,
             email: email,
+            product_id: product_id,
+            stock: stock,
         }
     };
     
@@ -49,32 +65,32 @@ const PayStack = ({price,type}) => {
                 <div className="seller-input-cnt">
                     <section>
                         <label htmlFor="">FirstName</label>
-                        <input  onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                        <input readOnly value={fname} placeholder='FirstName...' type="text" />
                     </section>
                     <section>
                         <label htmlFor="">LastName</label>
-                        <input onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
+                        <input readOnly value={lname}  placeholder='LastName' type="text" />
                     </section>
                 </div>
 
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Amount</label>
-                        <input value={`${new Intl.NumberFormat('en-us').format(price)}.00`}  placeholder='Amount...' type="text" />
+                        <input readOnly value={`${new Intl.NumberFormat('en-us').format(price)}.00`}  placeholder='Amount...' type="text" />
                     </section>
                     
                 </div>
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Email</label>
-                        <input onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
+                        <input readOnly value={email}  placeholder='Email...' type="text" />
                     </section>
                     
                 </div>
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Phone</label>
-                        <input onInput={e => setPhone(e.target.value)}  placeholder='Phone...' type="text" />
+                        <input readOnly value={phone}  placeholder='Phone...' type="text" />
                     </section>
                     
                 </div>

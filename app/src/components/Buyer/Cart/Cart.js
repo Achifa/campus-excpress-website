@@ -42,7 +42,7 @@ const Cart = () => {
             let prices = []
             let unitList = []
 
-            result.map((item) => prices.push(eval(item.item.price)))
+            result.map((item) => prices.push(parseInt(item.item.price)))
             result.forEach((product) => unitList.push({product_id: product.item.product_id, unit: parseInt(product.cart.unit)}))
             setUnit(unitList)
             let s = sum(prices, prices.length);

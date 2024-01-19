@@ -367,3 +367,15 @@ export function SendEmail(email,buyer_id) {
         })
     })
 }
+
+export function CreateOrder(file,buyer_id) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${plug}/buyer/create-order`, {file,buyer_id})
+        .then((result) => {
+            resolve(result)
+        })
+        .catch((err) => {
+            reject(err) 
+        })
+    })
+}

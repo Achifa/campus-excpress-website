@@ -1,6 +1,6 @@
 //19 request on buyer
 
-const { create_cart, delete_cart } = require("../Functions/cart");
+const { create_cart, delete_cart, retrive_cart } = require("../Functions/cart");
 const { query_tool } = require("../Functions/query");
 const { send_email } = require("../Functions/send_mssgs");
 const { create_token, create_token_for_pwd } = require("../Functions/token");
@@ -291,14 +291,22 @@ async function get_item(req,res) {
 
     let {id} = req.query;
     let book = []
-    NeonDB.then((pool) => 
-        pool.query(`select * from seller_shop where product_id = '${id}'`)
-        .then(result =>  {
-            book.push(result.rows[0])
-            res.send(book)                 
-        })
-        .catch(err => console.log(err))
-    )
+    
+    id.map(data => {
+        NeonDB.then((pool) => 
+            pool.query(`select * from seller_shop where product_id = '${data}'`)
+            .then(result =>  {
+                book.push(result.rows[0])
+                if(book.length === id.length){
+                    res.send(book)
+                }                    
+            })
+            .catch(err => console.log(err))
+        )
+    })
+    
+
+    getItems(id)
 
 }
 
@@ -330,11 +338,32 @@ async function add_item_to_cart(req,res) {
     let {product_id,buyer_id} = req.body;
     let cart_id = shortId.generate();
     let date = new Date();
-    let response = create_cart(cart_id, product_id, date, buyer_id)
+    async function create_cart(cart_id, product_id, date, buyer_id) {
+        // console.log(cart_id, product_id, date, buyer_id)-
+        let handle_cart_insert = await NeonDB.then((pool) => 
+            pool.query(`insert into campus_express_buyer_cart(id,cart_id,product_id,date,buyer_id,unit) values(DEFAULT, '${cart_id}', '${product_id}', '${date}', '${buyer_id}', ${1})`)
+            .then(result => result.rowCount > 0 ? (true) : (false))
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+    
+        if(handle_cart_insert){
+            let response = await retrive_cart(buyer_id)
+            return {bool: true, doc: response}
+        }else{
+            return {bool: false, doc: null}
+
+        }
+    }
+
+    let response = await create_cart(cart_id, product_id, date, buyer_id)
+    
+    // console.log(cart_id, product_id, date, buyer_id)
 
     if(response.bool){
         res.status(200).send((await response).doc)
     }else{
+        console.log(response)
         res.status(501).send((await response).doc)
     }
 
@@ -353,12 +382,39 @@ async function delete_item_from_cart(req,res) {
 
 async function get_carts(req,res) {
     let {buyer_id} = req?.query;
-    NeonDB.then((pool) => 
-        pool.query(`SELECT * FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}'`)
-        .then(result => res.send(result.rows))
-        .catch(err => console.log(err))
-    )
-    .catch(err => console.log(err))
+    let book = []
+    
+
+
+
+    function get_items(item) { 
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`SELECt * FROM seller_shop WHERE product_id = '${item.product_id}'`)
+                .then(result => book.push({item: result.rows[0], cart:item}))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+
+    async function getCartedItems(cb) {
+        let carts = await retrive_cart(buyer_id)
+        console.log(carts)
+        cb(carts)
+    }
+
+    getCartedItems((carts) => {
+        carts.map(async(item ) => {
+            await get_items(item)
+            console.log(book)
+            if(book.length === carts.length){
+                res.send(book)
+            }
+        })
+    })
+
 
 }
 

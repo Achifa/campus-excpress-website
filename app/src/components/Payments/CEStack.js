@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
-import { GetBuyer } from "../../api/buyer"
+import { CreateOrder, GetBuyer } from "../../api/buyer"
 
-const CEStack = ({amt}) => {
+const CEStack = ({price,product_id}) => {
     
-    let [fname, setFname] = useState('')
-    let [lname, setLname] = useState('')
-    let [email, setEmail] = useState('')
-    let [phone, setPhone] = useState('')
+    let [fname, setFname] = useState('loading')
+    let [lname, setLname] = useState('loading')
+    let [email, setEmail] = useState('loading')
+    let [phone, setPhone] = useState('loading')
+    let [buyerId, setBuyerId] = useState('loading')
 
     useEffect(() => {
         GetBuyer(window.localStorage.getItem('CE_buyer_id'))
@@ -15,6 +16,7 @@ const CEStack = ({amt}) => {
             setLname(result.lname)
             setEmail(result.email)
             setPhone(result.phone)
+            setBuyerId(result.buyer_id)
         })   
         .catch(err => console.log(err))
     },[])
@@ -30,39 +32,48 @@ const CEStack = ({amt}) => {
                 <div className="seller-input-cnt">
                     <section>
                         <label htmlFor="">FirstName</label>
-                        <input value={fname} placeholder='FirstName...' type="text" />
+                        <input readOnly value={fname} placeholder='FirstName...' type="text" />
                     </section>
                     <section>
                         <label htmlFor="">LastName</label>
-                        <input value={lname}  placeholder='LastName' type="text" />
+                        <input readOnly value={lname}  placeholder='LastName' type="text" />
                     </section>
                 </div>
 
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Amount</label>
-                        <input value={new Intl.NumberFormat('en-us').format(amt)} placeholder='Amount...' type="text" />
+                        <input readOnly value={`${new Intl.NumberFormat('en-us').format(price)}.00`} placeholder='Amount...' type="text" />
                     </section>
                      
-                </div>
+                </div> 
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Email</label>
-                        <input value={email} placeholder='Email...' type="text" />
+                        <input readOnly value={email} placeholder='Email...' type="text" />
                     </section>
                     
                 </div>
                 <div className="seller-input-cnt">
                     <section style={{width: '100%'}}>
                         <label htmlFor="">Phone</label>
-                        <input value={phone}  placeholder='Phone...' type="text" />
+                        <input readOnly value={phone}  placeholder='Phone...' type="text" />
                     </section>
                      
                 </div>
 
                 <div className="seller-input-cnt">
                             
-                    <button onClick={e => {e.preventDefault();}}>Pay</button>
+                    <button onClick={e => {
+                        e.preventDefault(); 
+                        CreateOrder({fname,lname,email,phone,amount:price,wallet:'campus_express_wallet'},window.localStorage.getItem('CE_buyer_id'))
+                        .then((result) => {
+                            
+                        })
+                        .catch((err) => {
+                            
+                        })
+                    }}>Pay</button>
                     
                 </div>
             </form>

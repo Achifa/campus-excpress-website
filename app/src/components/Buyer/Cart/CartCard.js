@@ -26,7 +26,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
                 if(type === 'add'){
                     let oldUnit = unit.filter(data => data.product_id === item.item.product_id)[0].unit;
                     
-                    if(oldUnit < item.item.stock){
+                    if(oldUnit < JSON.parse(item.item.others).stock){
                         //unit.filter(data => data.product_id === item.item.product_id).item.unit = oldUnit + 1;
         
                         document.querySelector(`#ce${item.item.product_id}`).innerHTML = unit.filter(data => data.product_id === item.item.product_id)[0].unit = oldUnit + 1;
@@ -50,7 +50,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
         }
 
         if(type === 'add'){
-            if(oldUnit < item.item.stock){
+            if(oldUnit < JSON.parse(item.item.others).stock){
                 Handler()
             }
         }else{
@@ -112,7 +112,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
                     </div>
 
                     <div className="buyer-item-units">
-                        <span>{item.item.stock} units Available</span>
+                        <span>{JSON.parse(item.item.others).stock} units Available</span>
                     </div>
 
                     <div className="buyer-item-spec">
@@ -126,7 +126,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
                             {item.cart.unit}
                         </div>
 
-                        <button onClick={e => UpdateCart('add',item)} disabled={item.item.stock > 1 && unit.filter(data => data.product_id === item.item.product_id)[0].unit <= item.item.stock ? false : true}>+</button>
+                        <button onClick={e => UpdateCart('add',item)} disabled={JSON.parse(item.item.others).stock > 1 && unit.filter(data => data.product_id === item.item.product_id)[0].unit <= JSON.parse(item.item.others).stock ? false : true}>+</button>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,15 @@ const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
 const { uploadVideoToYouTube } = require('./youtube');
+const { v4 } = require('uuid');
+const { retrive_cart, retrieve_room, retrieve_mssg_meta_data, retrieve_buyer, retrieve_seller } = require('./Functions/cart');
+const { record_transacction } = require('./Order/transaction');
+const { update_buyer_wallet } = require('./Order/update_wallet');
+const { create_order } = require('./Order/create_order');
+const { update_product_status } = require('./Order/update_product_status');
+const { create_room_id } = require('./Order/create_room');
+const { send_proposal_meta_data } = require('./Order/send_proposal_meta_data');
+const { send_proposal_message } = require('./Order/send_mssg');
 
 greetingTime(new Date());
 require('dotenv').config(); 
@@ -56,34 +65,68 @@ io(server, {cors: {origin: '*'}}).on('connection', socket => {
 app.post("/paystack-webhook", parser, async (req, res) => {
 	const payload = req.body;
 
-  let wallet_update = NeonDB.then((pool) => 
-  pool.query(`update campus_express_seller_wallet set wallet_balance = wallet_balance + ${payload.data.metadata.amount} where seller_id = '${payload.data.metadata.seller_id}'`)
-    .then(result => result.rowCount > 0 ? (true) : (false))
-    .catch(err => console.log(err))
-  )
-  .catch(err => console.log(err))
+  if(payload.data.metadata.type !== 'order'){
 
-  let transaction_update = NeonDB.then((pool) => 
-  pool.query(`insert into campus_express_seller_transactions (id,document,seller_id) values(DEFAULT, '${JSON.stringify(payload.data)}', '${payload.data.metadata.seller_id}')`)
-    .then(result => result.rowCount > 0 ? (true) : (false))
+    let wallet_update = NeonDB.then((pool) => 
+    pool.query(`update campus_express_seller_wallet set wallet_balance = wallet_balance + ${payload.data.metadata.amount} where seller_id = '${payload.data.metadata.seller_id}'`)
+      .then(result => result.rowCount > 0 ? (true) : (false))
+      .catch(err => console.log(err))
+    )
     .catch(err => console.log(err))
-  )
-  .catch(err => console.log(err))
 
-  new Promise((resolve, reject) => {
-    resolve(wallet_update)
-  })
-  .then(wallet_result => {
-    let transaction_result = transaction_update
-    return{wallet_result, transaction_result}
-  })
-  .then(({wallet_update, transaction_result}) => {
-    res.status(200).end();
-    // io(server, {cors: {origin: '*'}}).on('connection', socket => {
-    //   socket.io.emit('transaction_verification', {amount: payload.data.metadata.amount, seller_id: payload.data.metadata.seller_id})
-    // });
-  })
-  .catch(err => console.log(err))
+    let transaction_update = NeonDB.then((pool) => 
+    pool.query(`insert into campus_express_seller_transactions (id,document,seller_id) values(DEFAULT, '${JSON.stringify(payload.data)}', '${payload.data.metadata.seller_id}')`)
+      .then(result => result.rowCount > 0 ? (true) : (false))
+      .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+    new Promise((resolve, reject) => {
+      resolve(wallet_update)
+    })
+    .then(wallet_result => {
+      let transaction_result = transaction_update
+      return{wallet_result, transaction_result}
+    })
+    .then(({wallet_update, transaction_result}) => {
+      res.status(200).end();
+      // io(server, {cors: {origin: '*'}}).on('connection', socket => {
+      //   socket.io.emit('transaction_verification', {amount: payload.data.metadata.amount, seller_id: payload.data.metadata.seller_id})
+      // });
+    })
+    .catch(err => console.log(err))
+  }else{
+    let wallet_update = NeonDB.then((pool) => 
+    pool.query(`update campus_express_seller_wallet set wallet_balance = wallet_balance + ${payload.data.metadata.amount} where seller_id = '${payload.data.metadata.seller_id}'`)
+      .then(result => result.rowCount > 0 ? (true) : (false))
+      .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+    let transaction_update = NeonDB.then((pool) => 
+    pool.query(`insert into campus_express_buyer_orders(id,order_id,product_id,status,date,stock,buyer_id) values(DEFAULT, '${v4()}', '${payload.data.metadata.product_id}', '', '${date}', '${stock}', '${buyer_id}')`)
+      .then(result => result.rowCount > 0 ? (true) : (false))
+      .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+    new Promise((resolve, reject) => {
+      resolve(wallet_update)
+    })
+    .then(wallet_result => {
+      let transaction_result = transaction_update
+      return{wallet_result, transaction_result}
+    })
+    .then(({wallet_update, transaction_result}) => {
+      res.status(200).end();
+      // io(server, {cors: {origin: '*'}}).on('connection', socket => {
+      //   socket.io.emit('transaction_verification', {amount: payload.data.metadata.amount, seller_id: payload.data.metadata.seller_id})
+      // });
+    })
+    .catch(err => console.log(err))
+  }
+
+  
 
 });
 
@@ -105,7 +148,7 @@ app.post("/bank-verification", parser, (req,res) => {
 app.post("/transfer", parser, async(req,res) => {
   let {withdrwawalAmount,acctNum,bank,acctName} = req.body;
   const https = require('https')
-  const { v4: uuidv4 } = require('uuid');
+  const { v4: uuidv4, v4 } = require('uuid');
   console.log(withdrwawalAmount)
 
 
@@ -183,6 +226,91 @@ app.post("/transfer", parser, async(req,res) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+app.post("/buyer/create-order", parser, async(req,res) => {
+  let {file,buyer_id} = req.body;
+  function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble.
+      Thanks.`)}
+  // store transaction
+  // update buyer balance
+  // create order
+  // update product sataus (set status to ordered)
+  // create chat room
+  
+  new Promise(async(resolve, reject) => { 
+    let response = await record_transacction(file,buyer_id); 
+    response.bool ? resolve(response) : reject(response)
+  })
+
+  .then(async(result) => {
+    
+    result.bool ? console.log(result, 'updating buyer wallet') : console.log(result,'error occcured before updating buyer wallet') 
+    let response = await update_buyer_wallet(file,buyer_id)
+    return response ? (response) : (response)
+
+  })
+
+  .then(async(result) => {
+    result.bool ? console.log(result, 'creating order') : console.log(result,'error occcured before creating order') 
+    let carts = await retrive_cart(buyer_id)
+    let response = await carts.map(item => create_order(item.product_id, item.unit, buyer_id))
+    let data = await Promise.all(response).then(result => result)
+    let bool_check = data.includes(false)
+    return !bool_check ? ({bool: true}) : ({bool: false})
+
+  })
+
+  .then(async(result) => {
+    result.bool ? console.log(result, 'updating product status') : console.log(result,'error occcured before updating product status') 
+    let carts = await retrive_cart(buyer_id)
+    let response = await carts.map(item => update_product_status(item.product_id))
+    let data = await Promise.all(response).then(result => result)
+    let bool_check = data.includes(false)
+    return !bool_check ? ({bool: true}) : ({bool: false})
+  })
+
+  .then(async(result) => {
+    result.bool ? console.log(result, 'crearting room') : console.log(result,'error occcured before crearting room') 
+    let carts = await retrive_cart(buyer_id)
+    let seller_ids = await carts.map((item) => retrieve_seller(item.product_id))
+    let id_doc = await Promise.all(seller_ids).then(result => result)
+    let response = id_doc.map(seller_id => create_room_id(seller_id,buyer_id))
+    let data = await Promise.all(response).then(result => result)
+    let bool_check = data.includes(false)
+    return !bool_check ? ({bool: true}) : ({bool: false})
+  })
+
+  .then(async(result) => {
+    result.bool ? console.log(result, 'sending proposal meta data') : console.log(result,'error occcured before sending proposal meta data') 
+    let carts = await retrive_cart(buyer_id)
+    let seller_ids = await carts.map(async(item) => await retrieve_seller(item.product_id))
+    let seller_id_res = await Promise.all(seller_ids).then(result => result)
+    let room = seller_id_res.map((seller_id) => retrieve_room(buyer_id,seller_id))
+    let response = await Promise.all(room).then(result => result)
+    let mssg = response.map(room_id => send_proposal_meta_data(room_id,buyer_id))
+    let mssg_res = await Promise.all(mssg).then(result => result)
+    console.log(mssg_res)
+    let bool_check = mssg_res.filter(item => item.bool === false)
+    return bool_check>0 ? ({bool: false}) : ({bool: true})
+  })
+
+  .then(async(result) => {
+    result.bool ? console.log(result, 'sending message') : console.log(result,'error occcured before sending message') 
+    let buyers = await retrieve_buyer(buyer_id)
+    let mssg = await buyers.map(item => generate_mssg(`${item.fname + item.lname}`))
+    let meta_datas = await retrieve_mssg_meta_data(buyer_id)
+    let response = await meta_datas.map(item => send_proposal_message(item.message_id, mssg))
+    let mssg_res = await Promise.all(response).then(result => result)
+    let bool_check = mssg_res.includes(false)
+    return !bool_check ? ({bool: true}) : ({bool: false})
+  })
+
+  .then((result) => {
+
+  })
+
+  .catch(err => console.log(err))
 })
 
 process.on('unhandledRejection', (reason, promise) => {

@@ -1,5 +1,5 @@
 // const { AuthorizeWalletAccess, create_bill } = require("../../transactions/roles/Sellers");
-const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData, GetSeller, GetEditedItem, updateProduct, updateSellerProfile, SendEmailToken, SendToken, ResetPwd, updatePwd, DeleteProduct, GetSellerOrder, GetSellerInbox, SendEmail } = require("../controller/seller");
+const { uploadProduct, RegisterSeller, LogSellerIn, Overview, Shop, WalletData, GetSeller, GetEditedItem, updateProduct, updateSellerProfile, SendEmailToken, SendToken, ResetPwd, updatePwd, DeleteProduct, GetSellerOrder, GetSellerInbox, SendEmail, get_chats, get_mssgs, send_mssgs } = require("../controller/seller");
 const { seller_authentication, check_seller, CheckPwdResetToken, ValidateEmail } = require("../middleware/seller");
 const { express, parser } = require("../modules");
 
@@ -39,6 +39,10 @@ seller_route.post('/seller/inbox', parser, GetSellerInbox);
 
 seller_route.post('/seller/email-validation', parser, ValidateEmail);
 seller_route.post('/seller/send-email', parser, SendEmail);
+
+seller_route.post('/seller/chats', parser, get_chats);
+seller_route.post('/seller/mssg', parser, get_mssgs);
+seller_route.post('/seller/send-mssg', parser, send_mssgs);
 
 seller_route.delete('/seller/product-delete', DeleteProduct);
 

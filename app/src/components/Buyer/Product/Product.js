@@ -38,6 +38,8 @@ const Product = () => {
         }
     )
 
+    let [stock, set_stock] = useState(1)
+
     let [activeImg, setActiveImg] = useState(imgSvg)
 
     let {ItemImages} = useSelector(s => s.itemImages)
@@ -62,6 +64,7 @@ const Product = () => {
         GetItem([location.pathname.split('/')[2]])
         .then((result) => {
             setItem(result[0])
+            set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
             overlay.removeAttribute('id')
         })
         .catch(err => console.log(err))
@@ -203,10 +206,41 @@ const Product = () => {
         })
     }
 
+    function get_stock(params) {
+        
+    }
+
+    let [immediate_purchase, set_immediate_purchase] = useState(1)
+
     return ( 
         <>
+          
             <div className="overlay">
                 <div className="loader">
+                </div>
+            </div>
+            <div className="buy_now_overlay" onClick={e => {
+                if(e.target === document.querySelector('.buy_now_overlay')){document.querySelector('.buy_now_overlay').removeAttribute('id')}
+            }}>
+                <div className="buy_now_cnt">
+                    <p style={{color: 'orangered', textDecoration: 'underline'}}><b> {stock} Units</b></p>
+
+
+                    <p style={{textAlign: 'left', justifyContent: 'left'}}>There Are Only {stock} Availble {item.title}</p>
+
+                    <div className="btn-cnt"> 
+                        <button onClick={e => {e.preventDefault(); if(immediate_purchase > 1){set_immediate_purchase(immediate_purchase - 1)}}}>-</button>
+                        <div  style={{height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{immediate_purchase}</div>
+                        <button onClick={e => {e.preventDefault(); if(immediate_purchase <  stock){set_immediate_purchase(immediate_purchase + 1)}}}>+</button>
+                    </div>
+                    <br />
+
+                    <p style={{textAlign: 'left', justifyContent: 'left'}}>You Are Buying {immediate_purchase} Unit Of {item.title}</p>
+
+                    <br />
+                    <button style={{fontSize: 'small'}} onClick={
+                        e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price * immediate_purchase)}`) : navigate(`/seller/editor?product_id=${item.product_id}`)
+                    }>Checkout SubTotal ({item.price * immediate_purchase})</button>
                 </div>
             </div>
             <div className="buyer-product">
@@ -249,15 +283,17 @@ const Product = () => {
                                 <p style={{fontWeight: '400', padding: '0px', fontSize: 'xx-large'}}>
                                     <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item.price)}
                                 </p>
-                                <p style={{fontWeight: '400', padding: '0px'}}>0 in stock</p>
+                                <p style={{fontWeight: '500', padding: '0px'}}>{stock} Units Available</p>
 
-                                <p>+ shipping from ₦ 640 to AWKA TOWN</p> 
+                                <p>+ shipping from ₦0 to AWKA TOWN</p> 
                             </div>
 
                             {/* <hr /> */}
                             <br />
 
-                            <div style={BtnStyles} onClick={e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price)}`) : navigate(`/seller/editor?product_id=${item.product_id}`)}>
+                            <div style={BtnStyles} onClick={e => {
+                                document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
+                            }}>
                                 Buy Now
                             </div>
 

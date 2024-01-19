@@ -1,29 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { GetItem } from "../../../api/buyer";
+import { GetBuyer, GetItem } from "../../../api/buyer";
 import { useLocation } from "react-router-dom";
-import PayStack from "../Forms/PayStack";
-import { usePaystackPayment } from "react-paystack";
-import CEStack from "../../Payments/CEStack";
 import Summary from "./Summary";
 import PaymentMethod from "./PaymentMethod";
-import Btn from "./Btn";
 import CheckoutSummary from "./CheckoutSummary";
-import Withdrawal from "../Withdrawal";
+import CEStack from "../../Payments/CEStack";
+import PayStack from "../../Payments/PayStack_For_Buyer";
 
 const CheckOut = () => {
-    let [item, setItem] = useState('')
     let [Total, setTotal] = useState(0)
-    let [payment, setPayMent] = useState('')
-    let [paymentMethodSelected, setPaymentMethodSelected] = useState(false)
-    let [fname, setFname] = useState('')
-    let [lname, setLname] = useState('')
-    let [email, setEmail] = useState('')
-    let [phone, setPhone] = useState('')
-    let [amount, setAmount] = useState('0.00')
+    let [payment, setPayMent] = useState(<PayStack price={Total}  />)
+    
+    let [buyer, set_buyer] = useState('')
     let [totalItem, setTotalItem] = useState(0)
 
-    let deliveryPrice = useRef(0)
     let location = useLocation()
+    let [product_id, set_product_id] = useState([])
 
    
     useEffect(() => {
@@ -31,50 +23,46 @@ const CheckOut = () => {
 
             GetItem(atob(location.pathname.split('/')[2]).split("-"))
             .then((result) => {
-
-                //console.log(atob(location.pathname.split('/')[2]))
-                let prices = []
-                result.map((item) => prices.push(eval(item.price)))
-                let total  = parseInt(atob(location.pathname.split('/')[3])) + parseInt(deliveryPrice.current);
-                setItem(result)
+               
+                let product_id = []
+                result.map((item) => product_id.push(({product_id: item.product_id, stock: 1})));
+                set_product_id(product_id)
+                // console.log(result)
+                let total  = parseInt(atob(location.pathname.split('/')[3]));
                 setTotal(total)
-                console.log(total)
             })
             .catch(err => console.log(err))
         }else{
             GetItem(atob(location.pathname.split('/')[2]).split("-"))
             .then((result) => {
-                let prices = []
-                //result.map((item) => prices.push(eval(item[0].price)))
-                let total  = parseInt(atob(location.pathname.split('/')[3])) + parseInt(deliveryPrice.current);
-                setItem(result)
+
+                let product_id = []
+                result.map((item) => product_id.push(({product_id: item.product_id, stock: 1})));
+                set_product_id(product_id)
+
+                let total  = parseInt(atob(location.pathname.split('/')[3]));
                 setTotal(total)
+
             })
             .catch(err => console.log(err))
         }
 
-        //console.log('total cost: ',atob(location.pathname.split('/')[2]).split("-").length);
         setTotalItem(atob(location.pathname.split('/')[2]).split("-").length);
         
+    }, []) 
+
+    useEffect(() => {
+        GetBuyer(window.localStorage.getItem('CE_buyer_id'))
+        .then((result) => {
+        set_buyer(result)
+        })
+        .catch((err) => {
+        console.log(err)
+        })
     }, [])
-
-
-    function handleDeposit(params) {
-        let overlay = document.querySelector('.seller-overlay');
-        overlay.setAttribute('id', 'seller-overlay')
-    }
-
-    function SetPaymentMethod(type) {
-        if(type === 'wallet'){
-            setPayMent(1)
-            setPaymentMethodSelected(true)
-        }else{
-            setPayMent(0)
-            setPaymentMethodSelected(true)
-        }
-    }
-
-    function setPayment(data) {SetPaymentMethod(data)}
+    
+  
+    function set_up_payment_source(data) {if(data === 'wallet'){setPayMent(<CEStack price={Total} product_id={product_id}  />)}else{setPayMent(<PayStack price={Total} product_id={product_id} />)}}
 
     return ( 
         <>
@@ -82,13 +70,13 @@ const CheckOut = () => {
                 {payment}
             </div>
             <div className="buyer-checkout">
-                <PaymentMethod setPayment={setPayment} />
+                <PaymentMethod set_up_payment_source={set_up_payment_source} />
                 {/* <Method /> */}
                 {/* <Info /> */}
                 <Summary totalItem={totalItem} Total={Total} />
             </div>
 
-            <CheckoutSummary Method={payment} Total={Total} />
+            <CheckoutSummary Method={payment} Total={Total} buyer_id={buyer.buyer_id} />
 
             {/* <div className="buyer-checkout-btn" onClick={e => handleDeposit()}>
                 <Btn deliveryPrice={deliveryPrice} />

@@ -1,4 +1,4 @@
-import Messages from "../../components/Seller/Messages";
+import Messages from "../../components/Seller/Messages/Messages";
 
 const Message = () => {
     return ( 
@@ -6,7 +6,7 @@ const Message = () => {
         
             <div className="seller-main">
                 <Messages />
-            </div>
+            </div> 
         </>
      );
 }
