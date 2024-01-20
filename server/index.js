@@ -132,7 +132,7 @@ app.post("/paystack-webhook", parser, async (req, res) => {
 
 
 app.post("/flw-webhook", parser, async(req,res) => {
-  let {payload} = req.body;
+  let payload = req.body;
   console.log(payload)
   
   // function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble.
