@@ -73,7 +73,10 @@ const Filterfilter = () => {
 
     return ( 
         <>
-            <div className="buyer-filter shadow-sm">
+            <div className="buyer-filter shadow-sm" style={{
+                height: 'fit-content',
+                borderRadius: '1.5px'
+            }}>
                 <div className="buyer-filter-cnt ">
                     <h5 style={{fontWeight: '500', color: 'orangered'}}>Filter Section </h5>
                     <div className="input-cnt" >
@@ -83,7 +86,7 @@ const Filterfilter = () => {
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Category</label>
                         </div>
-                        <select name="" onInput={e => {dispatch(setCategoryTo(e.target.innerHTML.toLowerCase())); setCategories(e.target.value)}} id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => {dispatch(setCategoryTo(e.target.innerHTML.toLowerCase())); setCategories(e.target.value)}} id="">
                             <option value={''}>Select A Category</option>
 
                             {
@@ -101,7 +104,7 @@ const Filterfilter = () => {
 
                         <br />
 
-                        <select name="" id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
                             <option value={''}>Select Product Type</option>
 
                             {
@@ -121,7 +124,7 @@ const Filterfilter = () => {
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Condition</label>
                         </div>
-                        <select name="" id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
                             <option value={''}>Select Product Type</option>
 
                             {
@@ -142,8 +145,8 @@ const Filterfilter = () => {
                         <RangeSlider />
                         <br />
                         <div>
-                            <input style={{height: '45px', width: '40%', float: 'left'}} placeholder="From..." type="number" name="" id="" />
-                            <input style={{height: '45px', width: '40%', float: 'right'}} placeholder="To..." type="number" name="" id="" />
+                            <input style={{height: '35px', width: '40%', float: 'left'}} placeholder="From..." type="number" name="" id="" />
+                            <input style={{height: '35px', width: '40%', float: 'right'}} placeholder="To..." type="number" name="" id="" />
                         </div>
                     </div>
 
@@ -154,7 +157,7 @@ const Filterfilter = () => {
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Location</label>
                         </div>
-                        <select name="" id="" onChange={e => setStateValue(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => setStateValue(e.target.value)}>
                             <option value={''}>Select State</option>
 
                             {
@@ -165,7 +168,7 @@ const Filterfilter = () => {
                         </select>
                         <br />
 
-                        <select name="" id="" onChange={e => setSchoolValue(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => setSchoolValue(e.target.value)}>
                             <option value={''}>Select Campus</option>
 
                             {
@@ -175,14 +178,13 @@ const Filterfilter = () => {
                             }
                         </select>
                     </div>
-                    <br />
 
                     <div className="buyer-filter-btn" style={{display: 'inline-block', width: '100%', justifyContent: 'space-between'}}>
                         <button onClick={e => {e.preventDefault(); handleOverlay()}} style={{
-                            height: '50px',
+                            height: '35px',
                             width: '46%',
                             float: 'left',
-                            borderRadius: '5px',
+                            borderRadius: '1.5px',
                             outline: 'none',
                             border: 'none',
                             textAlign: 'center',
@@ -199,10 +201,10 @@ const Filterfilter = () => {
                             Cancel
                         </button>
                         <button style={{
-                            height: '50px',
+                            height: '35px',
                             width: '46%',
                             float: 'right',
-                            borderRadius: '5px',
+                            borderRadius: '1.5px',
                             outline: 'none',
                             border: 'none',
                             textAlign: 'center',

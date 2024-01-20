@@ -116,8 +116,12 @@ const CardCnt = () => {
                 <div className="loader">
                 </div>
             </div>
-            <div className="buyer-card-cnt shadow-sm" >
-                <div className="buyer-sort shadow-sm">
+            <div className="buyer-card-cnt shadow-sm" style={{
+                borderRadius: '1.5px',
+                height: '100%'
+
+            }}>
+                <div className="buyer-sort shadow-sm" style={{marginTop: '0px',borderRadius: '1.5px', zIndex: '1000'}}>
                     <div className="left">
                         Latest Items For Sale
                     </div>

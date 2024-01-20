@@ -17,14 +17,17 @@ const Card = ({item, index}) => {
     let [screenWidth, setScreenWidth] = useState(0)
  
     let BtnStyles = {
-        height: screenWidth > 480 ? '60px' : '60px',
+        height: screenWidth > 480 ? '40px' : '40px',
         width: '100%',
-        borderRadius: '5px',
+        borderRadius: '2.5px',
         outline: 'none',
         border: 'none',
         float: 'right',
         color: '#fff',
         fontSize: 'small',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
         fontWeight: '500',
         backgroundColor: 'orangered',
         margin: '0'
@@ -131,7 +134,7 @@ const Card = ({item, index}) => {
                 elem
             }
             <div className="cols" >
-                <div className="card" key={index}>
+                <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10x'}}>
                     <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
                         <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
                             <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '8px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
@@ -149,17 +152,19 @@ const Card = ({item, index}) => {
                         {
                             screenWidth > 479
                             ?
-                            <small style={{fontSize: 'small', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                            <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                             : 
-                            <small style={{fontSize: 'small', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                            <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                         }
 
-                        <hr  />
+                        {/* <br /> */}
+
+                        {/* <hr  /> */}
                         
                         {
                             screenWidth > 479
                             ?
-                            <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{
+                            <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '500', color: '#000'}}>&#8358;{
                                 new Intl.NumberFormat('en-us').format(item.price)
                             }</h6>
                             : 
@@ -167,21 +172,22 @@ const Card = ({item, index}) => {
                         }
 
                         <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
-                            <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', left: '20px', padding: '5px 0 5px 0'}}>
+                            <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', left: '20px', padding: '5px 0 5px 0'}}>
                                 <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
+
                                     <img src={conditionSvg} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
 
                                 </span>
                                 &nbsp;
 
                                 <span  style={{background: '#fff',color: 'rgb(98, 98, 98)', padding: '0',  fontSize: 'x-small', fontWeight: '500'}}> 
-                                    {item.others?.split(',')[1]}
+                                    {JSON.parse(item.others)?.condition}
                                 </span>
                             </span>
                             
                         </div>
 
-                        <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '0px', top: '85px', background: '#fff', color: '#626262', height: 'fit-content', width: 'fit-content'}}>
+                        <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '0px', top: '55px', background: '#fff', color: '#626262', height: '50px', width: 'fit-content'}}>
                             <img src={saveSvg} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
                             <section style={{marginTop: '-5px', fontSize: 'x-small'}}>
                                 {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
@@ -212,7 +218,7 @@ const Card = ({item, index}) => {
                         <span>
                             <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                         </span>
-                        <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                        <span style={{fontSize: 'x-small'}}>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
                     </button>
                     {/*<br />*/} 
 

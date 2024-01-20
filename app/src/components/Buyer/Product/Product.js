@@ -239,7 +239,7 @@ const Product = () => {
 
                     <br />
                     <button style={{fontSize: 'small'}} onClick={
-                        e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price * immediate_purchase)}`) : navigate(`/seller/editor?product_id=${item.product_id}`)
+                        e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price * immediate_purchase)}/immediate_purchase`) : navigate(`/seller/editor?product_id=${item.product_id}`)
                     }>Checkout SubTotal ({item.price * immediate_purchase})</button>
                 </div>
             </div>

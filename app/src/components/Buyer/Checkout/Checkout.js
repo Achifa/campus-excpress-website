@@ -5,13 +5,13 @@ import Summary from "./Summary";
 import PaymentMethod from "./PaymentMethod";
 import CheckoutSummary from "./CheckoutSummary";
 import CEStack from "../../Payments/CEStack";
-import PayStack from "../../Payments/PayStack_For_Buyer";
+import Flw from "../../Payments/Flw";
 
 const CheckOut = () => {
     let [Total, setTotal] = useState(0)
-    let [payment, setPayMent] = useState(<PayStack price={Total}  />)
     
     let [buyer, set_buyer] = useState('')
+    let [type, set_type] = useState('')
     let [totalItem, setTotalItem] = useState(0)
 
     let location = useLocation()
@@ -62,7 +62,8 @@ const CheckOut = () => {
     }, [])
     
   
-    function set_up_payment_source(data) {if(data === 'wallet'){setPayMent(<CEStack price={Total} product_id={product_id}  />)}else{setPayMent(<PayStack price={Total} product_id={product_id} />)}}
+    function set_up_payment_source(data) {if(data === 'wallet'){setPayMent(<CEStack price={Total} product_id={product_id}  />); set_type(data)}else{setPayMent(<Flw buyer={buyer} price={Total} product_id={product_id} />); set_type(data)}}
+    let [payment, setPayMent] = useState(<Flw buyer={buyer} price={Total} product_id={product_id}  />)
 
     return ( 
         <>
@@ -76,7 +77,7 @@ const CheckOut = () => {
                 <Summary totalItem={totalItem} Total={Total} />
             </div>
 
-            <CheckoutSummary Method={payment} Total={Total} buyer_id={buyer.buyer_id} />
+            <CheckoutSummary Method={payment} type={type} Total={Total} price={Total} buyer={buyer} />
 
             {/* <div className="buyer-checkout-btn" onClick={e => handleDeposit()}>
                 <Btn deliveryPrice={deliveryPrice} />

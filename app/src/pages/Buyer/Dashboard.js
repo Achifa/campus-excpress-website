@@ -15,6 +15,7 @@ import FlashAds from '../../components/Buyer/dashboard/FlashAds'
 import Ads from '../../components/Buyer/dashboard/Ads'
 import Main from '../../components/Buyer/dashboard/Main'
 import Lodge from '../../components/Buyer/dashboard/Lodge'
+import FlashSales from '../../components/Buyer/dashboard/FlashSales'
  
 const Dashboard = () => {
 
@@ -25,36 +26,51 @@ const Dashboard = () => {
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
+        document.body.style.background='orangered'
     }, [])
 
     let {category} = useSelector(s => s.Category)
     console.log(category)
    
     return ( 
-        <div className="buyer-main-cnt">  
-            {/*<BuyerAside />*/}
+        <>
+            <div className="buyer-main-cnt" style={{
+                height: 'fit-content',
+                background: 'orangered'
+            }}>  
+                {/*<BuyerAside />*/}
+                
             
 
+                {
+                    category === 'trends'
+                    ?
+                        <>
+                            <Ads />
 
-            {
-                category === 'trends'
-                ?
-                    <>
-                        <Ads />
+                            <FlashAds />
+                            {/* <Lodge /> */}
+                        </>
+                    :
+                    ''
+                }
 
-                        <FlashAds />
-                        <Lodge />
-                    </>
-                :
-                ''
-            }
+                {/* <FlashSales /> */}
 
-            {/* <FlashSales />
+                {/* <Recommended /> */}
+                
+            </div>
 
-            <Recommended /> */}
-            <Main />
-        </div>
+            <div className="buyer-main-content" style={{
+                padding: '10px 80px 10px 80px',
+                background: 'orangered',
+                height: '100vh'
+            }}>
+                <Main />
+            </div>
+
+        </>
      );
-}
+} 
  
 export default Dashboard;
