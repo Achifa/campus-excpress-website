@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Withdrawal from "../Withdrawal";
-import PayStack from "../../Payments/PayStack_For_Buyer";
 import { closePaymentModal, useFlutterwave } from "flutterwave-react-v3";
 
 const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
