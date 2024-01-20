@@ -21,7 +21,6 @@ export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
     })
 }
 
-
 export function LogBuyerIn(email,pwd) {
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/buyer/login`, {
