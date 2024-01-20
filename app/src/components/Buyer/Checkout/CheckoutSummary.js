@@ -9,10 +9,7 @@ const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
         amount: price,
         currency: 'NGN',
         payment_options: 'card,mobilemoney,ussd',
-        customer: {
-            email: buyer.email,
-            phone_number: buyer.phone,
-            name: buyer.fname + " " + buyer.lname,
+        meta: {
             ce_id: buyer.buyer_id,
             cart: {
                 unit: 1,
@@ -20,6 +17,11 @@ const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
                 product_id: ''
             },
             src: window.location.pathname.split('/').length > 4 ?  window.location.pathname.split('/')[4]: false       
+        },
+        customer: {
+            email: buyer.email,
+            phone_number: buyer.phone,
+            name: buyer.fname + " " + buyer.lname,
         },
         customizations: {
         title: 'Campus Express',

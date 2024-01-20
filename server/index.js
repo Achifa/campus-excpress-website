@@ -199,7 +199,7 @@ app.post("/flw-webhook", parser, async(req,res) => {
 
   // })
 
-  .catch(err => console.log(err))
+  // .catch(err => console.log(err))
 })
 
 
@@ -421,3 +421,44 @@ axios.post(apiUrl, requestData)
   .catch(error => {
     console.error('Error:', error.response ? error.response.data : error.message);
   });
+
+
+
+
+  // {
+  //   event: 'charge.completed',
+  //   data: {
+  //     id: 1225245473,
+  //     tx_ref: '1705765425936',
+  //     flw_ref: '000015240120164445622193005942',
+  //     device_fingerprint: 'c8aa717b08b3886a793db19aa6566e3b',
+  //     amount: 396,
+  //     currency: 'NGN',
+  //     charged_amount: 396,
+  //     app_fee: 5.55,
+  //     merchant_fee: 0,
+  //     processor_response: 'success',
+  //     auth_model: 'AUTH',
+  //     ip: '102.89.22.19',
+  //     narration: 'Campus Express',
+  //     status: 'successful',
+  //     payment_type: 'bank_transfer',
+  //     created_at: '2024-01-20T15:44:52.000Z',
+  //     account_id: 2852138,
+  //     customer: {
+  //       id: 770776339,
+  //       name: 'Akpulu Chinedu',
+  //       phone_number: '8032639894',
+  //       email: 'akpulufabian@gmail.com',
+  //       created_at: '2024-01-19T14:35:39.000Z'
+  //     }
+  //   },
+  //   'event.type': 'BANK_TRANSFER_TRANSACTION'
+  // }
+
+  // let resource = payload.data;
+
+  // let name = resource.customer.name
+  // let phone = resource.customer.phone
+  // let email = resource.customer.email
+  // let created_at = resource.customer.created_at
