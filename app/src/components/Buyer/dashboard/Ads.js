@@ -1,6 +1,6 @@
 
 import Category, { setCategoryTo } from "../../../redux/buyer/Category";
-import img from '../../../images/Slider.png'
+import ads from '../../../images/Slider.png'
 import foodSvg from '../../../assets/food-market-purchasing-svgrepo-com.svg'
 import electronicsSvg from '../../../assets/broadcast-device-electronics-svgrepo-com.svg'
 import vehicleSvg from '../../../assets/car-hand-drawn-outlined-vehicle-svgrepo-com.svg'
@@ -31,6 +31,12 @@ const Ads = () => {
     }, [])
     let dispatch = useDispatch()
 
+ 
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
+
     let categories = [
         ["Food", foodSvg],
         ["Electronics", electronicsSvg],
@@ -56,21 +62,37 @@ const Ads = () => {
             <span style={{fontSize: 'small', whiteSpace: 'nowrap', float: 'right', width: 'calc(100% - 30px)', textAlign: 'left', marginLeft: '45px'}}>{(item[0])}</span>
         </li>
     )
-    return ( 
+
+    // useEffect(() => {
+    //     let canvas = document.querySelector('canvas');
+    //     let ctx = canvas.getContext('2d');
+    //     var img = new Image();
+    //     // Set the source of the image
+    //     img.style.height = '200px'
+    //     img.style.width = screenWidth
+    //     img.src = ads;  
+ 
+    //     ctx.drawImage(img, 0, 0, 400, 220);   
+
+    // }, [])  
+
+
+    return (   
         <>
-            <div className="buyer-ads-cnt">
+            <div className="buyer-ads-cnt" style={{marginTop: '10px'}}>
                 <section style={{background: '#fff', padding: '5px', overflow: 'auto'}}>
                     <ul style={{listStyleType: 'none', margin: '0', padding: '10px 0 10px 0', overflow: 'auto'}}>
                         {
                             Categories
                         }
-                    </ul>
+                    </ul>  
                 </section>
                 <section className="img-cnt" >
-                    <img src={img}  alt="" />
+                    <img src={ads}  alt="" /> 
+                    {/* <canvas style={{height: '100%', width: '100%'}} id="ads-canvas"></canvas> */}
                 </section>
             </div>
-        </> 
+        </>   
      );
 } 
  

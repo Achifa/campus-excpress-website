@@ -134,7 +134,7 @@ const Card = ({item, index}) => {
                 elem
             }
             <div className="cols" >
-                <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10x'}}>
+                <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10px'}}>
                     <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
                         <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
                             <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '8px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />

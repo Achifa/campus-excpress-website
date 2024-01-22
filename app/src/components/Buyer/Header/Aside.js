@@ -94,7 +94,7 @@ const Aside = () => {
     let list3 = categoriesList
 
     let CEservices = list1.map((item,i) => 
-        <li onClick={e => navigate(`${item}`)} key={i}>
+        <li onClick={e => navigate(`${item}`)} key={i} style={{display: 'flex', }}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
             </span>
@@ -105,7 +105,7 @@ const Aside = () => {
     )
 
     let Help = list2.map((item, i) => 
-        <li onClick={e => i === list2.length - 1 ?  navigate(`/login`) : navigate(`${item}`)} key={i}>
+        <li onClick={e => i === list2.length - 1 ?  navigate(`/login`) : navigate(`${item}`)} key={i} style={{display: 'flex', }}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
             </span>
@@ -116,7 +116,7 @@ const Aside = () => {
     )
 
     let Categories = categories.map((item,i) => 
-        <li data-category={item[0]} onClick={e => {navigate(`/?category=${item[0].toLowerCase()}`); dispatch(setCategoryTo(item[0].toLowerCase()))}} key={i}>
+        <li style={{display: 'flex', }} data-category={item[0]} onClick={e => {navigate(`/?category=${item[0].toLowerCase()}`); dispatch(setCategoryTo(item[0].toLowerCase()))}} key={i}>
             <span>
             
                 <img src={(item[1])} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />

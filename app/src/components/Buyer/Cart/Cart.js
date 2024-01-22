@@ -98,7 +98,7 @@ const Cart = () => {
                {
                 Items.map((item, index) => {
                     return(
-                        <Card unit={unit} getTotalPrice={getTotalPrice} item={item} index={index} />
+                        <Card product_id={item.item.product_id} unit={unit} getTotalPrice={getTotalPrice} item={item} index={index} />
                     )
                 })
                }

@@ -243,6 +243,8 @@ const Product = () => {
                     }>Checkout SubTotal ({item.price * immediate_purchase})</button>
                 </div>
             </div>
+
+            <br />
             <div className="buyer-product">
                 <div className="buyer-product-cnt" style={{display: 'flex', flexDirection: 'column'}}>
                     <div className="buyer-product-data">

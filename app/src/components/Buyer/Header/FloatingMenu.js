@@ -20,12 +20,12 @@ const FloatingMenu = ({list,right,top,visible,getSelectedOption,setDisplay}) => 
                     {
                         list.map((item) =>  
                         
-                        <li onClick={e => {getSelectedOption(item.text?.toLowerCase()); setDisplay('none')}}>
+                        <li onClick={e => {getSelectedOption(item?.toLowerCase()); setDisplay('none')}}>
                                 <span>
 
                                 </span>
                                 <span>
-                                    {item.text}
+                                    {item}
                                 </span>
                             </li>
                         )

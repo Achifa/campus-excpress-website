@@ -14,15 +14,17 @@ import { useSelector } from "react-redux";
 import FlashAds from '../../components/Buyer/dashboard/FlashAds'
 import Ads from '../../components/Buyer/dashboard/Ads'
 import Main from '../../components/Buyer/dashboard/Main'
+
 import Lodge from '../../components/Buyer/dashboard/Lodge'
 import FlashSales from '../../components/Buyer/dashboard/FlashSales'
+import PaidAds from '../../components/Buyer/dashboard/PaidAds'
  
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
  
     let navigate = useNavigate() 
-
+ 
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
@@ -38,7 +40,7 @@ const Dashboard = () => {
                 height: 'fit-content',
                 background: 'orangered'
             }}>  
-                {/*<BuyerAside />*/}
+                {/*<BuyerAside />*/} 
                 
             
 
@@ -47,9 +49,10 @@ const Dashboard = () => {
                     ?
                         <>
                             <Ads />
+                            {/* <PaidAds /> */}
 
-                            <FlashAds />
-                            {/* <Lodge /> */}
+                            {/* <FlashAds />
+                            <Lodge /> */}
                         </>
                     :
                     ''
@@ -61,8 +64,8 @@ const Dashboard = () => {
                 
             </div>
 
-            <div className="buyer-main-content" style={{
-                padding: '10px 80px 10px 80px',
+            <div className="buyer-main-content buyer-main-cnt" style={{
+                // padding: '10px 80px 10px 80px',
                 background: 'orangered',
                 height: '100vh'
             }}>

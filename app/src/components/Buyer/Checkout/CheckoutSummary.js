@@ -11,22 +11,14 @@ const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
         payment_options: 'card,mobilemoney,ussd',
         meta: {
             ce_id: buyer.buyer_id,
-            cart: {
-                unit: 1,
-                seller_id: '',
-                product_id: ''
-            },
+            cart: {unit: 1,seller_id: '',product_id: ''},
             src: window.location.pathname.split('/').length > 4 ?  window.location.pathname.split('/')[4]: false       
         },
-        customer: {
-            email: buyer.email,
-            phone_number: buyer.phone,
-            name: buyer.fname + " " + buyer.lname,
-        },
+        customer: {email: buyer.email,phone_number: buyer.phone,name: buyer.fname + " " + buyer.lname},
         customizations: {
-        title: 'Campus Express',
-        description: 'Payment for items in cart',
-        logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+            title: 'Campus Express',
+            description: 'Payment for items in cart',
+            logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
         },
     };
 

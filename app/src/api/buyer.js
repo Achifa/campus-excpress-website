@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 let u1 = `http://localhost:1111`
-let u2 = `http://192.168.94.146:1111` 
+let u2 = `http://192.168.206.146:1111` 
 let u3 = `https://ce-server.onrender.com`
 
 let plug = u3; 
@@ -13,7 +13,7 @@ export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
             fname,lname,email,phone,pwd,state,campus
         })
         .then((result) => {
-            resolve(result.data)
+            resolve(result.data) 
         })
         .catch((err) => { 
             reject(err)

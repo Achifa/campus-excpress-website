@@ -259,6 +259,7 @@ async function get_buyer(req,res) {
 async function get_shop_items(req,res) {
 
     let {category} = req.query;
+    console.log(category)
 
     if(category === 'trends'){
         NeonDB.then((pool) => 
@@ -268,8 +269,8 @@ async function get_shop_items(req,res) {
         )
     }else{
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop where category = ${category} AND state->>'state' = 'publish'`)
-            .then(result =>  res.send(result.rows[0]))
+            pool.query(`select * from seller_shop where category = '${category}' AND state->>'state' = 'publish'`)
+            .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
     }
@@ -306,7 +307,7 @@ async function get_item(req,res) {
     })
     
 
-    getItems(id)
+    // getItems(id)
 
 }
 

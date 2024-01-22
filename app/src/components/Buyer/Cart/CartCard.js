@@ -3,11 +3,11 @@ import { DeleteItemFromCart, GET_PRODUCT_THUMBNAIL, UpdateCartUnit } from "../..
 import { useEffect, useState } from "react";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import { setCartTo } from "../../../redux/buyer/Cart";
-import Thumbnail from "../Thumbnail";
-import { isBuyerLoggedIn } from "../LoggedIn";
+import { isBuyerLoggedIn } from "../LoggedIn"; 
 import { useNavigate } from "react-router-dom";
+import Thumbnail from "./Thumbnail";
 
-const Card = ({item,index,unit,getTotalPrice}) => {
+const Card = ({item,index,unit,getTotalPrice, product_id}) => {
 
     // let [isLoggedIn, setIsLoggedIn] = useState(false)
     // useEffect(() => {
@@ -92,7 +92,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
     return ( 
         <>
             <div key={index} className="buyer-cart-card shadow-sm">
-                <img src={img} alt="" />
+                <Thumbnail product_id={product_id} />
                 <button  className="buyer-cart-remove-btn" style={{background: 'orangered'}} onClick={e => AddToCart(e,item.item.product_id)}>
                     Remove
                 </button>

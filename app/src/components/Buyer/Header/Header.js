@@ -318,11 +318,11 @@ const BuyerHeader = () => {
           <SearchBar />
       } */}
         
-      {
+      {/* {
         searchResultElem
-      }
+      } */}
     </>
   );
 }
   
-export default BuyerHeader;
+export default BuyerHeader; 
