@@ -51,13 +51,14 @@ const Dashboard = () => {
                             <Ads />
                             {/* <PaidAds /> */}
 
-                            {/* <FlashAds />
-                            <Lodge /> */}
+                            {/* <FlashAds /> */}
+                            {/* <Lodge /> */}
                         </>
                     :
                     ''
                 }
 
+                <br />
                 {/* <FlashSales /> */}
 
                 {/* <Recommended /> */}
