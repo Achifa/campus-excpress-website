@@ -48,7 +48,7 @@ const Dashboard = () => {
                     category === 'trends'
                     ?
                         <>
-                            <Ads />
+                            {/* <Ads /> */}
                             {/* <PaidAds /> */}
 
                             {/* <FlashAds /> */}
@@ -58,7 +58,7 @@ const Dashboard = () => {
                     ''
                 }
 
-                <br />
+                {/* <br /> */}
                 {/* <FlashSales /> */}
 
                 {/* <Recommended /> */}

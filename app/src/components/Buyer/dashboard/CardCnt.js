@@ -118,17 +118,19 @@ const CardCnt = () => {
             </div>
             <div className="buyer-card-cnt shadow-sm" style={{
                 borderRadius: '1.5px',
-                height: '100%'
+                height: '100%', 
+                padding: '0',
+                background: 'orangered'
 
             }}>
-                <div className="buyer-sort shadow-sm" style={{marginTop: '0px',borderRadius: '1.5px', zIndex: '1000'}}>
+                {/* <div className="buyer-sort shadow-sm" style={{marginTop: '0px',borderRadius: '1.5px', zIndex: '1000'}}>
                     <div className="left">
                         Latest Items For Sale
                     </div>
                     <div onClick={openFloatingMenu} className="right">
                         Filter {selectedOption}
                     </div>
-                </div>
+                </div> */}
 
                 {
                     <FloatingMenu getSelectedOption={getSelectedOption} setDisplay={setDisplay} list={list} visible={visible} top={top} right={right} />

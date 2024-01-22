@@ -148,7 +148,7 @@
         background-color: orangered;
     }
     .buyer-ads-cnt section:nth-child(even) img{
-        height: 250px;
+        height: 150px;
         width: 100%;
         border-radius: 1px;
     }
