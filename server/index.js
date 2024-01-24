@@ -16,6 +16,7 @@ const { update_product_status } = require('./Order/update_product_status');
 const { create_room_id } = require('./Order/create_room');
 const { send_proposal_meta_data } = require('./Order/send_proposal_meta_data');
 const { send_proposal_message } = require('./Order/send_mssg');
+const { delete_cart, delete_cart_with_id } = require('./Order/delete_cart');
 
 greetingTime(new Date());
 require('dotenv').config(); 
@@ -133,73 +134,169 @@ app.post("/paystack-webhook", parser, async (req, res) => {
 
 app.post("/flw-webhook", parser, async(req,res) => {
   let payload = req.body;
-  console.log(payload)
-  
-  // function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble.
-  //     Thanks.`)}
+  function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble.
+      Thanks.`)}
   // // store transaction
   // // update buyer balance *** not for immediate purchase
   // // create order
   // // update product sataus (set status to ordered)
   // // create chat room
   
-  // new Promise(async(resolve, reject) => { 
-  //   let response = await record_transacction(file,buyer_id); 
-  //   response.bool ? resolve(response) : reject(response)
-  // })
+  new Promise(async(resolve, reject) => { 
+    let response = await record_transacction(file,buyer_id, 'bank'); 
+    response.bool ? resolve(response) : reject(response)
+  })
+
+  .then(async(result) => {
+    result.bool 
+    ? 
+    console.log(result, 'saved transaction') 
+    : 
+    console.log(result,'error occcured while saving transaction')
+
+    if(result.bool && payload.data.meta.immediate_purchase){
+
+      let response = await create_order(payload.data.meta.product_id, payload.data.meta.unit, buyer_id)
+      let data = await response()
+      return data ? ({bool: true}) : ({bool: false})
+
+    }else if(result.bool && !payload.data.meta.immediate_purchase){
+
+      let carts = await retrive_cart(buyer_id)
+      let response = await carts.map(item => create_order(item.product_id, item.unit, buyer_id))
+      let data = await Promise.all(response).then(result => result)
+      let bool_check = data.includes(false)
+      return !bool_check ? ({bool: true}) : ({bool: false})
+
+    }else{console.log(result,'error occcured creating order')}
+  })
 
   // .then(async(result) => {
-  //   result.bool ? console.log(result, 'creating order') : console.log(result,'error occcured before creating order') 
-  //   let response = await create_order(payload.customer.product_id, payload.customer.unit, buyer_id)
-  //   let data = await response()
-  //   let bool_check = data.includes(false)
-  //   return !bool_check ? ({bool: true}) : ({bool: false})
+  //   result.bool 
+  //   ? 
+  //   console.log(result, 'creating order') 
+  //   : 
+  //   console.log(result,'error occcured before creating order') 
+
+  //   if(result.bool && payload.data.meta.immediate_purchase){
+      
+  //   }else if(result.bool && !payload.data.meta.immediate_purchase){
+      
+  //   }else{
+  //     console.log(result,'error occcured creating order') 
+  //   }
+    
 
   // })
 
-  // .then(async(result) => {
-  //   result.bool ? console.log(result, 'updating product status') : console.log(result,'error occcured before updating product status') 
-  //   let response = await update_product_status(payload.customer.product_id)
-  //   let data = await response()
-  //   let bool_check = data.includes(false)
-  //   return !bool_check ? ({bool: true}) : ({bool: false})
-  // })
+  .then(async(result) => {
+    result.bool ? console.log(result, 'deleting order') : console.log(result,'error occcured before deleting order') 
 
-  // .then(async(result) => {
-  //   result.bool ? console.log(result, 'crearting room') : console.log(result,'error occcured before crearting room') 
-  //   let seller_id = await retrieve_seller(payload.customer.product_id)
-  //   let response = create_room_id(seller_id,buyer_id)
-  //   let bool_check = data.includes(false)
-  //   return !bool_check ? ({bool: true}) : ({bool: false})
-  // })
+    if(result.bool && payload.data.meta.immediate_purchase){
+      return ({bool: true})
+    }else if(result.bool && !payload.data.meta.immediate_purchase){
 
-  // .then(async(result) => {
-  //   result.bool ? console.log(result, 'sending proposal meta data') : console.log(result,'error occcured before sending proposal meta data') 
+      let carts = await retrive_cart(buyer_id)
+      let delete_process = carts.map(item => delete_cart_with_id(item.cart_id))
+      let response = await Promise.all(delete_process).then(result => result)
+      let bool_check = response.includes(false)
+      return !bool_check ? ({bool: true}) : ({bool: false})
 
-  //   let seller_id= await retrieve_seller(payload.customer.product_id)
-  //   let room_id =retrieve_room(seller_id)
-  //   let mssg = send_proposal_meta_data(room_id,buyer_id)
-  //   let bool_check = mssg_res.filter(item => item.bool === false)
-  //   return bool_check>0 ? ({bool: false}) : ({bool: true})
- 
-  // })
+    }else{console.log(result,'error occcured creating order')}
 
-  // .then(async(result) => {
-  //   result.bool ? console.log(result, 'sending message') : console.log(result,'error occcured before sending message') 
-  //   let buyer = await retrieve_buyer(buyer_id)
-  //   let mssg = generate_mssg(`${buyer.fname + buyer.lname}`)
-  //   let meta_datas = await retrieve_mssg_meta_data(buyer_id)
-  //   let response = await send_proposal_message(meta_datas.message_id, mssg)
+  })
 
-  //   let bool_check = mssg_res.includes(false)
-  //   return !bool_check ? ({bool: true}) : ({bool: false})
-  // })
+  .then(async(result) => {
+    result.bool 
+    ? 
+    console.log(result, 'creating room') 
+    : 
+    console.log(result,'error occcured before creating room') 
 
-  // .then((result) => {
+    if(result.bool && payload.data.meta.immediate_purchase){
+      let seller_id = retrieve_seller(payload.data.meta.product_id)
+      let room_response = create_room_id(seller_id,buyer_id)
+      return room_response ? ({bool: true}) : ({bool: false})
 
-  // })
+    }else if(result.bool && !payload.data.meta.immediate_purchase){
+      let carts = await retrive_cart(buyer_id)
+      let seller_ids = await carts.map((item) => retrieve_seller(item.product_id))
+      let id_list = await Promise.all(seller_ids).then(result => result)
+      let response = id_list.map(seller_id => create_room_id(seller_id,buyer_id))
+      let data = await Promise.all(response).then(result => result)
+      let bool_check = data.includes(false)
+      return !bool_check ? ({bool: true}) : ({bool: false})
+    }else{
+      console.log(result,'error occcured creating order') 
+    }
 
-  // .catch(err => console.log(err))
+  })
+
+  .then(async(result) => {
+    result.bool 
+    ? 
+    console.log(result, 'sending proposal meta data') 
+    : 
+    console.log(result,'error occcured before sending proposal meta data') 
+
+    if(result.bool && payload.data.meta.immediate_purchase){
+      let seller_id= await retrieve_seller(payload.data.meta.product_id)
+      let room_id = retrieve_room(buyer_id,seller_id)
+      let mssg = send_proposal_meta_data(room_id,buyer_id,payload.data.meta.product_id)
+
+      
+      return mssg ? ({bool: true, room_id}) : ({bool: false,room_id})
+    }else if(result.bool && !payload.data.meta.immediate_purchase){
+      let carts = await retrive_cart(buyer_id)
+      let seller_ids = await carts.map(async(item) => await retrieve_seller(item.product_id))
+      let seller_id_res = await Promise.all(seller_ids).then(result => result)
+      let room = seller_id_res.map((seller_id) => retrieve_room(buyer_id,seller_id))
+      let response = await Promise.all(room).then(result => result)
+      let mssg = response.map(room_id => send_proposal_meta_data(room_id,buyer_id,payload.data.meta.product_id))
+      let mssg_res = await Promise.all(mssg).then(result => result)
+      let bool_check = mssg_res.filter(item => item.bool === false)
+      return bool_check>0 ? ({bool: false, room_id}) : ({bool: true, room_id})
+    }else{
+      console.log(result,'error occcured creating order') 
+    }
+  })
+
+  .then(async(result) => {
+    result.bool 
+    ? 
+    console.log(result, 'sending message') 
+    : 
+    console.log(result,'error occcured before sending message')
+    let mssg = await buyers.map(item => generate_mssg(`${item.fname + item.lname}`))
+
+    if(result.bool && payload.data.meta.immediate_purchase){
+
+      let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id)
+      let response = await send_proposal_message(meta_datas.message_id, mssg)
+      return response ? ({bool: true}) : ({bool: false})
+
+    }else if(result.bool && !payload.data.meta.immediate_purchase){
+
+      let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id)
+      let response = await meta_datas.map(item => send_proposal_message(item.message_id, mssg))
+      let mssg_res = await Promise.all(response).then(result => result)
+      let bool_check = mssg_res.includes(false)
+      return !bool_check ? ({bool: true}) : ({bool: false})
+
+    }else{console.log(result,'error occcured creating order')}
+
+    
+  })
+
+  .then((result) => {
+    if(result.bool ){
+      res.send(true); console.log(result, 'sending message') 
+    }else{
+      res.send(false); console.log(result,'error occcured before sending message')
+    }
+  })
+
+  .catch(err => console.log(err))
 })
 
 
@@ -339,15 +436,6 @@ app.post("/buyer/create-order", parser, async(req,res) => {
     let bool_check = data.includes(false)
     return !bool_check ? ({bool: true}) : ({bool: false})
 
-  })
-
-  .then(async(result) => {
-    result.bool ? console.log(result, 'updating product status') : console.log(result,'error occcured before updating product status') 
-    let carts = await retrive_cart(buyer_id)
-    let response = await carts.map(item => update_product_status(item.product_id))
-    let data = await Promise.all(response).then(result => result)
-    let bool_check = data.includes(false)
-    return !bool_check ? ({bool: true}) : ({bool: false})
   })
 
   .then(async(result) => {

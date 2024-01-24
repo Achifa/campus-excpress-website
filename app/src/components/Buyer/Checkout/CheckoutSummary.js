@@ -3,17 +3,19 @@ import { closePaymentModal, useFlutterwave } from "flutterwave-react-v3";
 
 const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
 
+    let meta = {
+        immediate_purchase: window.location.pathname.split('/').length > 4 ? true : false,
+        ce_id: buyer.buyer_id,
+        cart: {unit: parseInt(window.location.pathname.split('/')[4].split('-')[1]), product_id: atob(window.location.pathname.split('/')[2])},
+    }
+
     const config = {
         public_key: 'FLWPUBK-502f1f73c8abf430f161a528241c198a-X',
         tx_ref: Date.now(),
         amount: price,
         currency: 'NGN',
         payment_options: 'card,mobilemoney,ussd',
-        meta: {
-            ce_id: buyer.buyer_id,
-            cart: {unit: 1,seller_id: '',product_id: ''},
-            src: window.location.pathname.split('/').length > 4 ?  window.location.pathname.split('/')[4]: false       
-        },
+        meta: window.location.pathname.split('/').length > 4 ? meta : '',
         customer: {email: buyer.email,phone_number: buyer.phone,name: buyer.fname + " " + buyer.lname},
         customizations: {
             title: 'Campus Express',

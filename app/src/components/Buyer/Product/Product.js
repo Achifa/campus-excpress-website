@@ -239,7 +239,7 @@ const Product = () => {
 
                     <br />
                     <button style={{fontSize: 'small'}} onClick={
-                        e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price * immediate_purchase)}/immediate_purchase`) : navigate(`/seller/editor?product_id=${item.product_id}`)
+                        e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price * immediate_purchase)}/immediate_purchase-${immediate_purchase}`) : navigate(`/seller/editor?product_id=${item.product_id}`)
                     }>Checkout SubTotal ({item.price * immediate_purchase})</button>
                 </div>
             </div>
@@ -273,8 +273,6 @@ const Product = () => {
                                 <div style={{fontSize: 'x-small'}}>
                                     <span><span style={{color: '#626262', fontSize: 'x-small'}}>Shop Rating:</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>Jacob N.N</span></span>
                                 </div>
-
-                                
                             </section>
 
                             <hr style={{margin: '15px'}} />

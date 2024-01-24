@@ -131,10 +131,10 @@ function retrieve_room(buyer_id,seller_id) {
     )
 }
 
-function retrieve_mssg_meta_data(buyer_id) {
+function retrieve_mssg_meta_data(buyer_id,room_id) {
     return(
         NeonDB.then((pool) => 
-            pool.query(`SELECT * FROM message_meta_data WHERE sender_id = '${buyer_id}'`)
+            pool.query(`SELECT * FROM message_meta_data WHERE sender_id = '${buyer_id}' AND room_id = '${room_id}'`)
             .then(result => (result.rows))
             .catch(err => console.log(err))
         )
