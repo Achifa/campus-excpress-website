@@ -134,6 +134,7 @@ app.post("/paystack-webhook", parser, async (req, res) => {
 
 app.post("/flw-webhook", parser, async(req,res) => {
   let payload = req.body;
+  let buyer_id = payload.data.meta.buyer_id;
   function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble.
       Thanks.`)}
   // // store transaction
@@ -143,7 +144,7 @@ app.post("/flw-webhook", parser, async(req,res) => {
   // // create chat room
   
   new Promise(async(resolve, reject) => { 
-    let response = await record_transacction(file,buyer_id, 'bank'); 
+    let response = await record_transacction(payload,buyer_id, 'bank'); 
     response.bool ? resolve(response) : reject(response)
   })
 
