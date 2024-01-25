@@ -6,6 +6,7 @@ import PaymentMethod from "./PaymentMethod";
 import CheckoutSummary from "./CheckoutSummary";
 import CEStack from "../../Payments/CEStack";
 import Flw from "../../Payments/Flw";
+import PayStack from "../../Payments/PayStack_For_Buyer";
 
 const CheckOut = () => {
     let [Total, setTotal] = useState(0)
@@ -62,8 +63,9 @@ const CheckOut = () => {
     }, [])
     
   
-    function set_up_payment_source(data) {if(data === 'wallet'){setPayMent(<CEStack price={Total} product_id={product_id}  />); set_type(data)}else{setPayMent(<Flw buyer={buyer} price={Total} product_id={product_id} />); set_type(data)}}
-    let [payment, setPayMent] = useState(<Flw buyer={buyer} price={Total} product_id={product_id}  />)
+    function set_up_payment_source(data) {if(data === 'wallet'){setPayMent(<CEStack price={Total} product_id={product_id}  />); set_type(data)}else{setPayMent(<PayStack buyer={buyer} price={Total} product_id={product_id} />); set_type(data)}}
+
+    let [payment, setPayMent] = useState(<PayStack buyer={buyer} price={Total} product_id={product_id}  />)
 
     return ( 
         <>

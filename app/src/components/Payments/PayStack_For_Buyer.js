@@ -8,6 +8,11 @@ const PayStack = ({price,product_id,buyer_id,stock}) => {
     let [email, setEmail] = useState('loading')
     let [phone, setPhone] = useState('loading')
 
+    let meta = {
+        immediate_purchase: window.location.pathname.split('/').length > 4 ? true : false,
+        cart: {unit: parseInt(window.location.pathname.split('/')[4].split('-')[1]), product_id: atob(window.location.pathname.split('/')[2])},
+    }
+
     useEffect(() => {
         GetBuyer(window.localStorage.getItem('CE_buyer_id'))
         .then((result) => {
@@ -20,6 +25,7 @@ const PayStack = ({price,product_id,buyer_id,stock}) => {
 
         setAmount(price)
     },[])
+    
     let [amount, setAmount] = useState(`${price}`)
 
     const config = {
@@ -35,8 +41,7 @@ const PayStack = ({price,product_id,buyer_id,stock}) => {
             lastname: lname,
             phone: phone,
             email: email,
-            product_id: product_id,
-            stock: stock,
+            cart: window.location.pathname.split('/').length > 4 ? meta : '',
         }
     };
     
