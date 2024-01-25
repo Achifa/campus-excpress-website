@@ -9,14 +9,14 @@ const { default: axios } = require('axios');
 const { uploadVideoToYouTube } = require('./youtube');
 const { v4 } = require('uuid');
 const { retrive_cart, retrieve_room, retrieve_mssg_meta_data, retrieve_buyer, retrieve_seller } = require('./Functions/cart');
-const { record_transacction } = require('./Order/transaction');
-const { update_buyer_wallet } = require('./Order/update_wallet');
-const { create_order } = require('./Order/create_order');
-const { update_product_status } = require('./Order/update_product_status');
-const { create_room_id } = require('./Order/create_room');
-const { send_proposal_meta_data } = require('./Order/send_proposal_meta_data');
-const { send_proposal_message } = require('./Order/send_mssg');
-const { delete_cart, delete_cart_with_id } = require('./Order/delete_cart');
+const { record_transacction } = require('./product_payment/transaction');
+const { update_buyer_wallet } = require('./product_payment/update_wallet');
+const { create_order } = require('./product_payment/create_order');
+const { update_product_status } = require('./product_payment/update_product_status');
+const { create_room_id } = require('./product_payment/create_room');
+const { send_proposal_meta_data } = require('./product_payment/send_proposal_meta_data');
+const { send_proposal_message } = require('./product_payment/send_mssg');
+const { delete_cart, delete_cart_with_id } = require('./product_payment/delete_cart');
 
 greetingTime(new Date());
 require('dotenv').config(); 
@@ -134,9 +134,23 @@ app.post("/paystack-webhook", parser, async (req, res) => {
 
 app.post("/flw-webhook", parser, async(req,res) => {
   let payload = req.body;
-  let buyer_id = payload.data.meta.buyer_id;
-  function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble.
-      Thanks.`)}
+  let data = payload.data.customer.phone_number.split('-');
+
+  let cart = data[0]
+  let buyer_id = data[1]
+  let phone = data[2]
+
+  let cart_data = cart.split('*');
+  let unit;
+  let product_id;
+  let immediate_purchase = cart_data[0]
+
+  if(immediate_purchase){
+    unit = cart_data[1]
+    product_id = cart_data[2]
+  }
+
+  function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble. Thanks.`)}
   // // store transaction
   // // update buyer balance *** not for immediate purchase
   // // create order
@@ -155,13 +169,13 @@ app.post("/flw-webhook", parser, async(req,res) => {
     : 
     console.log(result,'error occcured while saving transaction')
 
-    if(result.bool && payload.data.meta.immediate_purchase){
+    if(result.bool && immediate_purchase){
 
-      let response = await create_order(payload.data.meta.product_id, payload.data.meta.unit, buyer_id)
+      let response = await create_order(product_id, unit, buyer_id)
       let data = await response()
       return data ? ({bool: true}) : ({bool: false})
 
-    }else if(result.bool && !payload.data.meta.immediate_purchase){
+    }else if(result.bool && !immediate_purchase){
 
       let carts = await retrive_cart(buyer_id)
       let response = await carts.map(item => create_order(item.product_id, item.unit, buyer_id))
@@ -179,9 +193,9 @@ app.post("/flw-webhook", parser, async(req,res) => {
   //   : 
   //   console.log(result,'error occcured before creating order') 
 
-  //   if(result.bool && payload.data.meta.immediate_purchase){
+  //   if(result.bool && immediate_purchase){
       
-  //   }else if(result.bool && !payload.data.meta.immediate_purchase){
+  //   }else if(result.bool && !immediate_purchase){
       
   //   }else{
   //     console.log(result,'error occcured creating order') 
@@ -193,9 +207,9 @@ app.post("/flw-webhook", parser, async(req,res) => {
   .then(async(result) => {
     result.bool ? console.log(result, 'deleting order') : console.log(result,'error occcured before deleting order') 
 
-    if(result.bool && payload.data.meta.immediate_purchase){
+    if(result.bool && immediate_purchase){
       return ({bool: true})
-    }else if(result.bool && !payload.data.meta.immediate_purchase){
+    }else if(result.bool && !immediate_purchase){
 
       let carts = await retrive_cart(buyer_id)
       let delete_process = carts.map(item => delete_cart_with_id(item.cart_id))
@@ -214,12 +228,12 @@ app.post("/flw-webhook", parser, async(req,res) => {
     : 
     console.log(result,'error occcured before creating room') 
 
-    if(result.bool && payload.data.meta.immediate_purchase){
-      let seller_id = retrieve_seller(payload.data.meta.product_id)
+    if(result.bool && immediate_purchase){
+      let seller_id = retrieve_seller(product_id)
       let room_response = create_room_id(seller_id,buyer_id)
       return room_response ? ({bool: true}) : ({bool: false})
 
-    }else if(result.bool && !payload.data.meta.immediate_purchase){
+    }else if(result.bool && !immediate_purchase){
       let carts = await retrive_cart(buyer_id)
       let seller_ids = await carts.map((item) => retrieve_seller(item.product_id))
       let id_list = await Promise.all(seller_ids).then(result => result)
@@ -240,20 +254,20 @@ app.post("/flw-webhook", parser, async(req,res) => {
     : 
     console.log(result,'error occcured before sending proposal meta data') 
 
-    if(result.bool && payload.data.meta.immediate_purchase){
-      let seller_id= await retrieve_seller(payload.data.meta.product_id)
+    if(result.bool && immediate_purchase){
+      let seller_id= await retrieve_seller(product_id)
       let room_id = retrieve_room(buyer_id,seller_id)
-      let mssg = send_proposal_meta_data(room_id,buyer_id,payload.data.meta.product_id)
+      let mssg = send_proposal_meta_data(room_id,buyer_id,product_id)
 
       
       return mssg ? ({bool: true, room_id}) : ({bool: false,room_id})
-    }else if(result.bool && !payload.data.meta.immediate_purchase){
+    }else if(result.bool && !immediate_purchase){
       let carts = await retrive_cart(buyer_id)
       let seller_ids = await carts.map(async(item) => await retrieve_seller(item.product_id))
       let seller_id_res = await Promise.all(seller_ids).then(result => result)
       let room = seller_id_res.map((seller_id) => retrieve_room(buyer_id,seller_id))
       let response = await Promise.all(room).then(result => result)
-      let mssg = response.map(room_id => send_proposal_meta_data(room_id,buyer_id,payload.data.meta.product_id))
+      let mssg = response.map(room_id => send_proposal_meta_data(room_id,buyer_id,product_id))
       let mssg_res = await Promise.all(mssg).then(result => result)
       let bool_check = mssg_res.filter(item => item.bool === false)
       return bool_check>0 ? ({bool: false, room_id}) : ({bool: true, room_id})
@@ -270,13 +284,13 @@ app.post("/flw-webhook", parser, async(req,res) => {
     console.log(result,'error occcured before sending message')
     let mssg = await buyers.map(item => generate_mssg(`${item.fname + item.lname}`))
 
-    if(result.bool && payload.data.meta.immediate_purchase){
+    if(result.bool && immediate_purchase){
 
       let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id)
       let response = await send_proposal_message(meta_datas.message_id, mssg)
       return response ? ({bool: true}) : ({bool: false})
 
-    }else if(result.bool && !payload.data.meta.immediate_purchase){
+    }else if(result.bool && !immediate_purchase){
 
       let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id)
       let response = await meta_datas.map(item => send_proposal_message(item.message_id, mssg))

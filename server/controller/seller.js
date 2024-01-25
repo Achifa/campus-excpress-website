@@ -5,7 +5,7 @@ const { shortId, bcrypt, jwt } = require("../modules");
 const uploadMedia = require("../youtube");
 const { check_seller_actions, upload_meta_data, upload_photos } = require("../Functions/upload_items");
 const { retrieve_buyer, retrieve_mssg_meta_data, retrieve_mssg_meta_data_via_room } = require("../Functions/cart");
-const { send_proposal_message } = require("../Order/send_mssg");
+const { send_proposal_message } = require("../product_payment/send_mssg");
 const maxAge = 90 * 24 * 60 * 60; 
 const createToken = (id) => {
     return jwt.sign({ id }, 'seller_secret', {
