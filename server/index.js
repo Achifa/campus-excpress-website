@@ -172,8 +172,7 @@ app.post("/flw-webhook", parser, async(req,res) => {
     if(result.bool && immediate_purchase){
 
       let response = await create_order(product_id, unit, buyer_id)
-      let data = await response()
-      return data ? ({bool: true}) : ({bool: false})
+      return response ? ({bool: true}) : ({bool: false})
 
     }else if(result.bool && !immediate_purchase){
 
