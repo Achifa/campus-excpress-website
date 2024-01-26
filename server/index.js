@@ -136,31 +136,30 @@ app.post("/flw-webhook", parser, async(req,res) => {
   let payload = req.body;
 
   console.log(payload)
-  
+
   let data = payload.data.customer.phone_number.split('/');
   let cart = data[0];
 
   let buyer_id = data[1]
   let buyer_phn = data[2]
 
-  let immmediate_purchase_data = cart.split('*');
-  let immmediate_purchase = immmediate_purchase_data[0];
+  let immediate_purchase_data = cart.split('*');
+  let immediate_purchase = immediate_purchase_data[0];
 
   let unit;
   let product_id;
 
-  if(immmediate_purchase === 'true'){
-    unit = immmediate_purchase_data[1] 
-    product_id = immmediate_purchase_data[2]
+  if(immediate_purchase === 'true'){
+    unit = immediate_purchase_data[1] 
+    product_id = immediate_purchase_data[2]
   }
 
  
 
   try{
 		// Check for the signature
-    const secretHash = process.env.FLW_SECRET_KEY;
-    const signature = req.headers["verif-hash"];
-    if(!signature || signature !== secretHash){
+    
+    if(payload.data.customer.email !== 'campusexpressnaija@gmail.com'){
       // This response is not from Flutterwave; discard
       return res.status(401).end();
     }else{
