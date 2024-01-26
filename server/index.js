@@ -163,7 +163,7 @@ app.post("/flw-webhook", parser, async(req,res) => {
       // This response is not from Flutterwave; discard
       return res.status(401).end();
     }else{
-      console.log(immediate_purchase)
+      console.log(typeof(immediate_purchase))
       // if(immediate_purchase === 'true'){handle_order()}else{handle_immediate_order()}
     }
     
