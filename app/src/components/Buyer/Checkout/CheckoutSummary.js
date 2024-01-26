@@ -17,7 +17,7 @@ const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
         payment_options: 'card,mobilemoney,ussd',
         
         customer: {
-            email: buyer.email,
+            email: 'campusexpressnaija@gmail.com',
             phone_number: `${window.location.pathname.split('/').length > 4 ? true : false}*${parseInt(window.location.pathname.split('/')[4].split('-')[1])}*${atob(window.location.pathname.split('/')[2])}/${buyer.buyer_id}/${buyer.phone}`,
             name: buyer.fname + " " + buyer.lname
         },

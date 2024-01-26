@@ -134,6 +134,9 @@ app.post("/paystack-webhook", parser, async (req, res) => {
 
 app.post("/flw-webhook", parser, async(req,res) => {
   let payload = req.body;
+
+  console.log(payload)
+  
   let data = payload.data.customer.phone_number.split('/');
   let cart = data[0];
 
