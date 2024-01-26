@@ -155,7 +155,7 @@ app.post("/flw-webhook", parser, async(req,res) => {
 
   try{
 		// Check for the signature
-    const secretHash = process.env.FLW_SECRET_HASH;
+    const secretHash = process.env.FLW_SECRET_KEY;
     const signature = req.headers["verif-hash"];
     if(!signature || signature !== secretHash){
       // This response is not from Flutterwave; discard
