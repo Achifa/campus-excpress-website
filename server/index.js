@@ -149,9 +149,12 @@ app.post("/flw-webhook", parser, async(req,res) => {
   let unit;
   let product_id;
 
-  if(immediate_purchase === true){
+  let seller_id;
+
+  if(immediate_purchase === 'true'){
     unit = immediate_purchase_data[1] 
     product_id = immediate_purchase_data[2]
+    seller_id = await retrieve_seller(product_id)
   }
 
  
@@ -174,7 +177,6 @@ app.post("/flw-webhook", parser, async(req,res) => {
   }
 
 
-  function generate_mssg(name) {return(`Hi I Am ${name} And I Just Paid For The Item You Sell On Campus Express, Please Chat Me Up When Availble. Thanks.`)}
   // store transaction
   // update buyer balance *** not for immediate purchase
   // create order
@@ -189,61 +191,60 @@ app.post("/flw-webhook", parser, async(req,res) => {
     })
 
     .then(async(result) => {
-      result.bool 
-      ? 
-      console.log(result, 'saved transaction') 
-      : 
-      console.log(result,'error occcured while saving transaction')
+      // CREATE ORDER
+      if(result.bool){
+        console.log(result, 'transaction saved and order is been created...') 
+        let response = await create_order(product_id, parseInt(unit), buyer_id)
+        return response ? ({bool: true}) : ({bool: false})
+      }else{
+        console.log(result,'error occcured while saving transaction and order is cancelled...')
+        return response ({bool: false})
+      }
 
-      let response = await create_order(product_id, unit, buyer_id)
-      return response ? ({bool: true}) : ({bool: false})
-    })
-
-    .then(async(result) => {
-
-      result.bool ? console.log(result, 'deleting order') : console.log(result,'error occcured before deleting order') 
-      return ({bool: true})
-
-    })
-
-    .then(async(result) => {
-      result.bool 
-      ? 
-      console.log(result, 'creating room') 
-      : 
-      console.log(result,'error occcured before creating room') 
-
-      let seller_id = retrieve_seller(product_id)
-      let room_response = create_room_id(seller_id,buyer_id)
-      return room_response ? ({bool: true}) : ({bool: false})
-
-    })
-
-    .then(async(result) => {
-      result.bool 
-      ? 
-      console.log(result, 'sending proposal meta data') 
-      : 
-      console.log(result,'error occcured before sending proposal meta data') 
-
-      let seller_id= await retrieve_seller(product_id)
-      let room_id = await retrieve_room(buyer_id,seller_id)
-      let mssg = await send_proposal_meta_data(room_id,buyer_id,product_id)
       
-      return mssg ? ({bool: true, room_id}) : ({bool: false,room_id})
     })
 
     .then(async(result) => {
-      result.bool 
-      ? 
-      console.log(result, 'sending message') 
-      : 
-      console.log(result,'error occcured before sending message')
-      let mssg = generate_mssg(`${item.fname + item.lname}`)
+      // CREATE CHAT ROOM
+      if(result.bool ){
+        console.log(result, 'order created and chat room is been created...') 
+        let room_response = create_room_id(seller_id,buyer_id)
+        return room_response ? ({bool: true}) : ({bool: false})
+      }else{
+        console.log(result,'error occcured while creating order and room is cancelled... ') 
+        return response ({bool: false})
 
-      let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id)
-      let response = await send_proposal_message(meta_datas.message_id, mssg)
-      return response ? ({bool: true}) : ({bool: false})
+      }
+
+    })
+
+    .then(async(result) => {
+      // SEND MSSG META DATA
+      if(result.bool ){
+        console.log(result, 'room created and sending proposal meta data now...') 
+        let room_id = await retrieve_room(buyer_id,seller_id)
+        let mssg = await send_proposal_meta_data(room_id,buyer_id,product_id)
+        return mssg ? ({bool: true, room_id}) : ({bool: false,room_id})
+      }else{
+        console.log(result,'error occcured while creating room and sending proposal meta data failed...') 
+        return response ({bool: false})
+      }
+
+    })
+
+    .then(async(result) => {
+      // SEND MSSG
+      if(result.bool ){
+        console.log(result, 'sending proposal meta data was a success now sending message...') 
+        // let mssg = generate_mssg(`${payload.data.customer.name}`)
+        let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id)
+        let response = await send_proposal_message(meta_datas.message_id, product_id)
+        return response ? ({bool: true}) : ({bool: false})
+      }else{
+        console.log(result,'error occcured while sending proposal meta data and sending message faild...')
+        return response ({bool: false})
+
+      }
       
     })
 

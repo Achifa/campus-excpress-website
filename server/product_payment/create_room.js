@@ -24,7 +24,7 @@ async function check_if_room_exist(seller_id,buyer_id) {
     await NeonDB.then((pool) => 
       pool.query(`SELECT * FROM room_id`)
         .then(result => {
-          let l = result.rows.filter(item => JSON.parse(item.members).buyer_id === buyer_id && JSON.parse(item.members).seller_id === seller_id)
+          let l = result.rows.filter(item => JSON.parse(item.members_id).buyer_id === buyer_id && JSON.parse(item.members_id).seller_id === seller_id)
           if(l.length > 0){return false}else{return true}
         })
         .catch(err => console.log(err))
