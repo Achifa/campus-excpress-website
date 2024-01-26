@@ -264,8 +264,8 @@ app.post("/flw-webhook", parser, async(req,res) => {
 
       if(result.bool && immediate_purchase === 'true'){
         let seller_id= await retrieve_seller(product_id)
-        let room_id = retrieve_room(buyer_id,seller_id)
-        let mssg = send_proposal_meta_data(room_id,buyer_id,product_id)
+        let room_id = await retrieve_room(buyer_id,seller_id)
+        let mssg = await send_proposal_meta_data(room_id,buyer_id,product_id)
 
         
         return mssg ? ({bool: true, room_id}) : ({bool: false,room_id})
@@ -290,7 +290,7 @@ app.post("/flw-webhook", parser, async(req,res) => {
       console.log(result, 'sending message') 
       : 
       console.log(result,'error occcured before sending message')
-      let mssg = await generate_mssg(`${item.fname + item.lname}`)
+      let mssg = generate_mssg(`${item.fname + item.lname}`)
 
       if(result.bool && immediate_purchase === 'true'){
 
