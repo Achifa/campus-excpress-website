@@ -1,3 +1,4 @@
+const { NeonDB } = require("../db")
 
 async function delete_cart(product_id,buyer_id) {
     return(
@@ -23,3 +24,4 @@ async function delete_cart_with_id(id) {
 
 
 module.exports = {delete_cart,delete_cart_with_id}
+
