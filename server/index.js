@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
-const { uploadVideoToYouTube } = require('./youtube');
 const { v4 } = require('uuid');
 const { retrive_cart, retrieve_room, retrieve_mssg_meta_data, retrieve_buyer, retrieve_seller } = require('./Functions/cart');
 const { record_transacction } = require('./product_payment/transaction');

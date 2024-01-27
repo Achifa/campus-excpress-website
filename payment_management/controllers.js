@@ -1,8 +1,8 @@
 //19 request on buyer
 
-const { NeonDB } = require("../db");
-const { shortId, bcrypt, jwt } = require("../modules");
-const { process_transaction } = require("./functions");
+const { NeonDB } = require("./db");
+const { shortId, bcrypt, jwt } = require("./modules");
+const { process_transaction, save_tansaction, create_order, create_room_id, retrieve_room, send_proposal_meta_data, retrieve_mssg_meta_data, send_proposal_message, retrieve_seller, retrive_cart, delete_cart_with_id } = require("./functions");
 const maxAge = 90 * 24 * 60 * 60; 
 const createToken = (id) => {
     return jwt.sign({ id }, 'seller_secret', {
@@ -138,7 +138,7 @@ async function process_payment(req,res) {
         
             .catch(err => console.log(err))
 
-        }else if(checkout_type === 'cart_purchase'){
+        }else{
     
             new Promise(async(resolve, reject) => { 
                 let response = await save_tansaction(buyer_id,'bank',payment_src,4,amount,date); 
@@ -162,7 +162,7 @@ async function process_payment(req,res) {
             .then(async(result) => {
                
                 if(result.bool){
-                    console.log(result,'cart deleted and room is been created...')
+                    console.log(result,'order created and room is been created...')
                     let carts = await retrive_cart(buyer_id)
                     let seller_ids = await carts.map((item) => retrieve_seller(item.product_id))
                     let id_list = await Promise.all(seller_ids).then(result => result)
@@ -171,7 +171,7 @@ async function process_payment(req,res) {
                     let bool_check = data.includes(false)
                     return !bool_check ? ({bool: true}) : ({bool: false})
                 }else{
-                    console.log(result,'error occcured while deleting cart and room creation  is  cancelled...')
+                    console.log(result,'error occcured while creating order and room creation  is  cancelled...')
                     return ({bool: false})
                 }
         
@@ -207,7 +207,7 @@ async function process_payment(req,res) {
                     let mssg = generate_mssg(`${item.fname + item.lname}`)
         
                     let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id)
-                    let response = await meta_datas.map(item => send_proposal_message(item.message_id, mssg))
+                    let response = await meta_datas.map(item => send_proposal_message(item.message_id, item.product_id))
                     let mssg_res = await Promise.all(response).then(result => result)
                     let bool_check = mssg_res.includes(false)
                     return !bool_check ? ({bool: true}) : ({bool: false})
@@ -246,10 +246,7 @@ async function process_payment(req,res) {
             })
         
             .catch(err => console.log(err))
-        }else{
-            return {bool: false, reason: 'checkout type is not valid'}
         }
-
     }
 
 }
