@@ -2,8 +2,6 @@ const { NeonDB } = require("./db");
 
 
 async function save_tansaction(buyer_id,payment_src,payment_type,app_fee,amount,date) {
-    const { NeonDB } = require("../db")
-
     return(
       await NeonDB.then((pool) => 
         pool.query(`insert into buyer_transactions(
