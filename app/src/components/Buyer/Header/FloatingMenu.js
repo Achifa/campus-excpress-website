@@ -10,6 +10,7 @@ import subSvg from '../../../assets/subscriptions-svgrepo-com.svg'
 import walletSvg from '../../../assets/wallet-2-svgrepo-com.svg'
 import sellSvg from '../../../assets/sell-svgrepo-com (1).svg'
 import logoutSvg from '../../../assets/logout-2-svgrepo-com.svg'
+
 const FloatingMenu = ({list,right,top,visible,getSelectedOption,setDisplay}) => {
     let navigate = useNavigate()
 

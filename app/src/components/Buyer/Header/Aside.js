@@ -89,12 +89,12 @@ const Aside = () => {
         
     }, [category])
 
-    let list1 = [{text:'Order', img: orderSvg}, {text: 'Inbox', img: inboxSvg}, {text: 'Saved Item', img: savedSvg},  {text: 'History', img: historySvg}]
+    let list1 = [{text:'Orders', img: orderSvg}, {text: 'Inbox', img: inboxSvg}, {text: 'Saved Item', img: savedSvg},  {text: 'History', img: historySvg}]
     let list2 = [{text: 'My Account', img: userSvg},{text: 'Help Center', img: helpSvg}, {text: 'Refund & Return', img: refundSvg}, {text: 'Cancel An Order', img: cancelSvg}, {text: 'Contact Us', img: contactSvg}, {text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}]
     let list3 = categoriesList
 
     let CEservices = list1.map((item,i) => 
-        <li onClick={e => navigate(`${item}`)} key={i} style={{display: 'flex', }}>
+        <li onClick={e => navigate(`${item.text.toLowerCase()}`)} key={i} style={{display: 'flex', }}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
             </span>

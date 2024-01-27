@@ -1,29 +1,33 @@
-import img from '../../../assets/download (3).jpeg'
-import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
-import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
-const Card = () => {
+import ellipsisSvg from '../../../assets/ellipsis-svgrepo-com.svg'
+import Thumbnail from './Thumbnail';
+import js_ago from 'js-ago' 
+const Card = ({index, item}) => {
     return ( 
         <>
-            <div className="seller-order-card shadow-sm">
-                <img src={img} alt="" />
+            <div className="seller-order-card shadow-sm" style={{position: 'relative'}}>
+                <Thumbnail product_id={item.order.product_id} />
+
+                <div style={{position: 'absolute', top: '5px', right: '5px', padding: '4px'}}>
+                    <img src={ellipsisSvg} style={{height: '20px', width: '20px'}} alt="..." />
+                </div>
                 
                 <div className="seller-order-body">
-                    <img src={deleteSvg}alt="" />
+                    {/* <img src={deleteSvg}alt="" /> */}
 
-                    <div className="seller-order-title">
-                        <p>THICK (Men's Gold Cuban Link Chain)</p>
+                    <div className="seller-order-title" style={{display: 'flex', alignItems: 'center', fontWeight: '500'}}>
+                        <p>{item.product.title}</p>
                     </div>
-                    <div className="seller-order-id">
-                        <p style={{fontWeight: 'bold'}}>Order code: #00013fg5A900</p>
+                    <div className="seller-order-id" style={{display: 'flex', alignItems: 'flex-start'}}>
+                        <p style={{fontWeight: '500', fontSize: 'x-small'}}>Order-code: {item.order.order_id}</p>
                     </div>
-
+{/* <hr /> */}
                     <div className="seller-order-status">
-                        Failed Order
+                        {item.order.status}
                     </div>
 
 
-                    <div className="seller-order-date">
-                        2 days ago
+                    <div className="seller-order-date" style={{bottom: '5px'}}>
+                        {js_ago(new Date(item.order.date))}
                     </div>
 
                 </div>

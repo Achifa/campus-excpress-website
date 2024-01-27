@@ -4,7 +4,7 @@ let u1 = `http://localhost:1111`
 let u2 = `http://192.168.206.146:1111` 
 let u3 = `https://ce-server.onrender.com`
 
-let plug = u3; 
+let plug = u1; 
 
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
@@ -182,10 +182,10 @@ export function DeleteItemFromCart(product_id,buyer_id) {
     })
 }
 
-export function GetOrders(id) {
+export function GetOrders(buyer_id) {
     return new Promise((resolve, reject) => {
-        axios.get(`${plug}/cart`, {
-            params: {id}
+        axios.get(`${plug}/orders`, {
+            params: {buyer_id}
         })
         .then((result) => {
             resolve(result.data)

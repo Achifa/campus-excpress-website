@@ -670,6 +670,52 @@ async function update_pwd(req,res) {
 
 }
 
+async function get_orders(req,res) {
+    let {buyer_id} = req.query;
+
+    let book = []
+
+    function get_order_id(){
+        return(NeonDB.then((pool) => 
+            pool.query(`select * from "campus_express_buyer_orders" where buyer_id = '${buyer_id}'`)
+            .then((result) => {
+                return(result.rows)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        )
+        .catch(err => console.log(err)))
+    }
+
+    let list = await get_order_id();
+    // console.log(list)
+
+
+    function get_item(item) {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`select * from "seller_shop" where product_id = '${item.product_id}'`)
+                .then((result) => {
+                    return({order: item, product: result.rows[0]})
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    let data = await list.map((item) => get_item(item));
+
+    let response = await Promise.all(data).then(result => result).catch(err => console.log(err))
+    res.send(response)
+
+
+
+}
+
 
 module.exports = {
 
@@ -691,6 +737,8 @@ module.exports = {
     update_cart,
 
     get_carts,
+
+    get_orders,
 
     save_item,
     get_saved_item,

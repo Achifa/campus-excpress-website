@@ -12,6 +12,8 @@ const {
 
     get_carts,
 
+    get_orders,
+
     save_item,
     get_saved_item,
     unsave_item,
@@ -60,6 +62,8 @@ buyer_route.get('/saved-items-data', get_saved_item_data);
 buyer_route.get('/saved-items', get_saved_item);
 buyer_route.post('/save-item', parser, save_item);
 buyer_route.delete('/unsave-item', unsave_item);
+
+buyer_route.get('/orders', get_orders);
 
 
 buyer_route.get('/search-word', get_search_word);
