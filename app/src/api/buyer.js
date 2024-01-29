@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 let u1 = `http://localhost:1111`
-let u2 = `http://192.168.206.146:1111` 
+let u2 = `http://192.168.50.146:1111` 
 let u3 = `https://ce-server.onrender.com`
 
-let plug = u1; 
+let plug = u2; 
 
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {

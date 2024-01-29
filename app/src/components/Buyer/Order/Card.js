@@ -8,10 +8,10 @@ const Card = ({index, item}) => {
                 <Thumbnail product_id={item.order.product_id} />
 
                 <div style={{position: 'absolute', top: '5px', right: '5px', padding: '4px'}}>
-                    <img src={ellipsisSvg} style={{height: '20px', width: '20px'}} alt="..." />
+                    <img src={ellipsisSvg} style={{height: '10px', width: '10px'}} alt="..." />
                 </div>
                 
-                <div className="seller-order-body">
+                <div className="seller-order-body" style={{width: 'calc(70%)'}}>
                     {/* <img src={deleteSvg}alt="" /> */}
 
                     <div className="seller-order-title" style={{display: 'flex', alignItems: 'center', fontWeight: '500'}}>

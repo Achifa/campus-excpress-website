@@ -61,7 +61,7 @@ async function process_payment(req,res) {
     }else if(payment_type === 'seller_wallet_refill'){
 
     }else if(payment_type === 'checkout'){
-        if(amount === charged_amount){
+        if(charged_amount === amount){
 
             try{
                 checkout_handler({immediate_purchase,unit,product_id}, buyer_id, charged_amount, payment_src, date)

@@ -29,6 +29,8 @@ let NeonDB = new Promise((resolve, reject) => {
         let conn = pool.connect(); 
         if(conn){
             resolve(pool);
+
+            pool.on('error', error => console.log('error', error))
         }else{
             reject(conn);
         }
