@@ -382,11 +382,8 @@ async function delete_item_from_cart(req,res) {
 }
 
 async function get_carts(req,res) {
-    let {buyer_id} = req?.query;
+    let {buyer_id} = req.query;
     let book = []
-    
-
-
 
     function get_items(item) { 
         return(
@@ -398,7 +395,6 @@ async function get_carts(req,res) {
             .catch(err => console.log(err))
         )
     }
-
 
     async function getCartedItems(cb) {
         let carts = await retrive_cart(buyer_id)

@@ -27,6 +27,7 @@
     "greeting-time": "^1.0.0",
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.0",
+    "knex": "^3.1.0",
     "mailtrap": "^3.2.0",
     "mocha": "^10.2.0",
     "morgan": "^1.10.0",

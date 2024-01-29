@@ -44,8 +44,22 @@ async function delete_cart(product_id,buyer_id) {
 }
 
 
+async function retrive_cart(buyer_id) { 
+    return(
+        NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM campus_express_buyer_cart WHERE buyer_id = '${buyer_id}'`)
+            .then(result => (result.rows))
+            .catch(err => console.log(err))
+            // .finally(() => pool.end())
+
+        )
+        .catch(err => console.log(err))
+    )
+}
+
 
 module.exports = {
     create_cart,
-    delete_cart
+    delete_cart,
+    retrive_cart
 }

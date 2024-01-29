@@ -11,25 +11,35 @@ let NeonDB = new Promise((resolve, reject) => {
         password: "HBsb6tVagN1p",
         database: "neondb"
     });*/
-    const pool = new Pool({
-        connectionString: DATABASE_URL,
-        ssl: {
-            rejectUnauthorized: false,
-        },
-        createTimeoutMillis: 8000,
-        acquireTimeoutMillis: 8000,
-        idleTimeoutMillis: 8000,
-        reapIntervalMillis: 1000,
-        createRetryIntervalMillis: 100
-    });
-    let conn = pool.connect();
-    if(conn){
-        resolve(pool);
-    }else{
-        reject(conn);
+    try{
+
+    
+        const pool = new Pool({
+            connectionString: DATABASE_URL,
+            ssl: {
+                rejectUnauthorized: false,
+            },
+            createTimeoutMillis: 8000,
+            connectionTimeoutMillis: 10000000,
+            acquireTimeoutMillis: 8000,
+            idleTimeoutMillis: 8000,
+            reapIntervalMillis: 1000,
+            createRetryIntervalMillis: 100
+        });
+        let conn = pool.connect(); 
+        if(conn){
+            resolve(pool);
+        }else{
+            reject(conn);
+        }
+    }
+    catch(err){
+        console.log('database error: ',err)
     }
     
 })
+
+
 
 module.exports = {
     NeonDB
