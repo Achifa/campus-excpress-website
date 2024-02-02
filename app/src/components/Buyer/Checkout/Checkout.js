@@ -55,20 +55,20 @@ const CheckOut = () => {
     useEffect(() => {
         GetBuyer(window.localStorage.getItem('CE_buyer_id'))
         .then((result) => {
-        set_buyer(result)
+            set_buyer(result)
         })
         .catch((err) => {
-        console.log(err)
+            console.log(err)
         })
     }, [])
     
   
     function set_up_payment_source(data) {if(data === 'wallet'){setPayMent(<CEStack price={Total} product_id={product_id}  />); set_type(data)}else{setPayMent(<PayStack buyer={buyer} price={Total} product_id={product_id} />); set_type(data)}}
 
-    let [payment, setPayMent] = useState(<PayStack buyer={buyer} price={Total} product_id={product_id}  />)
+    let [payment, setPayMent] = useState(<Flw buyer={buyer} price={Total} product_id={product_id}  />)
 
     return ( 
-        <>
+        <> 
             <div className="seller-overlay">
                 {payment}
             </div>

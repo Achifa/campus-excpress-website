@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { closePaymentModal, useFlutterwave } from "flutterwave-react-v3";
+import { useLocation } from "react-router-dom";
 
 const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
 
@@ -8,6 +9,12 @@ const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
     //     ce_id: buyer.buyer_id,
     //     cart: {unit: parseInt(window.location.pathname.split('/')[4].split('-')[1]), product_id: atob(window.location.pathname.split('/')[2])},
     // }
+    let location = useLocation();
+
+    let [immediate_check, set_immediate_check] = useState('')
+
+    useEffect(() => {set_immediate_check(location.pathname)}, [location])
+
 
     const config = {
         public_key: 'FLWPUBK-502f1f73c8abf430f161a528241c198a-X',
@@ -17,10 +24,10 @@ const CheckoutSummary = ({Total, Method, type, price, buyer}) => {
         payment_options: 'card,mobilemoney,ussd',
         
         customer: {
-            email: 'campusexpressnaija@gmail.com',
-            phone_number: `checkout/${window.location.pathname.split('/').length > 4 ? true : false}*${parseInt(window.location.pathname.split('/')[4].split('-')[1])}*${atob(window.location.pathname.split('/')[2])}/${buyer.buyer_id}/${buyer.phone}/${price}`,
+            email: buyer.email,
+            phone_number: `checkout/${immediate_check.split('/').length > 4 ? true : false}*${parseInt(window.location.pathname.split('/')[4].split('-')[1])}*${atob(window.location.pathname.split('/')[2])}/${buyer.buyer_id}/${buyer.phone}/${price}`,
             name: buyer.fname + " " + buyer.lname
-        },
+        },  
 
         customizations: {
             title: 'Campus Express',
