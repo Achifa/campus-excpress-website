@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.147.146:1111`
-let u2 = `https://ce-server.onrender.com`
+let u2 = `https://ce-server.vercel.app`
 // let u0 = `https://ce-server.onrender.com`
 let plug = u2;   
 
