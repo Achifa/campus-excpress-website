@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.217.147:1111`
-let u2 = `https://ce-server.onrender.com`
+let u2 = `https://ce-server.vercel.app`
 let plug = u2; 
 
 export function get_chat(seller_id) {
