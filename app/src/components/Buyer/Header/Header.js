@@ -249,12 +249,12 @@ const BuyerHeader = () => {
             <span>Cart</span>
 
           </li>
-          {
-            screenWidth > 760
+          {/* { */}
+            {/* screenWidth > 760 */}
 
-            ?
+            {/* ? */}
 
-            <>
+            {/* <>
 
               <li onClick={e => buyer.fname? openFloatingMenu(e,'user') : navigate('/login')}>
               <span>
@@ -280,9 +280,9 @@ const BuyerHeader = () => {
                 </span>
               </li>
 
-            </>
+            </> */}
 
-            : 
+            {/* :  */}
 
             <>
             
@@ -301,7 +301,7 @@ const BuyerHeader = () => {
               </li>
 
             </>
-          }
+          {/* } */}
         </ul>
 
         

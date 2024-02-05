@@ -3,7 +3,9 @@ import axios from 'axios'
 let u1 = `http://localhost:1111`
 let u4 = `http://192.168.217.147:1111`
 let u2 = `https://ce-server.onrender.com`
-let plug = u2; 
+let u0 = `https://ce-server-liqhku4ol-achifa.vercel.app`
+
+let plug = u1; 
 
 export function get_chat(seller_id) {
     return new Promise((resolve, reject) => {
@@ -13,7 +15,7 @@ export function get_chat(seller_id) {
         .then((result) => {
             resolve(result)
         }) 
-        .catch((err) => {
+        .catch((err) => { 
             reject(err) 
         }) 
     })
@@ -156,7 +158,11 @@ export function OVERVIEW(id) {
 
 export function SHOP(id) {
     return new Promise((resolve, reject) => 
-        axios.post(`${plug}/seller/shop`, {id})
+        axios.get(`${plug}/seller/shop`, {
+            params: {
+                id
+            }
+        })
         .then((result) => resolve(result.data))
         .catch(err => reject(err))
     )

@@ -66,6 +66,19 @@ async function retrieve_room(buyer_id,seller_id) {
     )
 }
 
+async function retrieve_buyer(buyer_id,seller_id) {
+    return(
+        await NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM campus_buyers`)
+            .then(result => result.rows)
+            .catch(err => console.log(err))
+            // .finally(() => pool.end())
+
+        )
+        .catch(err => console.log(err))
+    )
+}
+
 function retrieve_room_with_room_id(id) {
     return(
         NeonDB.then((pool) => 
@@ -299,7 +312,8 @@ module.exports = {
     send_proposal_meta_data_from_cart,
     retrieve_room,
     retrive_order,
-    retrieve_mssg_meta_data
+    retrieve_mssg_meta_data,
+    retrieve_buyer
 }
 
 

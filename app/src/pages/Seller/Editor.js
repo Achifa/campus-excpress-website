@@ -21,8 +21,8 @@ import EditorDescription from '../../components/Seller/editor/EditorDescription'
 import SubCategory from '../../components/Seller/editor/ClothingSelect';
 import UploadBtn from '../../components/Seller/editor/Button';
 // import  upload  from '../../components/Functions/upload';
-import { validate_inputs } from '../../components/Functions/validation';
 import { uploadForm } from '../../components/Functions/upload';
+import { validate_inputs } from '../../Functions/validation';
 
 const Editor = () => {
 
@@ -33,13 +33,13 @@ const Editor = () => {
     
    
     
-
+ 
     let [update, setUpdate] = useState(false);
     let [edit,setEdit] = useState('');
     let [screenWidth, setScreenWidth] = useState('')
 
     let [categoriesList, setCategoriesList] = useState([])
-    let [typeList, setTypeList] = useState([])
+    let [typeList, setTypeList] = useState([]) 
 
     let [img_list, setimg_list] = useState([])
 

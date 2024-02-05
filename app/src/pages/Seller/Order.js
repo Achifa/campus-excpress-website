@@ -8,7 +8,7 @@ const Order = () => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         overlay.setAttribute('id', 'overlay');
-        GetSellerOrder()
+        GetSellerOrder(window.localStorage.getItem('CE_seller_id'))
         .then(({data}) => {
             console.log(data)
             overlay.removeAttribute('id')
