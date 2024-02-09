@@ -172,59 +172,21 @@ async function delete_cart_with_id(id) {
     )
 }
 
-async function send_proposal_meta_data(room_id,buyer_id,order_id) {
+async function send_proposal_message(mssg_type,mssg,order_id,sender_id,room_id) {
     let mssg_id = v4()
     let date = new Date()
-    return(
-      await NeonDB.then((pool) => 
-        pool.query(`insert into message_meta_data(id,message_id,sender_id,room_id,message_type,date,order_id) values(DEFAULT,'${mssg_id}','${buyer_id}','${room_id}','file','${date}','${order_id}')`)
-            .then(result => result.rowCount > 0 ? ({bool: true, data: mssg_id}) : ({bool: false}))
-            .catch(err => console.log(err))
-            // .finally(() => pool.end())
-
-        )
-      .catch(err => console.log(err))
-    )
-}
-
-
-async function send_proposal_meta_data_from_cart(room_id,buyer_id) {
-
-    let cart = await retrive_cart(buyer_id)
-    let order_id_promise = cart.map((item) => retrive_order(buyer_id, item.product_id))
-    let order_id = await Promise.all(order_id_promise).then(result => result)
-
-    // console.log('order_id: ', order_id[0].order_id)
-
-    let mssg_id = v4()
-    let date = new Date()
-
-    return(
-      await NeonDB.then((pool) => 
-        pool.query(`insert into message_meta_data(id,message_id,sender_id,room_id,message_type,date,order_id) values(DEFAULT,'${mssg_id}','${buyer_id}','${room_id}','file','${date}','${order_id[0].order_id}')`)
-            .then(result => result.rowCount > 0 ? ({bool: true, data: mssg_id}) : ({bool: false}))
-            .catch(err => console.log(err))
-            // .finally(() => pool.end())
-
-        )
-      .catch(err => console.log(err))
-    )
-}
-
-async function send_proposal_message(mssg_id,mssg) {
     return(
         await NeonDB.then((pool) => 
-        pool.query(`insert into messages(id,message_id,message) values(DEFAULT,'${mssg_id}','${mssg}')`)
+        pool.query(`insert into messages(id,mssg_id,mssg_type,mssg,order_id,sender_id,room_id,date) values(DEFAULT,'${mssg_id}','${mssg_type}','${mssg}','${order_id}','${sender_id}','${room_id}','${date}')`)
             .then(result => result.rowCount > 0 ? (true) : (false))
             .catch(err => console.log(err))
             // .finally(() => pool.end())
-
         )
         .catch(err => console.log(err))
     )
 }
 
-async function create_order(product_id, unit,buyer_id) {
+async function create_order(product_id,unit,buyer_id) {
     //stock
     let order_id = v4()
     let date = new Date()
@@ -300,7 +262,6 @@ module.exports = {
     refill_buyer_wallet,
     create_room_id,
     create_order,
-    send_proposal_meta_data,
     send_proposal_message,
     delete_cart,
     update_buyer_wallet,
@@ -309,7 +270,6 @@ module.exports = {
     save_tansaction,
     retrieve_mssg_meta_data_via_room,
     retrieve_seller,
-    send_proposal_meta_data_from_cart,
     retrieve_room,
     retrive_order,
     retrieve_mssg_meta_data,

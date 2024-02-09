@@ -1,4 +1,5 @@
 const { NeonDB } = require("../../db");
+const { bcrypt, shortId } = require("../../modules");
 
 function update_seller_profile(req,res) {
     let {
@@ -134,16 +135,16 @@ async function reset_pwd(req,res){
             const transporter = nodemailer.createTransport({
             host: 'mail.privateemail.com',  // Replace with your SMTP server hostname
             port: 465, // Replace with your SMTP server port
-            secure: true, // Set to true if using SSL/TLS
-            auth: { 
-                user: 'security-team@campusexpressng.com', // Replace with your email address
-                pass: 'A!nianuli82003', // Replace with your email password or app-specific password
-            },
+            secure: false, // Set to true if using SSL/TLS
+                auth: { 
+                    user: 'campus-express@campusexpressng.com', // Replace with your email address
+                    pass: 'A!nianuli82003', // Replace with your email password or app-specific password
+                },
             }); 
     
             // Email content 
             const mailOptions = {
-                from: 'security-team@campusexpressng.com', // Replace with your email address
+                from: 'campus-express@campusexpressng.com', // Replace with your email address
                 to: `${email}`, // Replace with the recipient's email address
                 subject: 'Password Reset',
                 html: ` 

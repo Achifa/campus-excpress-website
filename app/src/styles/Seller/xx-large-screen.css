@@ -1019,6 +1019,29 @@
     background-color: #fff;
    }
 
+   .order-item-cnt{
+    width: 40%;
+    float: left;
+    padding: 10px;
+   }
+
+   .order-item-data-cnt{
+    height: 100%;
+    width: 55%;
+    padding: 10px;
+    background-color: #fff;
+    float: right;
+   }
+
+   .order-item-data{
+    height: fit-content;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid orangered;
+    width: 100%;
+    background-color: #fff;
+   }
+
 }
 
 

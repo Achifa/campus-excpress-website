@@ -134,16 +134,14 @@ async function process_payment(req,res) {
         
             .then(async(result) => {
                 // SEND MSSG
+                // mssg_id,mssg_type,mssg,order_id,sender_id,room_id
                 if(result.bool ){
-                    console.log(result, 'sending proposal meta data was a success now sending message...') 
+                    console.log(result, 'room created and sending message now....') 
                     // let mssg = generate_mssg(`${payload.data.customer.name}`)
-                    console.log('room', result)
-                    let meta_datas = await retrieve_mssg_meta_data(buyer_id,result.room_id[0],result.order_id)
-                    // console.log(meta_datas)
-                    let response = await send_proposal_message(meta_datas[0].message_id, immediate_data.product_id)
+                    let response = await send_proposal_message('doc',product_id,result.order_id,buyer_id,result.room_id)
                     return response ? ({bool: true}) : ({bool: false})
                 }else{
-                    console.log(result,'error occcured while sending proposal meta data and sending message faild...')
+                    console.log(result,'error occcured while creating room and sending message faild...')
                     return ({bool: false}) 
             
                 }
@@ -192,18 +190,10 @@ async function process_payment(req,res) {
                     }) 
 
                     // MESSAGE MANAGEMENT
-
-                    .then(async(result) => {
-                        if(result.bool){
-                            console.log('retrieved room data successfully and now sending messages meta data @', index)
-                            let response = await send_proposal_meta_data(result.room_id,buyer_id,order.order_id);
-                            return response
-                        }
-                    })
                     .then(async(result) => {
                         if(result.bool){
                             console.log('sent messages meta data successfully and now sending messages @', index)
-                            let mssg = await send_proposal_message(result.data, item.product_id)
+                            let mssg = await send_proposal_message('doc',item.product_id,result.order_id,buyer_id,result.room_id)
                             return mssg
                         }
                     })

@@ -333,7 +333,6 @@ async function get_thumbnail(req,res) {
 
 }
 
-
 async function add_item_to_cart(req,res) {
 
     let {product_id,buyer_id} = req.body;

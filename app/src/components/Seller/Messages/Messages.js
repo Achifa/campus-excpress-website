@@ -15,6 +15,7 @@ const Messages = () => {
     useEffect(() => {
         get_chat(window.localStorage.getItem('CE_seller_id'))
         .then(({data}) => {
+            console.log(data)
             let {chat_box} = data;
             let heads = []
 
@@ -30,9 +31,10 @@ const Messages = () => {
 
     useEffect(() => {
         let r = chatList.filter(item => item.buyer_id === selected_head)[0]
-        console.log(r)
+        console.log(chatList)
         if(r !== undefined) {
             set_chat(r?.mssg)
+            console.log(r)
         }
         // 
     }, [selected_head])

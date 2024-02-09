@@ -20,9 +20,10 @@ import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
 import EditorDescription from '../../components/Seller/editor/EditorDescription';
 import SubCategory from '../../components/Seller/editor/ClothingSelect';
 import UploadBtn from '../../components/Seller/editor/Button';
-// import  upload  from '../../components/Functions/upload';
-import { uploadForm } from '../../components/Functions/upload';
+// import  uploadForm  from '../../Functions/upload';
+// import { uploadForm } from '../Functions/upload';
 import { validate_inputs } from '../../Functions/validation';
+import { uploadForm } from '../../Functions/upload';
 
 const Editor = () => {
 

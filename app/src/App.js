@@ -53,6 +53,7 @@ import ForgotPwd from './Authorization/Seller/ForgotPassword';
 import Search from './components/Buyer/Header/Search';
 import BuyerForgotPwd from './Authorization/Buyer.js/ForgotPassword';
 import Message from './pages/Seller/Messages';
+import OrderPage from './pages/Seller/OrderPage';
 
 function App() {
   let location = useLocation()
@@ -77,7 +78,7 @@ function App() {
           </>
         )
       }else if(location.pathname.split('/')[1] === 'seller'){
-        if(location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' || location.pathname.split('/').splice(-1)[0] === 'password-reset'){
+        if(location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' || location.pathname.split('/').splice(-1)[0] === 'password-reset' || location.pathname.split('/').splice(-2)[0] === 'order-page'){
 
           setActiveDom(
             <>
@@ -132,6 +133,7 @@ function App() {
             <Route path='/seller/settings' element={<Setting />}></Route>
             <Route path='/seller/wallet' element={<SellerWallet />}></Route>
             <Route path='/seller/profile' element={<Me />}></Route>
+            <Route path='/seller/order-page/:id' element={<OrderPage />}></Route>
 
             <Route path='/privacy-policy' element={<Me />}></Route>
             <Route path='/public-terms-of-service' element={<Me />}></Route>
@@ -172,7 +174,7 @@ function App() {
             <Route path='/signup' element={<BuyerSignup />}></Route>
             <Route path='/signup/:id' element={<BuyerSignup />}></Route>
             <Route path='/login' element={<BuyerLogin />}></Route>
-            <Route path='/search' element={<Search />}></Route>
+            <Route path='/search' element={<Search />}></Route> 
             <Route path='/reset-password' element={<BuyerForgotPwd />}></Route>
 
             {/* <Route path='/password-reset/:id' element={<BuyerPasswordReset />}></Route>

@@ -1,7 +1,9 @@
+const { retrieve_buyer, retrieve_mssg_meta_data } = require("../../../payment_management/functions");
 const { NeonDB } = require("../../db");
 
 async function get_chats(req,res) {
-    let {seller_id} = req.body;
+    let {seller_id} = req.query;
+    console.log(seller_id)
     
     NeonDB.then((pool) => 
         pool.query(`SELECT * FROM room_id `)
@@ -35,7 +37,7 @@ async function get_chats(req,res) {
                     }
                 })
             })
-
+            console.log('chat_box: ', chat_box)
             
             res.send({chat_box})
 

@@ -14,7 +14,8 @@ const {
     get_edited_item,
     wallet_data,
     get_seller_order,
-    get_seller_inbox
+    get_seller_inbox,
+    get_buyer_that_ordered_item
 } = require("../controller/seller/get");
 
 const { 
@@ -78,7 +79,7 @@ seller_route.post('/seller/overview', parser, overview);
 // @@ GET REQUEST
 
 // @@ CHATS
-seller_route.post('/seller/chats', parser, get_chats);
+seller_route.get('/seller/chats', parser, get_chats);
 seller_route.post('/seller/mssg', parser, get_mssgs);
 seller_route.get('/seller/shop', shop);
 seller_route.post('/seller/send-mssg', parser, send_mssgs);
@@ -98,6 +99,7 @@ seller_route.post('/seller/check', parser, check_seller);
 seller_route.post('/seller', parser, get_seller_data);
 seller_route.post('/seller/wallet-data', parser, wallet_data);
 seller_route.get('/seller-edited-item', get_edited_item);
+seller_route.get('/seller/order-buyers-info', get_buyer_that_ordered_item);
 
  
 seller_route.post('/seller/password-token-check', parser, CheckPwdResetToken);

@@ -1,4 +1,6 @@
+// const { upload_meta_data, upload_photos } = require("../../Functions/upload_items");
 const { NeonDB } = require("../../db");
+const { shortId, bcrypt, jwt } = require("../../modules");
 
 async function upload_product(req,res) {
 
@@ -25,7 +27,12 @@ async function upload_product(req,res) {
         
         if(photoresponse){
             res.send(true)
-        }
+        }else{
+            res.send(false)
+        } 
+    }else{ 
+        res.send(false)
+
     }
 
     

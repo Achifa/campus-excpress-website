@@ -148,15 +148,19 @@ async function get_seller_order(req,res) {
     let data = ids.map(async(item) => 
         await NeonDB.then((pool) => 
             pool.query(`SELECT * FROM campus_express_buyer_orders  WHERE product_id = '${item.product_id}'`)
-            .then(result => (result.rows))
+            .then(result => ({item: item, order: result.rows}))
             .catch(err => console.log(err))
         )
         .catch(err => console.log(err))
     )
 
+
     let response = await Promise.all(data).then(result => result)
-    console.log(response)
-    res.send(response)
+
+    let result = response.filter(item => item.order.length > 0 ? item : '')
+
+    res.send(result)
+    // console.log(result)
     
 }
 
@@ -176,8 +180,36 @@ async function get_seller_inbox(req,res) {
 
 }
 
+async function get_buyer_that_ordered_item(req,res) {
+    let {product_id} = req.query;
+    console.log(product_id)
+
+    let data = await NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM campus_express_buyer_orders  WHERE product_id = '${product_id}'`)
+            .then(result => result.rows)
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+
+
+    let buyers = data.map(async(item) => 
+        await NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM campus_buyers  WHERE buyer_id = '${item.buyer_id}'`)
+            .then(result => ({item: item, buyer: result.rows[0]}))
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+    )
+
+
+    let result = await Promise.all(buyers).then(result => result)
+
+    res.send(result)
+}
+
 module.exports={
     shop,
+    get_buyer_that_ordered_item,
     overview,
     get_edited_item,
     wallet_data,

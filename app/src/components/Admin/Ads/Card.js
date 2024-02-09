@@ -3,7 +3,7 @@ import Thumbnail from '../../Buyer/Thumbnail'
 import '../../../styles/Admin/user_card.css'
 import { useNavigate } from 'react-router-dom'
 import { DeleteItem, verify_item } from '../../../api/admin';
-import { openNotice } from '../../Functions/notice';
+import { openNotice } from '../../../Functions/notice';
 
 export default function Card({item,index}) {
     let navigate = useNavigate();

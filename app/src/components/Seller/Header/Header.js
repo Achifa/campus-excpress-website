@@ -96,8 +96,9 @@ const Header = () => {
     
     return ( 
         <>
-            <div className="seller-header" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-                <img src={img} style={{height: '35px', width: '35px', position: 'absolute', left: '10px', top: '5px',  color: '#fff', fontSize: 'medium', display: screenWidth <= 760 ? 'flex' : 'none'}} alt="" />
+            <div className="seller-header" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', borderBottom: '1px solid orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'space-between', padding: '10px 20px 10px 10px', height: '60px'}}>
+            
+                <img src={img} style={{height: screenWidth <= 760 ? '45px' : '50px', width: screenWidth <= 760 ? '45px' : '50px', color: '#fff', fontSize: 'medium', marginTop: screenWidth <= 760 ? '5px' : '0', display: 'flex'}} alt="" />
 
                 
 
@@ -105,15 +106,17 @@ const Header = () => {
                 {
                     location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password'
                     ?  
-                    <h3>Campus Express</h3>
+                    'Campus Express'
                     : 
-                    <Menu handleMenu={handleMenu} />
-                }
-                 
+                    <span style={{color: 'orangered', float: 'right', background: 'rgb(255, 244, 224)', fontSize: 'small', padding: '5px', borderRadius: '50%'}}>
+                        {userData.fname?.split('')[0]} {userData.lname?.split('')[0]}
+                    </span>
+                } 
+                  
 
             </div>
 
-            <div className="seller-nav" style={{marginTop: '15px', position: 'relative'}}>
+            <div className="seller-nav" style={{marginTop: '0', position: 'relative'}}>
                 <Nav />
             </div>
         </>

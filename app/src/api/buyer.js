@@ -1,12 +1,11 @@
 import axios from 'axios'
 
-let u1 = `http://localhost:1111`
-let u2 = `http://192.168.50.146:1111` 
-let u3 = `https://ce-server.onrender.com`
-let u0 = `https://ce-server-liqhku4ol-achifa.vercel.app`
+let u1 = `http://localhost:2222`
+let u2 = `http://192.168.93.146:2222` 
+let u3 = `https://ce-server.vercel.app`
 
 let plug = u1; 
-
+ 
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
     return new Promise((resolve, reject) => {

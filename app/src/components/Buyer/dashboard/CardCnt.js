@@ -118,7 +118,7 @@ const CardCnt = () => {
             </div>
             <div className="buyer-card-cnt shadow-sm" style={{
                 borderRadius: '1.5px',
-                height: '100%', 
+                height: 'fit-content', 
                 padding: '0',
                 background: 'orangered'
 

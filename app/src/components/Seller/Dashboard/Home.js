@@ -83,17 +83,24 @@ const Home = () => {
 
                 </div> */}
 
-                <div className="seller-home-list">
+                <div className="seller-home-list" style={{display: 'flex', background: '#fff', flexDirection: 'row', flexWrap: 'wrap', overflow: 'hidden', height: 'fit-content', justifyContent: 'space-evenly', alignItems: 'center'}}>
+                
                     <Card title={total_for_sale} summary={'Total Products For Sale '} />
                     <Card title={total_sold} summary={'Total Products Sold'} />
                     <Card title={total_unsold} summary={'Total Products Unsold'} />
                     <Card title={total_reported} summary={'Total Products Reported'} />
                    
                 </div>
+
+                <div style={{display: 'flex', background: '#fff', flexDirection: 'row', height: '200px', justifyContent: 'space-evenly', alignItems: 'center'}} className="seller-home-revenue">
+                   
                 
+                 
+                </div> 
+
             </div>
         </>
      );
 }
  
-export default Home;
+export default Home; 

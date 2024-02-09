@@ -10,8 +10,9 @@ export default function Aside() {
         <div className='seller-aside-overlay'></div>
 
         <div className='seller-aside'>
+        <br />
 
-            <h6>Main</h6>
+            {/* <hr /> */}
             <ul>
 
                 <li onClick={e => navigate('/seller/')}>
@@ -23,9 +24,13 @@ export default function Aside() {
                     <span></span>
                     <span>Balance: </span>
                 </li>
+
+                <br />
                 
 
-                <h6>Menu Items</h6>
+                <hr />
+
+                <br />
 
                 <li onClick={e => navigate('/seller/messages')}>
                     <span></span>
@@ -41,27 +46,27 @@ export default function Aside() {
 
                 <li onClick={e => navigate('/seller/editor')}>
                     <span></span>
-                    <span>Create Ads</span>
+                    <span>Sell</span>
                 </li>
 
-                <li className='seller__extra__menu' onClick={e => navigate('/seller/inbox')}>
+                {/* <li className='seller__extra__menu' onClick={e => navigate('/seller/inbox')}>
                     <span></span>
                     <span>Inbox</span>
-                </li>
+                </li> */}
 
                 <li onClick={e => navigate('/seller/orders')}>
                     <span></span>
                     <span>Orders</span>
                 </li>
 
-                <li onClick={e => navigate('/seller/')}>
+                {/* <li onClick={e => navigate('/seller/')}>
                     <span></span>
                     <span>Refunds/Return</span>
-                </li>
+                </li> */}
 
                 <li className='seller__extra__menu' onClick={e => navigate('/seller/settings')}>
                     <span></span>
-                    <span>Account Settings</span>
+                    <span>Settings</span>
                 </li>
 
             

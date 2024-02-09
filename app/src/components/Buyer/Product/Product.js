@@ -19,7 +19,7 @@ import Description from './Description'
 
 
 
-const Product = () => {
+const Product = ({product_id}) => {
     let [item, setItem] = useState(
         {
             id: '',
@@ -61,7 +61,7 @@ const Product = () => {
         let overlay = document.querySelector('.overlay')
         overlay.setAttribute('id', 'overlay');
         
-        GetItem([location.pathname.split('/')[2]])
+        GetItem(product_id)
         .then((result) => {
             setItem(result[0])
             set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)

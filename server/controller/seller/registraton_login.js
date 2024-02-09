@@ -1,5 +1,13 @@
+const { create_token } = require("../../Functions/token");
 const { NeonDB } = require("../../db");
+const { express,path,fs,parser,mocha,morgan,cors,shortId,jwt,io,bcrypt} = require('../../modules');
+const maxAge = 90 * 24 * 60 * 60; 
 
+const createToken = (id) => {
+    return jwt.sign({ id }, 'seller_secret', {
+       expiresIn: maxAge
+    });
+};
 async function register_seller(req,res) {
 
     let {fname,lname,email,phone,pwd,state,campus} = req.body;
@@ -241,10 +249,11 @@ async function log_seller_in(req, res) {
         )
         
     })
-    .then(async(user) => {
+    .then(async(user) => { 
         if(user){
             console.log(email,pwd)
             const auth = await bcrypt.compare(pwd, user.password);
+            console.log(auth)
             if (auth) {
                 const token = createToken(user.seller_id);
                 res.status(200).send({bool: true, id: user.seller_id, name: `${user.fname[0]}.${user.lname[0]}`});

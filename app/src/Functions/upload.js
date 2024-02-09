@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { updateItem, uploadItem } from "../../api/seller"
+import { updateItem, uploadItem } from "../api/seller"
 import { openNotice } from "./notice";
 
 export function uploadForm(constantData, dynamicData) {
@@ -10,7 +10,7 @@ export function uploadForm(constantData, dynamicData) {
             window.location.href = '/seller/shop';
             document.querySelector('.overlay').removeAttribute('id')
             // openNotice()
-        }else{
+        }else{ 
             // alert('Error Uploading Data...'); 
             let overlay = document.querySelector('.overlay'); 
             overlay.removeAttribute('id')

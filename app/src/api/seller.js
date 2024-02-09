@@ -1,15 +1,55 @@
 import axios from 'axios'
 
-let u1 = `http://localhost:1111`
-let u4 = `http://192.168.217.147:1111`
-let u2 = `https://ce-server.onrender.com`
-let u0 = `https://ce-server-liqhku4ol-achifa.vercel.app`
+let u1 = `http://localhost:2222`
+let u4 = `http://192.168.30.146:2222`
+let u2 = `https://ce-server.vercel.app`
+let plug = u4; 
 
-let plug = u1; 
+export function GetItem(id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${plug}/product`, {
+            params: {id}
+        })
+        .then((result) => {
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+export function GetItemImages(id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${plug}/product/images`, {
+            params: {id}
+        })
+        .then((result) => {
+            resolve(result.data)
+        })
+        .catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+export function get_buyer_that_ordered_item(product_id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${plug}/seller/order-buyers-info`, {
+            params: {product_id}
+        })
+        .then((result) => {
+            resolve(result)
+        }) 
+        .catch((err) => { 
+            reject(err) 
+        }) 
+    })
+}
 
 export function get_chat(seller_id) {
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/chats`, {
+        axios.get(`${plug}/seller/chats`, {
             seller_id
         })
         .then((result) => {

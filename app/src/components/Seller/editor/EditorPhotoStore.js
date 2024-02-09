@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { getImage } from "../../Functions/imageToSvg";
-import { openNotice } from "../../Functions/notice";
+import { getImage } from "../../../Functions/imageToSvg";
+import { openNotice } from "../../../Functions/notice";
 import xSvg from '../../../assets/cancel-svgrepo-com.svg'
 const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photos,category}) => {
 
