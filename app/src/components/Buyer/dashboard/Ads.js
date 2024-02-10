@@ -79,15 +79,15 @@ const Ads = () => {
 
     return (   
         <>
-            <div className="buyer-ads-cnt" style={{marginTop: '10px'}}>
-                <section style={{background: '#fff', padding: '5px', overflow: 'auto'}}>
+            <div className="buyer-ads-cnt" style={{marginTop: '10px', background: '#efefef'}}>
+                {/* <section style={{background: '#fff', padding: '5px', overflow: 'auto'}}>
                     <ul style={{listStyleType: 'none', margin: '0', padding: '10px 0 10px 0', overflow: 'auto'}}>
                         {
                             Categories
                         }
-                    </ul>  
-                </section>
-                <section className="img-cnt" >
+                    </ul>   
+                </section> */}
+                <section className="img-cnt" style={{width: '100%'}}>
                     <img src={ads}  alt="" /> 
                     {/* <canvas style={{height: '100%', width: '100%'}} id="ads-canvas"></canvas> */}
                 </section>

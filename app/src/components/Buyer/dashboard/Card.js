@@ -135,6 +135,7 @@ const Card = ({item, index}) => {
             }
             <div className="cols" >
                 <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10px'}}>
+                    
                     <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
                         <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
                             <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '8px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
@@ -145,6 +146,7 @@ const Card = ({item, index}) => {
                             UNIZIK, Awka
                         </span>
                     </span>
+                    
                     <Thumbnail product_id={item.product_id} />
 
                     <div className="card-body">
@@ -152,9 +154,9 @@ const Card = ({item, index}) => {
                         {
                             screenWidth > 479
                             ?
-                            <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                            <small style={{fontSize: 'x-small', fontWeight: '500', fontFamily: 'sans-serif', height: '20px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                             : 
-                            <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                            <small style={{fontSize: 'x-small', fontWeight: '500', fontFamily: 'sans-serif', height: '20px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                         }
 
                         {/* <br /> */}
@@ -164,7 +166,7 @@ const Card = ({item, index}) => {
                         {
                             screenWidth > 479
                             ?
-                            <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '500', color: '#000'}}>&#8358;{
+                            <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '500', fontSize: 'small', color: '#000'}}>&#8358;{
                                 new Intl.NumberFormat('en-us').format(item.price)
                             }</h6>
                             : 
@@ -187,7 +189,7 @@ const Card = ({item, index}) => {
                             
                         </div>
 
-                        <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '0px', top: '55px', background: '#fff', color: '#626262', height: '50px', width: 'fit-content'}}>
+                        <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '0px', top: '45px', background: '#fff', color: '#626262', height: '50px', width: 'fit-content'}}>
                             <img src={saveSvg} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
                             <section style={{marginTop: '-5px', fontSize: 'x-small'}}>
                                 {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}

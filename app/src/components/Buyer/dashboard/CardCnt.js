@@ -116,17 +116,17 @@ const CardCnt = () => {
                 <div className="loader">
                 </div>
             </div>
-            <div className="buyer-card-cnt shadow-sm" style={{
+            <div className="buyer-card-cnt" style={{
                 borderRadius: '1.5px',
-                height: 'fit-content', 
+                minHeight: '100vh', 
                 padding: '0',
-                background: 'orangered'
+                background: 'transparent'
 
             }}>
                 {/* <div className="buyer-sort shadow-sm" style={{marginTop: '0px',borderRadius: '1.5px', zIndex: '1000'}}>
                     <div className="left">
                         Latest Items For Sale
-                    </div>
+                    </div> 
                     <div onClick={openFloatingMenu} className="right">
                         Filter {selectedOption}
                     </div>
