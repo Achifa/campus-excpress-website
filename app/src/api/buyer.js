@@ -12,7 +12,7 @@ export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {
         axios.post(`${plug}/buyer/registration`, {
             fname,lname,email,phone,pwd,state,campus
         })
-        .then((result) => { 
+        .then((result) => {  
             resolve(result.data) 
         })
         .catch((err) => { 
