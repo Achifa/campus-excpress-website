@@ -4,7 +4,7 @@ let u1 = `http://localhost:2222`
 let u2 = `http://192.168.93.146:2222` 
 let u3 = `https://ce-server.vercel.app`
 
-let plug = u1; 
+let plug = u3; 
  
 
 export function RegisterBuyer(fname,lname,email,phone,pwd,state,campus) {

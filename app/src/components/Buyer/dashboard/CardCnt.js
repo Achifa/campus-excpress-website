@@ -118,7 +118,7 @@ const CardCnt = () => {
             </div>
             <div className="buyer-card-cnt" style={{
                 borderRadius: '1.5px',
-                minHeight: '100vh', 
+                height: 'fit-content', 
                 padding: '0',
                 background: 'transparent'
 

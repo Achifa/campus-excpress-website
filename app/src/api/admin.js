@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-let u1 = `http://localhost:1111`
+let u1 = `http://localhost:2222`
 let u4 = `http://192.168.93.146:1111`
 let u2 = `https://ce-server.onrender.com`
 let u0 = `https://ce-server-liqhku4ol-achifa.vercel.app`
-let plug = u4;   
+let plug = u1;   
 
 export function send_mssg(action,item,product_id) {
     return new Promise((resolve, reject) => {

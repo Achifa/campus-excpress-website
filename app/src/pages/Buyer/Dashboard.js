@@ -38,7 +38,7 @@ const Dashboard = () => {
         <>
             <div className="buyer-main-cnt" style={{
                 height: 'fit-content',
-                background: '#efefef'
+                background: '#efefef',
             }}>  
                 {/*<BuyerAside />*/} 
                 
@@ -68,7 +68,7 @@ const Dashboard = () => {
             <div className="buyer-main-content buyer-main-cnt" style={{
                 // padding: '10px 80px 10px 80px',
                 background: '#efefef',
-                height: '100vh'
+                height: '100vh',
             }}>
                 <Main />
             </div>
