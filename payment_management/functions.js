@@ -1,5 +1,5 @@
-const { v4 } = require("uuid");
 const { NeonDB } = require("./db");
+const { express,path,fs,parser,mocha,morgan,cors,shortId,jwt,io} = require('./modules');
 
 async function save_tansaction(buyer_id,payment_src,payment_type,app_fee,amount,date,reason) {
     return(
@@ -173,7 +173,7 @@ async function delete_cart_with_id(id) {
 }
 
 async function send_proposal_message(mssg_type,mssg,order_id,sender_id,room_id) {
-    let mssg_id = v4()
+    let mssg_id = shortId.generate()
     let date = new Date()
     return(
         await NeonDB.then((pool) => 
@@ -188,7 +188,7 @@ async function send_proposal_message(mssg_type,mssg,order_id,sender_id,room_id) 
 
 async function create_order(product_id,unit,buyer_id) {
     //stock
-    let order_id = v4()
+    let order_id = shortId.generate()
     let date = new Date()
     return(
       await NeonDB.then((pool) => 
@@ -203,7 +203,7 @@ async function create_order(product_id,unit,buyer_id) {
 }
 
 async function create_room_id(seller_id,buyer_id) {
-    let room_id = v4()
+    let room_id = shortId.generate()
     let date = new Date()
 
     let check = await check_if_room_exist(seller_id,buyer_id);

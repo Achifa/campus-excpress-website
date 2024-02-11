@@ -108,7 +108,7 @@ const Header = () => {
                     ?  
                     'Campus Express'
                     : 
-                    <span style={{color: 'orangered', float: 'right', background: 'rgb(255, 244, 224)', fontSize: 'small', padding: '5px', borderRadius: '50%'}}>
+                    <span style={{color: 'orangered', float: 'right', background: 'rgb(255, 244, 224)', fontSize: 'small', padding: '10px', borderRadius: '50%'}}>
                         {userData.fname?.split('')[0]} {userData.lname?.split('')[0]}
                     </span>
                 } 
