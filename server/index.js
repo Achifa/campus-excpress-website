@@ -7,15 +7,6 @@ const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
 const { v4 } = require('uuid');
-const { retrive_cart, retrieve_room, retrieve_mssg_meta_data, retrieve_buyer, retrieve_seller } = require('./Functions/cart');
-const { record_transacction } = require('./product_payment/transaction');
-const { update_buyer_wallet } = require('./product_payment/update_wallet');
-const { create_order } = require('./product_payment/create_order');
-const { update_product_status } = require('./product_payment/update_product_status');
-const { create_room_id } = require('./product_payment/create_room');
-const { send_proposal_meta_data } = require('./product_payment/send_proposal_meta_data');
-const { send_proposal_message } = require('./product_payment/send_mssg');
-const { delete_cart, delete_cart_with_id } = require('./product_payment/delete_cart');
 
 greetingTime(new Date());
 require('dotenv').config(); 
@@ -23,8 +14,6 @@ require('dotenv').config();
 const app = express(); 
 app.use(cookieParser());
 app.use(morgan('dev')); 
-
-let urls = ['http://localhost:3000', 'http://192.168.0.2:3000', 'https://campus-excpress-website-6fwkxq5ma-achifa.vercel.app'];
 
 app.use(cors({
   origin: '*',
