@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
-const { v4 } = require('uuid');
+// const { v4 } = require('uuid');
 
 greetingTime(new Date());
 require('dotenv').config(); 
