@@ -1,5 +1,34 @@
-const { retrieve_buyer, retrieve_mssg_meta_data } = require("../../../payment_management/functions");
+// const { retrieve_buyer, retrieve_mssg_meta_data } = require("../../../payment_management/functions");
 const { NeonDB } = require("../../db");
+
+
+
+function retrieve_room_with_room_id(id) {
+    return(
+        NeonDB.then((pool) => 
+            pool.query(`SELECT members_id FROM room_id WHERE room_id = '${id}'`)
+            .then(result => result.rows[0])
+            .catch(err => console.log(err))
+            // .finally(() => pool.end())
+
+        )
+        .catch(err => console.log(err))
+    )
+}
+
+function retrieve_mssg_meta_data(buyer_id,room_id,order_id) {
+    // console.log('order_id: ', order_id)
+    return(
+        NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM message_meta_data WHERE sender_id = '${buyer_id}' AND room_id = '${room_id}' AND order_id = '${order_id}'`)
+            .then(result => (result.rows))
+            .catch(err => console.log(err))
+            // .finally(() => pool.end())
+
+        )
+        .catch(err => console.log(err))
+    )
+}
 
 async function get_chats(req,res) {
     let {seller_id} = req.query;
