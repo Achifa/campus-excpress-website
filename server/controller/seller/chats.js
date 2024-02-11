@@ -1,7 +1,7 @@
 const { retrieve_buyer, retrieve_mssg_meta_data } = require("../../../payment_management/functions");
 const { NeonDB } = require("../../db");
 // const { v4 } = require("uuid");
-const { express,path,fs,parser,mocha,morgan,cors,shortId,jwt,io} = require('./modules');
+// const { express,path,fs,parser,mocha,morgan,cors,shortId,jwt,io} = require('./modules');
 
 async function get_chats(req,res) {
     let {seller_id} = req.query;
