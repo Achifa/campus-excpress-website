@@ -136,6 +136,7 @@ async function process_payment(req,res) {
             .then(async(result) => {
                 // SEND MSSG
                 // mssg_id,mssg_type,mssg,order_id,sender_id,room_id
+
                 if(result.bool ){
                     console.log(result, 'room created and sending message now....') 
                     // let mssg = generate_mssg(`${payload.data.customer.name}`)
@@ -187,25 +188,39 @@ async function process_payment(req,res) {
                             console.log('created room successfully and now retrieving room data for sending messages @', index)
                             let room_id = await retrieve_room(buyer_id,seller_id)
                             return {room_id: room_id[0].room_id, bool: true}
+                        }else{
+                            console.log(result,'error occcured while retrieving room data for sending messages @', index)
+                            return ({bool: false}) 
+                    
                         }
                     }) 
 
                     // MESSAGE MANAGEMENT
                     .then(async(result) => {
+                        console.log(order)
                         if(result.bool){
                             console.log('sent messages meta data successfully and now sending messages @', index)
-                            let mssg = await send_proposal_message('doc',item.product_id,result.order_id,buyer_id,result.room_id)
+                            let mssg = await send_proposal_message('doc',item.product_id,order.order_id,buyer_id,result.room_id)
                             return mssg
+                        }else{
+                            console.log(result,'error occcured while sending messages @', index)
+                            return ({bool: false}) 
+                    
                         }
                     })
 
                     // DELETE CART
 
                     .then(async(result) => {
+                        console.log(result)
                         if(result.bool){
                             console.log('sent messages successfully and now deleting cart @', index)
                             let delete_cart = await delete_cart_with_id(item.cart_id)
                             return delete_cart
+                        }else{
+                            console.log(result,'error occcured while deleting cart @', index)
+                            return ({bool: false}) 
+                    
                         }
                     })
 
@@ -213,6 +228,10 @@ async function process_payment(req,res) {
                         book.push(index + 1)
                         if(book.length === carts.length){
                             res.send(true)
+                        }else{
+                            // console.log(result,'error occcured while creating room and sending message faild...')
+                            return ({bool: false}) 
+                    
                         }
                     })
                     .catch(err => console.log(err))

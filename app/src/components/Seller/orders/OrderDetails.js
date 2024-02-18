@@ -25,7 +25,7 @@ const OrderDetails = () => {
     },[])
     return ( 
         <>
-            <div className="seller-order-details-cnt" style={{display: 'flex', justifyContent: 'center'}}>
+            <div className="seller-order-details-cnt" style={{display: 'flex', justifyContent: 'left'}}>
                 {
                     orders.map((item, index) => 
                     

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { GetItemImages } from "../../../api/buyer";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { setItemImagesTo } from "../../../redux/buyer/ItemImages";
+import { setItemImagesTo } from "../../../redux/buyer_store/ItemImages";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
-import { setActiveImgTo } from "../../../redux/buyer/ActiveImg";
+import { setActiveImgTo } from "../../../redux/buyer_store/ActiveImg";
 
 const ItemImgs = () => {
     let location = useLocation()

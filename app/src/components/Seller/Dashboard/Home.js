@@ -83,7 +83,7 @@ const Home = () => {
 
                 </div> */}
 
-                <div className="seller-home-list" style={{display: 'flex', background: '#fff', flexDirection: 'row', flexWrap: 'wrap', overflow: 'hidden', height: 'fit-content', justifyContent: 'space-evenly', alignItems: 'center'}}>
+                <div className="seller-home-list" style={{display: 'flex', flexDirection: 'row', borderRadius: '0', flexWrap: 'wrap', overflow: 'hidden', height: '100vh', justifyContent: 'space-evenly', alignItems: 'center'}}>
                 
                     <Card title={total_for_sale} summary={'Total Products For Sale '} />
                     <Card title={total_sold} summary={'Total Products Sold'} />

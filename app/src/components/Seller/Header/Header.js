@@ -7,6 +7,7 @@ import { GetSeller, ResetPwd } from '../../../api/seller';
 import { socket } from "../../../socket";
 import Menu from "./MenuBtn";
 import Nav from "./Nav";
+import usePath from "../../../hooks/usePath";
 
  
 const Header = () => {
@@ -53,6 +54,8 @@ const Header = () => {
 
     let location = useLocation()
 
+    let path = usePath()
+
     let [userData, setUserData] = useState('')
 
     useEffect(() => {
@@ -60,7 +63,7 @@ const Header = () => {
         .then((result) => {
             setUserData(result)
             console.log(result)
-        }) 
+        })  
         .catch((err) => console.log(err))
     }, [])
 
@@ -98,7 +101,7 @@ const Header = () => {
         <>
             <div className="seller-header" style={{width: location.pathname.split('/').splice(-1)[0] === 'signup' || location.pathname.split('/').splice(-1)[0] === 'login' || location.pathname.split('/').splice(-1)[0] === 'reset-password' ? '100%' : '', color: 'orangered', borderBottom: '1px solid orangered', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'space-between', padding: '10px 20px 10px 10px', height: '60px'}}>
             
-                <img src={img} style={{height: screenWidth <= 760 ? '45px' : '50px', width: screenWidth <= 760 ? '45px' : '50px', color: '#fff', fontSize: 'medium', marginTop: screenWidth <= 760 ? '5px' : '0', display: 'flex'}} alt="" />
+                {/* <img src={img} style={{height: screenWidth <= 760 ? '45px' : '50px', width: screenWidth <= 760 ? '45px' : '50px', color: '#fff', fontSize: 'medium', marginTop: screenWidth <= 760 ? '5px' : '0', display: 'flex'}} alt="" /> */}
 
                 
 
@@ -108,8 +111,19 @@ const Header = () => {
                     ?  
                     'Campus Express'
                     : 
-                    <span style={{color: 'orangered', float: 'right', background: 'rgb(255, 244, 224)', fontSize: 'small', padding: '10px', borderRadius: '50%'}}>
-                        {userData.fname?.split('')[0]} {userData.lname?.split('')[0]}
+                    <span onClick={e=> path === 'signup' || path === 'login' ? navigate(`/seller.${path === 'signup' ? 'login' : 'signup'}`) : ''} style={{color: 'orangered', cursor: 'pointer', float: 'right', background: 'rgb(255, 244, 224)', fontSize: 'small', padding: '10px', borderRadius: path === 'signup' || path === 'login' ? '5px' : '50%'}}>
+                        {
+                            path === 'signup' || path === 'login'
+
+                            ?
+                                <span style={{textTransform: 'capitalize'}}>{path === 'signup' ? 'Login' : 'Signup'}</span>
+                            : 
+
+                            ''
+                            
+                        }
+
+
                     </span>
                 } 
                   
@@ -122,5 +136,5 @@ const Header = () => {
         </>
      );
 }
- 
+// userData.fname?.split('')[0]} {userData.lname?.split('')[0]
 export default Header;                                                                                                      
