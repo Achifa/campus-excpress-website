@@ -13,8 +13,6 @@ import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/Dashboard/Lodge'
 
 import BuyerLayout from '../../layout/Buyer'
-// import Ads from '../../components/Buyer/Dashboard/Ads'
-import CardCnt from '../../components/Buyer/Dashboard/CardCnt'
  
 const Dashboard = () => {
 
@@ -69,14 +67,7 @@ const Dashboard = () => {
                     background: '#fff',
                     height: '100vh',
                 }}>
-                    {
-                        screenWidth >  760
-                        ?
-                        ''
-                        : 
-                        ''
-                    }
-                    <CardCnt />
+                    
                 </div>
             </BuyerLayout>
 
