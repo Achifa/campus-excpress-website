@@ -11,9 +11,10 @@ import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/Dashboard/Lodge'
-import Main from '../../components/Buyer/Dashboard/Main'
 
 import BuyerLayout from '../../layout/Buyer'
+import Main from '../../components/Buyer/Dashboard/Main'
+import Ads from '../../components/Buyer/Dashboard/Ads'
  
 const Dashboard = () => {
 
