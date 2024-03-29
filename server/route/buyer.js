@@ -27,7 +27,10 @@ const {
     update_pwd,
 
     get_search_word,
-    register_buyer 
+    register_buyer, 
+    get_chat_rooms,
+    upload_chat,
+    get_chat
 
 } = require("../controller/buyer");
 
@@ -41,15 +44,16 @@ buyer_route.get('');
 buyer_route.post('');
 
 
-buyer_route.post('/buyer/registration', parser, register_buyer);
-buyer_route.post('/buyer/login', parser, log_buyer_in);
-buyer_route.post('/buyer', parser, get_buyer);
+buyer_route.post('/buyer.registration', parser, register_buyer);
+buyer_route.post('/buyer.login', parser, log_buyer_in);
+
+buyer_route.get('/buyer', get_buyer);
 
 buyer_route.get('/', get_shop_items);
 buyer_route.get('/lodges', get_lodges);
 
 buyer_route.get('/product', get_item);
-buyer_route.get('/product/images', get_item_thumbnail);
+buyer_route.get('/product.images', get_item_thumbnail);
 buyer_route.get('/thumbnail', get_thumbnail);
 
 buyer_route.post('/add-cart', parser, add_item_to_cart);
@@ -65,17 +69,20 @@ buyer_route.delete('/unsave-item', unsave_item);
 
 buyer_route.get('/orders', get_orders);
 
+buyer_route.get('/get-chat-rooms', get_chat_rooms);
+buyer_route.get('/get-chat', get_chat);
+
 
 buyer_route.get('/search-word', get_search_word);
 
 
-buyer_route.post('/buyer/password-update', parser, update_pwd);
-buyer_route.post('/buyer/password-reset', parser, reset_pwd);
+buyer_route.post('/buyer.password-update', parser, update_pwd);
+buyer_route.post('/buyer.password-reset', parser, reset_pwd);
 
 
-buyer_route.post('/buyer/password-token-check', parser, CheckPwdResetToken);
-buyer_route.post('/buyer/email-validation', parser, ValidateEmail);
+buyer_route.post('/buyer.password-token-check', parser, CheckPwdResetToken);
+buyer_route.post('/buyer.email-validation', parser, ValidateEmail);
 
-// buyer_route.post('/buyer/send-email', parser, SendEmail);
+buyer_route.post('/new-chat', parser, upload_chat);
 
 module.exports = {buyer_route} 

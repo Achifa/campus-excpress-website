@@ -26,11 +26,10 @@ let NeonDB = new Promise((resolve, reject) => {
             reapIntervalMillis: 1000,
             createRetryIntervalMillis: 100
         });
+        
         let conn = pool.connect(); 
         if(conn){
             resolve(pool);
-
-            pool.on('error', error => console.log('error', error))
         }else{
             reject(conn);
         }
@@ -40,8 +39,6 @@ let NeonDB = new Promise((resolve, reject) => {
     }
     
 })
-
-
 
 module.exports = {
     NeonDB

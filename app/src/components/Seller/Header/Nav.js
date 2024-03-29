@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
+import home from '../../../assets/home-svgrepo-com (6).svg'
+import me from '../../../assets/profile-circle-svgrepo-com (3).svg'
+import mssg from '../../../assets/message-circle-lines-alt-svgrepo-com.svg'
+import lib from '../../../assets/store-svgrepo-com.svg'
 
 export default function Nav() {
   let [screenWidth, setScreenWidth] = useState(0)
@@ -11,12 +15,60 @@ export default function Nav() {
 }, [])
 
   return (
-    <nav style={{height: '50px', width: '100%', display: screenWidth> 760 ? 'none' : 'flex', position: 'sticky', top: '60px', borderTop: '1px solid #fff4e0', alignItems: 'center', justifyContent: 'center', background: '#fff'}}>
-      <div onClick={e => navigate('/seller/')} style={{width: '20%', fontSize: 'small', textAlign: 'center'}}>Home</div>
-      <div onClick={e => navigate('/seller/shop')} style={{width: '20%', fontSize: 'small', textAlign: 'center'}}>Ads</div>
-      <div onClick={e => navigate('/seller/editor')} style={{width: '20%', fontSize: 'small', textAlign: 'center'}}>Sell</div>
-      <div onClick={e => navigate('/seller/orders')} style={{width: '20%', fontSize: 'small', textAlign: 'center'}}>Orders</div>
-      <div onClick={e => navigate('/seller/messages')} style={{width: '20%', fontSize: 'small', textAlign: 'center'}}>Messages</div>
+    <nav className='shadow-sm' style={{
+        height: '70px',
+        width: '100%',
+        color: '#000',
+        display: screenWidth > 760 ? 'none' : 'flex',
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        borderTop: '1px solid #fff4e0',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#fff',
+        color: '#fff',
+        fontWeight: 'bold '
+      }}>
+
+      <div onClick={e => navigate('/seller')} style={{
+        width: '33.3%',
+        fontSize: 'x-small',
+        color: '#000',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column-reverse'
+      }}>
+        <div>Home</div>
+        <div>
+          <img src={home} style={{height: '25px', width: '25px'}} alt="" />
+        </div>
+      </div>
+      <div onClick={e => navigate('/seller.shop')} style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
+        <div>Ads</div>
+        <div>
+          <img src={lib} style={{height: '25px', width: '25px'}} alt="" />
+        </div>
+      </div>
+      
+      <div onClick={e => 
+        // navigate('/seller.messages')
+        alert('Not Availble At The Moment.')
+      } style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
+        <div>Messages</div>
+        <div>
+          <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
+        </div>
+      </div>
+
+      <div onClick={e => navigate('/seller.profile')} style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
+        <div>Me</div>
+        <div>
+          <img src={me} style={{height: '25px', width: '25px'}} alt="" />
+        </div>
+      </div>
     </nav>
   )
 } 

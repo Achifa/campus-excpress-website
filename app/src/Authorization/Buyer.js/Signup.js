@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../styles/Buyer/signup.css'
-import { useLocation, useNavigate } from 'react-router-dom';
-import { RegisterBuyer } from '../../api/buyer';
-import { data, school_choices } from '../../location';
+import { 
+    useLocation, 
+    useNavigate 
+} from 'react-router-dom';
+import { 
+    data, 
+    school_choices 
+} from '../../location';
+import { RegisterBuyer } from '../../api/buyer/post';
 
 const BuyerSignup = () => {
     let navigate = useNavigate();
@@ -95,18 +101,19 @@ const BuyerSignup = () => {
                 <div className="Authloader" style={{background: '#fff',border: '1px solid orangered'}}></div>
             )
             // e.currentTarget.disabled = true;
-            RegisterBuyer(fname.trim(),lname.trim(),email,phone,pwd,state,campus)
-            .then((result) => {
+            try {
+                let result = RegisterBuyer(fname.trim(),lname.trim(),email,phone,pwd,state,campus)
+
                 if(result){
                     if(location.search){
                         navigate(`/${query}`)
                     }else{
                         navigate('/login')
                     }
-                } 
-            })
-            .catch((err) => {
-                console.log(err.response.data.err )
+                }
+
+            } catch (err) {
+                
                 if(err.response.data === 'duplicate email'){
                     addErrMssg([{mssg:'Email already exist, please try something else'}], document.querySelector('.email').parentElement)
                 }else if(err.response.data === 'duplicate phone'){
@@ -115,7 +122,8 @@ const BuyerSignup = () => {
                 setBtn("Signup")
                 // console.log(err)
                 e.currentTarget.disabled = false;
-            })
+            }
+           
         }else{
             console.log(validation.current)
 

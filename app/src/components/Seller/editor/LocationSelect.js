@@ -8,7 +8,7 @@ const LocationSelect = ({edit,productLocale}) => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         GetSeller(window.localStorage.getItem('CE_seller_id'))
         .then((result) => {
             setCampus(result.campus)

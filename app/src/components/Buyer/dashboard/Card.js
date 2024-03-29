@@ -1,20 +1,32 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { 
+    useDispatch, 
+    useSelector 
+} from 'react-redux'
 import img from '../../../assets/download (3).jpeg'
 import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
-import { useState } from 'react'
-import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
+import { 
+    useEffect,
+    useState
+} from 'react'
 import Thumbnail from '../Thumbnail'
-import timeSvg from '../../../assets/clock-svgrepo-com.svg'
 import saveSvg from '../../../assets/save-svgrepo-com.svg'
-import orderSvg from '../../../assets/order-svgrepo-com (1).svg'
 import conditionSvg from '../../../assets/condition-point-svgrepo-com.svg'
-import { useNavigate } from 'react-router-dom'
-import { AddItemToCart, DeleteItemFromCart, SaveItem, UnSaveItem } from '../../../api/buyer'
-import { setSaveTo } from '../../../redux/buyer/Save'
-import { setCartTo } from '../../../redux/buyer/Cart'
-import { isBuyerLoggedIn } from '../LoggedIn'
+import { 
+    useNavigate 
+} from 'react-router-dom'
+import { 
+    setSaveTo 
+} from '../../../redux/buyer_store/Save'
+import { 
+    isBuyerLoggedIn 
+} from '../LoggedIn'
+import { UnSaveItem } from '../../../api/buyer/delete'
+import { SaveItem } from '../../../api/buyer/post'
+import SaveButton from './SaveButton'
+
 const Card = ({item, index}) => {
     let [screenWidth, setScreenWidth] = useState(0)
+    let [btnMode, setBtnMode] = useState(true)
  
     let BtnStyles = {
         height: screenWidth > 480 ? '40px' : '40px',
@@ -32,99 +44,103 @@ const Card = ({item, index}) => {
         backgroundColor: 'orangered',
         margin: '0'
     }
-    let {Cart} = useSelector(s => s.Cart)
-    let {Save} = useSelector(s => s.Save)
-    let {category} = useSelector(s => s.Category)
+    let {
+        Cart
+    } = useSelector(s => s.Cart)
+    let {
+        Save
+    } = useSelector(s => s.Save)
+
+    let {
+        category
+    } = useSelector(s => s.Category)
+
     let navigate = useNavigate()
     let dispatch = useDispatch()
 
+    let [savedData, setSavedData] = useState([])
+
+    useEffect(() => {
+        setSavedData(Save)
+    }, [Save])
+
     // let [items, setItems] = useState([])
 
-    function Saver(e,product_id) {
-        e.currentTarget.disabled = true;
-
-        let saveList = [...Save];
+    async function Saver(e,product_id) { 
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+        setBtnMode(btnMode) 
+        let saveList = savedData;
+       
         let duplicateSearch = saveList.filter(item => item.product_id === product_id)
         if(saveList.length > 0){
             if(duplicateSearch.length > 0){
-                // let newList = saveList.filter(item => item !== duplicateSearch[0])
-                // dispatch(setSaveTo(newList))
-                UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    console.log(result)
-                    dispatch(setSaveTo(result))
-                    e.currentTarget.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+
+                let result = await UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'));
+                dispatch(setSaveTo(result));
+                setBtnMode(!btnMode) 
+                overlay.removeAttribute('id')
+
             }else{
                 
-                SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    console.log(result)
-
-                    dispatch(setSaveTo(result))
-                    e.currentTarget.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            }
-        }else{
-            SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-            .then((result) => {
+                let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                 dispatch(setSaveTo(result))
-                e.currentTarget.disabled = false;
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-    }
+                setBtnMode(!btnMode) 
+                overlay.removeAttribute('id')
 
-    function AddToCart(e,product_id) {
-        
-        e.currentTarget.disabled = true;
-        console.log(e.target)
-        console.log(e.currentTarget)
-
-        let cartList = [...Cart];
-        let duplicateSearch = cartList.filter(item => item.product_id === product_id)
-        if(cartList.length > 0){
-            if(duplicateSearch.length > 0){
-                let newList = cartList.filter(item => item !== duplicateSearch[0])
-                //dispatch(setCartTo(newList))
-                DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    dispatch(setCartTo(result))
-                    e.currentTarget.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            }else{
-                dispatch(setCartTo([...Cart, product_id]))
-                AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    dispatch(setCartTo(result))
-                    e.currentTarget.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
             }
         }else{
-            AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-            .then((result) => {
-                dispatch(setCartTo(result))
-                e.target.disabled = false;
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+
+            let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+            dispatch(setSaveTo(result))
+            setBtnMode(!btnMode) 
+            overlay.removeAttribute('id')
+
         }
     }
+
+    // function AddToCart(e,product_id) {
+        
+    //     e.currentTarget.disabled = true;
+    //     console.log(e.target)
+    //     console.log(e.currentTarget)
+
+    //     let cartList = [...Cart];
+    //     let duplicateSearch = cartList.filter(item => item.product_id === product_id)
+    //     if(cartList.length > 0){
+    //         if(duplicateSearch.length > 0){
+    //             let newList = cartList.filter(item => item !== duplicateSearch[0])
+    //             //dispatch(setCartTo(newList))
+    //             DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //             .then((result) => {
+    //                 dispatch(setCartTo(result))
+    //                 e.currentTarget.disabled = false;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //         }else{
+    //             dispatch(setCartTo([...Cart, product_id]))
+    //             AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //             .then((result) => {
+    //                 dispatch(setCartTo(result))
+    //                 e.currentTarget.disabled = false;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //         }
+    //     }else{
+    //         AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //         .then((result) => {
+    //             dispatch(setCartTo(result))
+    //             e.target.disabled = false;
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    //     }
+    // }
 
     let [elem, set_elem] = useState('')
 
@@ -136,27 +152,44 @@ const Card = ({item, index}) => {
             <div className="cols" >
                 <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10px'}}>
                     
-                    <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
+                    <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '10px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px', zIndex: '1000', padding: '0 5px 0 5px'}}>
                         <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
-                            <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '8px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
+                            <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '12px', width: screenWidth  > 480 ? '20px' : '12px', marginBottom: '5px'}} alt="" />
 
                         </span>
 
-                        <span  style={{background: 'orangered',color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}>
+                        &nbsp;
+                        {/* &nbsp; */}
+
+                        <span  style={{background: 'orangered', color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}> 
                             UNIZIK, Awka
                         </span>
                     </span>
                     
                     <Thumbnail product_id={item.product_id} />
 
-                    <div className="card-body">
+                    <div className="card-body" style={{position: 'relative'}}>
                         
                         {
                             screenWidth > 479
                             ?
-                            <small style={{fontSize: 'x-small', fontWeight: '500', fontFamily: 'sans-serif', height: '20px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                            <small style={{
+                                fontSize: 'x-small',
+                                fontWeight: '500',
+                                fontFamily: 'Times New Roman',
+                                height: '20px',
+                                lineHeight: '18px',
+                                color: '#000'
+                            }} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                             : 
-                            <small style={{fontSize: 'x-small', fontWeight: '500', fontFamily: 'sans-serif', height: '20px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                            <small style={{
+                                fontSize: 'small',
+                                fontWeight: '500',
+                                fontFamily: 'Times New Roman',
+                                height: '20px',
+                                lineHeight: '18px',
+                                color: '#000'
+                            }} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
                         }
 
                         {/* <br /> */}
@@ -166,7 +199,7 @@ const Card = ({item, index}) => {
                         {
                             screenWidth > 479
                             ?
-                            <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '500', fontSize: 'small', color: '#000'}}>&#8358;{
+                            <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '400', fontSize: 'small', color: '#000', fontFamily: 'Times New Roman'}}>&#8358;{
                                 new Intl.NumberFormat('en-us').format(item.price)
                             }</h6>
                             : 
@@ -189,12 +222,7 @@ const Card = ({item, index}) => {
                             
                         </div>
 
-                        <button onClick={e => Saver(e,item.product_id)} style={{position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', right: '0px', top: '45px', background: '#fff', color: '#626262', height: '50px', width: 'fit-content'}}>
-                            <img src={saveSvg} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
-                            <section style={{marginTop: '-5px', fontSize: 'x-small'}}>
-                                {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
-                            </section>
-                        </button>
+                        <SaveButton data={item} Saver={Saver} Save={savedData} />
 
                         
 
@@ -210,7 +238,7 @@ const Card = ({item, index}) => {
     </div>*/}
                     </div>
 
-                    <button style={BtnStyles} onClick={e => {
+                    {/* <button style={BtnStyles} onClick={e => {
                         let response = isBuyerLoggedIn('dashboard');
                         if(!response.bool){set_elem(response.elem)} else{set_elem(AddToCart(e,item.product_id))}
                     }}>
@@ -221,7 +249,7 @@ const Card = ({item, index}) => {
                             <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                         </span>
                         <span style={{fontSize: 'x-small'}}>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
-                    </button>
+                    </button> */}
                     {/*<br />*/} 
 
                     {/* <div className="card-footer">

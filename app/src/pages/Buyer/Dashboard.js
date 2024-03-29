@@ -11,13 +11,14 @@ import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/Dashboard/Lodge'
-import FlashAds from '../../components/Buyer/dashboard/FlashAds'
-import Ads from '../../components/Buyer/dashboard/Ads'
-import Main from '../../components/Buyer/dashboard/Main'
+import FlashAds from '../../components/Buyer/Dashboard/FlashAds'
+import Ads from '../../components/Buyer/Dashboard/Ads'
+import Main from '../../components/Buyer/Dashboard/Main'
 
-import Lodge from '../../components/Buyer/dashboard/Lodge'
-import FlashSales from '../../components/Buyer/dashboard/FlashSales'
-import PaidAds from '../../components/Buyer/dashboard/PaidAds'
+import Lodge from '../../components/Buyer/Dashboard/Lodge'
+import FlashSales from '../../components/Buyer/Dashboard/FlashSales'
+import PaidAds from '../../components/Buyer/Dashboard/PaidAds'
+import BuyerLayout from '../../layout/Buyer'
  
 const Dashboard = () => {
 
@@ -36,44 +37,47 @@ const Dashboard = () => {
    
     return ( 
         <>
-            <div className="buyer-main-cnt" style={{
-                height: 'fit-content',
-                background: '#efefef',
-            }}>  
-                {/*<BuyerAside />*/} 
+
+            <BuyerLayout>
+                <div className="buyer-main-cnt" style={{
+                    height: 'fit-content',
+                    background: '#fff',
+                }}>  
+                    {/*<BuyerAside />*/} 
+                    
                 
-            
 
-                {
-                    category === 'trends'
-                    ?
-                        <>
-                            <Ads />
-                            {/* <PaidAds /> */}
+                    {
+                        category === 'trends'
+                        ?
+                            <>
+                                <Ads />
+                                {/* <PaidAds /> */}
 
-                            {/* <FlashAds /> */}
-                            {/* <Lodge /> */}
-                        </>
-                    :
-                    ''
-                }
+                                {/* <FlashAds /> */}
+                                {/* <Lodge /> */}
+                            </>
+                        :
+                        ''
+                    }
 
-                {/* <br /> */}
-                {/* <FlashSales /> */}
+                    {/* <br /> */}
+                    {/* <FlashSales /> */}
 
-                {/* <Recommended /> */}
-                
-            </div>
+                    {/* <Recommended /> */}
+                    
+                </div>
 
-            <div className="buyer-main-content buyer-main-cnt" style={{
-                // padding: '10px 80px 10px 80px',
-                background: '#efefef',
-                height: '100vh',
-            }}>
-                <Main />
-            </div>
+                <div className="buyer-main-content buyer-main-cnt" style={{
+                    // padding: '10px 80px 10px 80px',
+                    background: '#fff',
+                    height: '100vh',
+                }}>
+                    <Main />
+                </div>
+            </BuyerLayout>
 
-        </>
+        </> 
      );
 } 
  

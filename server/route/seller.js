@@ -6,7 +6,7 @@ const {
 const { 
     send_email 
 } = require("../Functions/send_mssgs");
-const { get_chats, get_mssgs, send_mssgs } = require("../controller/seller/chats");
+const { get_chats, get_mssgs, send_mssgs, get_chat_rooms } = require("../controller/seller/chats");
 
 const { 
     overview, 
@@ -79,14 +79,14 @@ seller_route.post('/seller/overview', parser, overview);
 // @@ GET REQUEST
 
 // @@ CHATS
-seller_route.get('/seller/chats', parser, get_chats);
-seller_route.post('/seller/mssg', parser, get_mssgs);
+seller_route.get('/seller/chats', parser, get_chat_rooms);
+seller_route.get('/seller/mssg', parser, get_mssgs);
 seller_route.get('/seller/shop', shop);
 seller_route.post('/seller/send-mssg', parser, send_mssgs);
 // @@ CHATS
 
 
-
+ 
 
 seller_route.post('/seller/authentication', parser, seller_authentication);
 seller_route.post('/seller/check', parser, check_seller);
@@ -97,7 +97,7 @@ seller_route.post('/seller/check', parser, check_seller);
 
 
 seller_route.post('/seller', parser, get_seller_data);
-seller_route.post('/seller/wallet-data', parser, wallet_data);
+seller_route.get('/seller/wallet-data', wallet_data);
 seller_route.get('/seller-edited-item', get_edited_item);
 seller_route.get('/seller/order-buyers-info', get_buyer_that_ordered_item);
 

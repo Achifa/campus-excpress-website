@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
-import { GET_PRODUCT_THUMBNAIL } from '../../api/buyer';
 import { useNavigate } from 'react-router-dom';
+import { GetProductThumbnail } from '../../api/buyer/get';
  
 
 const Thumbnail = ({product_id,seller_id}) => {
@@ -14,13 +14,12 @@ const Thumbnail = ({product_id,seller_id}) => {
     }, [])
   
     useEffect(() => {
-        GET_PRODUCT_THUMBNAIL(product_id)
-        .then((result) => {
+        try {
+            let result = GetProductThumbnail(product_id)
             set_img(result.file)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        } catch (error) {
+            console.log(error)
+        }
     })
 
     // onClick={e => navigate(`/product/${product_id}?seller_id=${seller_id}`)}

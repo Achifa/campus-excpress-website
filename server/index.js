@@ -6,21 +6,22 @@ const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
+const { retrieve_room, retrieve_seller } = require('./utils');
 // const { v4 } = require('uuid');
-
+   
 greetingTime(new Date());
 require('dotenv').config(); 
 
 const app = express(); 
 app.use(cookieParser());
-app.use(morgan('dev')); 
+app.use(morgan('dev'));  
 
 app.use(cors({
   origin: '*',
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'UPDATE'],
   credentials: true,
   optionsSuccessStatus: 200
-}));
+})); 
 
 app.use(seller_route)
 app.use(buyer_route)
@@ -29,7 +30,8 @@ app.use(admin_route)
 
 
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
-io(server, {cors: {origin: '*'}}).on('connection', socket => {
+io(server, {cors: {origin: '*'}}).on('connection',(socket) => {
+  
   socket.on('getTime', () => {
     socket.emit('greetings', greetingTime(new Date()))
   })
@@ -47,6 +49,7 @@ io(server, {cors: {origin: '*'}}).on('connection', socket => {
     )
     .catch(err => console.log(err))
   })
+
   
 
 });
@@ -154,9 +157,9 @@ app.post("/transfer", parser, async(req,res) => {
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', reason.stack || reason)
   // Recommended: send the information to sentry.io
-  // or whatever crash reporting service you use
+  // or whatever crash reporting service you use  
 });
-// 
+//  
 // const axios = require('axios');
 
 

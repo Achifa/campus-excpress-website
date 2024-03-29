@@ -21,11 +21,13 @@
     "react-countdown": "^2.3.5",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.12",
+    "react-favicon": "^2.0.3",
     "react-framer": "^0.0.2",
     "react-loading-skeleton": "^3.3.1",
     "react-paystack": "^4.0.3",
     "react-phone-input-2": "^2.15.1",
     "react-phone-number-input": "^3.3.7",
+    "react-pusher": "^0.2.0",
     "react-range-slider-input": "^3.0.7",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
@@ -45,13 +47,19 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "cross-env NODE_ENV=development next dev -p 3002",
+    "scan": "tsc --project tsconfig.json --pretty --noEmit",
+    "lint": "next lint"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   },
   "browserslist": {
     "production": [

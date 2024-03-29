@@ -26,6 +26,7 @@ let NeonDB = new Promise((resolve, reject) => {
             reapIntervalMillis: 1000,
             createRetryIntervalMillis: 100
         });
+        
         let conn = pool.connect(); 
         if(conn){
             resolve(pool);

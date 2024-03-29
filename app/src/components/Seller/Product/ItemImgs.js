@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { GetItemImages } from "../../../api/buyer";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { setItemImagesTo } from "../../../redux/buyer_store/ItemImages";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import { setActiveImgTo } from "../../../redux/buyer_store/ActiveImg";
+import { GetItemImages } from "../../../api/buyer/get";
 
 const ItemImgs = () => {
     let location = useLocation()
@@ -17,12 +17,13 @@ const ItemImgs = () => {
 
 
     useEffect(() => {
-        GetItemImages(location.pathname.split('/').splice(-1)[0])
-        .then((result) => {
+        try {
+            let result = GetItemImages(location.pathname.split('/')[2])
             dispatch(setItemImagesTo(result));
             setImageList(result)
-        })
-        .catch(err => console.log(err))
+        } catch (error) {
+            console.log(error)
+        }
     }, [])
 
     let handleActiveImg = i => {

@@ -9,7 +9,7 @@ const Body = () => {
     useEffect(() => {
 
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         
         SHOP(window.localStorage.getItem("CE_seller_id"))
         .then((result) => { 

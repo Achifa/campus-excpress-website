@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { ResetPwd } from '../../api/buyer';
 import '../../styles/settings.css';
 import Countdown from 'react-countdown';
+import { ResetPwd } from '../../api/buyer/post';
 const BuyerForgotPwd = () => {
 
     let [email, setemail] = useState('');
@@ -90,16 +90,8 @@ const BuyerForgotPwd = () => {
         if(response){
             countDown()
             e.target.disabled = true;
-            ResetPwd(email,window.localStorage.getItem('CE_buyer_id'))
-            .then((result) => {
-                
-
-            })
-            .catch((err) => {
-                console.log(err)
-                e.target.disabled = false;
-
-            })
+            let result = ResetPwd(email,window.localStorage.getItem('CE_buyer_id'))
+            alert('under dev')
         }else{
             e.target.disabled = false;
 

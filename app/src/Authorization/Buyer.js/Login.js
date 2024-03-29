@@ -1,25 +1,42 @@
-import { useState } from "react"
-import { LogBuyerIn } from "../../api/buyer"
-import { useNavigate } from "react-router-dom";
+import { 
+    useState 
+} from "react"
+import { 
+    useNavigate 
+} from "react-router-dom";
 import '../../styles/Buyer/login.css'
+import { 
+    LogBuyerIn 
+} from "../../api/buyer/post";
+
+
+
 const BuyerLogin = ({query}) => {
     let navigate = useNavigate();
+    let [btn, setBtn] = useState("Login")
+
 
     let [email, setEmail] = useState('')
     let [pwd, setPwd] = useState('')
-    let Login = () => {
-        LogBuyerIn(email,pwd)
-        .then((result) => {
+    let Login = async() => {
+        let result = await LogBuyerIn(email,pwd)
+        setBtn(
+            <div className="Authloader" style={{background: '#fff'}}></div>
+        )
+       if(result){
             window.localStorage.setItem("CE_buyer_id", result.id)
             window.localStorage.setItem("CE_buyer_name_initial", result.name)
             navigate('/')
-        })
-        .catch((err) => console.log(err))
+       }else{
+        alert('error logging in from buyer  000')
+        setBtn("Login")
+
+       }
     }
     return ( 
         <>
             <div className="seller-login-cnt">
-                <section className="shadow-sm" style={{background: '#fff'}}>
+                <section className="shadow-sm" style={{background: '#fff', justifyContent: 'center'}}>
                     
                     <form action="">
                         <div style={{flexDirection: 'column', alignItems: 'flex-start'}} className="seller-input-cnt">

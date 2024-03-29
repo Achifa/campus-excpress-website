@@ -23,7 +23,7 @@
 
     .buyer-main-cnt{
         padding: 40px 80px 40px 80px; 
-        background-color: orangered;
+        background-color: #f9f9f9;
     }
 
     .buyer-flash-ads{
@@ -85,6 +85,7 @@
     .buyer-ads-cnt{
         height: 450px;
         width: 100%;
+        position: relative;
         padding: 0;
         background-color: red;
     }
@@ -254,7 +255,7 @@
 
     .buyer-card-cnt {
         min-height: calc(100vh - 70px);
-        width: calc(100% - 300px);
+        width: calc(100% - 0px);
         overflow: auto;
         padding: 10px;
         float: right;
@@ -266,7 +267,7 @@
     .buyer-card-cnt .card{
         position: relative;
         height: 400px;
-        width: calc(25% - 12px);
+        width: calc(20% - 20px);
         flex-shrink: 0;
         float: left;
         margin: 0 5px 0 5px;
@@ -566,7 +567,7 @@
         width: 100%;
     }
     .buyer-savedItem-card{
-        height: 250px;
+        height: 180px;
         padding: 0 0px 0 0px ;
         margin-bottom: 15px;
         width: 100%;
@@ -584,13 +585,16 @@
         cursor: pointer;
         position: relative;
         text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
         padding: 10px 10px 10px 10px;
         background-color: #fff;
         
     }
-    .buyer-savedItem-card img{
+    .buyer-savedItem-card div:first-child{
         height: 180px;
-        width: 250px;
+        width: 180px;
         float: left;
     }
     .buyer-savedItem-body img{
@@ -631,7 +635,7 @@
         -webkit-line-clamp: 2;
         line-clamp: 2;
         -webkit-box-orient: vertical;
-        font-size: x-large;
+        font-size: large;
         text-align: left;
         font-weight: bold;
     }

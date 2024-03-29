@@ -1,25 +1,35 @@
 import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
 import { useEffect, useState } from 'react'
-import img from '../../../assets/download (3).jpeg'
-import fbSvg from '../../../assets/facebook-1-svgrepo-com (1).svg'
+import phn from '../../../assets/phone-rounded-svgrepo-com.svg'
+import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
 import tweeterSvg from '../../../assets/twitter-svgrepo-com (2).svg'
 import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
-import { AddItemToCart, DeleteItemFromCart, GetItem, SaveItem, UnSaveItem } from '../../../api/buyer'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import saveSvg from '../../../assets/save-svgrepo-com1.svg'
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
-import { setCartTo } from '../../../redux/buyer/Cart'
-import { setSaveTo } from '../../../redux/buyer/Save'
-import { DeleteItem } from '../../../api/seller'
+import { setCartTo } from '../../../redux/buyer_store/Cart'
+import { setSaveTo } from '../../../redux/buyer_store/Save'
+import { DeleteItem, GetSeller } from '../../../api/seller'
 import SimilarItems from './SimilarItems'
 import Description from './Description'
+import { SaveItem, UploadChat } from '../../../api/buyer/post'
+import { UnSaveItem } from '../../../api/buyer/delete'
+import { GetItem } from '../../../api/buyer/get'
 
 
 
 
 const Product = ({product_id}) => {
+
+    let [screenWidth, setScreenWidth] = useState(0)
+
+    useEffect(() => { 
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
+
     let [item, setItem] = useState(
         {
             id: '',
@@ -39,6 +49,7 @@ const Product = ({product_id}) => {
     )
 
     let [stock, set_stock] = useState(1)
+    let [phone, set_phone] = useState(1)
 
     let [activeImg, setActiveImg] = useState(imgSvg)
 
@@ -59,15 +70,16 @@ const Product = ({product_id}) => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         
-        GetItem(product_id)
-        .then((result) => {
+        try {
+            let result = GetItem(product_id)
             setItem(result[0])
-            set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
+            // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
             overlay.removeAttribute('id')
-        })
-        .catch(err => console.log(err))
+        } catch (error) {
+            console.log(error)
+        }
 
     }, [])
 
@@ -90,11 +102,12 @@ const Product = ({product_id}) => {
         outline: 'none',
         border: 'none',
         cursor: 'pointer',
+        visibility: 'hidden',
         textAlign: 'center',
         color: '#fff',
         display: role === 0 ? 'flex' : 'none', 
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         position: 'relative',
         fontSize: 'medium',
         fontWeight: '400',
@@ -102,48 +115,67 @@ const Product = ({product_id}) => {
         margin: '0'
     }
 
+    useEffect(() => {
+        let overlay = document.querySelector('.overlay')
+
+        try {
+            //overlay.setAttribute('id', 'overlay');
+            
+            async function getData() {
+                let result = await GetSeller(item?.seller_id)
+                set_phone(result?.phone)
+                // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
+                overlay.removeAttribute('id')
+            }
+            getData()
+        } catch (error) {
+            console.log(error)
+        }
+
+    },[item])
+
     let dispatch = useDispatch()
 
  
-    function AddToCart(e,product_id) {
-        e.target.disabled = true;
+    // function AddToCart(e,product_id) {
+    //     e.target.disabled = true;
 
-        let cartList = [...Cart];
-        let duplicateSearch = cartList.filter(item => item.product_id === product_id)
-        if(cartList.length > 0){
-            if(duplicateSearch.length > 0){
-                let newList = cartList.filter(item => item !== duplicateSearch[0])
-                //dispatch(setCartTo(newList))
-                DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    dispatch(setCartTo(result))
-                    e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            }else{
-                dispatch(setCartTo([...Cart, product_id]))
-                AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    dispatch(setCartTo(result))
-                    e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            }
-        }else{
-            AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-            .then((result) => {
-                dispatch(setCartTo(result))
-                e.target.disabled = false;
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-    }
+    //     let cartList = [...Cart];
+    //     let duplicateSearch = cartList.filter(item => item.product_id === product_id)
+    //     if(cartList.length > 0){
+    //         if(duplicateSearch.length > 0){
+    //             let newList = cartList.filter(item => item !== duplicateSearch[0])
+    //             //dispatch(setCartTo(newList))
+    //             DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //             .then((result) => {
+    //                 dispatch(setCartTo(result))
+    //                 e.target.disabled = false;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //         }else{
+    //             dispatch(setCartTo([...Cart, product_id]))
+    //             AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //             .then((result) => {
+    //                 dispatch(setCartTo(result))
+    //                 e.target.disabled = false;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //         }
+    //     }else{
+    //         AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //         .then((result) => {
+    //             dispatch(setCartTo(result))
+    //             e.target.disabled = false;
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    //     }
+    // }
 
     let {Save} = useSelector(s => s.Save)
 
@@ -156,59 +188,60 @@ const Product = ({product_id}) => {
             if(duplicateSearch.length > 0){
                 // let newList = saveList.filter(item => item !== duplicateSearch[0])
                 // dispatch(setSaveTo(newList))
-                UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    console.log(result)
+                try {
+                    let result = UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                     dispatch(setSaveTo(result))
                     e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+                } catch (error) {
+                    console.log(error)
+                }
             }else{
                 
-                SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    console.log(result)
-
+                try {
+                    let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                     dispatch(setSaveTo(result))
                     e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+                } catch (error) {
+                    console.log(error)
+                }
             }
         }else{
-            SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-            .then((result) => {
+            try {
+                let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                 dispatch(setSaveTo(result))
                 e.target.disabled = false;
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
 
-    function DeleteProduct(e,product_id) {
+    function SendMssg(params) {
         let overlay = document.querySelector('.overlay')
         overlay.setAttribute('id', 'overlay');
-        DeleteItem(window.localStorage.getItem('CE_buyer_id'),product_id)
-        .then((result) => {
-            console.log(result)
-            // e.target.disabled = false;
-            overlay.removeAttribute('id')
-            navigate('/seller/shop')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        if(screenWidth > 760){
+            try {
+                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
+                overlay.removeAttribute('id')
+                navigate(`/buyer.message/${item.seller_id}`, {seller_id: item.seller_id})
+    
+            } catch (error) {
+                console.log(error)
+            }
+        }else{
+            try {
+                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
+                overlay.removeAttribute('id')
+                navigate(`/buyer.room/${item.seller_id}?room=''`, {seller_id: item.seller_id})
+    
+            } catch (error) {
+                console.log(error)
+            }
+        }
+      
     }
 
-    function get_stock(params) {
-        
-    }
 
     let [immediate_purchase, set_immediate_purchase] = useState(1)
 
@@ -226,7 +259,7 @@ const Product = ({product_id}) => {
                     <p style={{color: 'orangered', textDecoration: 'underline'}}><b> {stock} Units</b></p>
 
 
-                    <p style={{textAlign: 'left', justifyContent: 'left'}}>There Are Only {stock} Availble {item.title}</p>
+                    <p style={{textAlign: 'left', justifyContent: 'left'}}>There Are Only {stock} Availble {item?.title}</p>
 
                     <div className="btn-cnt"> 
                         <button onClick={e => {e.preventDefault(); if(immediate_purchase > 1){set_immediate_purchase(immediate_purchase - 1)}}}>-</button>
@@ -235,12 +268,12 @@ const Product = ({product_id}) => {
                     </div>
                     <br />
 
-                    <p style={{textAlign: 'left', justifyContent: 'left'}}>You Are Buying {immediate_purchase} Unit Of {item.title}</p>
+                    <p style={{textAlign: 'left', justifyContent: 'left'}}>You Are Buying {immediate_purchase} Unit Of {item?.title}</p>
 
                     <br />
                     <button style={{fontSize: 'small'}} onClick={
-                        e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item.price * immediate_purchase)}/immediate_purchase-${immediate_purchase}`) : navigate(`/seller/editor?product_id=${item.product_id}`)
-                    }>Checkout SubTotal ({item.price * immediate_purchase})</button>
+                        e => role === 0 ? navigate(`/checkout/${btoa(item.product_id)}/${btoa(item?.price * immediate_purchase)}/immediate_purchase-${immediate_purchase}`) : navigate(`/seller/editor?product_id=${item?.product_id}`)
+                    }>Checkout SubTotal ({item?.price * immediate_purchase})</button>
                 </div>
             </div>
 
@@ -257,23 +290,7 @@ const Product = ({product_id}) => {
 
                         <div id="right">
  
-                            <p style={{fontWeight: '400', padding: '0px', fontSize: 'x-large'}}>{item['title']}</p>
-
-                            <section style={{display: 'flex', justifyContent: 'center'}}>
-                                <div style={{fontSize: 'x-small'}}>
-                                    <span ><span style={{color: '#626262', fontSize: 'x-small'}}>Shop ID :</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>CE_4590-ddf</span></span> 
-                                </div>
-                                &nbsp;
-                                &nbsp;
-                                <div style={{fontSize: 'x-small'}}>
-                                    <span><span style={{color: '#626262', fontSize: 'x-small'}}>Product Code: </span> <span style={{color: 'orangered', fontWeight: '700', fontSize: 'x-small'}}>{item.product_id}</span></span>
-                                </div>
-                                &nbsp;
-                                &nbsp;
-                                <div style={{fontSize: 'x-small'}}>
-                                    <span><span style={{color: '#626262', fontSize: 'x-small'}}>Shop Rating:</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>Jacob N.N</span></span>
-                                </div>
-                            </section>
+                            <p style={{fontWeight: '400', padding: '0px', fontSize: 'x-large'}}>{item?.title}</p>
 
                             <hr style={{margin: '15px'}} />
 
@@ -281,20 +298,53 @@ const Product = ({product_id}) => {
 
                             <div style={{background: '#fff4e0', padding: '10px', color: 'orangered', fontWeight: '500', borderRadius: '5px', height: 'fit-content'}}>
                                 <p style={{fontWeight: '400', padding: '0px', fontSize: 'xx-large'}}>
-                                    <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item.price)}
+                                    <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item?.price)}
                                 </p>
-                                <p style={{fontWeight: '500', padding: '0px'}}>{stock} Units Available</p>
 
-                                <p>+ shipping from ₦0 to AWKA TOWN</p> 
+                                <br />
+
+                                <h3 style={{fontWeight: '500', fontSize: '3vh', textDecoration: 'underline', padding: '0px', textTransform: 'capitalize'}}>{item?.status}</h3>
+
+                                <br />
+                                <section style={{display: 'flex', justifyContent: 'flex-start'}}>
+                                    <div style={{fontSize: 'small'}}>
+                                        <span ><span style={{color: '#626262', fontSize: 'small'}}>Shop Id :</span> <span style={{color: 'orangered', fontSize: 'small'}}>CE_4590-ddf</span></span> 
+                                    </div>
+                                    &nbsp;
+                                    &nbsp;
+                                    <div style={{fontSize: 'small'}}>
+                                        <span><span style={{color: '#626262', fontSize: 'small'}}>Product Id: </span> <span style={{color: 'orangered', fontWeight: '700', fontSize: 'small'}}>{item?.product_id}</span></span>
+                                    </div>
+                                    &nbsp;
+                                    &nbsp;
+                                    {/* <div style={{fontSize: 'small'}}>
+                                        <span><span style={{color: '#626262', fontSize: 'small'}}>Shop Rating:</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>Jacob N.N</span></span>
+                                    </div> */}
+                                </section>
+
+                                {/* <p>+ shipping from ₦0 to AWKA TOWN</p>  */}
                             </div>
 
                             {/* <hr /> */}
                             <br />
 
-                            <div style={BtnStyles} onClick={e => {
+                            {/* <div style={BtnStyles} onClick={e => {
                                 document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
                             }}>
                                 Buy Now
+                            </div> */}
+
+                            <div style={BtnStyles} onClick={e => {
+                                document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
+                            }}>
+                                <>
+                                    <span>
+                                        <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
+                                    </span>
+                                    <span style={{marginTop: '0'}}>
+                                        {[...Save].filter(savedItem => savedItem?.product_id === item?.product_id)[0] ? 'Unsave' : 'Save'}
+                                    </span>
+                                </>
                             </div>
 
 
@@ -316,38 +366,48 @@ const Product = ({product_id}) => {
                                 backgroundColor: '#fff',
                                 marginTop: '40px'
                             }}>
-                                <button onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                            {/* onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} */}
+                                <button onClick={
+                                    SendMssg
+                                } style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0
                                         ?
                                         <>
 
-                                            <span>
+                                            {/* <span>
                                                 <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                                             </span>
-                                            <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                                            <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span> */}
+                                        
+                                            <span>
+                                                <img src={mssg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                            </span>
+                                            <span>Message</span>
+                                        
+                                        
                                         </>
                                         :
                                         'Delete'
                                     }
                                 </button>
-                                <button onClick={e => role !== 0 ? navigate(`/seller/editor?product_id=${item.product_id}`) : Saver(e,item.product_id)} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'center', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
+                                <Link to={`tel:+234${phone}`} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'space-evenly', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0 
                                         ?
                                         <>
                                             <span>
-                                                <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
+                                                <img src={phn} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
                                             </span>
                                             <span style={{marginTop: '0'}}>
-                                                {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
+                                                Call
                                             </span>
-                                        </>
+                                        </>  
 
                                         :
                                         'Edit'
                                     }
-                                </button>
+                                </Link>
                             </div>
 
 

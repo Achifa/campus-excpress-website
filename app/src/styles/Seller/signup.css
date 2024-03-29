@@ -10,10 +10,10 @@
     }
 
     .seller-signup{
-        height: calc(100vh - 80px);
+        height: calc(100vh - 0px);
         width: 100vw;
-        display: flex;
-        justify-content: center;
+        position: absolute;
+        bottom: 0;
         background-color: orangered;
     }
 
@@ -22,18 +22,22 @@
         width: calc(100% - 600px);
         padding: 0;
         float: left;
-        display: none;
+        color: #fff;
+        display: flex;
         overflow: auto;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
         background-color: orangered;
     }
 
     .seller-signup #right{
-        height: 90%;
+        height: 100%;
         width: 500px;
         overflow: auto;
         float: right;
         margin: auto;
-        background-color: #fff;
+        background-color: rgb(255, 244, 224);
         padding: 20px;
     }
 
@@ -79,6 +83,8 @@
 
     label{
         margin-bottom: 5px;
+        font-size: small;
+        font-weight: 500;
     }
 }
 

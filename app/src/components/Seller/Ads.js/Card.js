@@ -5,6 +5,7 @@ import Thumbnail from '../Thumbnail';
 
 export default function Card({item,index}) {
     let navigate = useNavigate();
+    console.log(item, index)
   return (
     <div key={index} style={{padding: '40px 0 0 0'}}>
       <div  class="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 mb-10 shadow-md">
@@ -41,14 +42,14 @@ export default function Card({item,index}) {
                 <button style={{
                     width: '45%',
                     float: 'left'
-                }} onClick={e => navigate(`/admin/users?seller_id=${item.seller_id}`)} data-ripple-light="true" type="button" class="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                }} onClick={e => navigate(`/seller.editor?product_id=${item.product_id}`)} data-ripple-light="true" type="button" class="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                 edit
                 </button>
 
                 <button style={{
                     width: '45%',
                     float: 'right'
-                }} onClick={e => navigate(`/admin/users?seller_id=${item.seller_id}`)} data-ripple-light="true" type="button" class="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                }} onClick={e => navigate(`/sellers?seller_id=${item.seller_id}`)} data-ripple-light="true" type="button" class="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                 view 
                 </button>
             </div>

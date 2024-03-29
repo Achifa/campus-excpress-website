@@ -6,7 +6,15 @@ import Card from "./Card";
 
 const Home = () => {
 
-    let navigation = useNavigate()
+    let [screenWidth, setScreenWidth] = useState(0)
+ 
+    let navigate = useNavigate() 
+ 
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width) 
+    }, [])
+
 
     let [total_sold, set_total_sold] = useState('...')
     let [total_for_sale, set_total_for_sale] = useState('...')
@@ -15,9 +23,11 @@ const Home = () => {
     let [seller_id, setseller_id] = useState('')
 
     useEffect(() => {
+
+        
         let overlay = document.querySelector('.overlay')
 
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         
         OVERVIEW(window.localStorage.getItem("CE_seller_id"))
         .then((result) => {
@@ -26,7 +36,6 @@ const Home = () => {
             set_total_reported(result.total_reported)
             set_total_sold(result.total_sold)
             set_total_unsold(result.total_unsold)
-            console.log(result)
             overlay.removeAttribute('id')
 
         })
@@ -50,29 +59,35 @@ const Home = () => {
             </div>
             
             <div className="seller-home">
-                {/* <div className="seller-home-overview">
+                <div className="seller-home-overview">
 
                     <ul>
 
-                        <li style={{borderRight: '1px solid orangered'}}>
-                            <div><h3>{total_for_sale}</h3></div>
+                        <li style={{
+                            fontSize: 'unset'
+                        }}>
+                            <h1>{total_for_sale}</h1>
                             <div><h6>Total Products For Sale </h6></div>
 
                         </li>
 
-                        <li style={{borderRight: '1px solid orangered'}}>
-                            <div><h3>{total_sold}</h3></div>
+                        <li style={{
+                            fontSize: 'unset'
+                        }}> 
+                            <h1>{total_sold}</h1>
 
                             <div><h6>Total Products Sold</h6></div>
                         </li>
 
-                        <li style={{borderRight: '1px solid orangered'}}>
-                            <div><h3>{total_unsold}</h3></div>
+                        <li style={{
+                            fontSize: 'unset'
+                        }}>
+                            <h1>{total_unsold}</h1>
                             <div><h6>Total Products Unsold</h6></div>
 
                         </li>
 
-                        <li >
+                        <li > 
                             <div><h3>{total_reported}</h3></div>
                             <div><h6>Total Products Reported</h6></div>
 
@@ -81,24 +96,26 @@ const Home = () => {
                        
                     </ul> 
 
-                </div> */}
-
-                <div className="seller-home-list" style={{display: 'flex', flexDirection: 'row', borderRadius: '0', flexWrap: 'wrap', overflow: 'hidden', height: '100vh', justifyContent: 'space-evenly', alignItems: 'center'}}>
-                
-                    <Card title={total_for_sale} summary={'Total Products For Sale '} />
-                    <Card title={total_sold} summary={'Total Products Sold'} />
-                    <Card title={total_unsold} summary={'Total Products Unsold'} />
-                    <Card title={total_reported} summary={'Total Products Reported'} />
-                   
                 </div>
 
-                <div style={{display: 'flex', background: '#fff', flexDirection: 'row', height: '200px', justifyContent: 'space-evenly', alignItems: 'center'}} className="seller-home-revenue">
-                   
-                
-                 
-                </div> 
+                <button onClick={e => navigate('/seller.editor')} style={{
+                    height: 'fit-content',
+                    width: 'fit-content',
+                    padding: '10px',
+                    position: 'fixed',
+                    bottom: '85px',
+                    borderRadius: '5px',
+                    background: 'orangered',
+                    color: '#fff',
+                    right: screenWidth > 760 ? '70px' : '30px'
+                }}>
+                    Create
+                </button>
+
 
             </div>
+
+            
         </>
      );
 }

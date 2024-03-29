@@ -13,7 +13,7 @@ const Main = () => {
             {
                 screenWidth >  760
                 ?
-                <FilterAside />
+                ''
                 : 
                 ''
             }

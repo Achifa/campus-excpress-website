@@ -1,5 +1,6 @@
 // const { retrieve_buyer, retrieve_mssg_meta_data } = require("../../../payment_management/functions");
 const { NeonDB } = require("../../db");
+const { retrieve_room, retrieve_message_meta_data_with_type, retrieve_message, retrieve_buyer } = require("../../utils");
 
 
 
@@ -30,59 +31,82 @@ function retrieve_mssg_meta_data(buyer_id,room_id,order_id) {
     )
 }
 
-async function get_chats(req,res) {
+
+async function get_chat_rooms(req,res){
     let {seller_id} = req.query;
+    // let {seller_id} = req.query;
     console.log(seller_id)
+    let book = []
+ 
+    let room = await retrieve_room(seller_id);
+  
+    room.map(async(item) => { 
+        let buyer_data = await retrieve_buyer(item.buyer_id);
+        let mssg_meta_data = await retrieve_message_meta_data_with_type(item.room_id);
+        // console.log( mssg_meta_data.splice(-1)[0]) 
+
+       async function get_text_mssg(meta) {
+
+            if(meta === 'text'){
+                return await retrieve_message(mssg_meta_data.splice(-1)[0]?.mssg_id)
+            }else{
+                return {mssg: ''}
+            }
+        }
+
+        let mssg = await get_text_mssg(mssg_meta_data.splice(-1)[0]?.mssg_type);
+
+        book.push({buyer_data, mssg: mssg, room: item.room_id})   
+        if(book.length === room.length){  
+            res.send(book);  
+            // console.log(book)
     
-    NeonDB.then((pool) => 
-        pool.query(`SELECT * FROM room_id `)
-        .then(async(result) => {
-            let chat_box = [];
+        }
+    })    
 
-            let seller = result.rows.filter(item => JSON.parse((item).members_id).seller_id === seller_id);
+    
+    // console.log(book)
 
-            let extracted_buyer_id = [...new Set(seller.map(item => JSON.parse((item).members_id).buyer_id))];
-            let get_buyer_data_via_id = extracted_buyer_id.map( id => retrieve_buyer(id))
-            let response = await  Promise.all(get_buyer_data_via_id).then(result => result)
+     
+} 
 
-            response.map(item => chat_box.push({buyer_id: item[0].buyer_id, buyer_name: item[0].fname + " " + item[0].lname, mssg: []}))
-            let buyer_s_inital = response.map(item => item[0].fname + " " + item[0].lname)
-
-
-
-            let room_id = [...new Set(seller.map(item => item.room_id))];
-            let mssgs_meta_data = chat_box.map(item => retrieve_mssg_meta_data(item.buyer_id))
-            let mssg_res = await  Promise.all(mssgs_meta_data).then(result => result)
-
-            let chat_ids = chat_box.map(item => item.buyer_id)
-
-            
-
-            chat_ids.map((item) => {
-                mssg_res[0].map(mssg => {
-                    if(mssg.sender_id === item){
-                        let i = chat_box.map(data => data.buyer_id).indexOf(item)
-                        chat_box[i].mssg.push(mssg)
-                    }
-                })
-            })
-            console.log('chat_box: ', chat_box)
-            
-            res.send({chat_box})
-
-
-        })
+async function get_shop(id) {
+    return (
+        await NeonDB.then((pool) => 
+            pool.query(`select * from seller_shop where product_id = '${id}'`)
+            .then(result => result.rows[0])
+            .catch(err => console.log(err))
+        )
         .catch(err => console.log(err))
     )
-    .catch(err => console.log(err))
+}
+
+async function get_mssg_data(data){
+    if(data.mssg_type === 'doc'){
+        return (
+            await NeonDB.then((pool) => 
+                pool.query(`select product_id from campus_express_buyer_orders where buyer_id = '${data.sender_id}' AND order_id = '${data.order_id}'`)
+                .then(result => result.rows[0])
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }else{
+        return data
+    }
 }
 
 async function get_mssgs(req,res) {
-    let {mssg_id} = req.body;
-    console.log(mssg_id)
+    let {mssg_id} = req.query;
+    // console.log('mssg_id: ', mssg_id)
     NeonDB.then((pool) => 
-        pool.query(`SELECT * FROM messages WHERE message_id = '${mssg_id}' `)
-        .then((result) => res.send(result.rows[0]))
+        pool.query(`SELECT * FROM messages WHERE mssg_id = '${mssg_id}' `)
+        .then(async(result) => {
+            let response = await get_mssg_data(result.rows[0])
+            let data = await get_shop(response?.product_id)
+            // console.log('data: ', data)
+            res.send({result: data, type: result.rows[0].mssg_type})
+        })
         .catch(err => console.log(err))
     )
     .catch(err => console.log(err))
@@ -92,14 +116,14 @@ async function get_mssgs(req,res) {
 async function send_mssgs(req,res) {
     let {mssg_id} = req.body;
     console.log(mssg_id)
-    send_proposal_meta_data(room_id,seller_id)
-    send_proposal_message(mssg_id, mssg)
+    // send_proposal_meta_data(room_id,seller_id)
+    // send_proposal_message(mssg_id, mssg)
     
 }
 
 
 module.exports ={
-    get_chats,
     get_mssgs,
-    send_mssgs
+    send_mssgs,
+    get_chat_rooms
 }

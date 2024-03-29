@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import OrderDetails from "../../components/Seller/orders/OrderDetails";
+import SellerLayout from "../../layout/Seller";
 
 const Order = () => {
    
@@ -11,14 +12,18 @@ const Order = () => {
             </div>
 
             <div className="seller-main">
-                <div className="seller-order-cnt" >
-                    <OrderDetails />
+                <SellerLayout>
 
-                    <>
-                        <br />
-                        {/* <small style={{color: 'orangered'}}>{loaderText}</small> */}
-                    </>
-                </div>
+                    <div className="seller-order-cnt" >
+                        <OrderDetails />
+
+                        <>
+                            <br />
+                            {/* <small style={{color: 'orangered'}}>{loaderText}</small> */}
+                        </>
+                    </div>
+                </SellerLayout>
+
             </div>
         </>
      );

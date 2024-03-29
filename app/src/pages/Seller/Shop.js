@@ -8,6 +8,7 @@ import Thumbnail from '../../components/Seller/Thumbnail'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/Seller/overlay.css' 
 import Body from '../../components/Seller/Ads.js/Body'
+import SellerLayout from '../../layout/Seller'
 
 const Shop = () => {
     let navigate = useNavigate()
@@ -20,7 +21,7 @@ const Shop = () => {
     useEffect(() => {
 
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         
         SHOP(window.localStorage.getItem("CE_seller_id"))
         .then((result) => { 
@@ -41,7 +42,7 @@ const Shop = () => {
 
     function DeleteProduct(e,product_id) {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         DeleteItem(window.localStorage.getItem('CE_buyer_id'),product_id)
         .then((result) => {
             console.log(result)
@@ -62,16 +63,20 @@ const Shop = () => {
             </div>
 
             <div className="seller-main">
-                <div className="seller-libs">
-                {
-                    <Body />
-                }
-                </div> 
+                <SellerLayout>
+
+                    <div className="seller-libs">
+                    {
+
+                        <Body />
+                    }
+                    </div> 
+                </SellerLayout>
 
             </div>
         </>
      );
-}
+} 
 
 
  

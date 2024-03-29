@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import backSvg from "../../../assets/back-svgrepo-com (3).svg";
 import { useNavigate } from 'react-router-dom';
-import { GetSearchWord } from '../../../api/buyer';
+import { GetSearchWord } from '../../../api/buyer/get';
 export default function Search() {
 
     let [searchRes, setSearchRes] = useState([])
@@ -11,14 +11,12 @@ export default function Search() {
     useEffect(() => {
     
         if(searchChar !== '' && searchChar !== ' '){ 
-          GetSearchWord(searchChar === '' || searchChar === ' ' ? '' : searchChar)
-          .then((result) => { 
-              setSearchRes(result)
-              console.log(result)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+         try {
+            let result = GetSearchWord(searchChar === '' || searchChar === ' ' ? '' : searchChar)
+            setSearchRes(result)
+         } catch (error) {
+            console.log(error)
+         }
     
         }
       }, [searchChar])

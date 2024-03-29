@@ -17,7 +17,7 @@ const ProfileSetup = () => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         GetSeller(window.localStorage.getItem('CE_seller_id'))
         .then((result) => {
             setUserData(result)
@@ -39,7 +39,7 @@ const ProfileSetup = () => {
 
     let UpdateProfile = () => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         updateSellerProfile(fname,lname,state,campus,window.localStorage.getItem('CE_seller_id'))
         .then((result) => result ? overlay.removeAttribute('id') : '')
         .catch((err) => console.log(err))

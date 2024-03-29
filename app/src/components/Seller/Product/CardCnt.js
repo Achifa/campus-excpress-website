@@ -34,7 +34,7 @@ const CardCnt = () => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
 
         GetItems(category)
         .then((result) => {

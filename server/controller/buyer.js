@@ -1,12 +1,46 @@
 //19 request on buyer
 
-const { create_cart, delete_cart, retrive_cart } = require("../Functions/cart");
-const { query_tool } = require("../Functions/query");
-const { send_email } = require("../Functions/send_mssgs");
-const { create_token, create_token_for_pwd } = require("../Functions/token");
-const { NeonDB } = require("../db");
-const { shortId, bcrypt, jwt } = require("../modules");
-const { verification_email, pwd_reset } = require("../templates");
+const { 
+    create_cart, 
+    delete_cart, 
+    retrive_cart 
+} = require("../Functions/cart");
+const { 
+    query_tool 
+} = require("../Functions/query");
+const { 
+    send_email 
+} = require("../Functions/send_mssgs");
+const { 
+    create_token,
+     create_token_for_pwd 
+} = require("../Functions/token");
+const { 
+    NeonDB 
+} = require("../db");
+const { 
+    shortId,
+     bcrypt,
+     jwt 
+} = require("../modules");
+const { 
+    Chat 
+} = require("../reuseables/Chat");
+const { 
+    verification_email,
+     pwd_reset 
+} = require("../templates");
+const { 
+    retrieve_room,
+     retrieve_seller,
+     retrieve_message_meta_data_with_type,
+     retrieve_message,
+     retrieve_room_with_buyer,
+     create_room_id,
+     retrieve_message_meta_data,
+     retrieve_product_with_id,
+     retrieve_buyer 
+} = require("../utils");
 const maxAge = 90 * 24 * 60 * 60; 
 const createToken = (id) => {
     return jwt.sign({ id }, 'seller_secret', {
@@ -224,9 +258,7 @@ async function log_buyer_in(req, res) {
 }
 
 async function get_buyer(req,res) {
-    let {buyer_id} = req.body;
-    console.log(buyer_id)
-
+    let {buyer_id} = req.query;
     async function query_db() {
      
         return(
@@ -259,11 +291,11 @@ async function get_buyer(req,res) {
 async function get_shop_items(req,res) {
 
     let {category} = req.query;
-    console.log(category)
+    console.log('category: ', category)
 
     if(category === 'trends'){
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop where state->>'state' = 'publish'`)
+            pool.query(`select * from seller_shop where state->>'state' = 'published'`)
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
@@ -381,7 +413,7 @@ async function delete_item_from_cart(req,res) {
 }
 
 async function get_carts(req,res) {
-    let {buyer_id} = req.query;
+    let {buyer_id} = req?.query;
     let book = []
 
     function get_items(item) { 
@@ -486,6 +518,9 @@ async function save_item(req,res) {
 
 async function unsave_item(req,res) {
     let {product_id,buyer_id} = req.query;
+
+    console.log(product_id,buyer_id);
+
     let delete_ = () => 
         NeonDB.then((pool) => 
             pool.query(`DELETE FROM campus_express_buyer_saveditems WHERE buyer_id = '${buyer_id}' AND product_id = '${product_id}'`)
@@ -503,10 +538,10 @@ async function unsave_item(req,res) {
         .catch(err => console.log(err))
 
     let delete_data = await delete_()
-
+    console.log(delete_data)
     if(delete_data){
-        let get_data = await get_items()
-        res.send(get_data)
+        let data = await get_items()
+        res.send(data)
     }
 }
 
@@ -517,15 +552,26 @@ async function get_saved_item(req,res) {
         return(
             NeonDB.then((pool) => 
                 pool.query(`SELECt * FROM campus_express_buyer_saveditems WHERE buyer_id = '${buyer_id}'`)
-                .then(result => res.send(result.rows))
+                .then(result => (result.rows))
                 .catch(err => console.log(err))
             )
             .catch(err => console.log(err))
         )
     }
+    let savedData = await get_saved_item()
 
-    let get_data = await get_carts()
-    res.send(get_data)
+    let products = await Promise.all(savedData.map(async(item) => {
+
+            return {
+                saved_item: await retrieve_product_with_id(item.product_id), 
+                item: item, 
+                seller: await retrieve_seller(await retrieve_product_with_id(item.product_id).then(result => result[0].seller_id))
+            }
+    }))
+
+    console.log(products)
+
+    res.send(products)
 
 }
 
@@ -711,6 +757,96 @@ async function get_orders(req,res) {
 
 }
 
+async function get_chat_rooms(req, res) {
+    let {buyer_id}= req.query;
+    let book = []
+    let room = await retrieve_room_with_buyer(buyer_id);
+    console.log(room)
+
+    if(room.length > 0){
+        room.map(async(item) => { 
+            let seller_data = await retrieve_seller(item.seller_id);
+            let mssg_meta_data = await retrieve_message_meta_data_with_type(item.room_id);
+            // console.log( mssg_meta_data.splice(-1)[0]) 
+    
+           async function get_text_mssg(meta) {
+    
+                if(meta === 'text'){
+                    return await retrieve_message(mssg_meta_data.splice(-1)[0]?.mssg_id)
+                }else{
+                    return {mssg: ''}
+                }
+            }
+    
+            let mssg = await get_text_mssg(mssg_meta_data.splice(-1)[0]?.mssg_type);
+    
+            book.push({seller_data, mssg: mssg, room: item.room_id})   
+            if(book.length === room.length){  
+              res.send(book)
+                // console.log(book)
+        
+            }
+        })  
+    }else{
+        res.send([])
+    }
+}
+
+async function upload_chat(req,res) {
+    let {seller_id, buyer_id} = req.body
+    let mssg_id = shortId.generate();
+    let date = new Date();
+
+    let genRoom = await create_room_id(seller_id,buyer_id)
+
+    if(genRoom){
+        let room = await retrieve_room(seller_id, buyer_id);
+
+        let response = await new Chat().Upload('Hi, I am interestd in the item you are selling.', mssg_id, 'text', buyer_id, room, date)
+
+        res.send(true)
+    }else{
+        res.send(false)
+    }
+
+}
+
+async function get_chat(req,res){
+    let {room_id} = req.query;
+ 
+    // let {seller_id} = req.query;
+    let book = []
+    let room = await retrieve_message_meta_data(room_id);
+    let books = await room.map(async(item) => {
+ 
+        // let mssg = item.mssg_type === 'text' ? await retrieve_message(item.mssg_id) : '';
+        async function split_chat_type() {
+            if(item.mssg_type === 'text'){
+                let mssg = await retrieve_message(item.mssg_id)
+                // console.log('text chat: ',mssg)
+                return mssg
+            }else{
+                // console.log('file chat: ', '')
+                return null 
+            }   
+        }
+
+        let mssg = await split_chat_type()
+        console.log('mssg: ',mssg) 
+        console.log('books: ',item) 
+        
+        return ({type: item.mssg_type, mssg: mssg?.mssg, mssg_id: item.mssg_id, sender: item.sender_id, date: item.date});
+    }) 
+
+    let data = await Promise.all(books).then(result => result).catch(err => console.log(err))
+    
+    res.send(data) 
+
+   
+
+
+     
+} 
 
 module.exports = {
 
@@ -721,7 +857,8 @@ module.exports = {
 
     get_lodges,
     get_shop_items,
-
+    get_chat, 
+    get_chat_rooms, 
     get_item,
     get_item_thumbnail,
 
@@ -744,6 +881,8 @@ module.exports = {
     update_pwd,
 
     get_search_word,
+
+    upload_chat
 
 }
 

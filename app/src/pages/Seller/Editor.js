@@ -2,11 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import '../../styles/plan_card.css'
 import '../../styles/loader.css'
 import '../../styles/notice.css'
-import '../../styles/Seller/overlay.css' 
+import '../../styles/Seller/overlay.css'    
 import { useLocation, useNavigate } from 'react-router-dom';
 import items from '../../items.json'
-import { GetEditedItem, GetSeller, updateItem, uploadItem } from '../../api/seller';
-import { GetItem } from '../../api/buyer';
 import TypeSelect from '../../components/Seller/editor/TypeSelect';
 import StockSelect from '../../components/Seller/editor/StockSelect';
 import PriceSelect from '../../components/Seller/editor/PriceSelect';
@@ -24,16 +22,18 @@ import UploadBtn from '../../components/Seller/editor/Button';
 // import { uploadForm } from '../Functions/upload';
 import { validate_inputs } from '../../Functions/validation';
 import { uploadForm } from '../../Functions/upload';
+import SellerLayout from '../../layout/Seller'
+import usePost from '../../hooks/usePost';
+import { GetItem, GetItemImages, GetProductThumbnail } from '../../api/buyer/get';
 
 const Editor = () => {
 
     let location = useLocation();
     let navigate = useNavigate();
 
+    
+
     let book = []
-    
-   
-    
  
     let [update, setUpdate] = useState(false);
     let [edit,setEdit] = useState('');
@@ -41,14 +41,65 @@ const Editor = () => {
 
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([]) 
-
     let [img_list, setimg_list] = useState([])
 
+    const searchParams = new URLSearchParams(window.location.search);
 
-    function closeOverlay(params) {let overlay = document.querySelector('.overlay');overlay.onclick = e => {overlay.removeAttribute('id')}}
+
+
+    function closeOverlay() {let overlay = document.querySelector('.overlay');overlay.onclick = e => {overlay.removeAttribute('id')}}
 
     let gender = useRef('')
     let [gender_state, set_gender_state] = useState('')
+
+    useEffect(() => {
+        let product_id = searchParams.get('product_id'); 
+        // alert(product_id)
+        if(product_id === null){
+            setUpdate(false)
+        }else{
+            setUpdate(true)
+
+        }
+    }, [])
+
+    useEffect(() => {
+        async function getData() {
+
+            let product_id = searchParams.get('product_id'); // price_descending
+
+            if(product_id !== 'seller.editor'){
+                let result = await GetItem([product_id]);
+
+                productCategory(result[0]?.category) 
+                productTitle(result[0]?.title)
+                // setPhotos(result[0].photos.map(item => item.file))
+                productDescription(result[0]?.description)
+                productPrice(result[0]?.price)
+                // setProduct_id(result[0].meta_data[0].product_id)
+                productType(JSON.parse(result[0]?.others)?.cType)
+                productCondition(JSON.parse(result[0]?.others)?.condition)    
+                // productLocale(result[0]?.others?.locale)
+            }
+            
+
+        }
+        getData()
+
+        async function getImages() {
+            let product_id = searchParams.get('product_id'); 
+
+            if(product_id !== 'seller.editor'){
+                let result = await GetItemImages(product_id); 
+                // alert(result.length)
+                result?.map(item => productPhotos(item.file))
+                   
+            }
+
+        }
+        getImages()
+    }, [])
+
     function productGender(data) {
         gender.current = (data);
         set_gender_state(data) 
@@ -87,9 +138,6 @@ const Editor = () => {
         window.localStorage.setItem('draft_condition', data)
     }
 
-
-
-    
     let title = useRef('')
     let [title_state,set_title_state] = useState('')
     function productTitle(data) {
@@ -136,7 +184,7 @@ const Editor = () => {
     function productStock(data) {
         stock.current = (data); 
         set_stock_state(data)
-        window.localStorage.setItem('draft_stock', data)
+        // window.localStorage.setItem('draft_stock', data)
     }
 
     let photos = useRef([])
@@ -145,16 +193,12 @@ const Editor = () => {
         let d = data !== '' ? photos.current.push(data) : ''
         setimg_list(item => [...item, data])
         console.log(photos.current.length)
-        window.localStorage.setItem('draft_images', JSON.stringify(photos.current));
     }
 
     function deletePhoto(data) {
         photos.current = data;
         setimg_list(data)
-        window.localStorage.setItem('draft_images', JSON.stringify(photos.current));
-
     }
-
 
     function setAllInputsToNull(params) {
         productGender('')
@@ -164,6 +208,8 @@ const Editor = () => {
         productLocale('')
         productCondition('')
    }
+
+
     useEffect(() => {
         if(window.localStorage.getItem('draft_category') !== null && window.localStorage.getItem('draft_category') !== undefined && window.localStorage.getItem('draft_category') !== ''){ 
 
@@ -190,14 +236,13 @@ const Editor = () => {
        
     }, [])
     useEffect(() => {setCategoriesList(items.items.category)},[])
-    useEffect(() => {setAllInputsToNull('')},[category_state])
+    // useEffect(() => {setAllInputsToNull('')},[category_state])
     useEffect(() => {setScreenWidth(window.innerWidth)},[])
     useEffect(() => {let type = categoriesList.filter(item => Object.keys(item)[0] === category.current)[0]; if(type){setTypeList(type[category_state])}},[categoriesList,category_state])
  
- 
     let handleForm = () => {
-       
         book = []
+        // alert()
         let inputs = [...document.querySelectorAll('input')]
         let textareas = [...document.querySelectorAll('textarea')]
         let selects = [...document.querySelectorAll('select')]
@@ -254,14 +299,19 @@ const Editor = () => {
                     seller_id : seller_id
                 }, 
                 
-                {cType: cType_state,locale: locale_state,subCategory: window.localStorage.getItem('draft_sub_category'),gender: window.localStorage.getItem('draft_gender'),condition: condition_state,stock: stock_state,size: window.localStorage.getItem('draft_size')}
+                {
+                    cType: cType_state,
+                    locale: locale_state,
+                    subCategory: window.localStorage.getItem('draft_sub_category'),
+                    gender: window.localStorage.getItem('draft_gender'),
+                    condition: condition_state,
+                    size: window.localStorage.getItem('draft_size')
+                }
             )
 
         }
-        
 
     }
-
     
     return ( 
         <>
@@ -277,143 +327,148 @@ const Editor = () => {
                 </button>
             </div>
 
+            
+
             <div className="seller-main">
+                <SellerLayout>
+                    <div className="seller-shop">
 
-                <div className="seller-shop">
+                        <div className='seller-shop-form-body'>
+                            <div className="seller-shop-form">
+                            
+                                <div className='seller-shop-form-cnt'>
 
-                    <div className='seller-shop-form-body'>
-                        <div className="seller-shop-form">
-                        
-                            <div className='seller-shop-form-cnt'>
+                                    <div className="seller-shop-form-group-2" >
 
-                                <div className="seller-shop-form-group-2" >
+                                        <CategorySelect productCategory={productCategory} edit={edit} /> 
 
-                                    <CategorySelect productCategory={productCategory} edit={edit} /> 
+                                        <div style={{opacity: category.current !== '' ? '1' : '.4', pointerEvents: category.current !== '' ? 'all' : 'none'}}>
+                                        
 
-                                    <div style={{opacity: category.current !== '' ? '1' : '.4', pointerEvents: category.current !== '' ? 'all' : 'none'}}>
-                                    
-
-                                        {
-                                            category_state === 'Fashion' 
-                                            
-                                            ? 
-                                            
-                                            <GenderSelect edit={edit} productGender={productGender} />
-
-                                            :
-                                            ""
-                                        }
-
-                                        <TypeSelect typeList={typeList} category={category_state} edit={edit} productType={productType} />
-
-                                        {
-                                            category_state === 'Fashion' 
-                                            ? 
-
-                                                cType_state === 'Clothing' || cType_state === 'Foot Wear'
-
-                                                ?
-
-                                                <SubCategory edit={edit} gender={gender_state} cType={cType_state} productSubCategory={productSubCategory} />
+                                            {
+                                                category_state === 'Fashion' 
+                                                
+                                                ? 
+                                                
+                                                <GenderSelect edit={edit} productGender={productGender} />
 
                                                 :
-
                                                 ""
-                                            : 
-                                            ""
-                                        }
-                                        
+                                            }
 
-                                        {
-                                            category_state === 'Fashion'
-                                            ? 
-                                                cType_state === 'Clothing' ||  cType_state === 'Foot Wear'
-                                                ?
-                                                <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType_state}  />
-                                                :
+                                            <TypeSelect typeList={typeList} category={category_state} edit={edit} productType={productType} />
+
+                                            {
+                                                category_state === 'Fashion' 
+                                                ? 
+
+                                                    cType_state === 'Clothing' || cType_state === 'Foot Wear'
+
+                                                    ?
+
+                                                    <SubCategory edit={edit} gender={gender_state} cType={cType_state} productSubCategory={productSubCategory} />
+
+                                                    :
+
+                                                    ""
+                                                : 
                                                 ""
-                                            : 
-                                            ""
-                                        }
-                                        
+                                            }
+                                            
 
-                                        {
-                                            category_state === 'Lodge/Apartments' || category_state === 'Pets' || category_state === 'Food'
-                                            ? 
-                                            ""
-                                            : 
-                                            <ConditionSelect category={category_state} productCondition={productCondition} edit={edit} subCategory={subCategory_state}  />
-                                        }
+                                            {
+                                                category_state === 'Fashion'
+                                                ? 
+                                                    cType_state === 'Clothing' ||  cType_state === 'Foot Wear'
+                                                    ?
+                                                    <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType_state}  />
+                                                    :
+                                                    ""
+                                                : 
+                                                ""
+                                            }
+                                            
 
-                                        
+                                            {
+                                                category_state === 'Lodge/Apartments' || category_state === 'Pets' || category_state === 'Food'
+                                                ? 
+                                                ""
+                                                : 
+                                                <ConditionSelect category={category_state} productCondition={productCondition} edit={edit} subCategory={subCategory_state}  />
+                                            }
+
+                                            
                                         </div>
-                                        <div style={{opacity: category_state !== '' ? '1' : '.4', pointerEvents: category_state !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
-                                        
-                                        {
-                                            category_state === 'Lodge/Apartments' 
-                                            ? 
-                                            ""
-                                            : 
-                                            <StockSelect edit={edit} productStock={productStock} />
-                                        }
+                                            <div style={{opacity: category_state !== '' ? '1' : '.4', pointerEvents: category_state !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
+                                            
+                                            {
+                                                category_state === 'Lodge/Apartments' 
+                                                ? 
+                                                ""
+                                                : 
+                                                ''
+                                                //<StockSelect edit={edit} productStock={productStock} />
+                                            }
 
-                                        
-                                        <PriceSelect edit={edit} productPrice={productPrice} />
-                                        {
-                                            category_state !== 'Lodge/Apartments' 
-                                            ? 
-                                            ""
-                                            : 
-                                            <LocationSelect productLocale={productLocale} edit={edit} />
-                                        }
+                                            
+                                            <PriceSelect edit={edit} productPrice={productPrice} />
+                                            {
+                                                category_state !== 'Lodge/Apartments' 
+                                                ? 
+                                                ""
+                                                : 
+                                                <LocationSelect productLocale={productLocale} edit={edit} />
+                                            }
 
+                                        </div>
+                                        
                                     </div>
-                                    
+
                                 </div>
+
+                                {
+                                    screenWidth > 761
+                                    ?
+                                    <UploadBtn update={update} updateForm={update} handleForm={handleForm} />
+                                    :
+                                    ''
+                                }
 
                             </div>
 
-                            {
-                                screenWidth > 761
-                                ?
-                                <UploadBtn update={update} updateForm={update} handleForm={handleForm} />
-                                :
-                                ''
-                            }
+
+                            <div className="seller-shop-description" style={{textAlign: 'left', justifyContent: 'left', height: '100%'}}>
+                                
+                                <EditorTitle productTitle={productTitle}  edit={edit} />
+                                
+                                <EditorDescription productDescription={productDescription} edit={edit} />
+
+                                <EditorPhotoStore category={category_state} edit={edit} productPhotos={productPhotos} photos={img_list} deletePhoto={deletePhoto} />
+
+                            </div>
+
+                            
 
                         </div>
 
+                        {
+                            screenWidth < 761
+                            ?
+                            <UploadBtn update={update} updateForm={update} handleForm={handleForm} />
 
-                        <div className="seller-shop-description" style={{textAlign: 'left', justifyContent: 'left', height: '100%'}}>
-                            
-                            <EditorTitle productTitle={productTitle}  edit={edit} />
-                            
-                            <EditorDescription productDescription={productDescription} edit={edit} />
-
-                            <EditorPhotoStore category={category_state} edit={edit} productPhotos={productPhotos} photos={img_list} deletePhoto={deletePhoto} />
-
-                        </div>
+                            :
+                            '' 
+                        }
 
                         
 
                     </div>
-
-                    {
-                        screenWidth < 761
-                        ?
-                        <UploadBtn update={update} updateForm={update} handleForm={handleForm} />
-
-                        :
-                        '' 
-                    }
-
-                     
-
-                </div>
+                </SellerLayout>
 
             </div>
+
         </>
      );
 }
- 
+  
 export default Editor;

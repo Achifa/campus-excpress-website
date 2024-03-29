@@ -102,7 +102,9 @@ async function get_edited_item(req,res)  {
 }
 
 async function wallet_data(req,res)  {
-    let {seller_id} = req.body;
+    let {seller_id} = req.query;
+
+    console.log(seller_id)
 
     function walletBalance() {
         return(

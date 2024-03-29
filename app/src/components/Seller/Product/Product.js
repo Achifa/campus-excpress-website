@@ -49,7 +49,7 @@ const Product = ({product_id}) => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         
         GetItem(product_id)
         .then((result) => {

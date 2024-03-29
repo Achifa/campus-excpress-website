@@ -1449,5 +1449,148 @@
         margin-top: 20px;
     }
 
+    .mssg-cnt{
+        height: 100%;
+        width: 100%;
+        background-color: #fff4e0;
+    }
+
+    .mssg-aside{
+        height: 100%;
+        width: 100%;
+        padding: 5px;
+        background-color: #fff4e0;
+    }
+
+    .mssg-head{
+        height: 100px;
+        width: 100%;
+        background-color: #fff;
+    }
+
+    .mssg-head #left{
+        float: left;
+        width: 80px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mssg-head #left span{
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: orangered;
+        background-color: #fff4e0;
+    }
+
+    .mssg-head #right{
+        float: right;
+        width: calc(100% - 80px);
+        height: 100%;
+        padding: 15px;
+    }
+
+    .mssg-head #right section{
+        /* height: 70%; */
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .mssg-head #right section:nth-child(even){
+        height: 40%;
+    } 
+
+    .mssg-head #right section:nth-child(odd){
+        height: 60%;
+    } 
+
+    .mssg-room{
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        z-index: 1000;
+        height: calc(100% - 0px);
+        width: 100%;
+        background-color: #fff4e0;
+    }
+
+    .mssg-room-head{
+        height: 60px;
+        width: 100%;
+        background-color: #fff;
+        color: #fff;
+        padding: 0 10px 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid orangered;
+        margin: 0;
+    }
+
+    .mssg-room-head #left span{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: orangered;
+        background-color: #fff4e0;
+    }
+
+    .mssg-room-head #right{
+        float: right;
+        width: calc(100% - 80px);
+        height: 100%;
+        display: flex;
+        font-size: large;
+        font-weight: 500;
+        align-items: flex-end;
+        color: orangered;
+        padding: 15px;
+    } 
+
+    .mssg-body{
+        height: calc(100% - 120px);
+        width: 100%;
+        border-bottom: 1px solid orangered;
+        left: 0;
+        background-color: #fff4e0;
+    }
+
+
+    .mssg-panel{
+        /* min-height: 50px; */
+        /* max-height: 120px; */
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 5px;
+        background-color: #fff;
+    }
+
+    .mssg-panel textarea{
+        height: 50px;
+        background: #f9f9f9;
+        float: left; 
+        outline: none;
+        resize: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        padding: 10px;
+        width: calc(100% - 70px);
+    }
+
+    
 
 }

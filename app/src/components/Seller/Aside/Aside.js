@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { WalletData } from '../../../api/seller'
-import logo from '../../../assets/WhatsApp Image 2024-02-13 at 09.50.21_734cf0aa.jpg'
+import user from '../../../assets/user-alt-1-svgrepo-com.svg'
+import settings from '../../../assets/setting-svgrepo-com.svg'
+import history from '../../../assets/history-svgrepo-com (1).svg'
+import reviews from '../../../assets/report-flag-1419-svgrepo-com.svg'
+import wallet from '../../../assets/wallet-2-svgrepo-com.svg'
 export default function Aside() {
 
     let navigate = useNavigate()
@@ -16,6 +20,8 @@ export default function Aside() {
             console.log(err)
         })
     },[])
+
+    
   return (
 
     <>
@@ -23,27 +29,33 @@ export default function Aside() {
 
         <div className='seller-aside'>
             <div className='seller-logo'>
-                <img src={logo} style={{height: '150px', width: '150px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
-                {/* <div>CE</div> */}
+                {/* <img src={logo} style={{height: '150px', width: '150px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" /> */}
+                <div>CE</div>
 
             </div> 
             {/* <hr /> */}
             <ul>
 
                 <li onClick={e => navigate('/seller/')}>
-                    <span></span>  
+                    <span>
+                        {/* <img src={user} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" /> */}
+
+                    </span>  
                     <span>Dashboard</span>
                 </li>
 
-                <li className='seller__extra__menu' onClick={e => navigate('/seller.wallet')}>
-                    <span></span>
+                {/* <li className='seller__extra__menu' >
+                    <span>
+                        <img src={wallet} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
+
+                    </span> 
                     <span>Balance: &#8358; {balance}</span>
-                </li>
+                </li> */}
 
                 <br />
                 
 
-                <hr />
+                <hr /> 
 
                 <br />
 
@@ -69,22 +81,19 @@ export default function Aside() {
                     <span>Inbox</span>
                 </li> */}
 
-                <li onClick={e => navigate('/seller.orders')}>
+                {/* <li onClick={e => navigate('/seller.orders')}>
                     <span></span>
                     <span>Orders</span>
-                </li>
+                </li> */}
 
                 {/* <li onClick={e => navigate('/seller.')}>
                     <span></span>
                     <span>Refunds/Return</span>
                 </li> */}
 
-                <li className='seller__extra__menu' onClick={e => navigate('/seller.settings')}>
-                    <span></span>
-                    <span>Settings</span>
-                </li>
+               
 
-                <li className='seller__extra__menu' onClick={e => navigate('/seller.settings')}>
+                <li className='seller__extra__menu' onClick={e => navigate('/seller.profile')}>
                     <span></span>
                     <span>Account</span>
                 </li>

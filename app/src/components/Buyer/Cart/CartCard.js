@@ -1,11 +1,28 @@
-import { useDispatch } from "react-redux";
-import { DeleteItemFromCart, GET_PRODUCT_THUMBNAIL, UpdateCartUnit } from "../../../api/buyer";
-import { useEffect, useState } from "react";
+import { 
+    useDispatch 
+} from "react-redux";
+import { 
+    useEffect, 
+    useState 
+} from "react";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
-import { setCartTo } from "../../../redux/buyer/Cart";
-import { isBuyerLoggedIn } from "../LoggedIn"; 
-import { useNavigate } from "react-router-dom";
+import { 
+    setCartTo 
+} from "../../../redux/buyer_store/Cart";
+import { 
+    isBuyerLoggedIn 
+} from "../LoggedIn"; 
+import { 
+    useNavigate 
+} from "react-router-dom";
 import Thumbnail from "./Thumbnail";
+import { 
+    GetProductThumbnail 
+} from "../../../api/buyer/get";
+import { 
+    UpdateCartUnit 
+} from "../../../api/buyer/update";
+import { DeleteItemFromCart } from "../../../api/buyer/delete";
 
 const Card = ({item,index,unit,getTotalPrice, product_id}) => {
 
@@ -21,8 +38,8 @@ const Card = ({item,index,unit,getTotalPrice, product_id}) => {
                    
         
         function Handler(params) {
-            UpdateCartUnit(type,window.localStorage.getItem('CE_buyer_id'),item.item.product_id)
-            .then((result) => { 
+            try {
+                let result = UpdateCartUnit(type,window.localStorage.getItem('CE_buyer_id'),item.item.product_id)
                 if(type === 'add'){
                     let oldUnit = unit.filter(data => data.product_id === item.item.product_id)[0].unit;
                     
@@ -43,10 +60,9 @@ const Card = ({item,index,unit,getTotalPrice, product_id}) => {
                     }
                     
                 }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+            } catch (error) {
+                console.log(error)
+            }
         }
 
         if(type === 'add'){
@@ -64,31 +80,28 @@ const Card = ({item,index,unit,getTotalPrice, product_id}) => {
     function AddToCart(e,product_id) {
         e.target.disabled = true;
 
-        DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-        .then((result) => {
+        try {
+            let result = DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
             dispatch(setCartTo(result))
-            console.log(result)
             e.target.disabled = false;
             e.target.parentElement.remove()
             getTotalPrice(); 
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     let [img, set_img] = useState(imgSvg);
   
     useEffect(() => {
-        GET_PRODUCT_THUMBNAIL(item.product_id)
-        .then((result) => {
+        try {
+            let result = GetProductThumbnail(item.product_id)
             set_img(result.file)
-            console.log(result)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        } catch (error) {
+            console.log(error)
+        }
     },[])
+
     return ( 
         <>
             <div key={index} className="buyer-cart-card shadow-sm">

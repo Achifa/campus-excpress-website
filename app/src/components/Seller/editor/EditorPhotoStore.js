@@ -48,7 +48,7 @@ const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photos,category}) => {
                 </button>
             </div>
 
-            <div style={{width: '100%', marginBottom: '10px'}}>
+            <div style={{width: '100%', marginBottom: '0px'}}>
                 
                 <input type="file" name="file"  multiple style={{display: 'none'}} id="files" onChange={handleImage} />
 
@@ -59,20 +59,22 @@ const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photos,category}) => {
                     </label>
                     
 
-                    <section className='seller-product-image-cnt'>
+                    <section className='seller-product-image-cnt' style={{flexShrink: '0'}}>
                     
                         {
                             photos.length > 0 ? photos.map((item, index) => 
                             
-                                <div key={index} style={{position: 'relative', padding: '0', height: '100%'}}>
+                                <div key={index} style={{position: 'relative', padding: '0', height: '100%', display: 'inline-block', flexShrink: '0'}}>
                                     <div onClick={e => { 
                                         let list = photos.filter((item, i) => i !== index);
                                         deletePhoto(list);
 
                                     }} className="delete-sample-img" style={{position: 'absolute', cursor: 'pointer', top: '5px', right: '5px', color: '#fff', background: 'red', zIndex: '1000', width: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2.5px', height: '20px'}}>x</div>
+                                    
                                     {
-                                        <img src={item} key={index} style={{height: '100%', width: screenWidth > 480 ? '200px' : '100px', flexShrink: '0', background: '#fff', margin: '0 5px 0 5px', borderRadius: '5px', position: 'relative'}} alt="" />
+                                        <img src={item} key={index} style={{height: '100%', width: screenWidth > 480 ? '200px' : '100px', background: '#fff', margin: '0 5px 0 5px', flexShrink: '0', borderRadius: '5px', position: 'relative'}} alt="" />
                                     }
+
                                 </div>   
                             )
                             : 

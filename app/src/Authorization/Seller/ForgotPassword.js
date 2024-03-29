@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { ResetPwd } from '../../api/seller';
 import '../../styles/settings.css';
 import Countdown from 'react-countdown';
+import SellerLayout from '../../layout/Seller';
 const ForgotPwd = () => {
 
     let [email, setemail] = useState('');
@@ -110,27 +111,29 @@ const ForgotPwd = () => {
 
     return ( 
         <>
+            {/* <SellerLayout> */}
+                <div className="password-reset shadow-sm" style={{background: 'orangered', bottom: '0', position: 'absolute', height: 'calc(100vh - 60px)', width: '100%'}}>
+                    <form className='shadow-sm' action="" style={{width: '350px'}}>
+                        <h6 style={{color: 'orangered', fontWeight: '500'}}>Password Reset</h6>
 
-            <div className="password-reset shadow-sm" style={{height: '100vh', margin: '0', padding: '0', width: '100%', background: '#fff'}}>
-                <form className='shadow-sm' action="" style={{width: '350px'}}>
-                    <h6 style={{color: 'orangered'}}>Password Reset</h6>
+                        <div style={{padding: '10px'}}>
+                            <br />
+                            <div className="input-cnt">
+                                <label htmlFor="" style={{fontWeight: '400'}}>Enter registered email</label>
+                                <input onInput={e => setemail(e.target.value)} type="text" className='email' placeholder="Enter Registered Email Here..."/>
+                            </div>
+ 
+                            <button style={{marginBottom: '10px'}} onClick={e =>{e.preventDefault(); sendPasswordResetToken(e);}}>Submit Email</button>
+                            <br />
+                            <small style={{color: 'orange', fontWeight: '800', display: 'block', fontSize: 'x-small', textAlign: 'center', width: '100%'}}>{text}</small>
+                            <small style={{color: 'orange', display: 'block', fontWeight: '800', textAlign: 'center', width: '100%', fontSize: 'x-small'}}>Resend Email In {time}s </small> 
 
-                    <br />
-                    <div className="input-cnt">
-                        <label htmlFor="">Enter registered email</label>
-                        <input onInput={e => setemail(e.target.value)} type="text" className='email' placeholder="Enter Registered Email Here..."/>
-                    </div>
-
-                    <button onClick={e =>{e.preventDefault(); sendPasswordResetToken(e);}}>Submit Email</button>
-                    <br />
-                    <br />
-                    <small style={{color: 'orange', fontWeight: '800', fontSize: 'x-small'}}>{text}</small>
-                    <br />
-                    <small style={{color: 'orange', fontWeight: '800', fontSize: 'x-small'}}>Resend Email In {time}s </small> 
-
-                </form>
-                
-            </div>
+                        </div>
+ 
+                    </form>
+                    
+                </div>
+            {/* </SellerLayout> */}
         </>
      );
 }

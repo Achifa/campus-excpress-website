@@ -1,5 +1,5 @@
 
-import Category, { setCategoryTo } from "../../../redux/buyer/Category";
+import Category, { setCategoryTo } from "../../../redux/buyer_store/Category";
 import ads from '../../../images/Slider.png'
 import foodSvg from '../../../assets/food-market-purchasing-svgrepo-com.svg'
 import electronicsSvg from '../../../assets/broadcast-device-electronics-svgrepo-com.svg'
@@ -63,19 +63,6 @@ const Ads = () => {
         </li>
     )
 
-    // useEffect(() => {
-    //     let canvas = document.querySelector('canvas');
-    //     let ctx = canvas.getContext('2d');
-    //     var img = new Image();
-    //     // Set the source of the image
-    //     img.style.height = '200px'
-    //     img.style.width = screenWidth
-    //     img.src = ads;  
- 
-    //     ctx.drawImage(img, 0, 0, 400, 220);   
-
-    // }, [])  
-
 
     return (   
         <>
@@ -87,11 +74,11 @@ const Ads = () => {
                         }
                     </ul>   
                 </section> */}
-                <section className="img-cnt" style={{width: '100%'}}>
-                    <img src={ads}  alt="" /> 
-                    {/* <canvas style={{height: '100%', width: '100%'}} id="ads-canvas"></canvas> */}
+                <section className="img-cnt" style={{width: '100%', display: 'block', height: '100%', position: 'relative', borderRadius: '2.5px'}}>
+                    {/* <img src={ads} style={{borderRadius: '10px'}}  alt="" />  */}
+                    {/* <canvas style={{height: '100%', width: '100%'}} id="ads-canvas"></canvas> */}  
                 </section>
-            </div>
+            </div> 
         </>   
      );
 } 

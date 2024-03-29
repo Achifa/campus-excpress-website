@@ -4,10 +4,11 @@ const { create_notice } = require("./send_mssgs");
 let date = new Date();
 
 function check_seller_actions(seller_id) {return(authorize_seller(seller_id))}
+
 function upload_meta_data(replacedTitle,replacedDescription,category,price,seller_id,productId,others) {
     return(
         NeonDB.then((pool) => 
-            pool.query(`insert into seller_shop (id,product_id,seller_id,status,title,description,price,package,category,others,date,state) values(DEFAULT, '${productId}','${seller_id}','unsold','${replacedTitle}','${replacedDescription}','${price}','${0}','${category}','${JSON.stringify(others)}','${date}','{"state": "pending", "reason": "new"}' )`)
+            pool.query(`insert into seller_shop (id,product_id,seller_id,status,title,description,price,package,category,others,date,state) values(DEFAULT, '${productId}','${seller_id}','availble','${replacedTitle}','${replacedDescription}','${price}','${0}','${category}','${JSON.stringify(others)}','${date}','{"state": "published", "reason": "new"}' )`)
             .then(result => result.rowCount > 0 ? (true) : (false))
             .catch(err => console.log(err))
         )

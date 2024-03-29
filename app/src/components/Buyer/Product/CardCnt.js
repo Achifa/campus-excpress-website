@@ -11,13 +11,15 @@ import conditionSvg from '../../../assets/condition-point-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import { AddItemToCart, DeleteItemFromCart, GetItems, SaveItem, UnSaveItem } from "../../../api/buyer";
 import Thumbnail from "../Thumbnail";
 import { useDispatch, useSelector } from "react-redux";
-import { setCartTo } from "../../../redux/buyer/Cart";
-import { setSaveTo } from "../../../redux/buyer/Save"; 
+import { setCartTo } from "../../../redux/buyer_store/Cart";
+import { setSaveTo } from "../../../redux/buyer_store/Save"; 
 import FloatingMenu from "../Header/FloatingMenu";
 import { isBuyerLoggedIn } from "../LoggedIn";
+import { UnSaveItem } from "../../../api/buyer/delete";
+import { SaveItem } from "../../../api/buyer/post";
+import { GetItems } from "../../../api/buyer/get";
 
 const CardCnt = () => {
     let {Cart} = useSelector(s => s.Cart)
@@ -36,14 +38,15 @@ const CardCnt = () => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
 
-        GetItems(category)
-        .then((result) => {
+        try {
+            let result = GetItems(category)
             setItems(result)
             overlay.removeAttribute('id');
-        })
-        .catch(err => console.log(err))
+        } catch (error) {
+            console.log(error)
+        }
 
     }, [category])
     
@@ -65,45 +68,45 @@ const CardCnt = () => {
     }
     let dispatch = useDispatch()
 
-    function AddToCart(e,product_id) {
-        e.target.disabled = true;
+    // function AddToCart(e,product_id) {
+    //     e.target.disabled = true;
 
-        let cartList = [...Cart];
-        let duplicateSearch = cartList.filter(item => item.product_id === product_id)
-        if(cartList.length > 0){
-            if(duplicateSearch.length > 0){
-                let newList = cartList.filter(item => item !== duplicateSearch[0])
-                //dispatch(setCartTo(newList))
-                DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    dispatch(setCartTo(result))
-                    e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            }else{
-                dispatch(setCartTo([...Cart, product_id]))
-                AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    dispatch(setCartTo(result))
-                    e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            }
-        }else{
-            AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-            .then((result) => {
-                dispatch(setCartTo(result))
-                e.target.disabled = false;
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-    }
+    //     let cartList = [...Cart];
+    //     let duplicateSearch = cartList.filter(item => item.product_id === product_id)
+    //     if(cartList.length > 0){
+    //         if(duplicateSearch.length > 0){
+    //             let newList = cartList.filter(item => item !== duplicateSearch[0])
+    //             //dispatch(setCartTo(newList))
+    //             DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //             .then((result) => {
+    //                 dispatch(setCartTo(result))
+    //                 e.target.disabled = false;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //         }else{
+    //             dispatch(setCartTo([...Cart, product_id]))
+    //             AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //             .then((result) => {
+    //                 dispatch(setCartTo(result))
+    //                 e.target.disabled = false;
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err)
+    //             })
+    //         }
+    //     }else{
+    //         AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //         .then((result) => {
+    //             dispatch(setCartTo(result))
+    //             e.target.disabled = false;
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    //     }
+    // }
 
     function Saver(e,product_id) {
         e.target.disabled = true;
@@ -114,37 +117,31 @@ const CardCnt = () => {
             if(duplicateSearch.length > 0){
                 // let newList = saveList.filter(item => item !== duplicateSearch[0])
                 // dispatch(setSaveTo(newList))
-                UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    console.log(result)
+                try {
+                    let result = UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                     dispatch(setSaveTo(result))
                     e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+                } catch (error) {
+                    console.log(error)
+                }
             }else{
                 
-                SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                .then((result) => {
-                    console.log(result)
-
+                try {
+                    let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                     dispatch(setSaveTo(result))
                     e.target.disabled = false;
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+                } catch (error) {
+                    console.log(error)
+                }
             }
         }else{
-            SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-            .then((result) => {
+            try {
+                let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                 dispatch(setSaveTo(result))
                 e.target.disabled = false;
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
     let [list, setList] = useState([]) 
@@ -276,7 +273,7 @@ const CardCnt = () => {
             </div>*/}
                             </div>
 
-                            <button style={BtnStyles} onClick={e => {
+                            {/* <button style={BtnStyles} onClick={e => {
                                 let response = isBuyerLoggedIn('dashboard');
                                 if(!response.bool){set_elem(response.elem)} else{set_elem(AddToCart(e,item.product_id))}
                             }}>
@@ -287,7 +284,7 @@ const CardCnt = () => {
                                     <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
                                 </span>
                                 <span style={{fontSize: 'x-small'}}>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
-                            </button>
+                            </button> */}
                             {/*<br />*/} 
 
                             {/* <div className="card-footer">

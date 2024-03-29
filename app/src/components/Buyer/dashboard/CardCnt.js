@@ -1,19 +1,32 @@
-import { useEffect, useState } from "react";
+import { 
+    useEffect, 
+    useState 
+} from "react";
 import img from '../../../assets/download (3).jpeg'
 import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
 import '../../../styles/loader.css'
 import '../../../styles/Seller/overlay.css' 
 
 
-import { useNavigate } from "react-router-dom";
+import { 
+    useNavigate 
+} from "react-router-dom";
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import { AddItemToCart, DeleteItemFromCart, GetItems, SaveItem, UnSaveItem } from "../../../api/buyer";
 import Thumbnail from "../Thumbnail";
-import { useDispatch, useSelector } from "react-redux";
-import { setCartTo } from "../../../redux/buyer/Cart";
-import { setSaveTo } from "../../../redux/buyer/Save"; 
+import { 
+    useDispatch, 
+    useSelector 
+} from "react-redux";
+import { 
+    setCartTo 
+} from "../../../redux/buyer_store/Cart";
+import { 
+    setSaveTo 
+} from "../../../redux/buyer_store/Save"; 
+
 import FloatingMenu from "../Header/FloatingMenu";
 import Card from "./Card";
+import { GetItems } from "../../../api/buyer/get";
 
 const CardCnt = () => {
     let {Cart} = useSelector(s => s.Cart)
@@ -24,33 +37,40 @@ const CardCnt = () => {
     let [right, setright] = useState(0)
     let [top, settop] = useState(0)
     let [visible, setvisible] = useState('none')
+    let [selectedCategory, setSelectedCategory] = useState('trends')
     let [selectedOption, setSelectedOption] = useState('')
 
 
     let [screenWidth, setScreenWidth] = useState(0)
-    let [items, setItems] = useState([])
+    let [items, setItems] = useState([]);
     let navigate = useNavigate()
-    let [cards, setCards] = useState([])
+    let [cards, setCards] = useState([]);
 
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
+        setSelectedCategory(category)
     }, [])
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
-        GetItems(category)
-        .then((result) => {
-            setItems(result)
-            setCards(
-                result.map((item, index) => 
-                    <Card index={index} item={item} />
+        //overlay.setAttribute('id', 'overlay');
+        try {
+            async function fetchData() {
+                let result = await GetItems(selectedCategory);
+                console.log(category)
+                setItems(result)
+                setCards(
+                    result?.map((item, index) => 
+                        <Card index={index} item={item} />
+                    )
                 )
-            )
-            overlay.removeAttribute('id');
-        })
-        .catch(err => console.log(err))
+                overlay.removeAttribute('id');
+            }
+            fetchData()
+        } catch (error) {
+            console.log(error)
+        }
 
     }, [category])
     function getSelectedOption(data) {setSelectedOption(data)}
@@ -59,7 +79,7 @@ const CardCnt = () => {
         let list = [ {text: 'Price: Low to High', type: 'priceL'}, {text: 'Price: High to Low', type: 'priceH'}]
 
         let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
 
         function sort(type) {
             const compareItems = (a, b) => {
@@ -120,7 +140,7 @@ const CardCnt = () => {
                 borderRadius: '1.5px',
                 height: 'fit-content', 
                 padding: '0',
-                background: 'transparent'
+                background: '#fff'
 
             }}>
                 {/* <div className="buyer-sort shadow-sm" style={{marginTop: '0px',borderRadius: '1.5px', zIndex: '1000'}}>
@@ -137,7 +157,7 @@ const CardCnt = () => {
                 }
 
                 { 
-                    items.length > 0
+                    items?.length > 0
                     ?
                     cards
                     :

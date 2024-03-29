@@ -39,8 +39,7 @@ import refundSvg from '../../../assets/return-svgrepo-com.svg'
 import cancelSvg from '../../../assets/cancel-delivery-svgrepo-com.svg'
 import userSvg from '../../../assets/user-alt-1-svgrepo-com.svg'
 import contactSvg from '../../../assets/costumer-support-call-svgrepo-com.svg'
-import { setCategoryTo } from '../../../redux/buyer/Category'
-import { GetBuyer } from '../../../api/buyer'
+import { setCategoryTo } from '../../../redux/buyer_store/Category'
 
 
 const Aside = () => {
@@ -73,28 +72,24 @@ const Aside = () => {
     },[])
 
     useEffect(() => {
-        GetBuyer(window.localStorage.getItem('CE_buyer_id'))
-        .then((result) => {
-          set_buyer(result)
-          console.log(result)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+        try {
+            set_buyer(JSON.parse(window.localStorage.getItem('buyerData')))
+            console.log(JSON.parse(window.localStorage.getItem('buyerData')))
+        } catch (error) {
+            console.log(error)
+        }
       },[])
 
     let dispatch = useDispatch()
 
-    useEffect(() => {
-        
-    }, [category])
+    
 
-    let list1 = [{text:'Orders', img: orderSvg}, {text: 'Inbox', img: inboxSvg}, {text: 'Saved Item', img: savedSvg},  {text: 'History', img: historySvg}]
-    let list2 = [{text: 'My Account', img: userSvg},{text: 'Help Center', img: helpSvg}, {text: 'Refund & Return', img: refundSvg}, {text: 'Cancel An Order', img: cancelSvg}, {text: 'Contact Us', img: contactSvg}, {text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}]
+    let list1 = [{uri: '',text: 'Messages', img: inboxSvg}, {uri: 'favourites',text: 'Favourites', img: savedSvg},  {uri: '',text: 'History', img: historySvg}]
+    let list2 = [{uri: '',text: 'My Account', img: userSvg},{uri: '',text: 'Help Center', img: helpSvg}, {uri: '',text: 'Refund & Return', img: refundSvg}, {uri: '',text: 'Cancel An Order', img: cancelSvg}, {uri: '',text: 'Contact Us', img: contactSvg}, {uri: '',text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}]
     let list3 = categoriesList
 
     let CEservices = list1.map((item,i) => 
-        <li onClick={e => navigate(`${item.text.toLowerCase()}`)} key={i} style={{display: 'flex', }}>
+        <li onClick={e => navigate(`${item.uri}`)} key={i} style={{display: 'flex', }}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
             </span>

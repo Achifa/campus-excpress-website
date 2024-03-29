@@ -10,7 +10,7 @@ const Inbox = () => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         GetSellerInbox()
         .then(({data}) => {
             setInboxList(data)
