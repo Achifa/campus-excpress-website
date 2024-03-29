@@ -1,7 +1,11 @@
 import axios from 'axios'
 // import {IP} from '@env'
 
-let IP = '192.168.86.146';
+
+let uri_1 = 'ce-server.vercel.app'
+let uri_2 = '192.168.86.146'
+let IP = uri_1
+
 
 const source = axios.CancelToken.source();
 
