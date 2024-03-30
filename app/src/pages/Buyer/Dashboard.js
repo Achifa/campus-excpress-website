@@ -1,4 +1,4 @@
-// import CardCnt from "../../components/Buyer/dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -68,6 +68,7 @@ const Dashboard = () => {
                     height: '100vh',
                 }}>
                     
+                  <CardCnt />
                 </div>
             </BuyerLayout>
 
