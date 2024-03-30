@@ -73,19 +73,22 @@ const Product = ({product_id}) => {
         //overlay.setAttribute('id', 'overlay');
         
         try {
-            let result = GetItem(product_id)
-            setItem(result[0])
-            // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
-            overlay.removeAttribute('id')
+            async function getData(params) {
+                let result = await GetItem(product_id)
+                setItem(result[0])
+                // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
+                overlay.removeAttribute('id')
+            }
+            getData()
         } catch (error) {
             console.log(error)
         }
 
     }, [])
 
-  let {Cart} = useSelector(s => s.Cart)
+    let {Cart} = useSelector(s => s.Cart)
 
-  let navigate = useNavigate();
+    let navigate = useNavigate();
 
     useEffect(() => {
         setActiveImg(ItemImages.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
@@ -307,11 +310,11 @@ const Product = ({product_id}) => {
 
                                 <br />
                                 <section style={{display: 'flex', justifyContent: 'flex-start'}}>
-                                    <div style={{fontSize: 'small'}}>
+                                    {/* <div style={{fontSize: 'small'}}>
                                         <span ><span style={{color: '#626262', fontSize: 'small'}}>Shop Id :</span> <span style={{color: 'orangered', fontSize: 'small'}}>CE_4590-ddf</span></span> 
                                     </div>
                                     &nbsp;
-                                    &nbsp;
+                                    &nbsp; */}
                                     <div style={{fontSize: 'small'}}>
                                         <span><span style={{color: '#626262', fontSize: 'small'}}>Product Id: </span> <span style={{color: 'orangered', fontWeight: '700', fontSize: 'small'}}>{item?.product_id}</span></span>
                                     </div>
