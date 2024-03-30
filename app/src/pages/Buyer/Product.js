@@ -9,7 +9,7 @@ const ProductPage = () => {
         <>
 
             <BuyerLayout>
-                <Product product_id={[location.pathname.split('/')[2]]} />
+                <Product product_id={[location.pathname.split('/').splice(-1)[0]]} />
             </BuyerLayout>
         </>
      );
