@@ -25,7 +25,7 @@ export async function UnSaveItem(product_id,buyer_id) {
 
 async function delete_request_generators(uri, params) {
     return(
-       await axios.delete(`https://${IP}:2222/${uri}`, {
+       await axios.delete(`https://${IP}/${uri}`, {
            params: params,
            cancelToken: source.token
        })
