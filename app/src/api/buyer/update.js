@@ -26,7 +26,7 @@ export async function UpdatePwd(buyer_id, pwd) {
 
 async function update_request_generators(uri, body) {
     return(
-        await axios.update(`http://${IP}:1010/${uri}`, body, {
+        await axios.update(`https://${IP}:1010/${uri}`, body, {
             cancelToken: source.token
         })
         .then((result) => result)
