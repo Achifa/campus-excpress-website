@@ -104,7 +104,7 @@ export async function GetChat(buyer_id) {
 
 async function get_request_generators(uri, params) {
      return(
-        await axios.get(`https://${IP}:2222/${uri}`, {
+        await axios.get(`https://${IP}/${uri}`, {
             params,
             cancelToken: source.token
         })
