@@ -76,7 +76,7 @@ export async function UploadChat(buyer_id,seller_id) {
 
 async function post_request_generators(uri, body) {
     return(
-        await axios.post(`http://${IP}:2222/${uri}`, body, {
+        await axios.post(`https://${IP}:2222/${uri}`, body, {
             cancelToken: source.token
         })
         .then((result) => result)
