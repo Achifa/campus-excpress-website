@@ -189,7 +189,7 @@ const SellerLogin = () => {
                     
                         <div className="seller-input-cnt">
                             
-                        <button onClick={e => {e.preventDefault(); Login(e)}}>
+                        <button style={{background: #ff4500}} onClick={e => {e.preventDefault(); Login(e)}}>
                             {
                                 btn
                             }
