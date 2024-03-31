@@ -9,7 +9,6 @@ import {
     useState
 } from 'react'
 import Thumbnail from '../Thumbnail'
-import saveSvg from '../../../assets/save-svgrepo-com.svg'
 import conditionSvg from '../../../assets/condition-point-svgrepo-com.svg'
 import { 
     useNavigate 
@@ -162,7 +161,7 @@ const Card = ({item, index}) => {
                         {/* &nbsp; */}
 
                         <span  style={{background: 'orangered', color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}> 
-                            UNIZIK, Awka
+                            {JSON.parse(item.others)?.locale}
                         </span>
                     </span>
                     

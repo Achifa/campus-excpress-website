@@ -301,7 +301,7 @@ async function get_shop_items(req,res) {
         )
     }else{
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop where category = '${category}' AND state->>'state' = 'publish'`)
+            pool.query(`select * from seller_shop where category = '${category}' AND state->>'state' = 'published'`)
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )

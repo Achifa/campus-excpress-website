@@ -68,7 +68,7 @@ const Editor = () => {
 
             let product_id = searchParams.get('product_id'); // price_descending
 
-            if(product_id !== 'seller.editor'){
+            if(product_id !== ''){
                 let result = await GetItem([product_id]);
 
                 productCategory(result[0]?.category) 
@@ -89,7 +89,7 @@ const Editor = () => {
         async function getImages() {
             let product_id = searchParams.get('product_id'); 
 
-            if(product_id !== 'seller.editor'){
+            if(product_id !== ''){
                 let result = await GetItemImages(product_id); 
                 // alert(result.length)
                 result?.map(item => productPhotos(item.file))
@@ -412,13 +412,8 @@ const Editor = () => {
 
                                             
                                             <PriceSelect edit={edit} productPrice={productPrice} />
-                                            {
-                                                category_state !== 'Lodge/Apartments' 
-                                                ? 
-                                                ""
-                                                : 
-                                                <LocationSelect productLocale={productLocale} edit={edit} />
-                                            }
+
+                                            <LocationSelect productLocale={productLocale} />
 
                                         </div>
                                         

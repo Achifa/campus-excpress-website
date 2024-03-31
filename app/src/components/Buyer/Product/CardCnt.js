@@ -41,9 +41,12 @@ const CardCnt = () => {
         //overlay.setAttribute('id', 'overlay');
 
         try {
-            let result = GetItems(category)
+           async function getData() {
+            let result = await GetItems(category)
             setItems(result)
             overlay.removeAttribute('id');
+           }
+           getData()
         } catch (error) {
             console.log(error)
         }

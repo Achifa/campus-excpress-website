@@ -74,7 +74,7 @@ const Aside = () => {
     useEffect(() => {
         try {
             set_buyer(JSON.parse(window.localStorage.getItem('buyerData')))
-            console.log(JSON.parse(window.localStorage.getItem('buyerData')))
+            // alert(JSON.stringify(window.localStorage.getItem('buyerData')))
         } catch (error) {
             console.log(error)
         }
@@ -85,7 +85,7 @@ const Aside = () => {
     
 
     let list1 = [{uri: '',text: 'Messages', img: inboxSvg}, {uri: 'favourites',text: 'Favourites', img: savedSvg},  {uri: '',text: 'History', img: historySvg}]
-    let list2 = [{uri: '',text: 'My Account', img: userSvg},{uri: '',text: 'Help Center', img: helpSvg}, {uri: '',text: 'Refund & Return', img: refundSvg}, {uri: '',text: 'Cancel An Order', img: cancelSvg}, {uri: '',text: 'Contact Us', img: contactSvg}, {uri: '',text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}]
+    let list2 = [{uri: '',text: 'My Account', img: userSvg},{uri: '',text: 'Help Center', img: helpSvg}, {uri: '',text: 'Refund & Return', img: refundSvg}, {uri: '',text: 'Cancel An Order', img: cancelSvg}, {uri: '',text: 'Contact Us', img: contactSvg}, {uri: 'logout',text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}]
     let list3 = categoriesList
 
     let CEservices = list1.map((item,i) => 
@@ -100,7 +100,7 @@ const Aside = () => {
     )
 
     let Help = list2.map((item, i) => 
-        <li onClick={e => i === list2.length - 1 ?  navigate(`/login`) : navigate(`${item}`)} key={i} style={{display: 'flex', }}>
+        <li onClick={e => i === list2.length - 1 ?  () => {window.localStorage.removeItem('buyerData'); alert('You are logged out.')} : navigate(`${item}`)} key={i} style={{display: 'flex', }}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
             </span>
@@ -131,7 +131,7 @@ const Aside = () => {
     return ( 
         <>
 
-            <div className="aside-overlay" style={{zIndex: '10000'}}>
+            <div className="aside-overlay" style={{zIndex: '11000'}}>
 
                 <div onClick={closeAside} className="aside-close">
                     <img src={closeSvg} style={{height: '30px', width: '30px'}} alt="" />

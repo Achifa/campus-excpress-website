@@ -2,8 +2,8 @@ import axios from 'axios';
 
 
 let u1 = `http://localhost:2222`;
-let u4 = `http://192.168.86.146:2222`;
-let u2 = `https://ce-server.vercel.app`;
+let u4 = `http://192.168.184.146:2222`;
+let u2 = `https://ce-server.vercel.app`; 
 
 let plug = u2; 
 

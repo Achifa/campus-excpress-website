@@ -27,7 +27,6 @@ export function uploadForm(constantData, dynamicData) {
             let overlay = document.querySelector('.overlay'); 
             overlay.removeAttribute('id')
             openNotice()
-
             // navigate('/seller/shop')
         }
     })

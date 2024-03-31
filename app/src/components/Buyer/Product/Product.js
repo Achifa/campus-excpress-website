@@ -6,7 +6,7 @@ import tweeterSvg from '../../../assets/twitter-svgrepo-com (2).svg'
 import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import saveSvg from '../../../assets/save-svgrepo-com1.svg'
+import saveSvg from '../../../assets/favourite-alt-svgrepo-com (1).svg'
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
 import { setCartTo } from '../../../redux/buyer_store/Cart'
@@ -17,6 +17,7 @@ import Description from './Description'
 import { SaveItem, UploadChat } from '../../../api/buyer/post'
 import { UnSaveItem } from '../../../api/buyer/delete'
 import { GetItem } from '../../../api/buyer/get'
+import SaveButton from '../Dashboard/SaveButton'
 
 
 
@@ -50,7 +51,7 @@ const Product = ({product_id}) => {
 
     let [stock, set_stock] = useState(1)
     let [phone, set_phone] = useState(1)
-
+    let [btnMode, setBtnMode] = useState(true)
     let [activeImg, setActiveImg] = useState(imgSvg)
 
     let {ItemImages} = useSelector(s => s.itemImages)
@@ -85,6 +86,7 @@ const Product = ({product_id}) => {
         }
 
     }, [])
+    let {Save} = useSelector(s => s.Save)
 
     let {Cart} = useSelector(s => s.Cart)
 
@@ -105,17 +107,17 @@ const Product = ({product_id}) => {
         outline: 'none',
         border: 'none',
         cursor: 'pointer',
-        visibility: 'hidden',
         textAlign: 'center',
+        padding: '0 20px 0 20px',
         color: '#fff',
         display: role === 0 ? 'flex' : 'none', 
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         position: 'relative',
         fontSize: 'medium',
         fontWeight: '400',
         backgroundColor: 'orangered',
-        margin: '0'
+        margin: '20px 0 0 0'
     }
 
     useEffect(() => {
@@ -136,6 +138,12 @@ const Product = ({product_id}) => {
         }
 
     },[item])
+
+    let [savedData, setSavedData] = useState([])
+
+    useEffect(() => {
+        setSavedData(Save)
+    }, [Save])
 
     let dispatch = useDispatch()
 
@@ -180,45 +188,39 @@ const Product = ({product_id}) => {
     //     }
     // }
 
-    let {Save} = useSelector(s => s.Save)
 
-    function Saver(e,product_id) {
-        e.target.disabled = true;
-
-        let saveList = [...Save];
+    async function Saver(e,product_id) { 
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+        setBtnMode(btnMode) 
+        let saveList = savedData;
+       
         let duplicateSearch = saveList.filter(item => item.product_id === product_id)
         if(saveList.length > 0){
             if(duplicateSearch.length > 0){
-                // let newList = saveList.filter(item => item !== duplicateSearch[0])
-                // dispatch(setSaveTo(newList))
-                try {
-                    let result = UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                    dispatch(setSaveTo(result))
-                    e.target.disabled = false;
-                } catch (error) {
-                    console.log(error)
-                }
+
+                let result = await UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'));
+                dispatch(setSaveTo(result));
+                setBtnMode(!btnMode) 
+                overlay.removeAttribute('id')
+
             }else{
                 
-                try {
-                    let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                    dispatch(setSaveTo(result))
-                    e.target.disabled = false;
-                } catch (error) {
-                    console.log(error)
-                }
+                let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+                dispatch(setSaveTo(result))
+                setBtnMode(!btnMode) 
+                overlay.removeAttribute('id')
+
             }
         }else{
-            try {
-                let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                dispatch(setSaveTo(result))
-                e.target.disabled = false;
-            } catch (error) {
-                console.log(error)
-            }
+
+            let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+            dispatch(setSaveTo(result))
+            setBtnMode(!btnMode) 
+            overlay.removeAttribute('id')
+
         }
     }
-
 
     function SendMssg(params) {
         let overlay = document.querySelector('.overlay')
@@ -281,7 +283,7 @@ const Product = ({product_id}) => {
             </div>
 
             <br />
-            <div className="buyer-product">
+            <div className="buyer-product" style={{background: '#fff'}}>
                 <div className="buyer-product-cnt" style={{display: 'flex', flexDirection: 'column'}}>
                     <div className="buyer-product-data">
                         <div id="left">
@@ -291,7 +293,7 @@ const Product = ({product_id}) => {
                             <ItemImgs />
                         </div>
 
-                        <div id="right">
+                        <div id="right" style={{position: 'relative'}}>
  
                             <p style={{fontWeight: '400', padding: '0px', fontSize: 'x-large'}}>{item?.title}</p>
 
@@ -299,7 +301,8 @@ const Product = ({product_id}) => {
 
                             {/* <br /> */}
 
-                            <div style={{background: '#fff4e0', padding: '10px', color: 'orangered', fontWeight: '500', borderRadius: '5px', height: 'fit-content'}}>
+                            <div style={{background: '#fff4e0', padding: '10px', color: 'orangered', fontWeight: '500', position: 'relative', borderRadius: '5px', height: 'fit-content'}}>
+                                
                                 <p style={{fontWeight: '400', padding: '0px', fontSize: 'xx-large'}}>
                                     <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item?.price)}
                                 </p>
@@ -325,11 +328,17 @@ const Product = ({product_id}) => {
                                     </div> */}
                                 </section>
 
+                                <div style={{position: 'absolute', top: '-30px', right: '20px'}}>
+                                    <SaveButton data={item} Saver={Saver} Save={savedData} />
+                                </div>
+
+                                
+
                                 {/* <p>+ shipping from ₦0 to AWKA TOWN</p>  */}
                             </div>
 
                             {/* <hr /> */}
-                            <br />
+                            {/* <br /> */}
 
                             {/* <div style={BtnStyles} onClick={e => {
                                 document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
@@ -337,7 +346,7 @@ const Product = ({product_id}) => {
                                 Buy Now
                             </div> */}
 
-                            <div style={BtnStyles} onClick={e => {
+                            {/* <div style={BtnStyles} onClick={e => {
                                 document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
                             }}>
                                 <>
@@ -348,7 +357,7 @@ const Product = ({product_id}) => {
                                         {[...Save].filter(savedItem => savedItem?.product_id === item?.product_id)[0] ? 'Unsave' : 'Save'}
                                     </span>
                                 </>
-                            </div>
+                            </div> */}
 
 
                             <div style={{
@@ -367,7 +376,7 @@ const Product = ({product_id}) => {
                                 fontSize: 'medium',
                                 fontWeight: '500',
                                 backgroundColor: '#fff',
-                                marginTop: '40px'
+                                marginTop: '20px'
                             }}>
                             {/* onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} */}
                                 <button onClick={

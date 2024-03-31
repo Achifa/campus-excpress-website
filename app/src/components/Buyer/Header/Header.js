@@ -181,10 +181,12 @@ const Header = () => {
       let data = window.localStorage.getItem('buyerData')
       console.log(data)
 
-      if(data === 'undefined' || data === null){
+      if(data === 'undefined' || data === null || data === ''){
+
         let result = await GetBuyer(window.localStorage.getItem('CE_buyer_id'))
-        console.log(data)
         window.localStorage.setItem('buyerData', JSON.stringify(result))
+        // alert('data'.JSON.stringify(result))
+
       }
     }
     fetchData()
@@ -210,7 +212,7 @@ const Header = () => {
         }
 
       </div>
-      <div className="buyer-header shadow-sm" style={{position: 'sticky', top: '0', zIndex: '1000'}}>
+      <div className="buyer-header shadow-sm" style={{position: 'sticky', top: '0', zIndex: '10000'}}>
 
 
         <img src={img} style={{height: screenWidth > 760 ? '80px' : '50px', width: screenWidth > 760 ? '80px' : '50px'}}  alt="" />
@@ -231,7 +233,7 @@ const Header = () => {
           <ul style={{
             width: 'fit-content',
           }}>
-            <li onClick={e => navigate('/buyer.message')}>
+            <li onClick={e => navigate('/buyer.message')}>  
               <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                 { 
                   cartList

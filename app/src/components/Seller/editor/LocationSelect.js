@@ -9,14 +9,19 @@ const LocationSelect = ({edit,productLocale}) => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
-        GetSeller(window.localStorage.getItem('CE_seller_id'))
-        .then((result) => {
-            setCampus(result.campus)
-            setState(result.state)
-            productLocale(result.state + ',' + ' ' + result.campus)
-            overlay.removeAttribute('id')
-        }) 
-        .catch((err) => console.log(err))
+        try {
+            async function getData(){
+                let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
+                setCampus(result.campus)
+                setState(result.state)
+                productLocale(result.state + ',' + ' ' + result.campus)
+                overlay.removeAttribute('id')
+            }
+        getData()
+
+        } catch (error) {
+            console.log(error)
+        }
     }, [])
 
 

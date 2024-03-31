@@ -15,8 +15,12 @@ const Thumbnail = ({product_id,seller_id}) => {
   
     useEffect(() => {
         try {
-            let result = GetProductThumbnail(product_id)
-            set_img(result.file)
+            async function getData() {
+                let result = await GetProductThumbnail(product_id)
+                set_img(result.file)
+            }
+
+            getData()
         } catch (error) {
             console.log(error)
         }
