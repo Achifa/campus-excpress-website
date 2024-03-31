@@ -6,7 +6,7 @@ let u4 = `http://192.168.184.146:2222`;
 let u2 = `https://ce-server.vercel.app`; 
 
 let plug = u2; 
-
+ 
 const source = axios.CancelToken.source();
 
 
@@ -215,9 +215,9 @@ export function RegisterSeller(fname,lname,email,phone,pwd,state,campus) {
         })
         .catch((error) => {
             if(axios.isCancel(error)) {
-                console.log('Request canceled:', error.message);
+                reject('Request canceled:', error.message);
             }else{
-                console.log('Error:', error.message); 
+                reject(error); 
             }   
         }) 
     })
@@ -234,8 +234,10 @@ export function LogSellerIn(email,pwd) {
         })
         .catch((error) => {
             if(axios.isCancel(error)) {
+                reject('Request canceled:', error.message);
                 console.log('Request canceled:', error.message);
             }else{
+                reject(error); 
                 console.log('Error:', error.message); 
             }   
         }) 

@@ -99,9 +99,8 @@ const Signup = () => {
             )
             e.target.disabled = true;
             RegisterSeller(fname.trim(),lname.trim(),email,phone,pwd,state,campus)
-            .then((result) => navigate('/seller/login'))
+            .then((result) => navigate('/seller.login'))
             .catch((err) => {
-                console.log(err.response.data.err )
                 if(err.response.data === 'duplicate email'){
                     addErrMssg([{mssg:'Email already exist, please try something else'}], document.querySelector('.email').parentElement)
                 }else if(err.response.data === 'duplicate phone'){
@@ -215,7 +214,7 @@ const Signup = () => {
     function handleVerification(email,seller_id){
         SendToken(email,seller_id)
         .then((result) => {
-            navigate('/seller/login')
+            navigate('/seller.login')
         })
         .catch((err) => console.log(err))
         
@@ -248,8 +247,10 @@ const Signup = () => {
 
                 </div>
                 <div id="right">
-                    {/* <h6><b style={{color: 'orangered'}}><u>Signup Form For Sellers</u></b></h6> */}
+                    <br />
+                    <h6><b style={{background: 'orangered', color: '#fff', padding: '10px', borderRadius: '5px', marginBottom: '20px', height: '150px'}}>Signup Form For Sellers</b></h6>
                 
+                    <br />
                     <form action="">
                         <div className="seller-input-cnt">
                             <section>

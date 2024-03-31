@@ -154,13 +154,16 @@ const SellerLogin = () => {
         <>
 
             {/* <SellerLayout> */}
-            <div className="seller-login-cnt" style={{background: 'orangered', bottom: '0', position: 'absolute', height: 'calc(100vh - 60px)'}}>
+            <div className="seller-login-cnt" style={{background: 'orangered', bottom: '0', position: 'absolute', height: 'calc(100vh - 0px)'}}>
 
-                <section className="shadow-sm" style={{background: '#fff'}}>
-                    <h5 style={{color: 'orangered'}}>Login Here</h5>
+                <section className="shadow-sm" style={{background: '#fff', height: 'fit-content'}}>
+                    
                     <div className="err-cnt">
 
                     </div>
+                    <br />
+                    <h6><b style={{background: 'orangered', color: '#fff', padding: '10px', borderRadius: '5px', marginBottom: '20px', height: '150px'}}>Login Form For Sellers</b></h6>
+                
                     <br />
                     <form action="" >
                         
@@ -195,7 +198,7 @@ const SellerLogin = () => {
                         </div>
                     </form>
 
-                    <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.reset-recovery')}>
+                    <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.password-recovery')}>
                         <small style={{cursor: 'pointer', color: 'orangered', fontWeight: '500'}}>Recover Forgotten Password Here</small>
                     </div>
                     <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.signup')}>

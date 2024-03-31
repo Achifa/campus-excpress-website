@@ -1,5 +1,6 @@
 const { NeonDB } = require("../../db");
 const { bcrypt, shortId } = require("../../modules");
+const { pwd_reset } = require("../../templates");
 
 function update_seller_profile(req,res) {
     let {
@@ -147,24 +148,7 @@ async function reset_pwd(req,res){
                 from: 'campus-express@campusexpressng.com', // Replace with your email address
                 to: `${email}`, // Replace with the recipient's email address
                 subject: 'Password Reset',
-                html: ` 
-    
-                    Hello Dear,
-                    
-                    Thank you for choosing Campus Express Nigeria! 
-                    To complete your password reset, please click the link below:
-                    
-                    www.campusexpressng.com/seller/password-reset/${token}?seller_id=${seller_id}
-                    
-                    This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
-                    
-                    If you did not initiate this action, please contact our support team immediately.
-                    
-                    Thank you for using Campus Express Nigeria.
-                    
-                    Best regards,
-                    Campus Express Nigeria. 
-                `
+                html: pwd_reset(token,seller_id)
             };
     
             // Send the email

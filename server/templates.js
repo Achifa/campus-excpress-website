@@ -64,7 +64,7 @@ let verification_email = (token,email,name) => {
 
 }
 
-let pwd_reset = (token,buyer_id,name) => {
+let pwd_reset = (token,seller_id,name) => {
     return(`
     <!DOCTYPE html>
     <html lang="en">
@@ -98,9 +98,11 @@ let pwd_reset = (token,buyer_id,name) => {
                 text-decoration: none;
             }
             .button {
-                display: inline-block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 padding: 10px 20px;
-                background-color: #007BFF;
+                background-color: #FF4500;
                 color: #ffffff;
                 text-decoration: none;
                 border-radius: 5px;
@@ -112,7 +114,9 @@ let pwd_reset = (token,buyer_id,name) => {
             <h1>Campus Express Nigeria. </h1>
             <p>Hello Dear,</p>
             <p>Thank you for choosing Campus Express Nigeria! To complete your password reset, please click the link below:</p>
-            <p>www.campusexpressng.com/buyer/password-reset/${token}?buyer_id=${buyer_id}</p>
+            <button>
+                <a href='www.campusexpressng.com/seller.password-reset?token=${token}&?seller_id=${seller_id}'>Reset Password</a>
+            </button>
             <p>This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.</p>
             <p>If you did not initiate this action, please contact our support team immediately.</p>
             <p>Thank you for using Campus Express Nigeria.</p>

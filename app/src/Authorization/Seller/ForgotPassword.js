@@ -113,14 +113,19 @@ const ForgotPwd = () => {
         <>
             {/* <SellerLayout> */}
                 <div className="password-reset shadow-sm" style={{background: 'orangered', bottom: '0', position: 'absolute', height: 'calc(100vh - 60px)', width: '100%'}}>
-                    <form className='shadow-sm' action="" style={{width: '350px'}}>
-                        <h6 style={{color: 'orangered', fontWeight: '500'}}>Password Reset</h6>
+                    
+                    
+                    <form className='shadow-sm' action="" style={{width: '350px', padding: '20px'}}>
+                        <br />
+                        <h6><b style={{background: 'orangered', color: '#fff', padding: '10px', borderRadius: '5px', marginBottom: '20px', height: '150px'}}>Password Recovery Form For Sellers</b></h6>
+                    
+                        <br />
 
                         <div style={{padding: '10px'}}>
                             <br />
                             <div className="input-cnt">
-                                <label htmlFor="" style={{fontWeight: '400'}}>Enter registered email</label>
-                                <input onInput={e => setemail(e.target.value)} type="text" className='email' placeholder="Enter Registered Email Here..."/>
+                                <label htmlFor="" style={{fontWeight: '400', color: '#000', fontSize: 'medium'}}>Enter registered email</label>
+                                <input onInput={e => setemail(e.target.value)} type="text" className='email' style={{background: '#efefef'}} placeholder="Enter Registered Email Here..."/>
                             </div>
  
                             <button style={{marginBottom: '10px'}} onClick={e =>{e.preventDefault(); sendPasswordResetToken(e);}}>Submit Email</button>

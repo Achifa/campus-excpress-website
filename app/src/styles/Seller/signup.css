@@ -186,6 +186,9 @@
     .seller-signup{
         height: 100vh;
         width: 100vw;
+        padding: 20px;
+        background-color: orangered;
+        overflow: auto;
     }
 
     .seller-signup #left{
@@ -194,14 +197,15 @@
         padding: 0;
         display: none;
         float: left;
-        background-color: orangered;
     }
 
     .seller-signup #right{
-        height: 100%;
+        height: fit-content;
         width: 100%;
         float: right;
+        border-radius: 10px;
         padding: 20px;
+        background-color: #fff;
     }
 
     .seller-input-cnt{
