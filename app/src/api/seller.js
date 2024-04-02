@@ -452,10 +452,10 @@ export function ResetPwd(email,seller_id) {
     })
 }
 
-export function updatePwd(seller_id, pwd) {
+export function updatePwd(email, pwd) {
     source.cancel('new request')
     return new Promise((resolve, reject) => {
-        axios.post(`${plug}/seller/password-update`, {seller_id, pwd})
+        axios.post(`${plug}/seller/password-update`, {email, pwd})
         .then((result) => {
             resolve(result)
         })
