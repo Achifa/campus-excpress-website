@@ -6,25 +6,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const PasswordReset = () => {
     let [userData, setUserData] = useState('')
     let [pwd, setPwd] = useState('')
+    let [email, setEmail] = useState('')
     let [isTokenVerified, setIsTokenVerified] = useState(false)
     let navigate = useNavigate();
     let location = useLocation()
 
-    useEffect(() => {
-        GetSeller(window.localStorage.getItem('CE_seller_id'))
-        .then((result) => {
-            setUserData(result)
-            console.log(result)
-        })
-        .catch((err) => console.log(err))
-    }, [])
-
     
-        
     function ResetPwd(params) {
-        updatePwd(userData.seller_id,pwd)
+        updatePwd(email,pwd)
         .then((result) => {
-            navigate('/seller/login')
+            navigate('/seller.login')
         })
         .catch((err) => console.log(err))
     }
@@ -43,7 +34,7 @@ const PasswordReset = () => {
                             <br />
                             <div className="input-cnt">
                                 <label htmlFor="">Enter Registered Email</label>
-                                <input type="email" onInput={e => setPwd(e.target.value)} placeholder="Enter Registered Email..."/>
+                                <input type="email" onInput={e => setEmail(e.target.value)} placeholder="Enter Registered Email..."/>
                             </div>
 
 
