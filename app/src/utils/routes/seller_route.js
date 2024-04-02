@@ -20,7 +20,7 @@ export let seller_route = [
 
     {  path:'/seller.signup', component: <Signup /> },
     {  path:'/seller.login', component: <SellerLogin /> },
-    {  path:'/seller.password-recovery', component: <ForgotPwd /> },
+    {  path:'/seller.password-reset', component: <ForgotPwd /> },
     {  path:'/seller.password-reset', component: <PasswordReset /> },
 
     {  path:'/seller.editor', component: <Editor /> },
