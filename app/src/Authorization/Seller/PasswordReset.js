@@ -19,18 +19,8 @@ const PasswordReset = () => {
         .catch((err) => console.log(err))
     }, [])
 
-    useEffect(() => {
-        CheckPwdResetToken(userData.seller_id,location.pathname.split('/').splice(-1)[0])
-        .then((result) => {
-            if(result){
-                setIsTokenVerified(true)
-            }else{
-                setIsTokenVerified(false)
-            }
-        })
-        .catch((err) => console.log(err))
-    }, [])
-
+    
+        
     function ResetPwd(params) {
         updatePwd(userData.seller_id,pwd)
         .then((result) => {
@@ -44,9 +34,7 @@ const PasswordReset = () => {
 
             <div className="password-reset" style={{height: '100vh', margin: '0', padding: '0', width: '100%', background: '#fff'}}>
                 {
-                    isTokenVerified
-
-                    ?
+                    
                     <>
                         <form action="" className='shadow-sm'style={{width: '350px'}}>
                             <br />
@@ -66,16 +54,9 @@ const PasswordReset = () => {
                         </form>
                     </>
 
-                    :
-                    <>
-                        <div>
-                            <h2>Bad Link</h2>
-                            <h4>
-                                The Link You Entered Is Not Valid
-                            </h4>
-                        </div>
-                    </>
-
+                 
+                
+                     
                 }
                 
             </div>
