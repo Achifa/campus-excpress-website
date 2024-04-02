@@ -24,6 +24,11 @@ const PasswordReset = () => {
         <>
 
             <div className="password-reset" style={{height: '100vh', margin: '0', padding: '0', width: '100%', background: '#fff'}}>
+
+<br />
+                    <h6><b style={{background: 'orangered', color: '#fff', padding: '10px', borderRadius: '5px', marginBottom: '20px', height: '150px'}}>Login Form For Sellers</b></h6>
+                
+                    <br />
                 {
                     
                     <>
@@ -43,7 +48,7 @@ const PasswordReset = () => {
                                 <input type="password" onInput={e => setPwd(e.target.value)} placeholder="Enter New Password Here..."/>
                             </div>
 
-                            <button onClick={e =>{e.preventDefault(); ResetPwd();}}>Reset Password</button>
+                            <button style={{background: '#ff4500', color: '#fff'}} onClick={e =>{e.preventDefault(); ResetPwd();}}>Reset Password</button>
                             <br />
 
                             <br />
