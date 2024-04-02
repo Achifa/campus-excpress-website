@@ -24,11 +24,6 @@ const PasswordReset = () => {
         <>
 
             <div className="password-reset" style={{height: '100vh', margin: '0', padding: '0', width: '100%', background: '#fff'}}>
-
-<br />
-                    <h6><b style={{background: 'orangered', color: '#fff', padding: '10px', borderRadius: '5px', marginBottom: '20px', height: '150px'}}>Password Reset Form For Sellers</b></h6>
-                
-                    <br />
                 {
                     
                     <>
