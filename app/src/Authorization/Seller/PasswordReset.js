@@ -42,6 +42,12 @@ const PasswordReset = () => {
 
                             <br />
                             <div className="input-cnt">
+                                <label htmlFor="">Enter Registered Email</label>
+                                <input type="email" onInput={e => setPwd(e.target.value)} placeholder="Enter Registered Email..."/>
+                            </div>
+
+
+<div className="input-cnt">
                                 <label htmlFor="">Enter New Password</label>
                                 <input type="password" onInput={e => setPwd(e.target.value)} placeholder="Enter New Password Here..."/>
                             </div>
