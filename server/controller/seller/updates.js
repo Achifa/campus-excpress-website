@@ -90,12 +90,12 @@ function update_product(req,res) {
 
 
 async function update_pwd(req,res) {
-    let {seller_id, pwd} = req.body;
+    let {email, pwd} = req.body;
     
     let hPwd = await bcrypt.hash(pwd, 10)
 
     NeonDB.then((pool) => 
-        pool.query(`UPDATE campus_sellers set password='${hPwd}' WHERE seller_id = '${seller_id}'`)
+        pool.query(`UPDATE campus_sellers set password='${hPwd}' WHERE email = '${email}'`)
         .then(result => {
             result.rowCount > 0 ? res.send(true) : res.send(false)
         })
