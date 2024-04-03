@@ -6,35 +6,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const PasswordReset = () => {
     let [userData, setUserData] = useState('')
     let [pwd, setPwd] = useState('')
+    let [email, setEmail] = useState('')
     let [isTokenVerified, setIsTokenVerified] = useState(false)
     let navigate = useNavigate();
     let location = useLocation()
 
-    useEffect(() => {
-        GetSeller(window.localStorage.getItem('CE_seller_id'))
-        .then((result) => {
-            setUserData(result)
-            console.log(result)
-        })
-        .catch((err) => console.log(err))
-    }, [])
-
-    useEffect(() => {
-        CheckPwdResetToken(userData.seller_id,location.pathname.split('/').splice(-1)[0])
-        .then((result) => {
-            if(result){
-                setIsTokenVerified(true)
-            }else{
-                setIsTokenVerified(false)
-            }
-        })
-        .catch((err) => console.log(err))
-    }, [])
-
+    
     function ResetPwd(params) {
-        updatePwd(userData.seller_id,pwd)
+        updatePwd(email,pwd)
         .then((result) => {
-            navigate('/seller/login')
+            navigate('/seller.login')
         })
         .catch((err) => console.log(err))
     }
@@ -44,9 +25,7 @@ const PasswordReset = () => {
 
             <div className="password-reset" style={{height: '100vh', margin: '0', padding: '0', width: '100%', background: '#fff'}}>
                 {
-                    isTokenVerified
-
-                    ?
+                    
                     <>
                         <form action="" className='shadow-sm'style={{width: '350px'}}>
                             <br />
@@ -54,11 +33,17 @@ const PasswordReset = () => {
 
                             <br />
                             <div className="input-cnt">
+                                <label htmlFor="">Enter Registered Email</label>
+                                <input type="email" onInput={e => setEmail(e.target.value)} placeholder="Enter Registered Email..."/>
+                            </div>
+
+
+<div className="input-cnt">
                                 <label htmlFor="">Enter New Password</label>
                                 <input type="password" onInput={e => setPwd(e.target.value)} placeholder="Enter New Password Here..."/>
                             </div>
 
-                            <button onClick={e =>{e.preventDefault(); ResetPwd();}}>Reset Password</button>
+                            <button style={{background: '#ff4500', color: '#fff'}} onClick={e =>{e.preventDefault(); ResetPwd();}}>Reset Password</button>
                             <br />
 
                             <br />
@@ -66,16 +51,9 @@ const PasswordReset = () => {
                         </form>
                     </>
 
-                    :
-                    <>
-                        <div>
-                            <h2>Bad Link</h2>
-                            <h4>
-                                The Link You Entered Is Not Valid
-                            </h4>
-                        </div>
-                    </>
-
+                 
+                
+                     
                 }
                 
             </div>

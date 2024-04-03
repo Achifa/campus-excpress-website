@@ -189,7 +189,7 @@ const SellerLogin = () => {
                     
                         <div className="seller-input-cnt">
                             
-                        <button onClick={e => {e.preventDefault(); Login(e)}}>
+                        <button style={{background: '#ff4500',color: '#fff'}} onClick={e => {e.preventDefault(); Login(e)}}>
                             {
                                 btn
                             }
@@ -198,7 +198,7 @@ const SellerLogin = () => {
                         </div>
                     </form>
 
-                    <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.password-recovery')}>
+                    <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.password-reset')}>
                         <small style={{cursor: 'pointer', color: 'orangered', fontWeight: '500'}}>Recover Forgotten Password Here</small>
                     </div>
                     <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.signup')}>

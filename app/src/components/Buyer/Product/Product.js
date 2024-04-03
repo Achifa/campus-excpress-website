@@ -17,7 +17,7 @@ import Description from './Description'
 import { SaveItem, UploadChat } from '../../../api/buyer/post'
 import { UnSaveItem } from '../../../api/buyer/delete'
 import { GetItem } from '../../../api/buyer/get'
-import SaveButton from '../Dashboard/SaveButton'
+import SaveButton from '../dashboard/SaveButton'
 
 
 
