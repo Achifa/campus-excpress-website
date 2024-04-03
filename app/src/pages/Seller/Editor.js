@@ -364,7 +364,7 @@ const Editor = () => {
                 handleFormUpload(
                     { 
                         title: title.current,
-                        description: description.current,
+                        description: descriptionActive ? description.current : '',
                         category: category.current,
                         price: price.current,
                         photos: photos.current,
