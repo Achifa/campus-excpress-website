@@ -25,9 +25,9 @@ import {
 } from "../../../redux/buyer_store/Save"; 
 
 import FloatingMenu from "../Header/FloatingMenu";
-import Card from "./Card";
 import { GetItems } from "../../../api/buyer/get";
 import Filter from "../Header/Filter";
+import Card from "./Card";
 
 const CardCnt = () => {
     let {Cart} = useSelector(s => s.Cart)
@@ -161,7 +161,7 @@ const CardCnt = () => {
                         <Card index={index} item={item} />
                     )
                 )
-                document.querySelector('.filter-apply-btn').addEventListener('click', applyFilter()) 
+                document.querySelector('.filter-overlay').removeAttribute('id')
             })
             overlay.removeAttribute('id');
             
@@ -170,9 +170,6 @@ const CardCnt = () => {
         }
     }
 
-    useEffect(() => {
-        document.querySelector('.filter-apply-btn').addEventListener('click', applyFilter())
-    }, [])
     
 
     function updateCategory(data) {
@@ -217,6 +214,7 @@ const CardCnt = () => {
                     updateSubCategory={updateSubCategory} 
                     category={category}
                     state={state} 
+                    applyFilter={applyFilter}
                 />
 
             </div>

@@ -19,7 +19,7 @@ import closeSvg from '../../../assets/close-square-svgrepo-com (1).svg'
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import '../../../styles/Buyer/FilterAside.css'
-export default function Filter({updateCategory,updateSubCategory,updateCondition,updateState,updateCampus,updatePrice,state,category}) {
+export default function Filter({updateCategory,updateSubCategory,updateCondition,updateState,updateCampus,updatePrice,state,category,applyFilter}) {
 
     let [screenWidth, setScreenWidth] = useState(0)
 
@@ -225,7 +225,7 @@ export default function Filter({updateCategory,updateSubCategory,updateCondition
                     }}>
                         Cancel
                     </button>
-                    <button className='filter-apply-btn' style={{
+                    <button onClick={applyFilter} style={{
                         height: '35px',
                         width: '46%',
                         float: 'right',
