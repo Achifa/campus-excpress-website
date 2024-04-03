@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { OVERVIEW } from "../../../api/seller";
 import '../../../styles/Seller/overlay.css' 
 import Card from "./Card";
+import items from '../../../items.json'
 
 const Home = () => {
 
@@ -23,6 +24,7 @@ const Home = () => {
     let [seller_id, setseller_id] = useState('')
 
     useEffect(() => {
+
 
         
         let overlay = document.querySelector('.overlay')

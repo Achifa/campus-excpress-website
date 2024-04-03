@@ -35,7 +35,9 @@ export let seller_route = [
     {  path:'/seller.messages', component: <Message /> },
     {  path:'/seller.message', component: <MessageLg /> },
     {  path:'/seller.messages.room', component: <MessageRoom /> },
-    { path: '/seller.order-page/:id', component: <OrderPage /> }
+    { path: '/seller.order-page/:id', component: <OrderPage /> },
+
+    // { path: '/product/:id', component: <ProductPage />}, 
 
     // <Route path='/seller/password-reset/:id' element={<PasswordReset />}></Route>
     //         <Route path='/seller/email-verification/:id' element={<Verification />}></Route>

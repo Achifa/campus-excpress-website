@@ -29,7 +29,7 @@ const Thumbnail = ({product_id}) => {
 
     return ( 
         <>
-            <img onClick={e => navigate(`/product/${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '5px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />
+            <img onClick={e => navigate(`/product?product_id=${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '5px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />
         </>
      );
 }

@@ -7,6 +7,7 @@ const {
     send_email 
 } = require("../Functions/send_mssgs");
 const { get_chats, get_mssgs, send_mssgs, get_chat_rooms } = require("../controller/seller/chats");
+const { delete_product } = require("../controller/seller/delete");
 
 const { 
     overview, 
@@ -69,7 +70,7 @@ seller_route.post('/seller/product-upload', parser, upload_product);
 // @@UPLOADS
 
 // @@ DELETE 
-seller_route.delete('/seller/product-delete', delete_cart);
+seller_route.delete('/seller/product-delete', delete_product);
 // @@DELETE 
 
 // @@ GET REQUEST

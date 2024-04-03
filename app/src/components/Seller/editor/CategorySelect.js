@@ -7,6 +7,7 @@ const CategorySelect = ({edit,productCategory}) => {
     useEffect(() => { 
         setCategoriesList(items.items.category)
     },[])
+   
     
     return ( 
         <>

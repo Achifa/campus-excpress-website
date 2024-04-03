@@ -35,7 +35,7 @@ function inputs(item, name, element, file) {
         let check = item.length < 1 ? {err: `sorry ${name} cannot be empty`, bool: false, name: name, element: element} : item < 50 ? {err: `sorry price can"t be less than fifty naira`, bool: false, name: name, element: element} : {err: ``, bool: true, name: name, element: element}
         return check;
     }else{
-        let check = file.length < 1 ? {err: `sorry image samples cannot be empty`, bool: false, name: name, element: element}  : file.length < 2 ? {err: `sorry image samples must be at least 2`, bool: false, name: name, element: element} : {err: ``, bool: true, name: name, element: element}
+        let check = file.length < 1 ? {err: `sorry image samples cannot be empty`, bool: false, name: name, element: element}  : file.length < 1 ? {err: `sorry image samples must be at least 1`, bool: false, name: name, element: element} : {err: ``, bool: true, name: name, element: element}
         return check;
     } 
 }

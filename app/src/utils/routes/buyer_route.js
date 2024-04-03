@@ -38,7 +38,7 @@ export let buyer_route = [
 
     { path: '/favourites', component: <SavedItem />},
 
-    { path: '/product/:id', component: <ProductPage />}, 
+    { path: '/product', component: <ProductPage />}, 
 
     { path: '/checkout/:id', component: <Checkout />},
     { path: '/checkout/:id/:id', component: <Checkout />},

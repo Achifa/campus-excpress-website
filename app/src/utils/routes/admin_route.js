@@ -9,7 +9,7 @@ import AdminAds from '../../pages/Admin/Ads';
  
 
 export let admin_route = [
-    { path: '/admin/', component: <AdminDashboard />},
+    { path: '/admin', component: <AdminDashboard />},
     { path: '/admin/users', component: <AdminUser />},
     { path: '/admin/orders', component: <AdminOrder />},
     { path: '/admin/inbox', component: <AdminInbox />},

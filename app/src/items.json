@@ -5,7 +5,7 @@
             {
                 "Food": 
                 [
-                    "Meat","Fruits","Vegetables","Oil","Grains","Legumes","Junk Food/Snaks","Sea Food","Processed Food","Beverages"
+                    "Create Custom Item","Meat","Fruits","Vegetables","Oil","Grains","Legumes","Junk Food/Snaks","Sea Food","Processed Food","Beverages"
                 ],
                 "img": "/app/src/assets/food-market-purchasing-svgrepo-com.svg"
             },
@@ -13,7 +13,7 @@
             {
                 "Electronics":
                 [
-                    "Audio/Musical Equipment","Photo/Video Camera","Printer/Scanners","Video Game Console","Video Games","T.V/DVD","MIFI/Routers"
+                    "Create Custom Item","Audio/Musical Equipment","Photo/Video Camera","Printer/Scanners","Video Game Console","Video Games","T.V/DVD","MIFI/Routers"
                 ],
                 "img": ""
             },
@@ -21,15 +21,18 @@
             {
                 "Fashion": 
                 [
-                    "Bags","Clothing","Jewelry","Foot Wear","Watch"
+                    "Create Custom Item","Bags","Clothing","Jewelry","Foot Wear","Watch"
                 ],
+                "FootWear":  ["<==Create Custom Sub Category ==>","Sandals","Shoes","Cotina","Palms","Boots","Slippers"],
+                "ClothingMale": ["<==Create Custom Sub Category ==>","Underwear","Tops","Trousees","Nicker/Shorts","Sports-wear","Swim-suit"],
+                "ClothingFemale": ["<==Create Custom Sub Category ==>","Underwear","Tops","Trousees","Nicker/Shorts","Sports-wear","Gown","Skirt","Swim-suit"],
                 "img": ""
             },
 
             {
                 "Health/Beauty": 
                 [
-                    "Bath/Body","Hair Care","Skin Care","Wig/Weavon","Fragrance","Make-Up","Tool Accessories","Sexual Wellness"
+                    "Create Custom Item","Bath/Body","Hair Care","Skin Care","Wig/Weavon","Fragrance","Make-Up","Tool Accessories","Sexual Wellness"
                 ],
                 "img": ""
             },
@@ -37,7 +40,7 @@
             {
                 "Mobile Phones": 
                 [
-                    "Android","Samsung","IOS","Windows","BalckBerry","Symbian"
+                    "Create Custom Item","Android","Samsung","IOS","Windows","BalckBerry","Symbian"
                 ],
                 "img": ""
             },
@@ -46,7 +49,7 @@
             {
                 "Tablets": 
                 [
-                    "Android","Samsung","IOS","Windows","BalckBerry"
+                    "Create Custom Item","Android","Samsung","IOS","Windows","BalckBerry"
                 ],
                 "img": ""
             },
@@ -54,7 +57,7 @@
             {
                 "Laptops/Desktops": 
                 [
-                    "Windows","Mac","Chrome","Ubuntu","Linux"
+                    "Create Custom Item","Windows","Mac","Chrome","Ubuntu","Linux"
                 ],
                 "img": ""
             },
@@ -62,7 +65,7 @@
             {
                 "Laptops/Desktops Accessories": 
                 [
-                    "Monitor","Speakers","C.P.U","Flash Drive","Hard Disk/SSD","Mouse","Keyboard","Charger/Cords"
+                    "Create Custom Item","Monitor","Speakers","C.P.U","Flash Drive","Hard Disk/SSD","Mouse","Keyboard","Charger/Cords"
                 ],
                 "img": ""
             },
@@ -70,7 +73,7 @@
             {
                 "Phone/Tablet Accessories": 
                 [
-                    "Ear Piece","Charger","Memory Card","Battery","Sim Card","Phone Case","OTG","Air Pod","Power Bank"
+                    "Create Custom Item","Ear Piece","Charger","Memory Card","Battery","Sim Card","Phone Case","OTG","Air Pod","Power Bank"
                 ],
                 "img": ""
             },
@@ -78,7 +81,7 @@
             {
                 "Pets": 
                 [
-                    "Cat","Dog","Bird","Rabbit","Turtle","Snakes","Mice","Parrot","Chicken"
+                    "Create Custom Item","Cat","Dog","Bird","Rabbit","Turtle","Snakes","Mice","Parrot","Chicken"
                 ],
                 "img": ""
             },
@@ -86,7 +89,7 @@
             {
                 "Vehicle": 
                 [
-                    "SUV","Sedan","Mini Van","Truck","Bus","Tricycle","Bicycle","MotorCycle","Van"
+                    "Create Custom Item","SUV","Sedan","Mini Van","Truck","Bus","Tricycle","Bicycle","MotorCycle","Van"
                 ],
                 "img": ""
             },
@@ -96,7 +99,7 @@
             {
                 "Lodge/Apartments": 
                 [
-                    "Need RoomMate","Single Occupant","Multi Occupant","Apartments"
+                    "Create Custom Item","Need RoomMate","Single Occupant","Multi Occupant","Apartments"
                 ],
                 "img": ""
             },
@@ -104,7 +107,7 @@
             {
                 "Furnitures": 
                 [
-                    "Chair","Table","CupBoard","Shelve","Wardrobe","Stool","Bench","Bed"
+                    "Create Custom Item","Chair","Table","CupBoard","Shelve","Wardrobe","Stool","Bench","Bed"
                 ],
                 "img": ""
             },
@@ -112,7 +115,7 @@
             {
                 "Appliances": 
                 [
-                    "Gas","Stove","Generator","Electric Cooker","Blender","Washing Machine","Refridgerator","Kettle","Fan","Bulb","Stabilizer","Toaster","Vacuum Cleaner","Dish Washer","Micro Wave","Oven","Mixer"
+                    "Create Custom Item","Gas","Stove","Generator","Electric Cooker","Blender","Washing Machine","Refridgerator","Kettle","Fan","Bulb","Stabilizer","Toaster","Vacuum Cleaner","Dish Washer","Micro Wave","Oven","Mixer"
                 ],
                 "img": ""
             },
@@ -120,7 +123,7 @@
             {
                 "Utensils": 
                 [
-                    "Plate","Pot","Spoon/Fork","Knife","Tray","Basket","Cup"
+                    "Create Custom Item","Plate","Pot","Spoon/Fork","Knife","Tray","Basket","Cup"
                 ],
                 "img": ""
             }

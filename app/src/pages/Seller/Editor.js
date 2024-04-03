@@ -21,40 +21,48 @@ import UploadBtn from '../../components/Seller/editor/Button';
 // import  uploadForm  from '../../Functions/upload';
 // import { uploadForm } from '../Functions/upload';
 import { validate_inputs } from '../../Functions/validation';
-import { uploadForm } from '../../Functions/upload';
+import { handleFormUpdate, handleFormUpload} from '../../Functions/upload';
 import SellerLayout from '../../layout/Seller'
 import usePost from '../../hooks/usePost';
 import { GetItem, GetItemImages, GetProductThumbnail } from '../../api/buyer/get';
+import EditorVideo from '../../components/Seller/editor/EditorVideo';
 
 const Editor = () => {
 
     let location = useLocation();
     let navigate = useNavigate();
 
-    
-
     let book = []
- 
-    let [update, setUpdate] = useState(false);
+    
+    let gender = useRef('')
+
+    let [gender_state, set_gender_state] = useState('')
     let [edit,setEdit] = useState('');
     let [screenWidth, setScreenWidth] = useState('')
 
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([]) 
     let [img_list, setimg_list] = useState([])
+    
+    let [descriptionActive, setDescriptionActive] = useState(true)
+    let [update, setUpdate] = useState(false);
+    let [videoActive, setVideoActive] = useState(true)
 
     const searchParams = new URLSearchParams(window.location.search);
-
-
-
     function closeOverlay() {let overlay = document.querySelector('.overlay');overlay.onclick = e => {overlay.removeAttribute('id')}}
 
-    let gender = useRef('')
-    let [gender_state, set_gender_state] = useState('')
+   
 
     useEffect(() => {
+        if(window.localStorage.getItem('sub-categories') === null || window.localStorage.getItem('sub-categories') === 'null' || window.localStorage.getItem('sub-categories') === '' || window.localStorage.getItem('sub-categories') === undefined){
+            window.localStorage.setItem('sub-categories', JSON.stringify(items.items.category))
+        }
+
+    },[])
+
+    useEffect(() => {
+        
         let product_id = searchParams.get('product_id'); 
-        // alert(product_id)
         if(product_id === null){
             setUpdate(false)
         }else{
@@ -68,7 +76,7 @@ const Editor = () => {
 
             let product_id = searchParams.get('product_id'); // price_descending
 
-            if(product_id !== ''){
+            if(product_id !== null){
                 let result = await GetItem([product_id]);
 
                 productCategory(result[0]?.category) 
@@ -120,6 +128,23 @@ const Editor = () => {
         subCategory.current = (data); 
         set_subCategory_state(data);
         window.localStorage.setItem('draft_sub_category', data)
+        if(data === 'Create Custom Item'){
+            let value = prompt('Insert Custom Sub Category')
+            if(value !== ''){
+                subCategory.current = value;
+                set_subCategory_state(value);
+                categoriesList.map(item => {
+                    if(Object.keys(item)[0] === category_state){
+                        cType_state === 'Foot Wear' ? item["FootWear"].push(value) : gender === 'Male' ? item["ClothingMale"].push(value) : item["ClothingFemale"].push(value)
+                        window.localStorage.setItem('sub-categories', JSON.stringify(categoriesList))
+                        setCategoriesList(categoriesList)
+                    }
+                })
+                window.localStorage.setItem('draft_sub_category', value);
+            }else{
+                window.localStorage.removeItem('draft_sub_category')
+            }
+        }
     }
 
     let locale = useRef('')
@@ -161,6 +186,8 @@ const Editor = () => {
         category.current = (data); 
         set_category_state(data)
         window.localStorage.setItem('draft_category', data)
+
+        
     }
     
     let cType = useRef('')
@@ -169,6 +196,28 @@ const Editor = () => {
         cType.current = (data); 
         set_cType_state(data)
         window.localStorage.setItem('draft_c_type', data)
+
+        if(data === 'Create Custom Item'){
+            let value = prompt('Insert Custom Sub Category')
+            if(value !== ''){
+                cType.current = value;
+                set_cType_state(value);
+
+                categoriesList.map(item => {
+                    if(Object.keys(item)[0] === category_state){
+                        item[category_state].push(value)
+                        window.localStorage.setItem('sub-categories', JSON.stringify(categoriesList))
+                        setCategoriesList(categoriesList)
+                    }
+                })
+
+                window.localStorage.setItem('draft_c_type', value);
+
+            }else{
+                window.localStorage.removeItem('draft_c_type')
+            }
+
+        }
     }
 
     let price = useRef('')
@@ -207,7 +256,7 @@ const Editor = () => {
         productSubCategory('')
         productLocale('')
         productCondition('')
-   }
+    }
 
 
     useEffect(() => {
@@ -235,7 +284,7 @@ const Editor = () => {
         }
        
     }, [])
-    useEffect(() => {setCategoriesList(items.items.category)},[])
+    useEffect(() => {setCategoriesList(JSON.parse(window.localStorage.getItem('sub-categories')))},[])
     // useEffect(() => {setAllInputsToNull('')},[category_state])
     useEffect(() => {setScreenWidth(window.innerWidth)},[])
     useEffect(() => {let type = categoriesList.filter(item => Object.keys(item)[0] === category.current)[0]; if(type){setTypeList(type[category_state])}},[categoriesList,category_state])
@@ -244,13 +293,14 @@ const Editor = () => {
         book = []
         // alert()
         let inputs = [...document.querySelectorAll('input')]
-        let textareas = [...document.querySelectorAll('textarea')]
+        let textareas = descriptionActive ? [...document.querySelectorAll('textarea')] : [document.querySelector('.seller-shop-title')]
         let selects = [...document.querySelectorAll('select')]
         // let allFields = [...inputs,...textareas,...selects]
 
         let result1 = validate_inputs('input', inputs, photos.current)
         let result2 = validate_inputs('textarea', textareas)
         let result3 = validate_inputs('select', selects)
+
         let response = [...result1, ...result2, ...result3]
         response.map((item) => {
             if(item !== -1){
@@ -289,25 +339,48 @@ const Editor = () => {
             //upload for here
 
             
-            uploadForm(
-                { 
-                    title: title.current,
-                    description: description.current,
-                    category: category.current,
-                    price: price.current,
-                    photos: photos.current,
-                    seller_id : seller_id
-                }, 
-                
-                {
-                    cType: cType_state,
-                    locale: locale_state,
-                    subCategory: window.localStorage.getItem('draft_sub_category'),
-                    gender: window.localStorage.getItem('draft_gender'),
-                    condition: condition_state,
-                    size: window.localStorage.getItem('draft_size')
-                }
-            )
+            if(update){
+                handleFormUpdate(
+                    { 
+                        title: title.current,
+                        description: descriptionActive ? description.current : '',
+                        category: category.current,
+                        price: price.current,
+                        photos: photos.current,
+                        seller_id: seller_id,
+                        product_id : searchParams.get('product_id')
+                    }, 
+                    
+                    {
+                        cType: cType_state,
+                        locale: locale_state,
+                        subCategory: window.localStorage.getItem('draft_sub_category'),
+                        gender: window.localStorage.getItem('draft_gender'),
+                        condition: condition_state,
+                        size: window.localStorage.getItem('draft_size')
+                    }
+                )
+            }else{
+                handleFormUpload(
+                    { 
+                        title: title.current,
+                        description: description.current,
+                        category: category.current,
+                        price: price.current,
+                        photos: photos.current,
+                        seller_id : seller_id
+                    }, 
+                    
+                    {
+                        cType: cType_state,
+                        locale: locale_state,
+                        subCategory: window.localStorage.getItem('draft_sub_category'),
+                        gender: window.localStorage.getItem('draft_gender'),
+                        condition: condition_state,
+                        size: window.localStorage.getItem('draft_size')
+                    }
+                )
+            }
 
         }
 
@@ -366,7 +439,7 @@ const Editor = () => {
 
                                                     ?
 
-                                                    <SubCategory edit={edit} gender={gender_state} cType={cType_state} productSubCategory={productSubCategory} />
+                                                    <SubCategory subCategory_state={subCategory_state} categoriesList={categoriesList} category={category_state} edit={edit} gender={gender_state} cType={cType_state} productSubCategory={productSubCategory} />
 
                                                     :
 
@@ -435,10 +508,41 @@ const Editor = () => {
                             <div className="seller-shop-description" style={{textAlign: 'left', justifyContent: 'left', height: '100%'}}>
                                 
                                 <EditorTitle productTitle={productTitle}  edit={edit} />
-                                
-                                <EditorDescription productDescription={productDescription} edit={edit} />
-
+                                <br />
                                 <EditorPhotoStore category={category_state} edit={edit} productPhotos={productPhotos} photos={img_list} deletePhoto={deletePhoto} />
+                                
+                                <div className="input-cnt" style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '10px 0 10px 0'}}>
+                                    <section style={{display: 'flex', alignItems: 'center'}}>
+                                        <input style={{
+                                            height: '20px',
+                                            width: '20px'
+                                        }} defaultChecked onInput={e => setDescriptionActive(!descriptionActive)} type="checkbox" name="" id="" />
+                                        &nbsp;
+                                        &nbsp;
+                                        <span style={{fontSize: 'small', fontWeight: '500', color: 'orangered'}}>Do you have a description for this item.</span>
+
+                                    </section>
+                                    <section style={{width: '100%', opacity: descriptionActive ? 1 : .5, pointerEvents: descriptionActive ? 'all' : 'none'}}>
+                                        <EditorDescription productDescription={productDescription} edit={edit} descriptionActive={descriptionActive} />   
+                                    </section>
+                                </div> 
+
+
+                                {/* <div className="input-cnt" style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '10px 0 10px 0'}}>
+                                    <section style={{display: 'flex', alignItems: 'center'}}>
+                                        <input style={{
+                                            height: '20px',
+                                            width: '20px'
+                                        }} defaultChecked onInput={e => setDescriptionActive(!videoActive)} type="checkbox" name="" id="" />
+                                        &nbsp;
+                                        &nbsp;
+                                        <span style={{fontSize: 'small', fontWeight: '500', color: 'orangered'}}>Do you have a video sample for this item.</span>
+
+                                    </section>
+                                    <section style={{width: '100%', opacity: videoActive ? 1 : .5, pointerEvents: videoActive ? 'all' : 'none'}}>
+                                        <EditorVideo productDescription={productDescription} edit={edit} videoActive={videoActive} />   
+                                    </section>
+                                </div>  */}
 
                             </div>
 

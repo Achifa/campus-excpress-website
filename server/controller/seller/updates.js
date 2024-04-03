@@ -29,21 +29,24 @@ function update_seller_profile(req,res) {
 
 function update_product(req,res) {
 
-    let {
-        title,description,category,price,photos,seller_id,product_id,others
-    } = req.body;
+    let {constantData, dynamicData}= req.body;
 
-    console.log(product_id)
+    Object.keys(dynamicData).forEach(key => {
+        if (dynamicData[key] === '') {
+          delete dynamicData[key];
+        }
+    });
 
     let date = new Date();
-    let replacedDescription = description.replace(/'/g, '"');;
-    let replacedTitle = title.replace(/'/g, '"');
+
+    let replacedDescription = constantData.description.replace(/'/g, '"');
+    let replacedTitle = constantData.title.replace(/'/g, '"');
     let book = []
     let imageId = shortId.generate();
 
     new Promise((resolve, reject) => {
         NeonDB.then((pool) => 
-            pool.query(`UPDATE seller_shop set date='${date}', title='${replacedTitle}', category='${category}', others='${others}', price='${price}', description='${replacedDescription}' WHERE product_id = '${product_id}'`)
+            pool.query(`UPDATE seller_shop set date='${date}', title='${replacedTitle}', category='${constantData.category}', others='${JSON.stringify(dynamicData)}', price='${constantData.price}', description='${replacedDescription}' WHERE product_id = '${constantData.product_id}'`)
             .then(result => {
                 result.rowCount > 0 ? resolve(true) : reject(false)
             })
@@ -57,7 +60,7 @@ function update_product(req,res) {
         response
         ?
         NeonDB.then((pool) => 
-            pool.query(`DELETE FROM product_photo WHERE product_id = '${product_id}'`)
+            pool.query(`DELETE FROM product_photo WHERE product_id = '${constantData.product_id}'`)
             .then(result => result.rowCount > 0 ? (true) : (false))
             .catch(err => console.log(err))
         )  
@@ -66,14 +69,14 @@ function update_product(req,res) {
     )
     .then(async(response) => {
        
-        photos.map(item => 
+        constantData.photos.map(item => 
             NeonDB.then((pool) => 
-                pool.query(`insert into product_photo(id,product_id,seller_id,file,image_id) values(DEFAULT, '${product_id}', '${seller_id}', '${item}', '${imageId}')`)
+                pool.query(`insert into product_photo(id,product_id,seller_id,file,image_id) values(DEFAULT, '${constantData.product_id}', '${constantData.seller_id}', '${item}', '${imageId}')`)
                 .then(result => {
                     console.log('jbkjbk',result)
 
                     result.rowCount > 0 ? book.push(true) : book.push(false)
-                    if(book.length === photos.length){
+                    if(book.length === constantData.photos.length){
                         res.send(true)
                     }
                 })
@@ -87,7 +90,6 @@ function update_product(req,res) {
 
 
 }
-
 
 async function update_pwd(req,res) {
     let {seller_id, pwd} = req.body;
@@ -104,7 +106,6 @@ async function update_pwd(req,res) {
     .catch(err => console.log(err))
 
 }
-
 
 async function reset_pwd(req,res){
 

@@ -2,7 +2,7 @@ import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
 import { useEffect, useState } from 'react'
 import phn from '../../../assets/phone-rounded-svgrepo-com.svg'
 import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
-import tweeterSvg from '../../../assets/twitter-svgrepo-com (2).svg'
+import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
 import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -60,22 +60,25 @@ const Product = ({product_id}) => {
     let [role, setRole] = useState(0)
 
     let location = useLocation()
+    const searchParams = new URLSearchParams(window.location.search);
 
     useEffect(() => {
-        if(location.search !== ''){
+        if(searchParams.has('seller')){
             setRole(1)
         }else{
             setRole(0)
         }
     }, [location])
 
+
+
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
-        
+        let product_id = searchParams.get('product_id')
         try {
             async function getData(params) {
-                let result = await GetItem(product_id)
+                let result = await GetItem([product_id])
                 setItem(result[0])
                 // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
                 overlay.removeAttribute('id')
@@ -146,6 +149,26 @@ const Product = ({product_id}) => {
     }, [Save])
 
     let dispatch = useDispatch()
+
+    function handleDelete(seller_id, product_id) {
+        try {
+            //overlay.setAttribute('id', 'overlay');
+            
+            DeleteItem(seller_id, product_id)
+            .then((result) => {
+                if(result){
+                    navigate('/seller.shop')
+                }
+            })
+            .catch((error) => {
+                
+                console.log('Error:', error.message); 
+            }) 
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
  
     // function AddToCart(e,product_id) {
@@ -290,7 +313,7 @@ const Product = ({product_id}) => {
                             <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, borderRadius: '5px', backgroundRepeat: 'no-repeat', backgroundSize: '200px 200px', backgroundPosition: 'center'}}>
                                 {/* <img src={activeImg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" /> */}
                             </div>
-                            <ItemImgs />
+                            <ItemImgs product_id={searchParams.get('product_id')} />
                         </div>
 
                         <div id="right" style={{position: 'relative'}}>
@@ -379,9 +402,7 @@ const Product = ({product_id}) => {
                                 marginTop: '20px'
                             }}>
                             {/* onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} */}
-                                <button onClick={
-                                    SendMssg
-                                } style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => {role ?  handleDelete(searchParams.get('seller'), item.product_id) : SendMssg()}} style={{height: '50px', width: role ? '100%' : '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0
                                         ?
@@ -400,13 +421,18 @@ const Product = ({product_id}) => {
                                         
                                         </>
                                         :
-                                        'Delete'
+                                        <>
+                                            <span>Delete</span>
+
+                                            <span>
+                                                <img src={deleteSvg} style={{height: '20px', width: '20px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                            </span>
+                                        </>
                                     }
                                 </button>
-                                <Link to={`tel:+234${phone}`} style={{height: '50px', width: '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'space-evenly', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
+                                <Link to={`tel:+234${phone}`} style={{height: '50px', width: '45%', borderRadius: '5px', display: role ? 'none' : 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'space-evenly', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
                                     {
-                                        role === 0 
-                                        ?
+                                        
                                         <>
                                             <span>
                                                 <img src={phn} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
@@ -416,8 +442,7 @@ const Product = ({product_id}) => {
                                             </span>
                                         </>  
 
-                                        :
-                                        'Edit'
+                                        
                                     }
                                 </Link>
                             </div>

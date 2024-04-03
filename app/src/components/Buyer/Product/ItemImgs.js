@@ -6,7 +6,7 @@ import imgSvg from '../../../assets/image-svgrepo-com (4).svg';
 import { setActiveImgTo } from "../../../redux/buyer_store/ActiveImg";
 import { GetItemImages } from "../../../api/buyer/get";
 
-const ItemImgs = () => {
+const ItemImgs = ({product_id}) => {
     let location = useLocation()
     let dispatch = useDispatch()
     let [img, set_img] = useState(imgSvg);
@@ -19,7 +19,7 @@ const ItemImgs = () => {
     useEffect(() => {
         try {
             async function getData(params) {
-                let result = await GetItemImages(location.pathname.split('/')[2])
+                let result = await GetItemImages(product_id)
                 dispatch(setItemImagesTo(result));
                 setImageList(result)
             }

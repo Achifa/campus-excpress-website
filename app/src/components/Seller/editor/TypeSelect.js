@@ -16,9 +16,9 @@ const TypeSelect = ({edit,category,productType,typeList}) => {
                         typeList.map((item, index) => 
                             item === window.localStorage.getItem('draft_c_type')
                             ? 
-                            <option selected key={index} value={item}>{item}</option>
+                            <option style={{textTransform: 'capitalize'}} selected key={index} value={item}>{item}</option>
                             :
-                            <option key={index} value={item}>{item}</option>
+                            <option style={{textTransform: 'capitalize'}} key={index} value={item}>{item}</option>
                         )
                     }
                 </select>

@@ -2,10 +2,10 @@ import axios from 'axios';
 
 
 let u1 = `http://localhost:2222`;
-let u4 = `http://192.168.184.146:2222`;
+let u4 = `http://192.168.95.146:2222`;
 let u2 = `https://ce-server.vercel.app`; 
 
-let plug = u2; 
+let plug = u4 
  
 const source = axios.CancelToken.source();
 
@@ -146,12 +146,11 @@ export function uploadItem(constantData, dynamicData) {
     })
 }
 
-export function updateItem(title,description,category,price,photos,seller_id,product_id,others) {
+export function updateItem(constantData, dynamicData) {
     source.cancel('new request')
     return new Promise((resolve, reject) => {
         axios.post(`${plug}/seller/product-update`, {
-            title,description,category,price,photos,seller_id,product_id,others
-
+            constantData, dynamicData
         })
         .then((result) => { 
             resolve(result)
