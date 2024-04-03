@@ -27,38 +27,55 @@ import {
 import FloatingMenu from "../Header/FloatingMenu";
 import Card from "./Card";
 import { GetItems } from "../../../api/buyer/get";
+import Filter from "../Header/Filter";
 
 const CardCnt = () => {
     let {Cart} = useSelector(s => s.Cart)
     let {Save} = useSelector(s => s.Save)
-    let {category} = useSelector(s => s.Category)
 
-    let [list, setList] = useState([]) 
-    let [right, setright] = useState(0)
-    let [top, settop] = useState(0)
-    let [visible, setvisible] = useState('none')
-    let [selectedCategory, setSelectedCategory] = useState('trends')
+    let [category, setcategory] = useState('')
+    let [subCategory, setsubCategory] = useState('')
+    let [condition, setcondition] = useState('')
+    let [state, setstate] = useState('')
+    let [campus, setcampus] = useState('')
+
     let [selectedOption, setSelectedOption] = useState('')
-
-
     let [screenWidth, setScreenWidth] = useState(0)
+
     let [items, setItems] = useState([]);
-    let navigate = useNavigate()
     let [cards, setCards] = useState([]);
+    let [price, setprice] = useState([])
 
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
-        setSelectedCategory(category)
     }, [])
+
+    // function sort(type) {
+    //     const compareItems = (a, b) => {
+    //         if(type === 'priceL'){
+    //             return a.price - b.price
+    //         }else{ 
+    //             return b.price - a.price
+    //         }
+    //     }
+    //         // Sorting the array by date (oldest to newest)
+    //     const sortedArray = items.sort(compareItems);
+    //     console.log(sortedArray)
+    //     // Logging the sorted array
+    //     setCards(
+    //         sortedArray.map((item, index) => 
+    //             <Card index={index} item={item} />    
+    //         )
+    //     );
+    // }
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
-        //overlay.setAttribute('id', 'overlay');
+        overlay.setAttribute('id', 'overlay');
         try {
             async function fetchData() {
-                let result = await GetItems(selectedCategory);
-                console.log(category)
+                let result = await GetItems('trends');
                 setItems(result)
                 setCards(
                     result?.map((item, index) => 
@@ -72,62 +89,115 @@ const CardCnt = () => {
             console.log(error)
         }
 
-    }, [category])
-    function getSelectedOption(data) {setSelectedOption(data)}
+    }, [])
+    
 
-    useEffect(() => {
-        let list = [ {text: 'Price: Low to High', type: 'priceL'}, {text: 'Price: High to Low', type: 'priceH'}]
-
+    function applyFilter() {
         let overlay = document.querySelector('.overlay');
-        //overlay.setAttribute('id', 'overlay');
-
-        function sort(type) {
-            const compareItems = (a, b) => {
-                if(type === 'priceL'){
-                    return a.price - b.price
-                }else{ 
-                    return b.price - a.price
+        overlay.setAttribute('id', 'overlay');
+        try {
+            new Promise((resolve, reject) => {
+                if(category !== ''){
+                    let response = items.filter(item => {
+                        return(
+                            item.category === category
+                        )
+                    })
+                    resolve(response)
+                }else{
+                    resolve(items)
                 }
-            }
-                // Sorting the array by date (oldest to newest)
-            const sortedArray = items.sort(compareItems);
-            console.log(sortedArray)
-            // Logging the sorted array
-            setCards(
-                sortedArray.map((item, index) => 
-                    <Card index={index} item={item} />    
+            })
+            .then((result) => {
+                if(condition !==''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.condition === condition
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                if(price.length !== 0){
+                    let response = result.filter(item => {
+                        return(
+                            item.price > price[0] && item.price < price[1] 
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                if(state !== ''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.locale.split(',')[0] === state
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            }).then((result) => {
+                if(campus !== ''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.locale.split(',').splice(1,2).join(',') === campus
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                setCards(
+                    result?.map((item, index) => 
+                        <Card index={index} item={item} />
+                    )
                 )
-            );
-            overlay.removeAttribute('id')
-        }
-        let type = list.filter(item => item.text.toLowerCase() === selectedOption)[0]?.type
-        sort(type) 
-
-    }, [selectedOption])
-   
-    function openFloatingMenu(e) {
-        if(visible === 'none')
-            {
-            let list = [{text: 'Price: Low to High', type: 'priceL'}, {text: 'Price: High to Low', price: 'priceH'}]
-
-            setList(list)
-            setvisible('flex')
-            let rect = e.target.getBoundingClientRect();
-
-            let r = rect.right;
-            let t = rect.top;
-            setright(r)
-            settop(t)
-            setTimeout(() => {
-                setvisible('none')
-            }, 8000);
-        }else{
-        setvisible('none')
-
+                document.querySelector('.filter-apply-btn').addEventListener('click', applyFilter()) 
+            })
+            overlay.removeAttribute('id');
+            
+        } catch (error) {
+            console.log(error)
         }
     }
 
-    function setDisplay(data) {setvisible(data)}
+    useEffect(() => {
+        document.querySelector('.filter-apply-btn').addEventListener('click', applyFilter())
+    }, [])
+    
+
+    function updateCategory(data) {
+        setcategory(data)
+    }
+
+    function updateSubCategory(data) {
+        setsubCategory(data)
+    }
+
+    function updateCondition(data) {
+        setcondition(data)
+    }
+
+    function updateState(data) {
+        setstate(data)
+    }
+
+    function updateCampus(data) {
+        setcampus(data)
+    }
+
+    function updatePrice(data) {
+        setprice(data)
+    }
 
 
     return ( 
@@ -136,6 +206,21 @@ const CardCnt = () => {
                 <div className="loader">
                 </div>
             </div>
+
+            <div className="filter-overlay">
+                <Filter 
+                    updateCampus={updateCampus} 
+                    updateCondition={updateCondition} 
+                    updatePrice={updatePrice} 
+                    updateCategory={updateCategory} 
+                    updateState={updateState}
+                    updateSubCategory={updateSubCategory} 
+                    category={category}
+                    state={state} 
+                />
+
+            </div>
+          
             <div className="buyer-card-cnt" style={{
                 borderRadius: '1.5px',
                 height: 'fit-content', 
@@ -152,10 +237,7 @@ const CardCnt = () => {
                     </div>
                 </div> */}
 
-                {
-                    <FloatingMenu getSelectedOption={getSelectedOption} setDisplay={setDisplay} list={list} visible={visible} top={top} right={right} />
-                }
-
+                
                 { 
                     items?.length > 0
                     ?

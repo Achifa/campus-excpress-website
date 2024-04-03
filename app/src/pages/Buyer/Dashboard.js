@@ -5,6 +5,7 @@ import '../../styles/Buyer/medium-screen.css'
 import '../../styles/Buyer/small-screen.css'
 import '../../styles/Buyer/large-screen.css'
 import '../../styles/Buyer/buy_now.css'
+import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/Dashboard/Lodge'
 
 import BuyerLayout from '../../layout/Buyer'
+import Filter from "../../components/Buyer/Header/Filter";
  
 const Dashboard = () => {
 
@@ -37,6 +39,7 @@ const Dashboard = () => {
                     height: 'fit-content',
                     background: '#fff',
                 }}>  
+                
                     {/*<BuyerAside />*/} 
                     
                 

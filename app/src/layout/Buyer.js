@@ -4,7 +4,7 @@ import Header from '../components/Buyer/Header/Header'
 const BuyerLayout = ({ children }) => {
     return (
         <>
-            <Header />
+            <Header  />
             
             {children}
         </>
