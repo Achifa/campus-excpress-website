@@ -523,7 +523,14 @@ const Editor = () => {
 
                                     </section>
                                     <section style={{width: '100%', opacity: descriptionActive ? 1 : .5, pointerEvents: descriptionActive ? 'all' : 'none'}}>
-                                        <EditorDescription productDescription={productDescription} edit={edit} descriptionActive={descriptionActive} />   
+                                        
+                                        {
+                                            descriptionActive
+                                            ?
+                                            <EditorDescription productDescription={productDescription} edit={edit} descriptionActive={descriptionActive} />   
+                                            :
+                                            ''
+                                        }
                                     </section>
                                 </div> 
 
