@@ -46,19 +46,11 @@ const CardCnt = () => {
     let [state, setstate] = useState('')
     let [campus, setcampus] = useState('')
 
-    let [selectedOption, setSelectedOption] = useState('')
-    let [screenWidth, setScreenWidth] = useState(0)
-
     let [items, setItems] = useState([]);
     let [cards, setCards] = useState([]);
     
     let [priceActive, setpriceActive] = useState(false)
     let [price, setprice] = useState([])
-
-    useEffect(() => {
-        let width = window.innerWidth;
-        setScreenWidth(width)
-    }, [])
 
     // function sort(type) {
     //     const compareItems = (a, b) => {
@@ -122,7 +114,7 @@ const CardCnt = () => {
         overlay.setAttribute('id', 'overlay');
         try {
             new Promise((resolve, reject) => {
-                if(category !== ''){
+                if(category !== '' && categoryActive){
                     let response = items.filter(item => {
                         return(
                             item.category === category
@@ -134,7 +126,7 @@ const CardCnt = () => {
                 }
             })
             .then((result) => {
-                if(condition !==''){
+                if(condition !=='' && conditionActive){
                     let response = result.filter(item => {
                         return(
                             JSON.parse(item.others)?.condition === condition
@@ -146,7 +138,7 @@ const CardCnt = () => {
                 }
             })
             .then((result) => {
-                if(price.length !== 0){
+                if(price.length !== 0 && priceActive){
                     let response = result.filter(item => {
                         return(
                             item.price > price[0] && item.price < price[1] 
@@ -158,7 +150,7 @@ const CardCnt = () => {
                 }
             })
             .then((result) => {
-                if(state !== ''){
+                if(state !== '' && localeActive){
                     let response = result.filter(item => {
                         return(
                             JSON.parse(item.others)?.locale.split(',')[0] === state
@@ -169,7 +161,7 @@ const CardCnt = () => {
                     return(result)
                 }
             }).then((result) => {
-                if(campus !== ''){
+                if(campus !== '' && localeActive){
                     let response = result.filter(item => {
                         return(
                             JSON.parse(item.others)?.locale.split(',').splice(1,2).join(',') === campus
