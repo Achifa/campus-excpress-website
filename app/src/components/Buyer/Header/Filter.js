@@ -127,9 +127,9 @@ export default function Filter({
                     {/* <br /> */}
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateCategoryActive(!activeData.categoryActive)} name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateCategoryActive(!activeData.categoryActive)} name="category" id="category" />
                             &nbsp;
-                            <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Category</label>
+                            <label htmlFor="category" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Category</label>
                         </div>
                         <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => updateCategory(e.target.value)} id="">
                             <option value={''}>Select A Category</option>
@@ -162,9 +162,9 @@ export default function Filter({
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateConditionActive(!activeData.conditionActive)} name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateConditionActive(!activeData.conditionActive)} name="condition" id="condition" />
                             &nbsp;
-                            <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Condition</label>
+                            <label htmlFor="condition" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Condition</label>
                         </div>
                         <select onInput={e => updateCondition(e.target.value)}  style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
                             <option value={''}>Select Condition</option>
@@ -179,9 +179,9 @@ export default function Filter({
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updatePriceActive(!activeData.priceActive)} name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updatePriceActive(!activeData.priceActive)} name="price" id="price" />
                             &nbsp;
-                            <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Price Range</label>
+                            <label htmlFor="price" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Price Range</label>
                         </div>
                         <RangeSlider min={0} max={1000000} step={1} onInput={e => {
                             setMinPrice(e[0]); 
@@ -200,9 +200,9 @@ export default function Filter({
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateLocationActive(!activeData.localeActive)} name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateLocationActive(!activeData.localeActive)} name="locale" id="locale" />
                             &nbsp;
-                            <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Location</label>
+                            <label htmlFor="locale" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Location</label>
                         </div>
                         <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => updateState(e.target.value)}>
                             <option value={''}>Select State</option>

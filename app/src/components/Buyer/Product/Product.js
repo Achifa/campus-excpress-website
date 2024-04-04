@@ -16,8 +16,10 @@ import SimilarItems from './SimilarItems'
 import Description from './Description'
 import { SaveItem, UploadChat } from '../../../api/buyer/post'
 import { UnSaveItem } from '../../../api/buyer/delete'
-import { GetItem } from '../../../api/buyer/get'
+import { GetItem, GetProductThumbnail } from '../../../api/buyer/get'
 import SaveButton from '../dashboard/SaveButton'
+import { Helmet } from 'react-helmet'
+import Thumbnail from '../Thumbnail'
 
 
 
@@ -275,6 +277,42 @@ const Product = ({product_id}) => {
 
     return ( 
         <>
+
+            <Helmet>
+                <meta name="title" content={`${item.title}`} />
+                <meta name="description" content={`${item.description}`} />
+                {/* <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=" /> */}
+                <meta name="robots" content="index,follow" />
+                <meta name="googlebot" content="index,follow" />
+                
+                <meta name="google" content="sitelinkssearchbox" />
+
+                {/* FaceBook Tags */}
+                <meta property="og:site_name" content={`${item.title}`} />
+                <meta property="og:title" content={`${item.title}`} />
+                <meta property="og:description" content={`${item.description}`} />
+                <meta property="og:image" itemprop="image" content={
+                    async function fetchData() {
+                        let result = await GetProductThumbnail(product_id)
+                        return(result.file) 
+                    }()
+                } />
+                <meta property="og:type" content="website" />
+                <meta property="og:url"  content={`https://www.campusexpressng.com/product?product_id=${item.product_id}`} />
+                {/* <meta property="og:updated_time" content="1440432930" /> */}
+
+                {/* Twitter */}
+                <meta name="twitter:title" content={`${item.title}`} />
+                <meta name="twitter:description" content={`${item.description}`} />
+                <meta name="twitter:image" content={
+                    async function fetchData() {
+                        let result = await GetProductThumbnail(product_id)
+                        return(result.file) 
+                    }()
+                } />
+                <meta name="twitter:card" content="summary_large_image" />
+
+            </Helmet>
           
             <div className="overlay">
                 <div className="loader">
