@@ -34,8 +34,15 @@ const CardCnt = () => {
     let {Save} = useSelector(s => s.Save)
 
     let [category, setcategory] = useState('')
+    let [categoryActive, setcategoryActive] = useState(false)
+
     let [subCategory, setsubCategory] = useState('')
+    // let [subCategory, setsubCategory] = useState('')
+
     let [condition, setcondition] = useState('')
+    let [conditionActive, setconditionActive] = useState(false)
+
+    let [localeActive, setlocaleActive] = useState(false)
     let [state, setstate] = useState('')
     let [campus, setcampus] = useState('')
 
@@ -44,6 +51,8 @@ const CardCnt = () => {
 
     let [items, setItems] = useState([]);
     let [cards, setCards] = useState([]);
+    
+    let [priceActive, setpriceActive] = useState(false)
     let [price, setprice] = useState([])
 
     useEffect(() => {
@@ -69,6 +78,22 @@ const CardCnt = () => {
     //         )
     //     );
     // }
+
+    function updateCategoryActive(data) {
+        setcategoryActive(data)
+    }
+
+    function updateConditionActive(data) {
+        setconditionActive(data)
+    }
+
+    function updatePriceActive(data) {
+        setpriceActive(data)
+    }
+
+    function updateLocationActive(data) {
+        setlocaleActive(data)
+    }
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
@@ -212,9 +237,25 @@ const CardCnt = () => {
                     updateCategory={updateCategory} 
                     updateState={updateState}
                     updateSubCategory={updateSubCategory} 
+
                     category={category}
                     state={state} 
+
                     applyFilter={applyFilter}
+
+                    updateCategoryActive={updateCategoryActive}
+                    updateConditionActive={updateConditionActive}
+                    updatePriceActive={updatePriceActive}
+                    updateLocationActive={updateLocationActive}
+                    
+                    activeData={
+                        {
+                            categoryActive,
+                            conditionActive,
+                            priceActive,
+                            localeActive
+                        }
+                    }
                 />
 
             </div>

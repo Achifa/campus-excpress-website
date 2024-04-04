@@ -19,7 +19,26 @@ import closeSvg from '../../../assets/close-square-svgrepo-com (1).svg'
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import '../../../styles/Buyer/FilterAside.css'
-export default function Filter({updateCategory,updateSubCategory,updateCondition,updateState,updateCampus,updatePrice,state,category,applyFilter}) {
+export default function Filter({
+        updateCategory,
+        updateSubCategory,
+        updateCondition,
+        updateState,
+        updateCampus,
+        updatePrice,
+
+        state,
+        category,
+
+        applyFilter,
+
+        updateCategoryActive,
+        updateConditionActive,
+        updatePriceActive,
+        updateLocationActive,
+
+        activeData
+    }) {
 
     let [screenWidth, setScreenWidth] = useState(0)
 
@@ -27,6 +46,11 @@ export default function Filter({updateCategory,updateSubCategory,updateCondition
     let [campuslist, setcampuslist] = useState([])
     let [minPrice, setMinPrice] = useState('')
     let [maxPrice, setMaxPrice] = useState('')
+
+    let [categoryActive, setcategoryActive] = useState(false)
+    let [conditionActive, setconditionActive] = useState(false)
+    let [localeActive, setlocaleActive] = useState(false)
+    let [priceActive, setpriceActive] = useState(false)
 
     useEffect(() => {
         let width = window.innerWidth;
@@ -103,7 +127,7 @@ export default function Filter({updateCategory,updateSubCategory,updateCondition
                     {/* <br /> */}
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateCategoryActive(!activeData.categoryActive)} name="" id="" />
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Category</label>
                         </div>
@@ -138,7 +162,7 @@ export default function Filter({updateCategory,updateSubCategory,updateCondition
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateConditionActive(!activeData.conditionActive)} name="" id="" />
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Condition</label>
                         </div>
@@ -155,7 +179,7 @@ export default function Filter({updateCategory,updateSubCategory,updateCondition
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updatePriceActive(!activeData.priceActive)} name="" id="" />
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Price Range</label>
                         </div>
@@ -163,6 +187,7 @@ export default function Filter({updateCategory,updateSubCategory,updateCondition
                             setMinPrice(e[0]); 
                             setMaxPrice(e[1]);
                             updatePrice(e)
+                            
                             
                             }}/>
                         <br />
@@ -175,7 +200,7 @@ export default function Filter({updateCategory,updateSubCategory,updateCondition
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" name="" id="" />
+                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateLocationActive(!activeData.localeActive)} name="" id="" />
                             &nbsp;
                             <label htmlFor="" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Location</label>
                         </div>
