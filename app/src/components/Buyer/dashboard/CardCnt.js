@@ -7,6 +7,10 @@ import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
 import '../../../styles/loader.css'
 import '../../../styles/Seller/overlay.css' 
 
+import { 
+    data, 
+    school_choices 
+} from "../../../location";
 
 import { 
     useNavigate 
@@ -34,22 +38,22 @@ const CardCnt = () => {
     let {Save} = useSelector(s => s.Save)
 
     let [category, setcategory] = useState('')
-    let [categoryActive, setcategoryActive] = useState(false)
 
     let [subCategory, setsubCategory] = useState('')
     // let [subCategory, setsubCategory] = useState('')
-
     let [condition, setcondition] = useState('')
-    let [conditionActive, setconditionActive] = useState(false)
 
+    let [categoryActive, setcategoryActive] = useState(false)
+    let [conditionActive, setconditionActive] = useState(false)
     let [localeActive, setlocaleActive] = useState(false)
+    let [priceActive, setpriceActive] = useState(false)
+
     let [state, setstate] = useState('')
     let [campus, setcampus] = useState('')
 
     let [items, setItems] = useState([]);
     let [cards, setCards] = useState([]);
     
-    let [priceActive, setpriceActive] = useState(false)
     let [price, setprice] = useState([])
 
     // function sort(type) {
@@ -71,19 +75,19 @@ const CardCnt = () => {
     //     );
     // }
 
-    function updateCategoryActive(data) {
+    function ChangeCategoryActive(data) {
         setcategoryActive(data)
     }
 
-    function updateConditionActive(data) {
+    function ChangeConditionActive(data) {
         setconditionActive(data)
     }
 
-    function updatePriceActive(data) {
+    function ChangePriceActive(data) {
         setpriceActive(data)
     }
 
-    function updateLocationActive(data) {
+    function ChangeLocationActive(data) {
         setlocaleActive(data)
     }
 
@@ -108,13 +112,13 @@ const CardCnt = () => {
 
     }, [])
     
-
     function applyFilter() {
         let overlay = document.querySelector('.overlay');
         overlay.setAttribute('id', 'overlay');
+
         try {
-            new Promise((resolve, reject) => {
-                if(category !== '' && categoryActive){
+            new Promise((resolve, reject) => { 
+                if(category !== ''){
                     let response = items.filter(item => {
                         return(
                             item.category === category
@@ -126,7 +130,7 @@ const CardCnt = () => {
                 }
             })
             .then((result) => {
-                if(condition !=='' && conditionActive){
+                if(condition !==''){
                     let response = result.filter(item => {
                         return(
                             JSON.parse(item.others)?.condition === condition
@@ -138,7 +142,7 @@ const CardCnt = () => {
                 }
             })
             .then((result) => {
-                if(price.length !== 0 && priceActive){
+                if(price.length !== 0){
                     let response = result.filter(item => {
                         return(
                             item.price > price[0] && item.price < price[1] 
@@ -150,21 +154,10 @@ const CardCnt = () => {
                 }
             })
             .then((result) => {
-                if(state !== '' && localeActive){
+                if(state !== ''){
                     let response = result.filter(item => {
                         return(
-                            JSON.parse(item.others)?.locale.split(',')[0] === state
-                        )
-                    })
-                    return(response)
-                }else{
-                    return(result)
-                }
-            }).then((result) => {
-                if(campus !== '' && localeActive){
-                    let response = result.filter(item => {
-                        return(
-                            JSON.parse(item.others)?.locale.split(',').splice(1,2).join(',') === campus
+                            JSON.parse(item.others)?.locale?.split(',')[0] === state
                         )
                     })
                     return(response)
@@ -173,43 +166,56 @@ const CardCnt = () => {
                 }
             })
             .then((result) => {
+                if(campus !== ''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.locale?.split(',').splice(1).join(',').trim() === campus
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                // alert(JSON.stringify(result))
                 setCards(
                     result?.map((item, index) => 
                         <Card index={index} item={item} />
                     )
                 )
                 document.querySelector('.filter-overlay').removeAttribute('id')
+                overlay.removeAttribute('id');
+
             })
-            overlay.removeAttribute('id');
             
         } catch (error) {
             console.log(error)
         }
     }
 
-    
-
-    function updateCategory(data) {
+    function ChangeCategory(data) {
         setcategory(data)
     }
 
-    function updateSubCategory(data) {
+    function ChangeSubCategory(data) {
         setsubCategory(data)
     }
 
-    function updateCondition(data) {
+    function ChangeCondition(data) {
         setcondition(data)
     }
 
-    function updateState(data) {
+    function ChangeState(data) {
         setstate(data)
     }
 
-    function updateCampus(data) {
+    function ChangeCampus(data) {
         setcampus(data)
+
     }
 
-    function updatePrice(data) {
+    function ChangePrice(data) {
         setprice(data)
     }
 
@@ -223,30 +229,30 @@ const CardCnt = () => {
 
             <div className="filter-overlay">
                 <Filter 
-                    updateCampus={updateCampus} 
-                    updateCondition={updateCondition} 
-                    updatePrice={updatePrice} 
-                    updateCategory={updateCategory} 
-                    updateState={updateState}
-                    updateSubCategory={updateSubCategory} 
+                    ChangeCampus={ChangeCampus} 
+                    ChangeCondition={ChangeCondition} 
+                    ChangePrice={ChangePrice} 
+                    ChangeCategory={ChangeCategory} 
+                    ChangeState={ChangeState}
+                    ChangeSubCategory={ChangeSubCategory} 
 
                     category={category}
                     state={state} 
 
                     applyFilter={applyFilter}
 
-                    updateCategoryActive={updateCategoryActive}
-                    updateConditionActive={updateConditionActive}
-                    updatePriceActive={updatePriceActive}
-                    updateLocationActive={updateLocationActive}
-                    
+                    ChangeCategoryActive={ChangeCategoryActive}
+                    ChangeConditionActive={ChangeConditionActive}
+                    ChangePriceActive={ChangePriceActive}
+                    ChangeLocationActive={ChangeLocationActive}
+
                     activeData={
-                        {
+                        [
                             categoryActive,
                             conditionActive,
                             priceActive,
                             localeActive
-                        }
+                        ]
                     }
                 />
 

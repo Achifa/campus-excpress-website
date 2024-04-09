@@ -19,24 +19,24 @@ import closeSvg from '../../../assets/close-square-svgrepo-com (1).svg'
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import '../../../styles/Buyer/FilterAside.css'
+
 export default function Filter({
-        updateCategory,
-        updateSubCategory,
-        updateCondition,
-        updateState,
-        updateCampus,
-        updatePrice,
+        ChangeCategory,
+        ChangeSubCategory,
+        ChangeCondition,
+        ChangeState,
+        ChangeCampus,
+        ChangePrice,
 
         state,
         category,
 
         applyFilter,
 
-        updateCategoryActive,
-        updateConditionActive,
-        updatePriceActive,
-        updateLocationActive,
-
+        ChangeCategoryActive,
+        ChangeConditionActive,
+        ChangePriceActive,
+        ChangeLocationActive,
         activeData
     }) {
 
@@ -47,10 +47,10 @@ export default function Filter({
     let [minPrice, setMinPrice] = useState('')
     let [maxPrice, setMaxPrice] = useState('')
 
-    let [categoryActive, setcategoryActive] = useState(false)
-    let [conditionActive, setconditionActive] = useState(false)
-    let [localeActive, setlocaleActive] = useState(false)
-    let [priceActive, setpriceActive] = useState(false)
+    // let [categoryActive, setcategoryActive] = useState(false)
+    // let [conditionActive, setconditionActive] = useState(false)
+    // let [localeActive, setlocaleActive] = useState(false)
+    // let [priceActive, setpriceActive] = useState(false)
 
     useEffect(() => {
         let width = window.innerWidth;
@@ -80,27 +80,19 @@ export default function Filter({
        }
     },[category])
 
-    function handleOverlay(e) {
-        let elem = document.querySelector('.buyer-overlay');
-        if(elem.hasAttribute('id')){
-          elem.removeAttribute('id')
-        }else{
-          elem.setAttribute('id', 'buyer-overlay')
-        }
-    }
     function closeAside(params) {
-        document.querySelector('.aside-overlay').removeAttribute('id')
+        document.querySelector('.aside-overlay').removeAttribute('id');
     }
 
 
   return (
     <>
-        <div className="filter-cnt">
+        <div className="filter-cnt" style={{height: '100%'}}>
             <div onClick={closeAside} className="aside-close">
                 <img src={closeSvg} style={{height: '30px', width: '30px'}} alt="" />
             </div>
 
-            <div className="buyer-filter shadow-sm" style={{
+            <div className="buyer-filter" style={{
                     height: 'calc(100% - 0px)',
                     position: 'relative',
                     borderRadius: '1.5px'
@@ -109,29 +101,29 @@ export default function Filter({
                     <span style={{borderRadius: '5px', background: '#fff4e0', width: '50px', height: '50px', color: 'orangered', display: 'flex', alignItems: 'center', marginBottom: '10px', justifyContent: 'center'}}>
                         <img src={filterSvg} style={{height: '30px', width: '30px'}} alt="" />
                     </span>
-                        <span>
-                        {
-                           
-                            <>
-                           
-                                &nbsp;
-                                {/* &nbsp; */}
-                                <span style={{fontSize: 'small', cursor: 'pointer'}}>Filter Panel</span>
-                            </>
-                        }
-                        </span>
-                    </div>
+                    <span>
+                    {
+                        
+                        <>
+                        
+                            &nbsp;
+                            {/* &nbsp; */}
+                            <span style={{fontSize: 'small', cursor: 'pointer'}}>Filter Panel</span>
+                        </>
+                    }
+                    </span>
+                </div>
 
                 <div className="buyer-filter-cnt " style={{overflow: 'auto', height: '75vh'}}>
-                    <br />
+                    {/* <br /> */}
                     {/* <br /> */}
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateCategoryActive(!activeData.categoryActive)} name="category" id="category" />
+                            {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangeCategoryActive(!activeData[0])} name="category" id="category" /> */}
                             &nbsp;
                             <label htmlFor="category" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Category</label>
                         </div>
-                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => updateCategory(e.target.value)} id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => ChangeCategory(e.target.value)} id="">
                             <option value={''}>Select A Category</option>
 
                             {
@@ -149,7 +141,7 @@ export default function Filter({
 
                         {/* <br />  */}
 
-                        {/* <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} onInput={e => updateSubCategory(e.target.value)} name="" id="">
+                        {/* <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} onInput={e => ChangeSubCategory(e.target.value)} name="" id="">
                             <option value={''}>Select Product Type</option>
 
                             {
@@ -162,11 +154,11 @@ export default function Filter({
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateConditionActive(!activeData.conditionActive)} name="condition" id="condition" />
+                            {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangeConditionActive(!activeData[1])} name="condition" id="condition" /> */}
                             &nbsp;
                             <label htmlFor="condition" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Condition</label>
                         </div>
-                        <select onInput={e => updateCondition(e.target.value)}  style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
+                        <select onInput={e => ChangeCondition(e.target.value)}  style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
                             <option value={''}>Select Condition</option>
 
                             {
@@ -179,14 +171,14 @@ export default function Filter({
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updatePriceActive(!activeData.priceActive)} name="price" id="price" />
+                            {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangePriceActive(!activeData[2])} name="price" id="price" /> */}
                             &nbsp;
                             <label htmlFor="price" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Price Range</label>
                         </div>
                         <RangeSlider min={0} max={1000000} step={1} onInput={e => {
                             setMinPrice(e[0]); 
                             setMaxPrice(e[1]);
-                            updatePrice(e)
+                            ChangePrice(e)
                             
                             
                             }}/>
@@ -200,11 +192,11 @@ export default function Filter({
 
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
-                            <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={updateLocationActive(!activeData.localeActive)} name="locale" id="locale" />
+                            {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangeLocationActive(!activeData[3])} name="locale" id="locale" /> */}
                             &nbsp;
                             <label htmlFor="locale" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Location</label>
                         </div>
-                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => updateState(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => ChangeState(e.target.value)}>
                             <option value={''}>Select State</option>
 
                             {
@@ -215,11 +207,11 @@ export default function Filter({
                         </select>
                         <br />
 
-                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => updateCampus(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => ChangeCampus(e.target.value)}>
                             <option value={''}>Select Campus</option>
 
                             {
-                                campuslist.map((item, index) => 
+                                campuslist.map((item, index) =>  
                                     <option key={index} value={item.text}>{item.text}</option>
                                 )
                             }
@@ -229,7 +221,7 @@ export default function Filter({
                     
                 </div>
 
-                <div className="buyer-filter-btn" style={{display: 'inline-block', width: '100%', justifyContent: 'space-between', padding: '10px', position: 'absolute', bottom: '0'}}>
+                <div className="buyer-filter-btn" style={{display: 'flex', height: '100px', width: '100%', justifyContent: 'space-between', alignItems: 'flex-end', padding: '10px', position: 'absolute', bottom: '0'}}>
                     <button onClick={e => { document.querySelector('.filter-overlay').removeAttribute('id')}} style={{
                         height: '35px',
                         width: '46%',

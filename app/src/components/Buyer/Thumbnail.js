@@ -17,7 +17,7 @@ const Thumbnail = ({product_id}) => {
         try {
             async function fetchData(params) {
                 let result = await GetProductThumbnail(product_id)
-                set_img(result.file) 
+                set_img(result?.file) 
             }
             fetchData()
         } catch (error) {

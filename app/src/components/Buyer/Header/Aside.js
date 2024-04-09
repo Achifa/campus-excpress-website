@@ -84,8 +84,20 @@ const Aside = () => {
 
     
 
-    let list1 = [{uri: '',text: 'Messages', img: inboxSvg}, {uri: 'favourites',text: 'Favourites', img: savedSvg},  {uri: '',text: 'History', img: historySvg}]
-    let list2 = [{uri: '',text: 'My Account', img: userSvg},{uri: '',text: 'Help Center', img: helpSvg}, {uri: '',text: 'Refund & Return', img: refundSvg}, {uri: '',text: 'Cancel An Order', img: cancelSvg}, {uri: '',text: 'Contact Us', img: contactSvg}, {uri: 'logout',text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}]
+    let list1 = [
+        {uri: '',text: 'Messages', img: inboxSvg}, 
+        {uri: 'favourites',text: 'Favourites', img: savedSvg},  
+        {uri: '',text: 'History', img: historySvg}
+    ]
+    let list2 = [
+        {uri: '',text: 'My Account', img: userSvg},
+        {uri: '',text: 'Help Center', img: helpSvg}, 
+        {uri: '',text: 'Refund & Return', img: refundSvg}, 
+        {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
+        {uri: '',text: 'Contact Us', img: contactSvg}, 
+        {uri: 'logout',text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}
+    ]
+    
     let list3 = categoriesList
 
     let CEservices = list1.map((item,i) => 

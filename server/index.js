@@ -23,9 +23,7 @@ app.use(cors({
   optionsSuccessStatus: 200
 })); 
 
-app.use(seller_route)
-app.use(buyer_route)
-app.use(admin_route)
+app.use(seller)
 
 
 
