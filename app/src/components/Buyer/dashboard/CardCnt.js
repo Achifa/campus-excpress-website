@@ -36,6 +36,7 @@ import Card from "./Card";
 const CardCnt = () => {
     let {Cart} = useSelector(s => s.Cart)
     let {Save} = useSelector(s => s.Save)
+    let {storedCategory} = useSelector(s => s.storedCategory)
 
     let [category, setcategory] = useState('')
 
@@ -55,6 +56,8 @@ const CardCnt = () => {
     let [cards, setCards] = useState([]);
     
     let [price, setprice] = useState([])
+
+    
 
     // function sort(type) {
     //     const compareItems = (a, b) => {
@@ -119,12 +122,14 @@ const CardCnt = () => {
         try {
             new Promise((resolve, reject) => { 
                 if(category !== ''){
+                    // alert(items[0].category, category)
+
                     let response = items.filter(item => {
                         return(
                             item.category === category
                         )
                     })
-                    resolve(response)
+                    resolve(response) 
                 }else{
                     resolve(items)
                 }
@@ -220,6 +225,29 @@ const CardCnt = () => {
     }
 
 
+    useEffect(() => {
+        
+        let overlay = document.querySelector('.overlay');
+        overlay.setAttribute('id', 'overlay');
+
+        if(storedCategory !== ''){
+
+            let response = items.filter(item => {
+                return(
+                    item.category.toLowerCase() === storedCategory
+                )
+            })
+
+            setCards(
+                response?.map((item, index) => 
+                    <Card index={index} item={item} />
+                )
+            )
+            document.querySelector('.filter-overlay').removeAttribute('id')
+            overlay.removeAttribute('id');
+        }
+
+    },[storedCategory])
     return ( 
         <>
             <div className="overlay" >

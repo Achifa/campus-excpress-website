@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom'
 import login from '../../../assets/login.svg'
 import loginw from '../../../assets/loginw.svg'
 
-import orderSvg from '../../../assets/order-svgrepo-com (1).svg'
+import sellSvg from '../../../assets/sell-svgrepo-com (2).svg'
 import historySvg from '../../../assets/history-svgrepo-com (1).svg'
 import settingsSvg from '../../../assets/settings-svgrepo-com (3).svg'
 import adsSvg from '../../../assets/ad-svgrepo-com.svg'
 import savedSvg from '../../../assets/bookmark-outlined-saved-svgrepo-com.svg'
 import inboxSvg from '../../../assets/inbox-alt-svgrepo-com (1).svg'
 import walletSvg from '../../../assets/wallet-2-svgrepo-com.svg'
-import sellSvg from '../../../assets/sell-svgrepo-com (1).svg'
+import sellSvg1 from '../../../assets/sell-svgrepo-com (1).svg'
 // import inboxSvg from '../../../assets/inbox-in-svgrepo-com.svg'
 import logoutSvg from '../../../assets/logout-2-svgrepo-com.svg'
 
@@ -42,11 +42,17 @@ import contactSvg from '../../../assets/costumer-support-call-svgrepo-com.svg'
 import { setCategoryTo } from '../../../redux/buyer_store/Category'
 
 
-const Aside = () => {
+const Aside = ({
+    ChangeAsideCategory
+}) => {
+
+    let {
+        storedCategory
+    } = useSelector(s => s.storedCategory)
 
     let [categoriesList, setCategoriesList] = useState([])
     let navigate = useNavigate()
-    let {category} = useSelector(s => s.Category)
+    // let {category} = useSelector(s => s.Category)
     let [buyer, set_buyer] = useState('')
 
     let categories = [
@@ -73,9 +79,8 @@ const Aside = () => {
 
     useEffect(() => {
         try {
-            set_buyer(window.localStorage.getItem('buyerData'))
-            // alert(JSON.stringify(window.localStorage.getItem('buyerData')))
-        } catch (error) {
+            set_buyer(JSON.parse(window.localStorage.getItem('buyerData')))
+        } catch (error) { 
             console.log(error)
         }
       },[])
@@ -88,7 +93,7 @@ const Aside = () => {
         {uri: '',text: 'Messages', img: inboxSvg}, 
         {uri: 'favourites',text: 'Favourites', img: savedSvg},  
         {uri: '',text: 'History', img: historySvg},
-        {uri: '',text: 'Sell With Us', img: historySvg}
+        {uri: '/seller.signup',text: 'Sell With Us', img: sellSvg1}
     ]
     let list2 = [
         {uri: '',text: 'My Account', img: userSvg},
@@ -124,7 +129,7 @@ const Aside = () => {
     )
 
     let Categories = categories.map((item,i) => 
-        <li style={{display: 'flex', }} data-category={item[0]} onClick={e => {navigate(`/?category=${item[0].toLowerCase()}`); dispatch(setCategoryTo(item[0].toLowerCase()))}} key={i}>
+        <li style={{display: 'flex', }} id={storedCategory.toLowerCase() === item[0].toLowerCase() ? 'aside-list-active' : ''} data-category={item[0]} onClick={e => {dispatch(setCategoryTo((item[0].toLowerCase())))}} key={i}>
             <span>
             
                 <img src={(item[1])} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
@@ -135,7 +140,7 @@ const Aside = () => {
         </li>
     )
 
-    function closeAside(params) {
+    function closeAside() {
         document.querySelector('.aside-overlay').removeAttribute('id')
     
     }

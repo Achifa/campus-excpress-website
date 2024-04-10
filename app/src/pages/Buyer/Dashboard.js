@@ -26,7 +26,7 @@ const Dashboard = () => {
         document.body.style.background='orangered'
     }, [])
 
-    let {category} = useSelector(s => s.Category)
+    let {storedCategory} = useSelector(s => s.storedCategory)
    
     return ( 
         <>
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
                 <Helmet>
                     <meta name="title" content={`Campus Express (Connecting Campus Express)`} />
-                    <meta name="description" content={`Shop category is ${category}`} />
+                    <meta name="description" content={`Shop category is ${storedCategory}`} />
                     {/* <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=" /> */}
                     <meta name="robots" content="index,follow" />
                     <meta name="googlebot" content="index,follow" />
@@ -44,7 +44,7 @@ const Dashboard = () => {
                     {/* FaceBook Tags */}
                     <meta property="og:site_name" content="Campus Express (Connecting Campus Express)" />
                     <meta property="og:title" content="Campus Express (Connecting Campus Express)" />
-                    <meta property="og:description" content={`Shop category is ${category}`} />
+                    <meta property="og:description" content={`Shop category is ${storedCategory}`} />
                     {/* <meta property="og:image" itemprop="image" content="http://pollosweb.wesped.es/programa_pollos/play.png" /> */}
                     <meta property="og:type" content="website" />
                     <meta property="og:url"  content="https://www.campusexpressng.com" />
@@ -52,7 +52,7 @@ const Dashboard = () => {
 
                     {/* Twitter */}
                     <meta name="twitter:title" content="Campus Express (Connecting Campus Express)" />
-                    <meta name="twitter:description" content={`Shop category is ${category}`} />
+                    <meta name="twitter:description" content={`Shop category is ${storedCategory}`} />
                     <meta name="twitter:card" content="summary_large_image" />
                 </Helmet>
 
@@ -66,7 +66,7 @@ const Dashboard = () => {
                 
 
                     {
-                        category === 'trends'
+                        storedCategory === 'trends'
                         ?
                             <>
                                 {/* <Ads /> */}

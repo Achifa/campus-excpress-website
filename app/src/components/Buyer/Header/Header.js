@@ -29,7 +29,9 @@ import {
 } from "../../../api/buyer/get";
 import Filter from "./Filter";
 
-const Header = () => {
+const Header = ({
+  setHeaderCategory
+}) => {
 
   let {buyerJsx} = useSelector(s => s.buyerJsx)
   let {Cart} = useSelector(s => s.Cart)
@@ -60,7 +62,6 @@ const Header = () => {
       setScreenWidth(width)
   }, [])
 
-  
 
   // useEffect(() => {
   //   setCartList([...Cart].length)
@@ -94,61 +95,6 @@ const Header = () => {
     }
   }
 
-  function openFloatingMenu(e,task) {
-    settask(task)
-
-    if(task === 'help'){
-      if(visible === 'none')
-      {
-        let list = ['Help Center', 'Refund & Return', 'Cancel An Order', 'Track An Order', 'Payment Option', 'Contact Us']
-        setList(list)
-        setvisible('flex')
-        let rect = e.target.getBoundingClientRect();
-        let t = rect.top;
-
-        let r = rect.right;
-        setright(r)
-        settop(t)
-
-        setTimeout(() => {
-          setvisible('none')
-        }, 8000);
-      }
-      else{
-        setvisible('none')
-
-      }
-
-
-
-    }else{
-      if(visible === 'none')
-      {
-        let list = ['My Account', 'Order', 'Inbox', 'Saved Item', 'Voucher', 'Logout']
-        setList(list)
-        setvisible('flex')
-        let rect = e.target.getBoundingClientRect();
-        let t = rect.top;
-
-        let r = rect.right;
-        setright(r)
-        settop(t)
-
-
-        setTimeout(() => {
-          setvisible('none')
-        }, 8000);
-
-      }else{
-        setvisible('none')
-
-      }
-
-
-
-    }
-  }
-  
   function openAside() {
     document.querySelector('.aside-overlay').setAttribute('id', 'aside-overlay')
   }
@@ -183,20 +129,21 @@ const Header = () => {
   useEffect(() => {
     
     async function fetchData() {
-      let data = window.localStorage.getItem('buyerData')
-      console.log(data)
+      let data = JSON.parse(window.localStorage.getItem('buyerData'))
 
       if(data === 'undefined' || data === null || data === ''){
 
         let result = await GetBuyer(window.localStorage.getItem('CE_buyer_id'))
         window.localStorage.setItem('buyerData', JSON.stringify(result))
-        // alert('data'.JSON.stringify(result))
+        // alert('data'.JSON.stringify(result)) 
 
       }
     }
     fetchData()
   },[])
 
+
+  
   
 
 

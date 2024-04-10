@@ -43,6 +43,8 @@ export default function Filter({
     let [screenWidth, setScreenWidth] = useState(0)
 
     
+    let dispatch = useDispatch();
+
     let [campuslist, setcampuslist] = useState([])
     let [minPrice, setMinPrice] = useState('')
     let [maxPrice, setMaxPrice] = useState('')
@@ -123,7 +125,12 @@ export default function Filter({
                             &nbsp;
                             <label htmlFor="category" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Category</label>
                         </div>
-                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => ChangeCategory(e.target.value)} id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => 
+                                {
+                                    ChangeCategory(e.target.value)
+                                    dispatch(setCategoryTo(e.target.value))
+                                }
+                            } id="">
                             <option value={''}>Select A Category</option>
 
                             {

@@ -50,10 +50,10 @@ const Card = ({item, index}) => {
         Save
     } = useSelector(s => s.Save)
 
-    let {
-        category
-    } = useSelector(s => s.Category)
-
+    // let {
+    //     category
+    // } = useSelector(s => s.Category)
+ 
     let navigate = useNavigate()
     let dispatch = useDispatch()
 
