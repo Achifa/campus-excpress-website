@@ -73,7 +73,7 @@ const Aside = () => {
 
     useEffect(() => {
         try {
-            set_buyer(JSON.parse(window.localStorage.getItem('buyerData')))
+            set_buyer(window.localStorage.getItem('buyerData'))
             // alert(JSON.stringify(window.localStorage.getItem('buyerData')))
         } catch (error) {
             console.log(error)
@@ -87,13 +87,14 @@ const Aside = () => {
     let list1 = [
         {uri: '',text: 'Messages', img: inboxSvg}, 
         {uri: 'favourites',text: 'Favourites', img: savedSvg},  
-        {uri: '',text: 'History', img: historySvg}
+        {uri: '',text: 'History', img: historySvg},
+        {uri: '',text: 'Sell With Us', img: historySvg}
     ]
     let list2 = [
         {uri: '',text: 'My Account', img: userSvg},
         {uri: '',text: 'Help Center', img: helpSvg}, 
         {uri: '',text: 'Refund & Return', img: refundSvg}, 
-        {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
+        // {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
         {uri: '',text: 'Contact Us', img: contactSvg}, 
         {uri: 'logout',text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}
     ]

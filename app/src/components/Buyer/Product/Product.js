@@ -1,24 +1,51 @@
 import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
-import { useEffect, useState } from 'react'
+import { 
+    useEffect, 
+    useState 
+} from 'react'
 import phn from '../../../assets/phone-rounded-svgrepo-com.svg'
 import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
 import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
 import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { 
+    Link, 
+    useLocation, 
+    useNavigate 
+} from 'react-router-dom'
+import { 
+    useDispatch, 
+    useSelector 
+} from 'react-redux'
 import saveSvg from '../../../assets/favourite-alt-svgrepo-com (1).svg'
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
-import { setCartTo } from '../../../redux/buyer_store/Cart'
-import { setSaveTo } from '../../../redux/buyer_store/Save'
-import { DeleteItem, GetSeller } from '../../../api/seller'
+import { 
+    setCartTo 
+} from '../../../redux/buyer_store/Cart'
+import { 
+    setSaveTo
+} from '../../../redux/buyer_store/Save'
+import { 
+    DeleteItem, 
+    GetSeller 
+} from '../../../api/seller'
 import SimilarItems from './SimilarItems'
 import Description from './Description'
-import { SaveItem, UploadChat } from '../../../api/buyer/post'
-import { UnSaveItem } from '../../../api/buyer/delete'
-import { GetItem, GetProductThumbnail } from '../../../api/buyer/get'
+import { 
+    SaveItem, 
+    UploadChat 
+} from '../../../api/buyer/post'
+import { 
+    UnSaveItem 
+} from '../../../api/buyer/delete'
+import { 
+    GetItem, 
+    GetProductThumbnail 
+} from '../../../api/buyer/get'
 import SaveButton from '../dashboard/SaveButton'
-import { Helmet } from 'react-helmet'
+import { 
+    Helmet 
+} from 'react-helmet'
 import Thumbnail from '../Thumbnail'
 
 
