@@ -90,7 +90,7 @@ const Aside = ({
     
 
     let list1 = [
-        {uri: '',text: 'Messages', img: inboxSvg}, 
+        {uri: '/buyer.message',text: 'Messages', img: inboxSvg}, 
         {uri: 'favourites',text: 'Favourites', img: savedSvg},  
         {uri: '',text: 'History', img: historySvg},
         {uri: '/seller.signup',text: 'Sell With Us', img: sellSvg1}

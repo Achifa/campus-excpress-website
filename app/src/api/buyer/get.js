@@ -93,8 +93,8 @@ export async function GetChatRooms(buyer_id) {
     return (response)?.data
 }
 
-export async function GetChat(buyer_id) {
-    let response = await get_request_generators(`get-chat`, {buyer_id})
+export async function GetChat(room_id) {
+    let response = await get_request_generators(`get-chat`, {room_id})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return (response)?.data
 }

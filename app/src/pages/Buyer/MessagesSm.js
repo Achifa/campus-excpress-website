@@ -17,8 +17,11 @@ export default function MessagesSm() {
         
 
         try {
-            let result = GetChatRooms(window.localStorage.getItem('CE_buyer_id'))
-            setRoom(result.data)
+            async function getData(params) {
+                let result = await GetChatRooms(window.localStorage.getItem('CE_buyer_id'))
+                setRoom(result)
+            }
+            getData()
         } catch (error) {
             console.log(error)
         }
@@ -36,7 +39,7 @@ export default function MessagesSm() {
             }}>
                 <div className="seller-client-list">    
                     {
-                        room.map((item, index) => {
+                        room?.map((item, index) => {
                             return(
                                 <MessageHead data={item} index={index} />
                             )

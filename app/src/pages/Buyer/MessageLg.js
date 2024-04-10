@@ -27,15 +27,19 @@ export default function MessageLg() {
     useEffect(() => {
 
         try {
-            let result = GetChatRooms(window.localStorage.getItem('CE_buyer_id'))
-            setRoom(result.data)
+            async function getData() {
+                let result = await GetChatRooms(window.localStorage.getItem('CE_buyer_id'))
+                setRoom(result)
+                // console.log(result)
 
-            let path = location.pathname.split('/').splice(-1)[0].split('-')[0] === 'CE'
-            if(path){
-                let response = result.data.filter(item => item?.seller_data?.seller_id === location.pathname.split('/').splice(-1)[0]);  
-                setRoomData(response[0]?.mssg?.mssg_id);
-                setActiveRoom(response[0]);
+                let path = location.pathname.split('/').splice(-1)[0].split('-')[0] === 'CE'
+                if(path){
+                    let response = result.filter(item => item?.buyer_data?.buyer_id === location.pathname.split('/').splice(-1)[0]);  
+                    setRoomData(response[0]?.mssg?.mssg_id);
+                    setActiveRoom(response[0]);
+                }
             }
+            getData()
         } catch (error) {
             console.log(error)
         }
@@ -53,7 +57,7 @@ export default function MessageLg() {
 
                 <div className="seller-client-list">
                     {
-                        room.map((item, index) => <MessageHead setRoomId={setRoomId} data={item} index={index} /> )
+                        room?.map((item, index) => <MessageHead setRoomId={setRoomId} data={item} index={index} /> )
                     }
                 </div>
                  

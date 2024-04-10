@@ -16,13 +16,17 @@ export default function MessageRoom({}) {
     useEffect(() => {
         let searchParams = new URLSearchParams(location.search)
         try {
-          let result = GetChat(searchParams.get('room'))
-          let {chat_box} = result.data;
-          let heads = []
-  
-          chat_box.map(item => heads.push({id: item.buyer_id, name: item.buyer_name}))
-          setChatHead(heads)
-          setChatList(chat_box)
+          async function getData() {
+            let result = await GetChat(searchParams.get('room'))
+            let chat_box = result;
+            let heads = []
+            // console.log(chat_box)
+            chat_box.map(item => heads.push({id: item.buyer_id, name: item.buyer_name}))
+            setChatHead(heads)
+            setChatList(chat_box)
+          }
+
+          getData()
         } catch (error) {
           console.log(error)
         }
