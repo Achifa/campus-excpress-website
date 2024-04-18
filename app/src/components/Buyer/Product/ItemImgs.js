@@ -18,10 +18,12 @@ const ItemImgs = ({product_id}) => {
 
     useEffect(() => {
         try {
-            async function getData(params) {
+            async function getData() {
                 let result = await GetItemImages(product_id)
-                dispatch(setItemImagesTo(result));
-                setImageList(result)
+                if(result?.length > 0){
+                    setImageList(result)
+                    dispatch(setItemImagesTo(result));
+                }
             }
             getData()
         } catch (error) {

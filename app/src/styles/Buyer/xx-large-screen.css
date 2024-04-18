@@ -255,11 +255,12 @@
 
     .buyer-card-cnt {
         min-height: calc(100vh - 70px);
-        width: calc(100% - 0px);
+        width: calc(100% - 80px);
         overflow: auto;
         padding: 10px;
         float: right;
         border-radius: 5px;
+        text-align: center;
         /* margin: 10px 0 10px 0; */
         background-color: #fff;
 
@@ -267,7 +268,7 @@
     .buyer-card-cnt .card{
         position: relative;
         height: 400px;
-        width: calc(20% - 20px);
+        width: calc(20% - 26px);
         flex-shrink: 0;
         float: left;
         margin: 0 5px 0 5px;
@@ -383,7 +384,7 @@
         padding: 10px;
     }
     .buyer-product-data #left .img-cnt{
-        height: 450px;
+        height: 380px;
         width: 100%;
 
     }

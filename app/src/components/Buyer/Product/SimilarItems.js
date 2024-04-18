@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import CardCnt from "./CardCnt"
 
-const SimilarItems = () => {
+const SimilarItems = ({category}) => {
 
     let [role, setRole] = useState(0)
     let location = useLocation()
@@ -24,7 +24,7 @@ const SimilarItems = () => {
                             <div className="buyer-product-related-items">
                                 <h6 style={{padding:'10px'}}>Similar Items You May Like</h6>
 
-                                <CardCnt />   
+                                <CardCnt category={category} />   
                             
                             </div>
 

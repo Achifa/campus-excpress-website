@@ -7,6 +7,8 @@ import phn from '../../../assets/phone-rounded-svgrepo-com.svg'
 import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
 import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
 import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
+import tweeterSvg from '../../../assets/twitter-svgrepo-com (2).svg'
+import fbSvg from '../../../assets/facebook-1-svgrepo-com (1).svg'
 import { 
     Link, 
     useLocation, 
@@ -103,12 +105,14 @@ const Product = ({product_id}) => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        //overlay.setAttribute('id', 'overlay');
+        overlay.setAttribute('id', 'overlay');
         let product_id = searchParams.get('product_id')
         try {
-            async function getData(params) {
+            async function getData() {
                 let result = await GetItem([product_id])
-                setItem(result[0])
+                if(result.length > 0){
+                    setItem(result[0])
+                }
                 // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
                 overlay.removeAttribute('id')
             }
@@ -125,11 +129,11 @@ const Product = ({product_id}) => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        setActiveImg(ItemImages.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
+        setActiveImg(ItemImages?.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
     }, [ItemImages])
 
     useEffect(() => {
-        setActiveImg(ItemImages.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
+        setActiveImg(ItemImages?.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
     }, [ActiveImg])
 
     let BtnStyles = {
@@ -298,6 +302,11 @@ const Product = ({product_id}) => {
         }
       
     }
+    let [metaImg, setMetaImg] = useState('')
+    useEffect(() => {
+        setMetaImg(ItemImages[0]?.file)
+    }, [])
+    
 
 
     let [immediate_purchase, set_immediate_purchase] = useState(1)
@@ -318,12 +327,7 @@ const Product = ({product_id}) => {
                 <meta property="og:site_name" content={`${item.title}`} />
                 <meta property="og:title" content={`${item.title}`} />
                 <meta property="og:description" content={`${item.description}`} />
-                <meta property="og:image" itemprop="image" content={
-                    async function fetchData() {
-                        let result = await GetProductThumbnail(product_id)
-                        return(result.file) 
-                    }()
-                } />
+                <meta property="og:image" itemprop="image" content={metaImg} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url"  content={`https://www.campusexpressng.com/product?product_id=${item.product_id}`} />
                 {/* <meta property="og:updated_time" content="1440432930" /> */}
@@ -331,12 +335,7 @@ const Product = ({product_id}) => {
                 {/* Twitter */}
                 <meta name="twitter:title" content={`${item.title}`} />
                 <meta name="twitter:description" content={`${item.description}`} />
-                <meta name="twitter:image" content={
-                    async function fetchData() {
-                        let result = await GetProductThumbnail(product_id)
-                        return(result.file) 
-                    }()
-                } />
+                <meta name="twitter:image" content={metaImg} />
                 <meta name="twitter:card" content="summary_large_image" />
 
             </Helmet>
@@ -371,8 +370,9 @@ const Product = ({product_id}) => {
             </div>
 
             <br />
-            <div className="buyer-product" style={{background: '#fff'}}>
+            <div className="buyer-product shadow-sm" style={{background: '#fff'}}>
                 <div className="buyer-product-cnt" style={{display: 'flex', flexDirection: 'column'}}>
+
                     <div className="buyer-product-data">
                         <div id="left">
                             <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, borderRadius: '5px', backgroundRepeat: 'no-repeat', backgroundSize: '200px 200px', backgroundPosition: 'center'}}>
@@ -383,7 +383,7 @@ const Product = ({product_id}) => {
 
                         <div id="right" style={{position: 'relative'}}>
  
-                            <p style={{fontWeight: '400', padding: '0px', fontSize: 'x-large'}}>{item?.title}</p>
+                            <p style={{fontWeight: '400', fontFamily: 'times-new-roman', padding: '0px', fontSize: 'x-large'}}>{item?.title}</p>
 
                             <hr style={{margin: '15px'}} />
 
@@ -495,6 +495,7 @@ const Product = ({product_id}) => {
                                         </>
                                     }
                                 </button>
+
                                 <Link to={`tel:+234${phone}`} style={{height: '50px', width: '45%', borderRadius: '5px', display: role ? 'none' : 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'space-evenly', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
                                     {
                                         
@@ -510,6 +511,7 @@ const Product = ({product_id}) => {
                                         
                                     }
                                 </Link>
+
                             </div>
 
 
@@ -519,33 +521,54 @@ const Product = ({product_id}) => {
                                 
                                 <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
                             </section> */}
+                            <br />
 
-                            {/* <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', padding: '10px', position: 'relative', width: '100%',}}>
-                                <div>Share With Your Friends</div>
+                            <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', alignItems: 'flex-end', padding: '10px', position: 'relative', width: '100%',}}>
+                                <small>Share With Your Friends</small>
+
                                 <ul>
-                                    <li style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                        <img src={fbSvg} style={{height: '35px', width: '35px', position: 'relative', margin: '0'}} alt="" />
+                                    <li onClick={e => {
+                                        const url = window.location.href;
+                                        // Open a new window to share the URL on Facebook
+                                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                                    }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
+                                        <img src={fbSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
                                     </li>
 
-                                    <li style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                        <img src={tweeterSvg} style={{height: '35px', width: '35px', position: 'relative', margin: '0'}} alt="" />
+                                    <li onClick={e => {
+                                        const url = window.location.href;
+                                        const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(item.title)}&image=${metaImg}`;
+                                        window.open(twitterUrl, '_blank');
+                                    }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
+                                        <img src={tweeterSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
                                     </li>
 
-                                    <li style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                        <img src={WhatsAppSvg} style={{height: '35px', width: '35px', position: 'relative', margin: '0'}} alt="" />
+                                    <li onClick={e => {
+                                        const url = window.location.href;
+
+                                        const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(item.title)}%0A%0A${item.description}%0A%0A${encodeURIComponent(url)}%0A%0A${encodeURIComponent(activeImg)}`;
+                                        window.open(whatsappUrl, '_blank');
+                                    }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
+                                        <img src={WhatsAppSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
                                     </li>
                                 </ul>
 
                                 
-                            </section> */}
+                            </section>
 
 
                         </div>
                     </div>      
-                    <SimilarItems />
 
-                    <Description item={item} />
+                    <SimilarItems category={item.category} />
 
+                    {
+                        item.description.length > 0 
+                        ?
+                        <Description item={item} />
+                        :
+                        ''
+                    }
 
                 </div>
             </div>

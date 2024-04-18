@@ -20,7 +20,7 @@ export default function MessageRoom({}) {
             let result = await GetChat(searchParams.get('room'))
             let chat_box = result;
             let heads = []
-            // console.log(chat_box)
+            console.log(chat_box)
             chat_box.map(item => heads.push({id: item.buyer_id, name: item.buyer_name}))
             setChatHead(heads)
             setChatList(chat_box)

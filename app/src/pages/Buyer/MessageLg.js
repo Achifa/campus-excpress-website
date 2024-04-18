@@ -7,7 +7,7 @@ import RoomHead from '../../components/Buyer/Message/LargeScreen/MessageRoom/Roo
 import RoomPanel from '../../components/Buyer/Message/LargeScreen/MessageRoom/RoomPanel'
 import { socket } from '../../socket'
 import { useLocation, useNavigate, useParams, useRoutes } from 'react-router-dom'
-import { GetChatRooms } from '../../api/buyer/get'
+import { GetChat, GetChatRooms } from '../../api/buyer/get'
 
 export default function MessageLg() {
     let [room, setRoom] = useState([])
@@ -48,6 +48,40 @@ export default function MessageLg() {
     }, [])
 
   
+
+    let [chatList, setChatList] = useState([])
+    let [chatHead, setChatHead] = useState([])
+    let [chat, set_chat] = useState([])
+    let [selected_head, set_selected_head] = useState()
+
+    useEffect(() => {
+        let searchParams = new URLSearchParams(location.search)
+        try {
+          async function getData() {
+            let result = await GetChat(searchParams.get('room'))
+            let chat_box = result;
+            let heads = []
+            console.log(chat_box)
+            chat_box.map(item => heads.push({id: item.buyer_id, name: item.buyer_name}))
+            setChatHead(heads)
+            setChatList(chat_box)
+          }
+
+          getData()
+        } catch (error) {
+          console.log(error)
+        }
+    }, [])
+
+    useEffect(() => {
+        let r = chatList.filter(item => item.buyer_id === selected_head)[0]
+        console.log(chatList)
+        if(r !== undefined) {
+            set_chat(r?.mssg)
+            console.log(r)
+        }
+        // 
+    }, [selected_head])
 
   return ( 
     <>

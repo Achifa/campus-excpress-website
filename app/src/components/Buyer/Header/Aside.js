@@ -90,10 +90,10 @@ const Aside = ({
     
 
     let list1 = [
-        {uri: '/buyer.message',text: 'Messages', img: inboxSvg}, 
+        {uri: 'buyer.message',text: 'Messages', img: inboxSvg}, 
         {uri: 'favourites',text: 'Favourites', img: savedSvg},  
-        {uri: '',text: 'History', img: historySvg},
-        {uri: '/seller.signup',text: 'Sell With Us', img: sellSvg1}
+        // {uri: '',text: 'History', img: historySvg},
+        {uri: 'seller.signup',text: 'Sell With Us', img: sellSvg1}
     ]
     let list2 = [
         {uri: '',text: 'My Account', img: userSvg},
@@ -107,7 +107,7 @@ const Aside = ({
     let list3 = categoriesList
 
     let CEservices = list1.map((item,i) => 
-        <li onClick={e => navigate(`${item.uri}`)} key={i} style={{display: 'flex', }}>
+        <li onClick={e => window.open(`/${item.uri}`)} key={i} style={{display: 'flex', }}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
             </span>

@@ -243,7 +243,7 @@ const CardCnt = () => {
                     <Card index={index} item={item} />
                 )
             )
-            document.querySelector('.filter-overlay').removeAttribute('id')
+            document.querySelector('.aside-overlay').removeAttribute('id')
             overlay.removeAttribute('id');
         }
 
