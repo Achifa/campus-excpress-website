@@ -23,7 +23,7 @@ const Dashboard = () => {
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
-        document.body.style.background='orangered'
+        // document.body.style.background='orangered'
     }, [])
 
     let {storedCategory} = useSelector(s => s.storedCategory)
