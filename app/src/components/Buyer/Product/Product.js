@@ -44,7 +44,7 @@ import {
     GetItem, 
     GetProductThumbnail 
 } from '../../../api/buyer/get'
-import SaveButton from '../dashboard/SaveButton'
+import SaveButton from '../Dashboard/SaveButton'
 import { 
     Helmet 
 } from 'react-helmet'
@@ -529,7 +529,6 @@ const Product = ({product_id}) => {
                                 <ul>
                                     <li onClick={e => {
                                         const url = window.location.href;
-                                        // Open a new window to share the URL on Facebook
                                         window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
                                     }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
                                         <img src={fbSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
@@ -545,7 +544,6 @@ const Product = ({product_id}) => {
 
                                     <li onClick={e => {
                                         const url = window.location.href;
-
                                         const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(item.title)}%0A%0A${item.description}%0A%0A${encodeURIComponent(url)}%0A%0A${encodeURIComponent(activeImg)}`;
                                         window.open(whatsappUrl, '_blank');
                                     }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
