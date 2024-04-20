@@ -44,7 +44,7 @@ import {
     GetItem, 
     GetProductThumbnail 
 } from '../../../api/buyer/get'
-import SaveButton from '../dashboard/SaveButton'
+import SaveButton from '../Dashboard/SaveButton'
 import { 
     Helmet 
 } from 'react-helmet'
@@ -558,11 +558,11 @@ const Product = ({product_id}) => {
                                                 byteArrays.push(byteArray);
                                             }
                                             const blob = new Blob(byteArrays, { type: 'image/jpeg' });
-                                            const message = description.length > 0 ? `${title}\n\nDescription:  \n${description}` : `${title}`;
+                                            const message = description.length > 0 ? `${title}\n\nDescription:  \n${description} \n ${url}` : `${title} \n ${url}`;
                                             const encodedMessage = encodeURIComponent(message);
                                             const imageUrl = URL.createObjectURL(blob);
                                             console.log(imageUrl)
-                                            const whatsappUrl = `whatsapp://send?text=${encodedMessage + imageUrl}`;
+                                            const whatsappUrl = `whatsapp://send?text=${encodedMessage}`;
 
                                             // Open WhatsApp with the share URL
                                             window.open(whatsappUrl, '_blank');
