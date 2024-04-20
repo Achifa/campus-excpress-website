@@ -558,10 +558,10 @@ const Product = ({product_id}) => {
                                                 byteArrays.push(byteArray);
                                             }
                                             const blob = new Blob(byteArrays, { type: 'image/jpeg' });
-                                            const message = `${title}\n${description}`;
+                                            const message = description.length > 0 ? `${title}%0A%0A Description: %0A%0A${description}` : `${title}`;
                                             const encodedMessage = encodeURIComponent(message);
                                             const imageUrl = URL.createObjectURL(blob);
-
+                                            console.log(imageUrl)
                                             const whatsappUrl = `whatsapp://send?text=${encodedMessage}&attachment=${encodeURIComponent(imageUrl)}`;
 
                                             // Open WhatsApp with the share URL
