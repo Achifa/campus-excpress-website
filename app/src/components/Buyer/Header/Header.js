@@ -129,15 +129,19 @@ const Header = ({
   useEffect(() => {
     
     async function fetchData() {
-      let data = JSON.parse(window.localStorage.getItem('buyerData'))
+      // if(window.localStorage.getItem('buyerData') !== null){
+      //   let data = JSON?.parse(window.localStorage.getItem('buyerData'))
+      //   if(data === 'undefined' || data === null || data === ''){
 
-      if(data === 'undefined' || data === null || data === ''){
+      //     let result = await GetBuyer(window.localStorage.getItem('CE_buyer_id'))
+      //     window.localStorage.setItem('buyerData', JSON.stringify(result))
+      //     // alert('data'.JSON.stringify(result)) 
+  
+      //   }
+      // }
+      
 
-        let result = await GetBuyer(window.localStorage.getItem('CE_buyer_id'))
-        window.localStorage.setItem('buyerData', JSON.stringify(result))
-        // alert('data'.JSON.stringify(result)) 
-
-      }
+      
     }
     fetchData()
   },[])

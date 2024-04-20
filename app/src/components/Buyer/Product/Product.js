@@ -44,7 +44,7 @@ import {
     GetItem, 
     GetProductThumbnail 
 } from '../../../api/buyer/get'
-import SaveButton from '../Dashboard/SaveButton'
+import SaveButton from '../dashboard/SaveButton'
 import { 
     Helmet 
 } from 'react-helmet'
@@ -529,7 +529,7 @@ const Product = ({product_id}) => {
                                 <ul>
                                     <li onClick={e => {
                                         const url = window.location.href;
-                                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}&picture=${encodeURIComponent(activeImg)}`, '_blank');
                                     }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
                                         <img src={fbSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
                                     </li>
@@ -544,8 +544,34 @@ const Product = ({product_id}) => {
 
                                     <li onClick={e => {
                                         const url = window.location.href;
-                                        const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(item.title)}%0A%0A${item.description}%0A%0A${encodeURIComponent(url)}%0A%0A${encodeURIComponent(activeImg)}`;
-                                        window.open(whatsappUrl, '_blank');
+                                        const shareBase64ImageToWhatsApp = (base64ImageData, title, description) => {
+  // Convert Base64 image data to a Blob
+                                            const byteCharacters = atob(base64ImageData.split(',')[1]);
+                                            const byteArrays = [];
+                                            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                                                const slice = byteCharacters.slice(offset, offset + 512);
+                                                const byteNumbers = new Array(slice.length);
+                                                for (let i = 0; i < slice.length; i++) {
+                                                byteNumbers[i] = slice.charCodeAt(i);
+                                                }
+                                                const byteArray = new Uint8Array(byteNumbers);
+                                                byteArrays.push(byteArray);
+                                            }
+                                            const blob = new Blob(byteArrays, { type: 'image/jpeg' });
+                                            const message = `${title}\n${description}`;
+                                            const encodedMessage = encodeURIComponent(message);
+                                            const imageUrl = URL.createObjectURL(blob);
+
+                                            const whatsappUrl = `whatsapp://send?text=${encodedMessage}&attachment=${encodeURIComponent(imageUrl)}`;
+
+                                            // Open WhatsApp with the share URL
+                                            window.open(whatsappUrl, '_blank');
+
+                                        }
+                                        shareBase64ImageToWhatsApp(activeImg, item.title, item.description)
+
+
+                                       
                                     }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
                                         <img src={WhatsAppSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
                                     </li>
