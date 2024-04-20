@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let u1 = `http://localhost:2222`
+let u1 = `https://ce-server.vercel.app`; 
 let u4 = `http://192.168.93.40:1111`
 let u2 = `https://ce-server.onrender.com`
 let u0 = `https://ce-server-liqhku4ol-achifa.vercel.app`
