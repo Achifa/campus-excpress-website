@@ -101,7 +101,7 @@ const Aside = ({
         {uri: '',text: 'Refund & Return', img: refundSvg}, 
         // {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
         {uri: '',text: 'Contact Us', img: contactSvg}, 
-        {uri: 'logout',text: buyer.fname ? 'Logout' : 'Login', img: buyer.fname ? logoutSvg : login}
+        {uri: 'logout',text: buyer?.fname ? 'Logout' : 'Login', img: buyer?.fname ? logoutSvg : login}
     ]
     
     let list3 = categoriesList
