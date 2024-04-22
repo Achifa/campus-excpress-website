@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Helmet from 'react-helmet'
 import { useSelector } from "react-redux";
-// import Lodge from '../../components/Buyer/Dashboard/Lodge'
+// import Lodge from '../../components/Buyer/dashboard/Lodge'
 
 import BuyerLayout from '../../layout/Buyer'
 import Filter from "../../components/Buyer/Header/Filter";
