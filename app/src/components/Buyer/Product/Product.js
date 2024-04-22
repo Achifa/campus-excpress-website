@@ -44,7 +44,7 @@ import {
     GetItem, 
     GetProductThumbnail 
 } from '../../../api/buyer/get'
-import SaveButton from '../Dashboard/SaveButton'
+import SaveButton from '../dashboard/SaveButton'
 import { 
     Helmet 
 } from 'react-helmet'
