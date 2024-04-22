@@ -157,13 +157,13 @@ const Aside = ({
                 <div className="aside-cnt" style={{position: 'relative', overflow: 'hidden', padding: '0'}}>
                     <div style={{textAlign: 'left', width: '100%', height: 'fit-content', fontWeight: '500', display: 'flex', flexDirection: 'column', fontSize: 'large', marginTop: '0', padding: '10px', color: '#fff', background: 'orangered'}}>
                         <span style={{borderRadius: '50%', background: '#fff4e0', width: '50px', height: '50px', color: 'orangered', display: 'flex', alignItems: 'center', marginBottom: '10px', justifyContent: 'center'}}><h3 style={{padding: '0', margin: '0'}}>{
-                            buyer.fname ? buyer?.fname.split('')[0] + buyer.lname.split('')[0] : '?'
+                            buyer?.fname ? buyer?.fname.split('')[0] + buyer?.lname.split('')[0] : '?'
                         }</h3></span>
                         <span>
                             {
-                                buyer.fname 
+                                buyer?.fname 
                                 ?  
-                                buyer.fname + " " + buyer.lname 
+                                buyer?.fname + " " + buyer?.lname 
                                 : 
                                 <>
                                 <span onClick={e => navigate('/login')} style={{cursor: 'pointer'}}>
