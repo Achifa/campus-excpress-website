@@ -196,7 +196,8 @@ app.post("/send-mail", parser, async(req,res) =>  {
     
      }
 
-     sendEmailToken(adsMail, email)
+     let template = await retrieve_products()
+     sendEmailToken(adsMail(template), email)
     
         
 
