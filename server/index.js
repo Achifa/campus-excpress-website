@@ -153,6 +153,9 @@ app.post("/transfer", parser, async(req,res) => {
 })
 
 
+app.post("/send-mail", parser, async(req,res) =>  {
+    res.json({mssg: "hello world"})
+})
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', reason.stack || reason)
   // Recommended: send the information to sentry.io
