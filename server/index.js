@@ -196,7 +196,7 @@ app.post("/send-mail", parser, async(req,res) =>  {
     
      }
 
-     sendEmailToken(coldMail, email)
+     sendEmailToken(adsMail, email)
     
         
 
