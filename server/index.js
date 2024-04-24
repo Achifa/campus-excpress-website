@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
-const { retrieve_room, retrieve_seller } = require('./utils');
+const { retrieve_room, retrieve_seller,     retrieve_products } = require('./utils');
 const { 
     adsMail
 } = require("./templates");
