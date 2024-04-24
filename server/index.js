@@ -9,7 +9,7 @@ const { default: axios } = require('axios');
 const { retrieve_room, retrieve_seller } = require('./utils');
 const { 
     adsMail
-} = require("../templates");
+} = require("./templates");
 // const { v4 } = require('uuid');
    
 greetingTime(new Date());
