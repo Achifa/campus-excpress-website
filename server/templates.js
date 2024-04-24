@@ -252,11 +252,12 @@ let adsMail = (data)=> {
     </body>
     
     <script>
+        let uri = `https://www.campusexpressng.com/product?product_id=${item.product_id}`
         let cnt = document.querySelector('.mailAdsCnt');
         
         let ads = data.map((item) => {
             return(
-                <a href=`https://www.campusexpressng.com/product?product_id=${item.product_id}` class="mailAds">
+                <a href=uri class="mailAds">
                     <img src="" class="adsImg" alt="">
                     <p>{item.title}</p>
                     <h5>&#8358; item.price</h5>
