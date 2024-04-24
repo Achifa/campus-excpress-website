@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import '../../../styles/Admin/user_card.css'
-import { GetUsers } from '../../../api/admin';
 import email__svg from '../../../assets/email-svgrepo-com.svg'
 import phone__svg from '../../../assets/phone-rounded-svgrepo-com.svg'
 import location__svg from '../../../assets/location-pin-svgrepo-com (2).svg'

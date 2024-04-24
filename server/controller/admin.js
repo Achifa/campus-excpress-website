@@ -85,6 +85,8 @@ async function GetUsers(req,res) {
     )
     .catch(err => console.log(err))
 
+    console.log(buyers, sellers)
+
     res.send({buyers: buyers, sellers: sellers})
 
 }
@@ -515,7 +517,6 @@ async function LogAdminIn(req, res) {
 
 
 async function Shop(req,res)  {
-    let {id} = req.body;
     NeonDB.then((pool) => 
         pool.query(`select * from seller_shop`)
         .then(result => res.send(result.rows))

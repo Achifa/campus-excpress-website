@@ -25,6 +25,7 @@ app.use(cors({
 
 app.use(seller_route)
 app.use(buyer_route)
+app.use(admin_route)
 
 
 

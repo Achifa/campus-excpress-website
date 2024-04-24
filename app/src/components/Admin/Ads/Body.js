@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
-import { SHOP } from "../../../api/admin";
+import { 
+    GetItems 
+} from "../../../api/admin/get";
 
 const Body = () => {
     let [cards, set_cards] = useState([])
+
     useEffect(() => {
-        SHOP()
-        .then((result) => {
+        async function getData() {
+            let result = await GetItems()
             set_cards(result)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    })
+          }
+          getData() 
+    },[])
 
     return ( 
         <>
             <div className='admin-main'>
                 {
+                    cards
+                    ?
                     cards.map((item, index) => 
                     
                         <Card item={item} index={index} />
                     )
+                    :
+                    ''
                 }
             </div>
         </>
