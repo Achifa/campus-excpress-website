@@ -6,7 +6,10 @@ const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
-const { retrieve_room, retrieve_seller } = require('./utils');
+const { retrieve_room, retrieve_seller,     retrieve_products } = require('./utils');
+const { 
+    adsMail
+} = require("./templates");
 // const { v4 } = require('uuid');
    
 greetingTime(new Date());
@@ -153,6 +156,53 @@ app.post("/transfer", parser, async(req,res) => {
   }
 })
 
+
+app.post("/send-mail", parser, async(req,res) =>  {
+
+     let {email} = req.body;
+    
+     function sendEmailToken(mail,email) {
+            const nodemailer = require('nodemailer');
+    
+            // Create a transporter using SMTP
+            const transporter = nodemailer.createTransport({
+            host: 'mail.privateemail.com',  // Replace with your SMTP server hostname
+            port: 465, // Replace with your SMTP server port
+            secure: true, // Set to true if using SSL/TLS
+            auth: { 
+                user: 'campus-express@campusexpressng.com', // Replace with your email address
+                pass: 'A!nianuli82003', // Replace with your email password or app-specific password
+            },
+            }); 
+    
+            // Email content 
+            const mailOptions = {
+                from: 'campus-express@campusexpressng.com', // Replace with your email address
+                to: `${email}`, // Replace with the recipient's email address
+                subject: title,
+                html: mail
+            };
+    
+            // Send the email
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error:', error);
+                res.send("Error")
+                } else {
+                    console.log('Email sent:', info.response);
+                    res.send("Success")
+                }
+            });
+    
+    
+     }
+
+     let template = await retrieve_products()
+     sendEmailToken(adsMail(template), email)
+    
+        
+
+})
 
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', reason.stack || reason)
