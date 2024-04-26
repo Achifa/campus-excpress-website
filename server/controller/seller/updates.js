@@ -1,6 +1,6 @@
 const { NeonDB } = require("../../db");
-const { bcrypt, shortId } = require("../../modules");
 const { pwd_reset } = require("../../templates");
+const { bcrypt, shortId } = require("../../modules");
 
 function update_seller_profile(req,res) {
     let {

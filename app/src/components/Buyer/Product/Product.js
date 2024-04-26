@@ -44,7 +44,7 @@ import {
     GetItem, 
     GetProductThumbnail 
 } from '../../../api/buyer/get'
-import SaveButton from '../dashboard/SaveButton'
+import SaveButton from '../Dashboard/SaveButton'
 import { 
     Helmet 
 } from 'react-helmet'
@@ -70,7 +70,7 @@ const Product = ({product_id}) => {
             seller_id: '',
             title: '',
             category: '',
-            type: '',
+            type: '', 
             condition: '',
             stock: '',
             locale: '',

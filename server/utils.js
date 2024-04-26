@@ -428,6 +428,25 @@ async function check_if_room_exist(seller_id,buyer_id) {
     )
   }
 
+  async function upload_new_view(buyer_id,product_id,view_id,) {
+    let date = new Date();
+    let duplicateViews = await NeonDB.then((pool) => 
+        pool.query(`SELECT * FROM views WHERE buyer_id = ${buyer_id} AND product_id = ${product_id}`)
+          .then(result => result.rows.length > 0 ? false : true)
+          .catch(err => console.log(err))
+        )
+    .catch(err => console.log(err))
+
+    if(duplicateViews){
+        await NeonDB.then((pool) => 
+            pool.query(`insert into views(id,buyer_id,product_id,view_id,date) values(DEFAULT, '${buyer_id}','${product_id}','${view_id}','${date}')` )
+            .then(result => result.rowCount > 0 ? result.send(true) : result.send(false))
+            .catch(err => console.log(err))
+            )
+        .catch(err => console.log(err))
+    }
+  }
+
 module.exports ={
     retrieve_room,
     retrieve_buyer,
@@ -456,5 +475,6 @@ module.exports ={
     update_meta_data,
     update_photos,
 
-    create_room_id
+    create_room_id,
+    upload_new_view
 }

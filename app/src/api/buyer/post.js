@@ -69,6 +69,12 @@ export async function UploadChat(buyer_id,seller_id) {
     return (response)?.data
 }
 
+export async function AddView(buyer_id,product_id) {
+    let response = await post_request_generators('new-view', {buyer_id,product_id})
+    setTimeout(() => source.cancel('timeout'), 10000) 
+    return (response)?.data
+}
+
 
 
 

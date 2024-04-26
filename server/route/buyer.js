@@ -85,4 +85,7 @@ buyer_route.post('/buyer.email-validation', parser, ValidateEmail);
 
 buyer_route.post('/new-chat', parser, upload_chat);
 
+buyer_route.post('/new-view', parser, upload_chat);
+
+
 module.exports = {buyer_route} 

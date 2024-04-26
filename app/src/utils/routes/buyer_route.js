@@ -7,7 +7,7 @@ import Order from '../../pages/Buyer/Order';
 import Historhy from '../../pages/Buyer/History';
 import Cart from '../../pages/Buyer/Cart'; 
 import Wallet from '../../pages/Buyer/Wallet';
-import Search from '../../components/Buyer/Header/Search';
+import Search from '../../components/Buyer/Header/SearchOutput';
 import BuyerForgotPwd from '../../Authorization/Buyer.js/ForgotPassword';
 import { useEffect } from 'react';
 import Messages from '../../pages/Buyer/Messages';
@@ -49,6 +49,6 @@ export let buyer_route = [
 
     { path: '/login', component: <BuyerLogin />},
 
-    { path: '/search', component: <Search />}, 
+    { path: '/search', component: <Dashboard />}, 
     { path: '/reset-password', component: <BuyerForgotPwd />}
 ]

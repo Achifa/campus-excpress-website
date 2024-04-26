@@ -28,9 +28,11 @@ import {
   GetSearchWord 
 } from "../../../api/buyer/get";
 import Filter from "./Filter";
+import Search from "./SearchOutput";
+import SearchBar from "./SearchBar";
 
 const Header = ({
-  setHeaderCategory
+  
 }) => {
 
   let {buyerJsx} = useSelector(s => s.buyerJsx)
@@ -78,6 +80,10 @@ const Header = ({
 
   },[]) 
 
+  let [searchData, setSearchData] = useState('')
+
+
+  
   useEffect(() => {
     if(location.pathname.split('/').splice(-1)[0] === 'product'){
       setWidth('100%')
@@ -173,7 +179,7 @@ const Header = ({
 
       
       
-      <div className="buyer-header shadow-sm" style={{position: 'sticky', top: '0', zIndex: '10000'}}>
+      <div className="buyer-header" style={{position: 'sticky', top: '0', zIndex: '10000'}}>
 
 
         <img src={img} style={{height: screenWidth > 760 ? '80px' : '50px', width: screenWidth > 760 ? '80px' : '50px'}}  alt="" />
@@ -244,24 +250,19 @@ const Header = ({
               <>
               
                 {
-                  screenWidth < 760
+                  screenWidth > 479
                   ?
-                  <li style={{padding: '5px'}} onClick={e => navigate('/search')}>
-                    {/* <span>Menu</span> */}
+                  <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
+                    <span>Menu</span>
                     <span>
-                      <img src={searchSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px'}} alt="" />
+                      <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
                     </span>
                   </li>
                   :
                   ''
                 }
 
-                <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
-                  {/* <span>Menu</span> */}
-                  <span>
-                    <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
-                  </span>
-                </li>
+                
 
                 <li style={{padding: '5px'}} onClick={e => openAside(e)}>
                   {/* <span>Menu</span> */}
@@ -279,6 +280,17 @@ const Header = ({
         
 
       </div>
+
+      
+
+      {
+        screenWidth < 479
+        ?
+        <SearchBar />
+        :
+        ''
+      }
+      {/* <Filter /> */}
 
 
     

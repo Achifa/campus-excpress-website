@@ -848,6 +848,11 @@ async function get_chat(req,res){
      
 } 
 
+
+async function new_view(){
+    
+}
+
 module.exports = {
 
     register_buyer,

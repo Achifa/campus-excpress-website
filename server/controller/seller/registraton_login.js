@@ -1,4 +1,3 @@
-const { create_token } = require("../../Functions/token");
 const { NeonDB } = require("../../db");
 const { express,path,fs,parser,mocha,morgan,cors,shortId,jwt,io,bcrypt} = require('../../modules');
 const maxAge = 90 * 24 * 60 * 60; 

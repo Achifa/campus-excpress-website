@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -7,24 +7,36 @@ import '../../styles/Buyer/large-screen.css'
 import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Helmet from 'react-helmet'
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/dashboard/Lodge'
 
 import BuyerLayout from '../../layout/Buyer'
-import Filter from "../../components/Buyer/Header/Filter";
+import { useLocation } from "react-router-dom";
+import SearchOutput from "../../components/Buyer/Header/SearchOutput";
  
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
+    let location = useLocation()
+    let [activeJSX, setActiveJSX] = useState(<CardCnt />)
  
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
         // document.body.style.background='orangered'
     }, [])
+
+    useEffect(() => {
+
+        if(location.pathname.split('/')[1] === 'search'){
+            setActiveJSX(<SearchOutput />)
+        }else{
+            setActiveJSX(<CardCnt />)
+        }
+    }, [location])
+    
 
     let {storedCategory} = useSelector(s => s.storedCategory)
    
@@ -92,7 +104,9 @@ const Dashboard = () => {
                     height: '100vh',
                 }}>
                     
-                  <CardCnt />
+                  {
+                    activeJSX
+                  }
                 </div>
             </BuyerLayout>
 
