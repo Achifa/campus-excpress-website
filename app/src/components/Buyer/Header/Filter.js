@@ -100,8 +100,8 @@ export default function Filter({
                     borderRadius: '1.5px'
                 }}>
                 <div style={{textAlign: 'left', width: '100%', height: 'fit-content', fontWeight: '500', display: 'flex', flexDirection: 'column', fontSize: 'large', marginTop: '0', padding: '10px', color: '#fff', background: 'orangered'}}>
-                    <span style={{borderRadius: '5px', background: '#fff4e0', width: '50px', height: '50px', color: 'orangered', display: 'flex', alignItems: 'center', marginBottom: '10px', justifyContent: 'center'}}>
-                        <img src={filterSvg} style={{height: '30px', width: '30px'}} alt="" />
+                    <span style={{borderRadius: '5px', background: '#fff4e0', width: '35px', height: '35px', color: 'orangered', display: 'flex', alignItems: 'center', marginBottom: '10px', justifyContent: 'center'}}>
+                        <img src={filterSvg} style={{height: '25px', width: '25px'}} alt="" />
                     </span>
                     <span>
                     {
