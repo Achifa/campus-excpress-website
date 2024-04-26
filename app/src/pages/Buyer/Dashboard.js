@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
