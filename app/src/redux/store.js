@@ -18,7 +18,7 @@ let store = configureStore({
     itemImages: ItemImages,
     ActiveImg: ActiveImg,
     Cart: Cart, 
-    searchList: SearchList,
+    SearchList: SearchList,
     Save: Save,
     storedCategory: storedCategory,
     Type: Type,

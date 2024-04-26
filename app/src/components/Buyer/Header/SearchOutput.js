@@ -7,7 +7,7 @@ import { GetSearchWord } from '../../../api/buyer/get';
 import { useSelector } from 'react-redux';
 export default function SearchOutput() {
 
-    let {searchList} = useSelector(s => s.searchList);
+    let {SearchList} = useSelector(s => s.SearchList);
 
 
     let [searchRes, setSearchRes] = useState([])
@@ -16,21 +16,31 @@ export default function SearchOutput() {
     let [searchChar, setSearchChar] = useState('')
     useEffect(() => {
     
-        setSearchRes((searchList))
-    }, [searchList])
+        setSearchRes(SearchList)
+    }, [SearchList])
 
       
   return (
     <>
-        <div className="search-cnt">
+        <div style={{
+            marginTop: '50px',
+            paddingTop: '20px',
+            background: '#fff'
+        }} className="buyer-main-content buyer-main-cnt">
 
             
             <div className="search-content">
                 {
-                    searchRes.length > 0
+                    searchRes?.length > 0
                     ?
                     searchRes.map((item, index) => 
-                        <div key={index} className=''>
+                        <div style={{
+                            height: 'auto',
+                            width: '100%',
+                            padding: '10px',
+                            borderLeft: '1px solid #FF4500', 
+                            marginBottom: '10px',
+                        }} onClick={e => navigate(`/product?product_id=${item.product_id}`)} key={index} className='shadow-sm'>
                             {item.title}
                         </div>
                     )
