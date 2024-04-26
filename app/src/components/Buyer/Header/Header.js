@@ -284,7 +284,7 @@ const Header = ({
       
 
       {
-        screenWidth < 479 && location.pathname.split('/')[0]===''
+        screenWidth < 479 && location.pathname.split('/')[1]===''
         ?
         <SearchBar />
         :
