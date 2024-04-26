@@ -1,20 +1,20 @@
 //19 request on buyer
 
-const { 
-    create_cart, 
-    delete_cart, 
-    retrive_cart 
-} = require("../Functions/cart");
-const { 
-    query_tool 
-} = require("../Functions/query");
-const { 
-    send_email 
-} = require("../Functions/send_mssgs");
-const { 
-    create_token,
-     create_token_for_pwd 
-} = require("../Functions/token");
+// const { 
+//     create_cart, 
+//     delete_cart, 
+//     retrive_cart 
+// } = require("../Functions/cart");
+// const { 
+//     query_tool 
+// } = require("../Functions/query");
+// const { 
+//     send_email 
+// } = require("../Functions/send_mssgs");
+// const { 
+//     create_token,
+//      create_token_for_pwd 
+// } = require("../Functions/token");
 const { 
     NeonDB 
 } = require("../db");
@@ -41,6 +41,7 @@ const {
      retrieve_product_with_id,
      retrieve_buyer 
 } = require("../utils");
+
 const maxAge = 90 * 24 * 60 * 60; 
 const createToken = (id) => {
     return jwt.sign({ id }, 'seller_secret', {
@@ -850,7 +851,7 @@ async function get_chat(req,res){
 
 
 async function new_view(){
-    
+
 }
 
 module.exports = {

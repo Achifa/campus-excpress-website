@@ -16,8 +16,8 @@ export default function SearchOutput() {
     let [searchChar, setSearchChar] = useState('')
     useEffect(() => {
     
-        // alert(JSON.stringify(searchList))
-      }, [searchList])
+        setSearchRes((searchList))
+    }, [searchList])
 
       
   return (

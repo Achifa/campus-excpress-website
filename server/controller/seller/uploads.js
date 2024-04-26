@@ -1,7 +1,7 @@
 // const { upload_meta_data, upload_photos } = require("../../Functions/upload_items");
 const { NeonDB } = require("../../db");
 const { shortId, bcrypt, jwt } = require("../../modules");
-const {upload_meta_data,upload_photos} = require("../../Functions/upload_items")
+const { upload_meta_data, upload_photos } = require("../../utils");
 async function upload_product(req,res) {
 
     let {constantData, dynamicData}= req.body;

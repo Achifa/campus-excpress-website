@@ -48,12 +48,12 @@ const SearchBar = ({updateSearchText}) => {
   }
 
   useEffect(() => {
-    async function getData(params) {
+    async function getData() {
       if(searchChar !== '' && searchChar !== ' '){ 
         try {
            let result = await GetSearchWord(searchChar)
            dispatch(setSearchListTo(result))
-           console.log('result: ', result)
+          //  console.log('result: ', result)
            
         } catch (error) {
            console.log(error)
