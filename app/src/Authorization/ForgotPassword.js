@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
-import { ResetPwd } from '../../api/seller';
-import '../../styles/settings.css';
+import { useEffect, useRef, useState } from 'react';
+import { ResetPwd } from '../api/seller';
+import '../styles/settings.css';
 import Countdown from 'react-countdown';
-import SellerLayout from '../../layout/Seller';
+import SellerLayout from '../layout/Seller';
+import emailTemplates from '../emailTemplates';
 const ForgotPwd = () => {
 
     let [email, setemail] = useState('');
@@ -107,6 +108,71 @@ const ForgotPwd = () => {
         }
         
     }
+
+    useEffect(() => {
+
+       
+    
+        var formdata = new FormData();
+        formdata.append("token", "rXdAgTsFBOS8ECK7MZk1i6WojUmqy9unDv34cQablpz0JLHhIV5NfPG2teYwxR");
+        formdata.append("senderEmail", "campus-express@campusexpressng.com");
+        formdata.append("senderName", "Campus Express Nigeria");
+        formdata.append("senderFrom", "campus-express@campusexpressng.com");
+        formdata.append("campaignName", "Password Recovery");
+        formdata.append("recipient", "akpulufabian@gmail.com");
+        formdata.append("subject", "Password Recovery");
+        formdata.append("templateCode", 
+            `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Email Template</title>
+                <style>
+                    /* Inline CSS for styling */
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        background-color: #ffffff;
+                    }
+                    h1 {
+                        color: #333333;
+                    }
+                    p {
+                        color: #666666;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>Welcome to Our Newsletter!</h1>
+                    <p>Dear Subscriber,</p>
+                    <p>Thank you for subscribing to our newsletter. We're excited to keep you updated on the latest news and offers.</p>
+                    <p>Best regards,<br> The Newsletter Team</p>
+                </div>
+            </body>
+            </html>`
+
+        );
+
+        var requestOptions = {
+        method: 'POST', 
+        body: formdata,
+        redirect: 'follow'
+        };
+
+        fetch("https://my.kudisms.net/api/campaign", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    },[])
 
 
     return ( 

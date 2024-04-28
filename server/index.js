@@ -159,11 +159,62 @@ app.post("/transfer", parser, async(req,res) => {
 
 app.post("/send-mail", parser, async(req,res) =>  {
 
-     let {email} = req.body;
+  let {email} = req.body;
+
+  console.log(email)
+  const nodemailer = require('nodemailer');
+
+  // Create a transporter using SMTP
+  const transporter = nodemailer.createTransport({
+    host: 'mail.privateemail.com',  // Replace with your SMTP server hostname
+    port: 465, // Replace with your SMTP server port
+    secure: true, // Set to true if using SSL/TLS
+    auth: { 
+        user: 'campus-express@campusexpressng.com', // Replace with your email address
+        pass: 'A!nianuli82003', // Replace with your email password or app-specific password
+    },
+  }); 
+
+  // Email content 
+  const mailOptions = {
+      from: 'campus-express@campusexpressng.com', // Replace with your email address
+      to: `${email}`, // Replace with the recipient's email address
+      subject: 'Verify Your Email Address',
+      text: ` 
+
+        Hello Dear,
+        
+        Thank you for choosing Campus Express Nigeria! To complete your Email Verification, please click the link below:
+        
+        www.campusexpressng.com/email-verification/${'token'}?email=${'email'}
+        
+        This link is valid for 5 minutes. Please do not share this link with anyone, as it is used for identity verification purposes only.
+        
+        If you did not initiate this action, please contact our support team immediately.
+        
+        Thank you for using Campus Express Nigeria.
+        
+        Best regards,
+        Campus Express Nigeria. 
+      `
+  };
+
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.error('Error:', error);
+      } else {
+          console.log('Email sent:', info.response);
+      }
+  });
+
+
+
+  
+})
     
      
 
-})
 
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', reason.stack || reason)

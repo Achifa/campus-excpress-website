@@ -253,7 +253,7 @@ const Header = ({
                   screenWidth > 479
                   ?
                   <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
-                    <span>Menu</span>
+                    {/* <span>Menu</span> */}
                     <span>
                       <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
                     </span>

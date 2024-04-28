@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -36,7 +36,7 @@ const Dashboard = () => {
             setActiveJSX(<CardCnt />)
         }
     }, [location])
-    
+
 
     let {storedCategory} = useSelector(s => s.storedCategory)
    

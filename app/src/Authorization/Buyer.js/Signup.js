@@ -259,11 +259,11 @@ const BuyerSignup = () => {
                         <div className="seller-input-cnt">
                             <section>
                                 <label htmlFor="">FirstName</label>
-                                <input name='fname' onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                                <input style={{background: '#efefef'}} name='fname' onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
                             </section>
                             <section>
                                 <label htmlFor="">LastName</label>
-                                <input name='lname' onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
+                                <input style={{background: '#efefef'}} name='lname' onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
                             </section>
                         </div>
 
@@ -271,14 +271,14 @@ const BuyerSignup = () => {
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Email</label>
-                                <input name='email' onInput={e => {setEmail(e.target.value)}} className='email'  placeholder='Email...' type="text" />
+                                <input style={{background: '#efefef'}} name='email' onInput={e => {setEmail(e.target.value)}} className='email'  placeholder='Email...' type="text" />
                             </section> 
                         </div>
 
                         <div className="seller-input-cnt">
                             <section style={{width: '100%', float: 'left'}}>
                                 <label htmlFor="">Phone</label>
-                                <input name='phone'
+                                <input style={{background: '#efefef'}} name='phone'
                                 className='phone' onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
 
                                 
@@ -289,7 +289,7 @@ const BuyerSignup = () => {
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Password</label>
-                                <input name='password' className='pwd' onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
+                                <input style={{background: '#efefef'}} name='password' className='pwd' onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
                             </section>
                             <section>
                                 <button onClick={e => {
@@ -362,7 +362,7 @@ const BuyerSignup = () => {
                     {/* <div>
                         <small style={{color: 'orangered'}}>Forgot Password? Recover Password Here</small>
                     </div> */}
-                    <div onClick={e => navigate('/buyer/login')}>
+                    <div onClick={e => navigate('/login')} style={{width: '100%', textAlign: 'center', color: 'orangered'}}>
                         <small style={{cursor: 'pointer'}}>Already Have An Account, Signin Here</small>
                     </div>
 

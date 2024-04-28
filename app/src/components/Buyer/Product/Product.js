@@ -34,6 +34,7 @@ import {
 import SimilarItems from './SimilarItems'
 import Description from './Description'
 import { 
+    AddView,
     SaveItem, 
     UploadChat 
 } from '../../../api/buyer/post'
@@ -44,7 +45,7 @@ import {
     GetItem, 
     GetProductThumbnail 
 } from '../../../api/buyer/get'
-import SaveButton from '../dashboard/SaveButton'
+import SaveButton from '../Dashboard/SaveButton'
 import { 
     Helmet 
 } from 'react-helmet'
@@ -306,6 +307,28 @@ const Product = ({product_id}) => {
     useEffect(() => {
         setMetaImg(ItemImages[0]?.file)
     }, [])
+
+    useEffect(() => {
+        let overlay = document.querySelector('.overlay');
+        overlay.setAttribute('id', 'overlay');
+        try {
+            async function getData() {
+                let result = await AddView(product_id,)
+                if(result.length > 0){
+                    setItem(result[0])
+                    overlay.removeAttribute('id');
+
+                }
+                // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
+            }
+            setTimeout(() => {
+                getData()
+            }, 5000);
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
+    
     
 
 

@@ -107,6 +107,8 @@ const CardCnt = () => {
                     )
                 )
                 overlay.removeAttribute('id');
+
+                
             }
             fetchData()
         } catch (error) {

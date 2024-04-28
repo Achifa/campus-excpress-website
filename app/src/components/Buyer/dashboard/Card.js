@@ -63,6 +63,8 @@ const Card = ({item, index}) => {
         setSavedData(Save)
     }, [Save])
 
+    
+
     // let [items, setItems] = useState([])
 
     async function Saver(e,product_id) { 
@@ -148,7 +150,7 @@ const Card = ({item, index}) => {
             {
                 elem
             }
-            <div className="cols" >
+            <div className="cols" id={item.product_id} >
                 <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10px'}}>
                     
                     <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '10px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px', zIndex: '1000', padding: '0 5px 0 5px'}}>

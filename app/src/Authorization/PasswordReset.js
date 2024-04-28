@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CheckPwdResetToken, GetSeller, ResetPwd, updatePwd } from '../../api/seller';
+import { CheckPwdResetToken, GetSeller, ResetPwd, updatePwd } from '../api/seller';
 import '../../styles/settings.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 
