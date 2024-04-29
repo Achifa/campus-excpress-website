@@ -30,6 +30,7 @@ import {
 import Filter from "./Filter";
 import Search from "./SearchOutput";
 import SearchBar from "./SearchBar";
+import { setSearchListTo } from "../../../redux/buyer_store/SearchList";
 
 const Header = ({
   
@@ -80,9 +81,6 @@ const Header = ({
 
   },[]) 
 
-  let [searchData, setSearchData] = useState('')
-
-
   
   useEffect(() => {
     if(location.pathname.split('/').splice(-1)[0] === 'product'){
@@ -113,21 +111,25 @@ const Header = ({
     let position = e.target.getBoundingClientRect();
     let top = position.top
     let left = position.left
-    document.querySelector('.buyer-search-overlay').setAttribute('id', 'buyer-search-overlay')
-
-    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top} list={[searchRes]} />)
+    document.querySelector('.buyer-overlay').setAttribute('id', 'buyer-overlay')
+    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top}  />)
   }
 
   useEffect(() => {
-    if(searchChar !== '' && searchChar !== ' '){ 
-      try {
-        let result = GetSearchWord(searchChar === '' || searchChar === ' ' ? '' : searchChar)
-        setSearchRes(result)
-      } catch (error) {
-        console.log(error)
-      }
-
+    async function getData() {
+      if(searchChar !== '' && searchChar !== ' '){ 
+        try {
+           let result = await GetSearchWord(searchChar)
+           dispatch(setSearchListTo(result))
+          //  console.log('result: ', result)
+           
+        } catch (error) {
+           console.log(error)
+        }
+   
+       }
     }
+    getData()
   }, [searchChar])
 
 
@@ -159,26 +161,15 @@ const Header = ({
 
   return ( 
     <>
-      {
-        <FloatingMenu buyer={buyer} list={list} top={top} visible={visible} right={right} />
-      }
-
+     
       {
         <Aside />
       }
 
-      
-
-      
-      <div className="buyer-overlay" onClick={e =>e.target === document.querySelector('.buyer-overlay') ? handleOverlay() : ''}>
         {
-          buyerJsx === 'filter' ? <BuyerAside /> : <BuyerMenu />
+          searchResultElem
         }
 
-      </div>
-
-      
-      
       <div className="buyer-header" style={{position: 'sticky', top: '0', zIndex: '10000'}}>
 
 
