@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../../../styles/Seller/Payment.css'
-import { WalletData } from '../../../api/seller';
 export default function Payments() {
 
     let [Transactions, setTransactions] = useState([]);
@@ -9,17 +8,17 @@ export default function Payments() {
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
-        WalletData(window.localStorage.getItem("CE_seller_id"))
-        .then(({walletBalance, TransactionHistory}) => {
-            setBalance(`${walletBalance[0].wallet_balance}.00`)
-            //setTransactions([...JSON.parse(TransactionHistory[0].document)])
-            let files = TransactionHistory.map(item => JSON.parse(item.document))
-            setTransactions(files)
-            overlay.removeAttribute('id')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        // WalletData(window.localStorage.getItem("CE_seller_id"))
+        // .then(({walletBalance, TransactionHistory}) => {
+        //     setBalance(`${walletBalance[0].wallet_balance}.00`)
+        //     //setTransactions([...JSON.parse(TransactionHistory[0].document)])
+        //     let files = TransactionHistory.map(item => JSON.parse(item.document))
+        //     setTransactions(files)
+        //     overlay.removeAttribute('id')
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
     },[])
 
   return (

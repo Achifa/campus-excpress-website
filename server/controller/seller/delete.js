@@ -1,6 +1,6 @@
 const { NeonDB } = require("../../db");
 
-function delete_product(req,res) {
+function DeleteItem(req,res) {
     let {
         seller_id,
         product_id
@@ -33,5 +33,5 @@ function delete_product(req,res) {
 }
 
 module.exports={
-    delete_product
+    DeleteItem
 }

@@ -17,7 +17,11 @@ const Thumbnail = ({product_id}) => {
         try {
             async function fetchData(params) {
                 let result = await GetProductThumbnail(product_id)
-                set_img(result?.file) 
+                result?.file
+                ?
+                set_img(result.file) 
+                :
+                set_img(imgSvg) 
             }
             fetchData()
         } catch (error) {
@@ -29,7 +33,7 @@ const Thumbnail = ({product_id}) => {
 
     return ( 
         <>
-            <img onClick={e => navigate(`/product?product_id=${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '5px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />
+            <img onClick={e => navigate(`/product?product_id=${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '10px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />
         </>
      );
 }

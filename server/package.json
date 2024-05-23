@@ -12,6 +12,7 @@
   "dependencies": {
     "@getbrevo/brevo": "^1.0.1",
     "@google-cloud/local-auth": "^2.1.1",
+    "@green-api/whatsapp-api-client": "^0.3.39",
     "axios": "^1.4.0",
     "base64-to-file": "^1.1.0",
     "bcryptjs": "^2.4.3",
@@ -46,6 +47,7 @@
     "universal-cookie": "^4.0.4",
     "uuid": "^9.0.1",
     "uuidv4": "^6.2.13",
+    "whatsapp": "^0.0.5-Alpha",
     "youtube-all-in-one-uploader": "^1.0.5"
   }
 }

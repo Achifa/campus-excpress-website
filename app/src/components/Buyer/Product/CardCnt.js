@@ -21,7 +21,7 @@ import { UnSaveItem } from "../../../api/buyer/delete";
 import { SaveItem } from "../../../api/buyer/post";
 import { GetItems } from "../../../api/buyer/get";
 
-const CardCnt = ({category}) => {
+const CardCnt = ({category, product_id}) => {
     let {Cart} = useSelector(s => s.Cart)
     let {Save} = useSelector(s => s.Save)
     // let {storedCategory} = useSelector(s => s.storedCategory)
@@ -37,14 +37,16 @@ const CardCnt = ({category}) => {
     }, [])
 
     useEffect(() => {
-        let overlay = document.querySelector('.overlay');
+        // let overlay = document.querySelector('.overlay');
         //overlay.setAttribute('id', 'overlay');
 
         try {
            async function getData() {
             let result = await GetItems(category)
-            setItems(result)
-            overlay.removeAttribute('id');
+            
+            let data = result.filter(item => alert(item.product_id !== product_id))
+            setItems(data)
+            // overlay.removeAttribute('id');
            }
            getData()
         } catch (error) {
@@ -71,90 +73,13 @@ const CardCnt = ({category}) => {
     }
     let dispatch = useDispatch()
 
-    // function AddToCart(e,product_id) {
-    //     e.target.disabled = true;
-
-    //     let cartList = [...Cart];
-    //     let duplicateSearch = cartList.filter(item => item.product_id === product_id)
-    //     if(cartList.length > 0){
-    //         if(duplicateSearch.length > 0){
-    //             let newList = cartList.filter(item => item !== duplicateSearch[0])
-    //             //dispatch(setCartTo(newList))
-    //             DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-    //             .then((result) => {
-    //                 dispatch(setCartTo(result))
-    //                 e.target.disabled = false;
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err)
-    //             })
-    //         }else{
-    //             dispatch(setCartTo([...Cart, product_id]))
-    //             AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-    //             .then((result) => {
-    //                 dispatch(setCartTo(result))
-    //                 e.target.disabled = false;
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err)
-    //             })
-    //         }
-    //     }else{
-    //         AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-    //         .then((result) => {
-    //             dispatch(setCartTo(result))
-    //             e.target.disabled = false;
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-    //     }
-    // }
-
-    function Saver(e,product_id) {
-        e.target.disabled = true;
-
-        let saveList = [...Save];
-        let duplicateSearch = saveList.filter(item => item.product_id === product_id)
-        if(saveList.length > 0){
-            if(duplicateSearch.length > 0){
-                // let newList = saveList.filter(item => item !== duplicateSearch[0])
-                // dispatch(setSaveTo(newList))
-                try {
-                    let result = UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                    dispatch(setSaveTo(result))
-                    e.target.disabled = false;
-                } catch (error) {
-                    console.log(error)
-                }
-            }else{
-                
-                try {
-                    let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                    dispatch(setSaveTo(result))
-                    e.target.disabled = false;
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        }else{
-            try {
-                let result = SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                dispatch(setSaveTo(result))
-                e.target.disabled = false;
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    }
-  
     return ( 
         <>
             <div className="overlay" >
                 <div className="loader">
                 </div>
             </div>
-            <div className="buyer-card-cnt" style={{width: '100%', display: 'flex', alignItems: 'center', background: '#fff4e0', height: 'fit-content', minHeight: 'unset'}}>
+            <div className="buyer-card-cnt" style={{width: '100%', display: 'flex', alignItems: 'center', background: '#fff', height: 'fit-content', minHeight: 'unset'}}>
                 {/* <div className="buyer-sort shadow-sm">
                     <div className="left">
                         Latest Items For Sale
@@ -168,9 +93,9 @@ const CardCnt = ({category}) => {
                     items.length > 0
                     ?
                     items.map((item, index) => 
-                        <div className="cols" >
-                            <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10x', flexShrink: '0', width: '200px'}}>
-                                <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
+                    <div className="cols" >
+                            <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10x', flexShrink: '0', width: '200px', borderRadius: '10px'}}>
+                                {/* <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '8px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px'}}>
                                     <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
                                         <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '8px', width: screenWidth  > 480 ? '20px' : '10px', marginBottom: '5px'}} alt="" />
 
@@ -179,7 +104,7 @@ const CardCnt = ({category}) => {
                                     <span  style={{background: 'orangered',color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}>
                                         UNIZIK, Awka
                                     </span>
-                                </span>
+                                </span> */}
                                 <Thumbnail product_id={item.product_id} />
 
                                 <div className="card-body">
@@ -206,7 +131,7 @@ const CardCnt = ({category}) => {
                                         <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
                                     }
 
-                                    <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
+                                    {/* <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
                                         <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', left: '20px', padding: '5px 0 5px 0'}}>
                                             <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
 
@@ -227,7 +152,7 @@ const CardCnt = ({category}) => {
                                         <section style={{marginTop: '-5px', fontSize: 'x-small'}}>
                                             {[...Save].filter(savedItem => savedItem.product_id === item.product_id)[0] ? 'Unsave' : 'Save'}
                                         </section>
-                                    </button>
+                                    </button> */}
 
                                     
 

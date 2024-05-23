@@ -13,11 +13,11 @@ const {
 // const { v4 } = require('uuid');
    
 greetingTime(new Date());
-require('dotenv').config(); 
+require('dotenv').config();    
 
-const app = express(); 
+const app = express();  
 app.use(cookieParser());
-app.use(morgan('dev'));  
+app.use(morgan('dev'));   
 
 app.use(cors({
   origin: '*',
@@ -53,28 +53,30 @@ io(server, {cors: {origin: '*'}}).on('connection',(socket) => {
     .catch(err => console.log(err))
   })
 
-  
+   
 
 });
- 
+
 
 app.post("/bank-verification", parser, (req,res) => {
-  let {acctNum,bank} = req.body
+  let {acctNum,Bank} = req.body;
+
+  console.log('dara:',req.body)
 
   const Flutterwave = require('flutterwave-node-v3');
     const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
     const details = {
       account_number: acctNum,
-      account_bank: bank
+      account_bank: Bank
     };
     flw.Misc.verify_Account(details)
-    .then(result => res.send(result))
+    .then(result => result.status === 'success' ? res.status(200).send({name:result.data.account_name}) : res.status(503).send('error'))
     .catch(err => console.log(err));
 
 })
 
-app.post("/transfer", parser, async(req,res) => {
-  let {withdrwawalAmount,acctNum,bank,acctName} = req.body;
+app.post("/transfer", parser, async(req,res) => { 
+  let {withdrwawalAmount,acctNum,Bank,acctName} = req.body;
   const https = require('https')
   const { v4: uuidv4, v4 } = require('uuid');
   console.log(withdrwawalAmount)
@@ -157,49 +159,17 @@ app.post("/transfer", parser, async(req,res) => {
 })
 
 
-app.post("/send-mail", parser, async(req,res) =>  {
-
-  let {email} = req.body;
-
-  // console.log(email)
-  let data = await retrieve_products()
-  let ads = adsMail(data)
-  const nodemailer = require('nodemailer');
-
-  // Create a transporter using SMTP
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.privateemail.com',  // Replace with your SMTP server hostname
-    port: 465, // Replace with your SMTP server port
-    secure: true, // Set to true if using SSL/TLS
-    auth: { 
-        user: 'campus-express@campusexpressng.com', // Replace with your email address
-        pass: 'A!nianuli82003', // Replace with your email password or app-specific password
-    },
-  }); 
-
-  // Email content 
-  const mailOptions = {
-      from: 'campus-express@campusexpressng.com', // Replace with your email address
-      to: `${email}`, // Replace with the recipient's email address
-      subject: 'Verify Your Email Address',
-      html: 'ads'
-  };
-
-  // Send the email
-  transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-          console.error('Error:', error);
-      } else {
-          console.log('Email sent:', info.response);
-      }
-  });
-
-
-
-  
+app.get('/share-image', (req,res) => {
+  let {product_id} = req.query;
+  NeonDB.then((pool) => 
+      pool.query(`SELECt * FROM product_photo WHERE product_id = '${product_id}'`)
+      .then(result => res.send(result.rows[0].file))
+      .catch(err => {
+        console.log(err)
+      })
+    )
+    .catch(err => console.log(err))
 })
-    
-     
 
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -207,3 +177,96 @@ process.on('unhandledRejection', (reason, promise) => {
   // Recommended: send the information to sentry.io
   // or whatever crash reporting service you use  
 });
+
+
+
+
+
+
+
+
+
+// Copyright 2016 Google LLC
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+/**
+ * Usage: node upload.js PATH_TO_VIDEO_FILE
+ */
+
+const readline = require('readline'); 
+const {google} = require('googleapis');
+
+// initialize the Youtube API library
+const youtube = google.youtube('v3');
+// very basic example of uploading a video to youtube
+async function runSample(fileName) {
+    // Initialize Google APIs with a service account
+  const { google } = require('googleapis');
+  const keyFile = require('./campus-express-410317-b07ed9c87f70.json'); // Path to your service account key file
+  let keyFileContent = keyFile;
+
+
+  // Load credentials from the service account key object
+  const auth = new google.auth.GoogleAuth({
+    credentials: keyFileContent,
+    scopes: [
+      'https://www.googleapis.com/auth/youtube.upload',
+      'https://www.googleapis.com/auth/youtube',
+    ],
+  });
+
+  // Obtain the authenticated client
+  const client = await auth.getClient();
+  google.options({ auth: client });
+
+  const fileSize = fs.statSync(fileName).size;
+  const res = await youtube.videos.insert( 
+    {
+      part: 'id,snippet,status',
+      notifySubscribers: false,
+      requestBody: { 
+        snippet: {
+          title: 'Node.js YouTube Upload Test',
+          description: 'Testing YouTube upload via Google APIs Node.js Client',
+        },
+        status: {
+          privacyStatus: 'public',
+        },
+      },
+      media: {
+        body: fs.createReadStream(fileName),
+      },
+    },
+    { 
+      // Use the `onUploadProgress` event from Axios to track the
+      // number of bytes uploaded to this point.
+      onUploadProgress: evt => {
+        const progress = (evt.bytesRead / fileSize) * 100;
+        readline.clearLine(process.stdout, 0);
+        readline.cursorTo(process.stdout, 0, null);
+        process.stdout.write(`${Math.round(progress)}% complete`);
+      },
+    }
+  ); 
+  console.log('\n\n');
+  console.log('res data: ', res.data);
+  return res.data;
+}
+
+// if (module === require.main) {
+//   const fileName = process.argv[2]; 
+//   runSample('./vids/VID_20240403_071234.mp4').catch(console.error);
+// }
+
+// runSample('./vids/VID_20240403_071234.mp4'); 

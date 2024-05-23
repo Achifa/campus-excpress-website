@@ -27,10 +27,7 @@ import {
 import { 
     setSaveTo
 } from '../../../redux/buyer_store/Save'
-import { 
-    DeleteItem, 
-    GetSeller 
-} from '../../../api/seller'
+
 import SimilarItems from './SimilarItems'
 import Description from './Description'
 import { 
@@ -48,8 +45,10 @@ import {
 import SaveButton from '../Dashboard/SaveButton'
 import { 
     Helmet 
-} from 'react-helmet'
+} from 'react-helmet-async'
 import Thumbnail from '../Thumbnail'
+import { GetSeller } from '../../../api/seller/get'
+import { DeleteItem } from '../../../api/seller/delete'
 
 
 
@@ -161,7 +160,7 @@ const Product = ({product_id}) => {
         let overlay = document.querySelector('.overlay')
 
         try {
-            //overlay.setAttribute('id', 'overlay');
+            overlay.setAttribute('id', 'overlay');
             
             async function getData() {
                 let result = await GetSeller(item?.seller_id)
@@ -316,6 +315,7 @@ const Product = ({product_id}) => {
                 let result = await AddView(product_id,)
                 if(result.length > 0){
                     setItem(result[0])
+                    // alert(result[0].product_id)
                     overlay.removeAttribute('id');
 
                 }
@@ -358,7 +358,7 @@ const Product = ({product_id}) => {
                 {/* Twitter */}
                 <meta name="twitter:title" content={`${item.title}`} />
                 <meta name="twitter:description" content={`${item.description}`} />
-                <meta name="twitter:image" content={metaImg} />
+                <meta name="twitter:image" content={`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`} />
                 <meta name="twitter:card" content="summary_large_image" />
 
             </Helmet>
@@ -608,7 +608,8 @@ const Product = ({product_id}) => {
                         </div>
                     </div>      
 
-                    <SimilarItems category={item.category} />
+                    <SimilarItems category={item.category} product_id={item.product_id} />
+
 
                     {
                         item.description.length > 0 
@@ -617,6 +618,7 @@ const Product = ({product_id}) => {
                         :
                         ''
                     }
+
 
                 </div>
             </div>

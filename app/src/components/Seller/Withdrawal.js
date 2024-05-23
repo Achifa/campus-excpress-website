@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { usePaystackPayment } from 'react-paystack';
 import { socket } from '../../socket';
 import bankData from './bank.json'
-import { Transfer, bankVerification } from '../../api/seller';
+// import { Transfer, bankVerification } from '../../api/seller';
 import '../../styles/Buyer/login.css'
 
 const Withdrawal = ({balance}) => {
@@ -92,20 +92,20 @@ const Withdrawal = ({balance}) => {
                             setdata(1);
                             setAcctName(<div className="Authloader" style={{background: '#fff'}}></div>)
                             e.preventDefault();
-                            bankVerification(acctNum,bank)
-                            .then((result) => {
-                                console.log(result)
-                                if(result.data.status === 'success'){
-                                    setAcctName(result.data.data.account_name)
-                                    setValidAcct(true)
-                                    // console.log(data.account_name)
-                                }else{
-                                    setAcctName('Account Details Not Found')
-                                    setValidAcct(false)
+                            // bankVerification(acctNum,bank)
+                            // .then((result) => {
+                            //     console.log(result)
+                            //     if(result.data.status === 'success'){
+                            //         setAcctName(result.data.data.account_name)
+                            //         setValidAcct(true)
+                            //         // console.log(data.account_name)
+                            //     }else{
+                            //         setAcctName('Account Details Not Found')
+                            //         setValidAcct(false)
 
-                                }
-                            })
-                            .catch(err => console.log(err))
+                            //     }
+                            // })
+                            // .catch(err => console.log(err))
                         }}>Verify</button>
                     </section>
                     

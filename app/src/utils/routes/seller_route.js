@@ -13,6 +13,7 @@ import OrderPage from '../../pages/Seller/OrderPage';
 import MessageRoom from '../../pages/Seller/MessageRoom';
 import MessageLg from '../../pages/Seller/MessageLg';
 import ForgotPwd from '../../Authorization/ForgotPassword';
+// import SettingsLg from '../../pages/Seller/SettingsLg';
 
 export let seller_route = [
     {  path:"/seller", component: <SellerDashboard /> },
@@ -28,12 +29,21 @@ export let seller_route = [
     {  path:'/seller.shop', component: <Shop /> },
     {  path:'/seller.orders', component: <SellerOrder/> }, 
     {  path:'/seller.inbox', component: <Inbox /> },
-    {  path:'/seller.settings', component: <Setting /> },
+
+    {  path:'/seller.settings.profile', component: <Setting /> },
+    {  path:'/seller.settings.notice', component: <Setting /> },
+    {  path:'/seller.settings.payments', component: <Setting /> },
+    {  path:'/seller.settings.verification', component: <Setting /> },
+
     {  path:'/seller.wallet', component: <SellerWallet /> },
     {  path:'/seller.profile', component: <Me /> },
+
     {  path:'/seller.messages', component: <Message /> },
     {  path:'/seller.message', component: <MessageLg /> },
     {  path:'/seller.messages.room', component: <MessageRoom /> },
+
+    // {  path:'/seller.settings', component: <SettingsLg /> },
+
     { path: '/seller.order-page/:id', component: <OrderPage /> },
 
     // { path: '/product/:id', component: <ProductPage />}, 

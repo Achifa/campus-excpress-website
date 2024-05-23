@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { GetSellerInbox } from "../../api/seller";
 import { useNavigate } from "react-router-dom";
 import '../../styles/Seller/overlay.css' 
 import InboxCard from "../../components/Seller/inbox/InboxCard";
@@ -11,19 +10,19 @@ const Inbox = () => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
-        GetSellerInbox()
-        .then(({data}) => {
-            setInboxList(data)
-            overlay.removeAttribute('id')
-            data.length < 1 
-            ?
-            setLoaderText('No item for sale, click here to start selling')
-            :
-            setLoaderText('')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        // GetSellerInbox()
+        // .then(({data}) => {
+        //     setInboxList(data)
+        //     overlay.removeAttribute('id')
+        //     data.length < 1 
+        //     ?
+        //     setLoaderText('No item for sale, click here to start selling')
+        //     :
+        //     setLoaderText('')
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
     },[])
     return ( 
         <>

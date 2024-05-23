@@ -23,6 +23,7 @@
 
     .buyer-main-cnt{
         display: flex;
+        flex-direction: column;
         justify-content: center;
         padding: 40px 80px 40px 80px; 
         background-color: #f9f9f9;
@@ -58,7 +59,7 @@
 
     .buyer-flash-sales{
         height: fit-content;
-        width: calc(100% - 80px);
+        width: calc(100% - 0px);
         padding: 5px;
         margin-top: 20px;
         background-color: #fff;
@@ -67,16 +68,17 @@
     .buyer-flash-sales ul{
         list-style-type: none;
         padding: 0;
+        width: 100%;
         margin: 0;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: left;
+        justify-content: space-evenly;
 
     }
 
     .buyer-flash-sales ul li{
-        height: 180px;
+        height: 140px;
         flex-shrink: 0;
         width: calc(20% - 25px);
         background-color: #f9f9f9;
@@ -256,8 +258,8 @@
     }
 
     .buyer-card-cnt {
-        min-height: calc(100vh - 70px);
-        width: calc(100% - 80px);
+        height: fit-content;
+        width: calc(100% - 0px);
         overflow: auto;
         padding: 10px;
         float: right;
@@ -270,7 +272,7 @@
     .buyer-card-cnt .card{
         position: relative;
         height: 400px;
-        width: calc(20% - 26px);
+        width: calc(20% - 10px);
         flex-shrink: 0;
         float: left;
         margin: 0 5px 0 5px;

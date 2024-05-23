@@ -47,7 +47,7 @@ export default function Nav() {
         </div>
       </div>
       <div onClick={e => navigate('/seller.shop')} style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
-        <div>Ads</div>
+        <div>Inventory</div>
         <div>
           <img src={lib} style={{height: '25px', width: '25px'}} alt="" />
         </div>

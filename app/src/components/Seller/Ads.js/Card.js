@@ -1,63 +1,114 @@
 import React, { useEffect, useState } from 'react'
-import '../../../styles/Admin/user_card.css'
+import '../../../styles/adsCard.css'
+import '../../../styles/Seller/listing.css'
 import { useNavigate } from 'react-router-dom'
 import Thumbnail from '../Thumbnail';
+import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
+
+import conditionSvg from '../../../assets/condition-point-svgrepo-com.svg'
+import ItemImages from '../../../redux/buyer_store/ItemImages';
+import { DeleteItem } from '../../../api/seller/delete';
 
 export default function Card({item,index}) {
     let navigate = useNavigate();
-    console.log(item, index)
+    let [screenWidth, setScreenWidth] = useState(0)
+   
+
+    function handleListing() {
+        document.querySelector('.listing-overlay').setAttribute('id', 'listing-overlay')
+        // navigate(`/product?product_id=${item.product_id}`)
+    }
   return (
-    <div key={index} style={{padding: '40px 0 0 0'}}>
-      <div  class="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 mb-10 shadow-md">
-            <div class="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
-                <Thumbnail product_id={item.product_id} />
-            </div>
-            <div class="p-6">
-                <h6 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                {
-                    item.title
+    
+    <>
+        <div className="listing-overlay" onClick={
+            (e)=>{
+                if(e.target === document.querySelector('.listing-overlay')){
+                    document.querySelector('.listing-overlay').removeAttribute('id')
                 }
-                </h6>
-                <p style={{fontWeight: '500', height: 'fit-content'}} class="block font-sans text-base font-light leading-relaxed text-inherit antialiased line-clamp-4 h-20 overflow-hidden">
-                &#8358;{
-                        new Intl.NumberFormat('en-us').format(item.price)
+            }
+        }>
+            <div className="listing-cnt">
+                <div className="listing-card-top">
+                    <div className="listing-thumbnail-cnt">
+                        <Thumbnail product_id={item.product_id} />
+                    </div>
+
+                    <div className="listing-title-cnt">
+                        {item.title}
+                        <div style={{width: '100', color: 'orange', position: 'absolute', bottom: '0', fontSize: 'small', textAlign: 'center', marginTop: '20px', background: '#fff4e0', padding: '5px'}}>Please Delete This Item If It's Not Available</div>
+
+
+                    </div>
+
+                </div>
+
+                <div className="listing-card-desc">
+                    {
+                        item.description.length > 0
+                        ?
+                        item.description
+                        :
+                        <div style={{width: '100%', textAlign: 'center'}}>No Description For This Item</div>
                     }
-                </p>
-            </div>
+                </div>
 
-            <div className="card__wrapper">
-                <button className="card__btn">
-                    <div>0</div>
-                    <div>Impression</div>
-                </button>
-                <button className="card__btn card__btn-solid">
-                    <div>0</div>
-                    <div>Views</div>
-                </button>
-            </div>
+                <div className="listing-card-btn">
+                    <button onClick={e => navigate(`/seller.editor?product_id=${item.product_id}`)}>
+                        <span>Edit</span>
+                        <span></span>
+                    </button>
+                    <button  onClick={async(e) => { 
+                            let response = await  DeleteItem(window.localStorage.getItem('CE_seller_id'), item.product_id)
+                            if(response){
+                                document.querySelector('.listing-overlay').removeAttribute('id')
+                                let list = [...document.querySelectorAll('.card')]
+                                
+                                let card = list.filter(data => data.dataset?.id === item.product_id)
+                                card[0].remove()
 
-            <br />
+                            }
+                        }
+                    }>
+                        <span>Delete</span>
+                        <span></span>
+                    </button>
+                </div>
 
-            <div class="p-6 pt-0">
-                <button style={{
-                    width: '45%',
-                    float: 'left',
-                    
-                }} 
-                onClick={e => navigate(`/seller.editor?product_id=${item.product_id}`)}
-                //onClick={e => navigate(`/seller.editor?product_id=${item.product_id}`)} 
-                data-ripple-light="true" type="button" class="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                edit
-                </button>
 
-                <button style={{
-                    width: '45%',
-                    float: 'right'
-                }} onClick={e => navigate(`/product?product_id=${item.product_id}&seller=${item.seller_id}`)} data-ripple-light="true" type="button" class="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                view 
-                </button>
             </div>
         </div>
-    </div>
+
+        <div class="ads-card" style={{
+            border: item.state.state === 'published' ? '1px solid green' : '1px solid red'
+        }} data-id={
+            item.product_id
+        }  onClick={handleListing}>
+            <div class="top-section">
+                <div style={{height: '150px', borderRadius: '10px'}}>
+                    <Thumbnail product_id={item.product_id} />
+                </div>
+            </div>
+            <div class="bottom-section">
+                <span class="title">
+                    {item.title}
+                </span>
+                <div class="row row1">
+                    <div class="item">
+                    <span class="big-text">100</span>
+                    <span class="regular-text">Impressions</span>
+                    </div>
+                    <div class="item">
+                    <span class="big-text">50</span>
+                    <span class="regular-text">Views</span>
+                    </div>
+                    <div class="item">
+                    <span class="big-text">38</span>
+                    <span class="regular-text">Calls</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </>
   )
 }

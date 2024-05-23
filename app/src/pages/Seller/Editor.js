@@ -26,6 +26,8 @@ import SellerLayout from '../../layout/Seller'
 import usePost from '../../hooks/usePost';
 import { GetItem, GetItemImages, GetProductThumbnail } from '../../api/buyer/get';
 import EditorVideo from '../../components/Seller/editor/EditorVideo';
+import EditorVideoStore from '../../components/Seller/editor/EditorVideoStore';
+import LodgeAmenities from '../../components/Seller/editor/LodgeAmenities';
 
 const Editor = () => {
 
@@ -43,10 +45,14 @@ const Editor = () => {
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([]) 
     let [img_list, setimg_list] = useState([])
+    let [vid_list, setvid_list] = useState([])
+    let [amenities_list, setamenities_list] = useState([])
     
     let [descriptionActive, setDescriptionActive] = useState(true)
+    // let [ideoActive, setVideoActive] = useState(true)
     let [update, setUpdate] = useState(false);
     let [videoActive, setVideoActive] = useState(true)
+    let [photoActive, setPhotoActive] = useState(true)
 
     const searchParams = new URLSearchParams(window.location.search);
     function closeOverlay() {let overlay = document.querySelector('.overlay');overlay.onclick = e => {overlay.removeAttribute('id')}}
@@ -72,10 +78,13 @@ const Editor = () => {
     }, [])
 
     useEffect(() => {
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+
         async function getData() {
 
             let product_id = searchParams.get('product_id'); // price_descending
-
+            
             if(product_id !== null){
                 let result = await GetItem([product_id]);
 
@@ -88,6 +97,8 @@ const Editor = () => {
                 productType(JSON.parse(result[0]?.others)?.cType)
                 productCondition(JSON.parse(result[0]?.others)?.condition)    
                 // productLocale(result[0]?.others?.locale)
+                overlay.removeAttribute('id')
+                
             }
             
 
@@ -228,6 +239,24 @@ const Editor = () => {
         window.localStorage.setItem('draft_price', data)
     }
 
+    // let amenities = useRef('')
+    // let [amenities_state,set_amenities_state] = useState('')
+    function productAmenities(data) {
+        // amenities.current = (data); 
+        setamenities_list(item => [...item, data])
+        // window.localStorage.setItem('draft_stock', data)
+    }
+
+    // let amenities = useRef('')
+    // let [amenities_state,set_amenities_state] = useState('')
+    function deleteAmenities(data) {
+        // amenities.current = (data); 
+        let newList = amenities_list.filter(item => item !== data)
+        setamenities_list(newList)
+        
+        // window.localStorage.setItem('draft_stock', data)
+    }
+
     let stock = useRef('')
     let [stock_state,set_stock_state] = useState('')
     function productStock(data) {
@@ -246,6 +275,20 @@ const Editor = () => {
 
     function deletePhoto(data) {
         photos.current = data;
+        setimg_list(data)
+    }
+
+    let videos = useRef([])
+    // let [photos_state,set_photos_state] = useRef([])
+    function productVideos(data) {
+        // alert()
+        let d = data !== '' ? videos.current.push(data) : ''
+        setvid_list(item => [...item, data])
+        console.log(videos.current.length)
+    }
+
+    function deleteVideo(data) {
+        videos.current = data;
         setimg_list(data)
     }
 
@@ -454,12 +497,14 @@ const Editor = () => {
                                                 ? 
                                                     cType_state === 'Clothing' ||  cType_state === 'Foot Wear'
                                                     ?
-                                                    <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType_state}  />
+                                                    ""
                                                     :
                                                     ""
                                                 : 
                                                 ""
                                             }
+                                            {/* <SizeSelect edit={edit} productSizeSelect={productSizeSelect} cType={cType_state}  /> */}
+
                                             
 
                                             {
@@ -472,7 +517,7 @@ const Editor = () => {
 
                                             
                                         </div>
-                                            <div style={{opacity: category_state !== '' ? '1' : '.4', pointerEvents: category_state !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
+                                        <div style={{opacity: category_state !== '' ? '1' : '.4', pointerEvents: category_state !== '' ? 'all' : 'none'}} className="seller-shop-form-group-1">
                                             
                                             {
                                                 category_state === 'Lodge/Apartments' 
@@ -483,7 +528,10 @@ const Editor = () => {
                                                 //<StockSelect edit={edit} productStock={productStock} />
                                             }
 
-                                            
+                                            {/*                                             
+                                                <LodgeAmenities deleteAmenities={deleteAmenities} productAmenities={productAmenities} amenities={amenities_list}/> 
+                                            */}
+
                                             <PriceSelect edit={edit} productPrice={productPrice} />
 
                                             <LocationSelect productLocale={productLocale} />
@@ -509,7 +557,46 @@ const Editor = () => {
                                 
                                 <EditorTitle productTitle={productTitle}  edit={edit} />
                                 <br />
-                                <EditorPhotoStore category={category_state} edit={edit} productPhotos={productPhotos} photos={img_list} deletePhoto={deletePhoto} />
+
+
+
+                                <div className="" style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '10px 0 10px 0'}}>
+                                    {/* <section style={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
+                                        <input style={{
+                                            height: '20px',
+                                            width: '20px'
+                                        }} defaultChecked onInput={e => setPhotoActive(!photoActive)} type="checkbox" name="" id="" />
+                                        &nbsp;
+                                        &nbsp;
+                                        <span style={{fontSize: 'small', fontWeight: '500', color: 'orangered'}}>Do you have image samples for this item.</span>
+
+                                    </section> */}
+                                    {/* <br /> */}
+                                    <section style={{width: '100%', opacity: photoActive ? 1 : .5, pointerEvents: photoActive ? 'all' : 'none'}}>
+                                        {
+                                            
+                                            <EditorPhotoStore category={category_state} edit={edit} productPhotos={productPhotos} photos={img_list} deletePhoto={deletePhoto} />  
+                                            
+                                        }
+                                    </section>
+                                </div> 
+
+                                {/* <div className="input-cnt" style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '10px 0 10px 0'}}>
+                                    <section style={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
+                                        <input style={{
+                                            height: '20px',
+                                            width: '20px'
+                                        }} defaultChecked onInput={e => setVideoActive(!videoActive)} type="checkbox" name="" id="" />
+                                        &nbsp;
+                                        &nbsp;
+                                        <span style={{fontSize: 'small', fontWeight: '500', color: 'orangered'}}>Do you have video samples for this item.</span>
+                                    </section>
+                                    <section style={{width: '100%', opacity: videoActive ? 1 : .5, pointerEvents: videoActive ? 'all' : 'none'}}>
+                                        {
+                                            <EditorVideoStore category={category_state} edit={edit} productVideos={productVideos} videos={vid_list} deleteVideo={deleteVideo} />  
+                                        }
+                                    </section>
+                                </div>  */}
                                 
                                 <div className="input-cnt" style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '10px 0 10px 0'}}>
                                     <section style={{display: 'flex', alignItems: 'center'}}>
@@ -525,11 +612,9 @@ const Editor = () => {
                                     <section style={{width: '100%', opacity: descriptionActive ? 1 : .5, pointerEvents: descriptionActive ? 'all' : 'none'}}>
                                         
                                         {
-                                            descriptionActive
-                                            ?
+                                           
                                             <EditorDescription productDescription={productDescription} edit={edit} descriptionActive={descriptionActive} />   
-                                            :
-                                            ''
+                                           
                                         }
                                     </section>
                                 </div> 

@@ -8,13 +8,15 @@ import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
 import { useEffect, useState } from "react";
-import Helmet from 'react-helmet'
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/dashboard/Lodge'
 
 import BuyerLayout from '../../layout/Buyer'
 import { useLocation } from "react-router-dom";
 import SearchOutput from "../../components/Buyer/Header/SearchOutput";
+import { Helmet } from "react-helmet-async";
+import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
+import Ads from "../../components/Buyer/Dashboard/Ads";
  
 const Dashboard = () => {
 
@@ -81,17 +83,19 @@ const Dashboard = () => {
                         storedCategory === 'trends'
                         ?
                             <>
-                                {/* <Ads /> */}
+                                <Ads />
                                 {/* <PaidAds /> */}
 
                                 {/* <FlashAds /> */}
                                 {/* <Lodge /> */}
+                                {/* <FlashSales />  */}
                             </>
                         :
                         ''
                     }
 
-                    {/* <br /> */}
+                    <br />
+                    <br />
                     {/* <FlashSales /> */}
 
                     {/* <Recommended /> */}
@@ -101,7 +105,7 @@ const Dashboard = () => {
                 <div className="buyer-main-content buyer-main-cnt" style={{
                     // padding: '10px 80px 10px 80px',
                     background: '#fff',
-                    height: '100vh',
+                    height: 'fit-content',
                 }}>
                     
                   {

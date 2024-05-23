@@ -1,48 +1,470 @@
-// import { useLocation } from "react-router-dom";
-// import Settings from "../../components/Seller/settings/Settings";
-// import { useEffect, useState } from "react";
-// import PasswordReset from "../../components/Seller/settings/PasswordReset";
-// import Verification from "../../components/Seller/settings/Verification";
-// import NoticeSetup from "../../components/Seller/settings/NoticeSetup";
-// import ProfileSetup from "../../components/Seller/settings/ProfileSetup";
-// import SellerLayout from "../../layout/Seller";
+import React, { useEffect, useRef, useState } from 'react'
+import SettingsAside from '../../components/Seller/Settings/SettingsAside'
+import SellerLayout from '../../layout/Seller'
+import SettingsMain from '../../components/Seller/Settings/SettingsMain'
+import '../../styles/Seller/setttings.css'
+import '../../styles/Seller/overlay.css' 
+import '../../styles/settings.css';
+import bankList from '../../bank.json' 
+import { useLocation, useNavigate } from 'react-router-dom'
+import { GetSeller } from '../../api/seller/get'
+import { data, school_choices } from '../../location'
+import { UpdateSellerProfile } from '../../api/seller/update'
+import { openNotice } from '../../Functions/notice'
+import { ValidateBank } from '../../api/seller/post'
+export default function Settings() {
+    let [screenWidth, setScreenWidth] = useState(0)
 
-// const Setting = () => {
+    let location = useLocation()
 
-//     let location = useLocation();
+    return (
+        <>
+            <SellerLayout >
 
-//     let [Jsx, SetJsx] = useState(<PasswordReset />)
+                <div className="seller-main" style={{
+                    background: '#fff4e0',
+                    padding: '10px', 
+                    height: 'calc(100vh - 70px)',
+                    display: 'flex',
+                    margin: '0',
+                    overflow: 'auto',
+                    alignItems: 'center', 
+                    justifyContent: 'center'
+                }}>
+                    {
+                        location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0] === 'notice'
+                        ?
+                        <>
+                            <Notice />
+                        </>
+                        :
+                        location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0] === 'profile'
+                        ?
+                        <>
+                            <Profile />
+                        </>
+                        :
+                        location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0] === 'payments'
+                        ?
+                        <>
+                            <Payments />
+                        </>
+                        :
+                        location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0] === 'verification'
+                        ?
+                        <>
+                            <Verification />
+                        </>
+                        :
+                        ''
 
-//     useEffect(() => {
-//         if(location.search.split('=')[1] === 'password-reset'){
-//             SetJsx(<PasswordReset />)
-//         }else if(location.search.split('=')[1] === 'verification'){
-//             SetJsx(<Verification />)
-//         }else if(location.search.split('=')[1] === 'notification-setup'){
-//             SetJsx(<NoticeSetup />) 
-//         }else if(location.search.split('=')[1] === 'profile-setup'){
-//             SetJsx(<ProfileSetup />)
-//         }
-//     }, [location])
-//     return ( 
-//         <>
+                    }
+                </div>
+               
+            </SellerLayout>
+        </>
+    )
+}
 
-//             <div className="seller-main">
-//                 {
 
-//                     location.search === ''
-//                     ? 
-//                     <SellerLayout>
 
-//                         <Settings />
-//                     </SellerLayout>
+function Profile() {
 
-//                     :
-//                     Jsx
-//                 }
-//             </div>
-//         </>
-//      );
-// }
+    let [screenWidth, setScreenWidth] = useState(0)
+    useEffect(() => {
+        let newWidth = window.innerWidth;
+        setScreenWidth(newWidth);
+    },[])
+
+
+    let [fname, setFname] = useState('')
+    let [lname, setLname] = useState('')
+    let [state, setState] = useState('')
+    let [campus, setCampus] = useState('')
+    let [userData, setUserData] = useState('')
+    let [passport, setPassport] = useState('')
+
+    useEffect(() => {
+        let overlay = document.querySelector('.settings-overlay')
+        //overlay.setAttribute('id', 'overlay');
+        async function getData() {
+            let result = GetSeller(window.localStorage.getItem('CE_seller_id'))
+            setUserData(result)
+            setFname(result.fname)
+            setLname(result.lname)
+            setCampus(result.campus)
+            setState(result.state)
+            overlay.removeAttribute('id')
+
+        }
+        getData()
+    }, [])
+   
+    const [value, setValue] = useState('Select State');
+    const [campusLocale, setCampusLocale] = useState('Select Campus');
+    const [campusLocaleList, setCampusLocaleList] = useState([]);
+    const [isFocus, setIsFocus] = useState(false);
+    const [CampusisFocus, setCampusIsFocus] = useState(false);
+
+    let UpdateProfile = () => {
+        let overlay = document.querySelector('.overlay')
+        //overlay.setAttribute('id', 'overlay');
+        UpdateSellerProfile(fname,lname,state,campus,window.localStorage.getItem('CE_seller_id'))
+        .then((result) => result ? overlay.removeAttribute('id') : '')
+        .catch((err) => console.log(err))
+    }
+
+    useEffect(() => {
+        setCampusLocaleList([])
+        let stateIndex = data.filter(item =>  item.label?.toLowerCase() === state?.toLowerCase())
+        let index = data.indexOf(stateIndex[0]); 
+        let campuses = Object.values(school_choices).reverse();
+        // console.log(campuses[index])
+        index < 0 ? setCampusLocaleList([]) : setCampusLocaleList(campuses[index])
+
+    }, [state])
+    
+
+    return(
+        <>
+            <div className="seller-profile-setup" style={{width: 'fit-content', height: 'fit-content'}}>
+                    {/* <h4>Profile Settings</h4> */}
  
-// export default Setting;
+                    <form action="">
+
+                    
+                        <div className="seller-input-cnt">
+                            <section>
+                                <label htmlFor="">FirstName</label>
+                                <input style={{background: '#f9f9f9'}}  defaultValue={userData ? userData.fname : ''} onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                            </section>
+                            <section>
+                                <label htmlFor="">LastName</label>
+                                <input style={{background: '#f9f9f9'}} defaultValue={userData ? userData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName...' type="text" />
+                            </section>
+                        </div>
+
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '70%'}}>
+                                <label htmlFor="">Email</label>
+                                <input style={{background: '#f9f9f9'}} value={userData ? userData.email : ''} placeholder='Email...' type="text" />
+                            </section>
+                            {/* <section style={{width: '30%'}}>
+                                <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
+                            </section> */}
+                        </div>
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '70%', float: 'left'}}>
+                                <label htmlFor="">Phone</label>
+                                <input style={{background: '#f9f9f9'}} value={userData ? userData.phone : ''}  placeholder='Phone Number...' type="number" />
+                            </section>
+                            {/* <section style={{width: '30%'}}>
+                                <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
+                            </section> */}
+                        </div>
+
+                        
+                    
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '100%'}}>
+                                <label htmlFor="">State <small>(Optional)</small></label>
+                                <select style={{background: '#f9f9f9'}}  onInput={e => setState(e.target.value)}  name="" id="">
+                                    <option value="">Select State</option>
+                                    {
+                                        data.map((item,index) =>  
+                                            item.label === userData.state
+                                            ?
+                                                <option selected value={item.label}>{item.label}</option>
+                                            :
+                                                <option value={item.label}>{item.label}</option>
+                                        )
+                                    }
+                                </select>
+                            </section>
+                            
+                        </div>
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '100%'}}>
+                                <label htmlFor="">Campus <small>(Optional)</small></label>
+                                <select style={{background: '#f9f9f9'}} onInput={e => setCampus(e.target.value)}  name="" id="">
+                                    <option value="">Select Campus</option>
+                                    {
+                                        campusLocaleList.map((item,index) => 
+
+                                            item.text === userData.campus 
+                                            ?
+                                                <option selected value={item.text}>{item.text}</option>
+                                            : 
+                                                <option value={item.text}>{item.text}</option>
+                                        )
+                                    }
+                                </select>
+                            </section>
+                            
+                        </div>
+
+
+                    
+                        <div className="seller-input-cnt">
+                            
+                            <button style={{background: '#FF4500'}} onClick={e => {e.preventDefault(); UpdateProfile();}}>Update</button>
+                            
+                        </div>
+
+                            
+                            
+                    </form>
+                </div>
+        </>
+    )
+}
+
+function Verification(params) {
+
+    let [passport, setPassport] = useState('')
+
+    let handleImage = () => {
+        let f = document.querySelector("#seller-passport");
+
+        console.log(f.files[0])
+        let item = f.files[0]
+        let typeCheck = item.type.split('/')[0];
+        let type = typeCheck === 'image' ? 'img' : typeCheck === 'video' ? 'mp4' : ''
+        
+        if(type === 'mp4') {
+            openNotice("Only Photo Can Be Uploaded Here")
+            
+        }else{
+            let reader = new FileReader({type: 'image/*'});
+
+            reader.onload = (result) => {
+                let img = reader.result;
+                setPassport(img)
+                console.log(img)
+
+            }   
+            reader.readAsDataURL(item);
+        }
+         
+        // getImage([[...f.files][0],[...f.files][0].type,[...f.files][0].size,[...f.files][0].name])
+    } 
+    return(
+        <>
+            <div className='seller-settings-id-verification'>
+                <div className="seller-profile-setup" style={{width: 'fit-content', height: 'fit-content'}}>
+                    {/* <h4>Profile Settings</h4> */}
+
+                    <form action="">
+
+                    
+                        <div className="seller-input-cnt">
+                            <section style={{width: '100%'}}>
+                                <label htmlFor="">Passport</label>
+                                <input onChange={handleImage} id='seller-passport' style={{display: 'none', background: '#f9f9f9'}} placeholder='Email...' type="file" />
+                                <div className="seller-verification-passport-cnt">
+                                    <div className="seller-verification-passport" >
+
+                                        {
+                                            passport === ''
+                                            ?
+                                            ''
+                                            :
+                                            <img src={passport} style={{height: '100%', margin: '0', position: 'relative', width: '250px', left: '0', borderRadius: '5px'}} alt="" />
+                                        }
+                                        
+                                    </div>
+
+                                    <label htmlFor="seller-passport" style={{width: '250px', height: '50px', background: 'orangered', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff'}}>
+                                        {
+                                            passport === ''
+                                            ?
+                                            'Upload Passport'
+                                            :
+                                            'Change Passport'
+                                        }
+                                    </label>
+
+
+                                </div>
+                            </section>
+                        
+                        </div>
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '100%'}}>
+                                <label htmlFor="">NIN</label>
+                                <input style={{background: '#f9f9f9'}} placeholder='NIN...' type="text" />
+                            </section>
+                        
+                        </div>
+
+                    
+
+                        <div className="seller-input-cnt">
+                            
+                            <button style={{background: '#FF4500'}} onClick={e => {e.preventDefault();}}>Verify</button>
+                            
+                        </div>
+
+                            
+                            
+                    </form>
+                </div>
+            </div>,
+        </>
+    )
+}
+
+function Payments(params) {
+
+    let AcctNum = useRef('')
+    let BankCode = useRef('')
+
+    let Beneficiary = useRef('')
+    return(
+        <>
+            <div className='seller-settings-id-verification'>
+            <div className="seller-profile-setup" style={{width: 'fit-content', height: 'fit-content'}}>
+                {/* <h4>Profile Settings</h4> */}
+
+                    <form action="">
+
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '100%'}}>
+                                <label htmlFor="">Account Number</label>
+                                <input style={{background: '#f9f9f9'}} onInput={e => AcctNum.current=(e.target.value)} placeholder='Enter Account Number Here...' type="text" />
+                            </section>
+                            {/* <section style={{width: '30%'}}>
+                                <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
+                            </section> */}
+                        </div>
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '100%'}}>
+                                <label htmlFor="">Bank</label>
+                                <select onInput={e => BankCode.current=(e.target.value)} name="" id="">
+                                    <option value="">Select Bank</option>
+                                    {
+                                        bankList.map(item => <option value={item.code}>{item.name}</option>)
+                                    }
+                                </select>
+                            </section>
+                            {/* <section style={{width: '30%'}}>
+                                <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
+                            </section> */}
+                        </div>
+
+                        <div className="seller-input-cnt">
+                            <section style={{width: '100%'}}>
+                                <label htmlFor="">Beneficiary</label>
+                                <div style={{width: '100%'}} className='seller-bank-name'>
+                                    {
+                                        Beneficiary.current
+                                    }
+                                </div>
+                            </section> 
+                            {/* <section style={{width: '30%'}}>
+                                <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
+                            </section> */}
+                        </div>
+
+
+                        <div className="seller-input-cnt">
+                            
+                            <button style={{background: '#FF4500'}} onClick={async(e) => {
+                                e.preventDefault()
+                                let acctNum = AcctNum.current
+                                let Bank = BankCode.current
+                                // alert(Bank)
+                            
+                            fetch('http://localhost:2222/bank-verification', {
+                                method: 'post',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({acctNum, Bank}),
+                                
+                            })
+                            .then(async(result) => {
+                                let data =  await result.json()
+                                document.querySelector('.seller-bank-name').innerHTML = data.name
+                            })
+                            }}>Verify</button>
+                            
+                        </div>
+        
+                            
+                            
+                    </form>
+                </div>
+            </div>
+        </>
+    )
+}
+
+function Notice(params) {
+    return(
+        <>
+            <div className='seller-settings-id-verification'>
+                <div className="seller-profile-setup" style={{width: 'fit-content', height: 'fit-content'}}>
+                    {/* <h4>Profile Settings</h4> */}
+
+                    <form action="">
+
+
+                        <div className="seller-input-cnt" style={{display: 'block', padding: '10px'}}>
+                            <section style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <label htmlFor="">Email Notification</label>
+                                <input style={{height: '25px', width: '25px', background: '#f9f9f9'}} placeholder='NIN...' type="checkbox" />
+                                
+                            </section>
+                            <div style={{background: '#f9f9f9', borderRadius: '10px', padding: '10px', fontSize: 'small'}}>
+                                You will receive notification in your email.
+                            </div>
+                        </div>
+
+                        <div className="seller-input-cnt" style={{display: 'block', padding: '10px'}}>
+                            <section style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <label htmlFor="">SMS Notification</label>
+                                <input style={{height: '25px', width: '25px', background: '#f9f9f9'}} placeholder='NIN...' type="checkbox" />
+                            
+                            </section>
+                            <div style={{background: '#f9f9f9', borderRadius: '10px', padding: '10px', fontSize: 'small'}}>
+                                You will receive notification in your SMS.
+                            </div>
+                        
+                        </div>
+
+                        <div className="seller-input-cnt" style={{display: 'block', padding: '10px'}}>
+                            <section style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <label htmlFor="">WhatsApp Notification</label>
+                                <input style={{height: '25px', width: '25px', background: '#f9f9f9'}} placeholder='NIN...' type="checkbox" />
+                                
+                            </section>
+                            <div style={{background: '#f9f9f9', borderRadius: '10px', padding: '10px', fontSize: 'small'}}>
+                                You will receive notification in your WhatsApp.
+                            </div>
+                        
+                        </div>
+
+                    
+
+                        <div className="seller-input-cnt">
+                            
+                            <button style={{background: '#FF4500'}} onClick={e => {e.preventDefault();}}>Verify</button>
+                            
+                        </div>
+
+                            
+                            
+                    </form>
+                </div>
+            </div>
+        </>
+    )
+}

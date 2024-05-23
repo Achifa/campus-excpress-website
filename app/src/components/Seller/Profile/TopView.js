@@ -45,10 +45,32 @@ export default function TopView() {
         <div className="seller-profile-left">
             <img src={img}  alt="" />
 
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
 
-            
+            <div>
+                <div className="seller-profile-name">
+                    Akpulu fabian
+                </div>
 
+
+                <div className="seller-profile-date">
+                    Awka, Nigeria - {
+                        new Date().toUTCString()
+                    }
+                </div>
+
+                {/* <div className="seller-profile-date">
+                    akpulufabian@gmail.com &#8226; Unverified
+                </div>
+                <div className="seller-profile-date">
+                    08032639894 &#8226; Unverified
+                </div> */}
                 
+            </div>
+
         </div>
     </>
   )

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { get_chat } from '../../../../../api/seller'
 import { useNavigate } from 'react-router-dom'
 import { socket } from '../../../../../socket'
 import js_ago from 'js-ago'

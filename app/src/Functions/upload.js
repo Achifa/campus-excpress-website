@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { updateItem, uploadItem } from "../api/seller"
 import { openNotice } from "./notice";
 import usePost from "../hooks/usePost";
+import { UpdateItem, UploadItem } from "../api/seller/post";
 
 export function handleFormUpload(constantData, dynamicData) {
     // console.log(constantData, dynamicData)
-    uploadItem(constantData, dynamicData)
-    .then(({data}) => {
+    UploadItem(constantData, dynamicData)
+    .then((data) => {
         if(data){
             window.localStorage.setItem('draft_gender', '')
             window.localStorage.setItem('draft_size', '')
@@ -26,19 +26,19 @@ export function handleFormUpload(constantData, dynamicData) {
             // alert('Error Uploading Data...'); 
             let overlay = document.querySelector('.overlay'); 
             overlay.removeAttribute('id')
-            openNotice()
+            // openNotice(data)
             // navigate('/seller/shop')
         }
     })
     .catch((err) => {
         let overlay = document.querySelector('.overlay'); 
         overlay.removeAttribute('id')
-        openNotice()
+        openNotice(err)
     })
 }
 
 export function handleFormUpdate(constantData, dynamicData) {
-    updateItem(constantData, dynamicData)
+    UpdateItem(constantData, dynamicData)
     .then(({data}) => {
         if(data){
             window.localStorage.setItem('draft_gender', '')

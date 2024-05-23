@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { GetSeller, ResetPwd } from '../../../api/seller';
 import '../../../styles/settings.css';
+import { GetSeller } from '../../../api/seller/get';
+import { ResetPwd } from '../../../api/reuseable';
 
 
 const PasswordReset = () => {

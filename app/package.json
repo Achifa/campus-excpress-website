@@ -24,6 +24,7 @@
     "react-favicon": "^2.0.3",
     "react-framer": "^0.0.2",
     "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-loading-skeleton": "^3.3.1",
     "react-paystack": "^4.0.3",
     "react-phone-input-2": "^2.15.1",
@@ -40,6 +41,7 @@
     "socket.io-client": "^4.6.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
+    "swr": "^2.2.5",
     "url": "^0.11.3",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"

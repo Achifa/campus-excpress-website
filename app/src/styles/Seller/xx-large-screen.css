@@ -10,13 +10,10 @@
     }
 
     .seller-main{
-        height: 100vh;
-        width: calc(100% - 0px);
+        height: fit-content;
+        width: calc(100% - 200px);
         float: right;
-        display: flex;
         scroll-behavior: smooth;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
         position: relative;
         overflow: auto;
         /* padding: 5px; */
@@ -24,7 +21,7 @@
     }
     
     .seller-header{
-        height: 250px;
+        height: 70px;
         width: calc(100% - 0px);
         float: right;
         position: sticky;
@@ -33,6 +30,7 @@
         display: flex;
         align-items: center;
         padding: 20px;
+        float: right;
         color: orangered;
         background-color: orangered;
     }
@@ -83,20 +81,20 @@
 
     
     .seller-home{
-        height: calc(100% - 250px);
-        width: 100%;
+        height: calc(100vh - 0px);
+        width: calc(100% - 0px);
         /* margin: auto; */
         padding: 0;
-        background-color: #f9f9f9;
+        background-color: #fff4e0;
     }
 
     .seller-home-overview{
-        height: calc(100vh - 250px);
+        height: calc(100vh - 70px);
         width:100%;
         display: flex;
         align-items: center;
         padding: 20px;
-        background-color: #f9f9f9;
+        background-color: #fff4e0;
     }
 
     .seller-home-overview ul{
@@ -392,14 +390,15 @@
 
 
     .seller-libs{
-        min-height: 100%;
-        width: 100%;
-        margin: auto;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        padding: 40px;
-        background-color: #fff4e0;
+        min-height: calc(100vh - 70px);
+        width: calc(100% - 0px);
+        overflow: auto;
+        padding: 10px;
+        float: right;
+        border-radius: 5px;
+        text-align: center;
+        /* margin: 10px 0 10px 0; */
+        background-color: #fff;
         
     }
     .seller-libs-card{
@@ -643,10 +642,11 @@
         z-index: 1000;
     }
     .seller-messages{
-        height: calc(100vh - 0px);
+        height: calc(100% - 0px);
         width: 350px;
         margin: auto;
         overflow: auto;
+        border: 1px solid #fff;
         padding: 0px;
         float: left;
         background-color: #f9f9f9;
@@ -654,6 +654,7 @@
     .seller-client-list{
         width: 100%;
         height: 100%;
+        /* background-color: #fff; */
         float: left;
         padding: 5px;
         overflow: auto;
@@ -685,10 +686,11 @@
     }
     .seller-chat-room{
         width: calc(100% - 350px);
-        height: 100vh;
+        border: 1px solid #fff;
+        height: 100%;
         background-color: #f9f9f9;
         float: right;
-        /* padding: 5px; */
+        padding: 5px;
     }
     .seller-chat-box{
         height: calc(100% - 140px);
@@ -893,179 +895,169 @@
 
 
     .seller-profile-cnt{
-        height: 100%;
+        height: calc(100vh - 70px);
         width: calc(100% - 0px);
         margin: auto;
         padding: 20px;
+        overflow: auto;
         position: relative;
         display: block;
-        background-color: #fff;
+        background-color: #fff4e0;
     }
     .seller-profile-left{
-        height: 200px;
+        height: fit-content;
         display: flex;
-        padding: 10px;
+        padding: 35px;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         float: left;
+        color: #fff;
         width: 100%;
-        flex-direction: column;
+        flex-direction: row;
         position: relative;
         border-radius: 5px;
         background-color: #ff4500;
     }
+
+    .seller-profile-left .seller-profile-name{
+        height: fit-content;
+        width: fit-content;
+        font-size: 4vh;
+        color: #fff;
+        margin-bottom: 10px;
+        font-family: 'Times New Roman', Times, serif;
+    }
     .seller-profile-left img{
-        height: 140px;
-        width: 140px;
+        height: 80px;
+        width: 80px;
         border-radius: 50%;
-        position: absolute;
         border: 3px solid #fff;
-        left: 30px;
-        bottom: -40px;
         z-index: 1000;
     }
     .seller-profile-right{
-        padding: 0;
+        padding: 10px;
         float: right;
         /* margin-left: 10px; */
         width: 100%;
-        height: 70%;
-        
+        height: fit-content;
+        display: flex;
+        justify-content: space-between;
         background-color: #fff;
         border-radius: 5px;
     }
     .seller-profile-basics{
-        height: 150px;
-        width: 100%;
-        background-color: #fff;
-        margin-top: 45px;
+        height: 100%;
+        width: 300px;
+        background-color: #fff4e0;
         padding: 20px;
+        border-radius: 5px;
+        font-size: medium;
+        font-weight: 500;
+    }
+    .seller-profile-basics ul{
+        display: flex;
+        justify-content: center;
+    }
+
+    .seller-profile-verification, .seller-profile-education{
+        display: flex;
+        height: fit-content;
+        font-weight: 400;
+        width: 100%;
+        position: relative;
+        margin-bottom: 10px;
+        flex-direction: column;
+    }
+
+   
+    .seller-profile-basics ul li{
+        display: flex;
+        width: 33.3%;
+        flex-direction: column;
+        justify-content: center;
+        font-size: small;
+        align-items: center;
+    }
+    .seller-profile-others{
+        height: fit-content;
+        width: calc(100% - 310px);
+        background-color: #fff;
+        /* margin-top: 45px; */
+        padding: 0px;
         font-size: 2.8vh;
         font-weight: 600;
     }
-    .seller-profile-categories{
-        height: auto;
+    .seller-profile-others div{
+        height: fit-content;
         width: 100%;
-        margin-top: 10px;
+        background-color: #fff4e0;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        font-family: 'Times New Roman', Times, serif;
         padding: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        flex-wrap: wrap;
     }
-    .seller-profile-categories div{
-        padding: 5px;
+    .seller-profile-items-sold{
+        height: fit-content;
+        overflow: auto;
+        width: 100%;
+    }
+    .seller-profile-items-sold ul{
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+    .seller-profile-items-sold ul li{
+        height: 200px;
+        width: 200px;
+        flex-shrink: 0;
+        margin: 0 10px 0 10px;
+        border-radius: 5px;
+        background-color: #463921;
+    }
+    
+    .seller-profile-inventory{
+        height: fit-content;
+        overflow: auto;
+        width: 100%;
+    }
+    .seller-profile-inventory ul{
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+    .seller-profile-inventory ul li{
+        height: fit-content;
         width: fit-content;
-        border-radius: 5px;
-        margin: 10px 10px 10px 10px;
-        border: 1px solid #ff4500;
-    }
-    .seller-profile-body{
-        background-color: #fff;
-        height: fit-content;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         padding: 10px;
-        position: relative;
-        margin: 2.5px auto 2.5px auto;
         flex-shrink: 0;
-        width: 100%;
-    }
-    .seller-profile-body ul{
-        padding: 0;
-        margin: 10px 0 0 0;
-        width: 100%;
-        list-style-type: none;
-    }
-    .seller-profile-body ul li{
-        padding: 15px 10px 15px 10px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        text-align: left;
-        font-weight: 500;
-        margin: auto;
-    }
-    .seller-profile-footer{
-        background-color: #fff;
-        height: fit-content;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
-        margin: 2.5px auto 2.5px auto;
-        flex-shrink: 0;
-        width: 100%;
-    }
-    .seller-profile-footer ul{
-        padding: 0;
-        margin: 10px 0 0 0;
-        width: 100%;
-        display: flex;
-        list-style-type: none;
-    }
-    .seller-profile-personal-data-cnt{
-        display: flex;
-        flex-wrap: wrap;
-        padding: 10px;
-        justify-content: space-between;
-    }
-    .seller-profile-personal-data-cnt .input-cnt{
-        width: 45%;
-        display: flex;
-        height: 120px;
-        flex-shrink: 0;
-        align-items: flex-start;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .seller-profile-footer ul li{
-        padding: 15px 10px 15px 10px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        text-align: left;
-        display: block;
-        text-align: center;
-        font-weight: 400;
-        margin: auto;
-    }
-    .seller-profile-description, .seller-profile-portfolio, .seller-profile-reviews, .seller-profile-history{
-        height: fit-content;
-        width: 100%;
-        padding: 40px;
-        margin: 2.5px 0 2.5px 0;
-        font-size: medium;
-        /* font-weight: lighter; */
-        text-align: left;
-        justify-content: left;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    }  
-    .seller-profile-history{
-        padding: 40px;
-        min-height: 350px;
-        width: 100%;
-        max-height:1200px;
-        overflow: auto;
-    }
-    .seller-profile-reviews{
-        display: block;
-        height: fit-content;
-        width: 100%;
-
-        padding: 40px;
-
-    }
-    .seller-review-box{
-        display: flex;
-        align-items: center;
-        justify-content: left;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        overflow: auto;
-        padding: 5px;
-    }
-    .seller-review-cnt{
-        height: 250px;
         margin: 0 5px 0 5px;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #ffffff;
+    }
+
+    .seller-profile-reviews{
+        height: fit-content;
+        overflow: auto;
+        width: 100%;
+    }
+    .seller-profile-reviews ul{
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+    .seller-profile-reviews ul li{
+        height: 250px;
         width: 250px;
+        padding: 10px;
         flex-shrink: 0;
-        border-radius: 5px;
-        background-color: orange;
-    }   
+        margin: 0 5px 0 5px;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #ffffff;
+    }
+
+    
 
 
    .seller-order-details{

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 import { useNavigate } from 'react-router-dom';
-import { GetProductThumbnail } from '../../api/buyer/get';
+import { GetProductThumbnail } from '../../api/seller/get';
  
 
 const Thumbnail = ({product_id,seller_id}) => {
@@ -17,7 +17,11 @@ const Thumbnail = ({product_id,seller_id}) => {
         try {
             async function getData() {
                 let result = await GetProductThumbnail(product_id)
+                result.file
+                ?
                 set_img(result.file)
+                :
+                set_img(imgSvg)
             }
 
             getData()
@@ -30,7 +34,7 @@ const Thumbnail = ({product_id,seller_id}) => {
 
     return ( 
         <>
-            <img  src={img}  alt="" />
+            <img style={{height: '100%', width: '100%', borderRadius: '10px'}} src={img}  alt="" />
         </>
      );
 }

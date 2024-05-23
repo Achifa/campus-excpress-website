@@ -39,7 +39,8 @@ const {
      create_room_id,
      retrieve_message_meta_data,
      retrieve_product_with_id,
-     retrieve_buyer 
+     retrieve_buyer, 
+     retrieve_products
 } = require("../utils");
 
 const maxAge = 90 * 24 * 60 * 60; 
@@ -854,12 +855,106 @@ async function new_view(){
 
 }
 
+async function filter_items(req,res){
+    let {category,condition,price,state,campus} = req.query;
+ 
+    console.log(category,condition,price,state,campus)
+    // let {seller_id} = req.query;
+    
+    let items = await retrieve_products()
+    // console.log('items: ', category)
+
+    try {
+            new Promise((resolve, reject) => { 
+                if(category !== ''){
+                    // alert(items[0].category, category)
+
+                    let response = items.filter(item => {
+                        return(
+                            item.category === category
+                        )
+                    })
+                console.log('result category :', response)
+
+
+                    resolve(response) 
+                }else{
+                    reject(items)
+                }
+            })
+            .then((result) => {
+                if(condition !==''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.condition === condition
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                // console.log('result :', result)
+
+                if(price !== '' && price?.length !== 0){
+                    let response = result.filter(item => {
+                        return(
+                            item.price > price[0] && item.price < price[1] 
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                if(state !== ''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.locale?.split(',')[0] === state
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                if(campus !== ''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.locale?.split(',').splice(1).join(',').trim() === campus
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                // alert(JSON.stringify(result))
+                res.send(result)
+
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+   
+
+
+     
+} 
+
+
 module.exports = {
 
     register_buyer,
     log_buyer_in,
     get_buyer,
 
+    filter_items,
 
     get_lodges,
     get_shop_items,

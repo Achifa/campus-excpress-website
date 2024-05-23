@@ -39,6 +39,30 @@ async function retrieve_room_with_buyer(buyer_id) {
     )
 }
 
+async function retrieve_room_with_seller(seller_id) {
+
+    return(
+ 
+        await NeonDB
+        .then(pool => {
+            return pool.query(`SELECT * FROM room_id`)
+            .then(result => {
+                // console.log('seller room : ', result)
+
+                let m = result?.rows; 
+                let room = m.filter(item => JSON.parse(JSON.parse(item.members_id).seller_id === seller_id));
+                // console.log('seller room : ', room)
+                
+                return room.map(item => ({room_id: item.room_id, buyer_id: JSON.parse(item.members_id).buyer_id }));
+                // room.map(item => (item.room_id));
+                
+            })
+            .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
+    )
+}
+
 
 async function retrieve_buyer(buyer_id) {
     return(
@@ -504,7 +528,7 @@ module.exports ={
     retrieve_product_with_id,
     retrieve_products,
     retrieve_room_with_buyer,
-    // retrieve_room_with_seller,
+    retrieve_room_with_seller,
     retrieve_message_meta_data_with_type,
     
     upload_chat_meta_data,

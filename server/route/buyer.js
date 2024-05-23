@@ -30,9 +30,11 @@ const {
     register_buyer, 
     get_chat_rooms,
     upload_chat,
-    get_chat
+    get_chat,
+    filter_items
 
 } = require("../controller/buyer");
+const { sendAdsCampaigne } = require("../mail/ads");
 
 const { ValidateEmail, CheckPwdResetToken } = require("../middleware/buyer");
 const { express, parser } = require("../modules");
@@ -76,6 +78,10 @@ buyer_route.get('/get-chat', get_chat);
 buyer_route.get('/search-word', get_search_word);
 
 
+buyer_route.post("/send-mail", parser, sendAdsCampaigne);
+    
+     
+
 buyer_route.post('/buyer.password-update', parser, update_pwd);
 buyer_route.post('/buyer.password-reset', parser, reset_pwd);
 
@@ -86,6 +92,8 @@ buyer_route.post('/buyer.email-validation', parser, ValidateEmail);
 buyer_route.post('/new-chat', parser, upload_chat);
 
 buyer_route.post('/new-view', parser, upload_chat);
+
+buyer_route.get('/filter', filter_items);
 
 
 module.exports = {buyer_route} 

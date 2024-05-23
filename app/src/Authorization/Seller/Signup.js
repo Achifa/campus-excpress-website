@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../styles/Seller/signup.css'
 import { Await, useNavigate } from 'react-router-dom';
-import { RegisterSeller, SendEmailToken, SendToken } from '../../api/seller';
 import { data, school_choices } from '../../location';
 import { socket } from '../../socket';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import SellerLayout from '../../layout/Seller';
 import logoSvg from '../../assets/default.svg'
+import { RegisterSeller } from '../../api/seller/post';
 
 const Signup = () => {
 
@@ -211,16 +211,6 @@ const Signup = () => {
         })
     }
 
-    function handleVerification(email,seller_id){
-        SendToken(email,seller_id)
-        .then((result) => {
-            navigate('/seller.login')
-        })
-        .catch((err) => console.log(err))
-        
-    }
-
-    
 
     useEffect(() => {
         setCampusLocaleList([])

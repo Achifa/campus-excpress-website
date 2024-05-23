@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { usePaystackPayment } from 'react-paystack';
 import { useEffect, useState } from 'react';
-import { AuthorizeWalletAccess, WalletData, createBill } from '../../../api/seller';
+// import { AuthorizeWalletAccess, WalletData, createBill } from '../../../api/seller';
 import PayStack from '../PayStack';
 import { socket } from '../../../socket';
 // import '../../styles/Seller/overlays.css'
@@ -18,17 +18,17 @@ const Wallets = () => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
-        WalletData(window.localStorage.getItem("CE_seller_id"))
-        .then(({walletBalance, TransactionHistory}) => {
-            setBalance(`${walletBalance[0].wallet_balance}.00`)
-            //setTransactions([...JSON.parse(TransactionHistory[0].document)])
-            let files = TransactionHistory.map(item => JSON.parse(item.document))
-            setTransactions(files)
-            overlay.removeAttribute('id')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        // WalletData(window.localStorage.getItem("CE_seller_id"))
+        // .then(({walletBalance, TransactionHistory}) => {
+        //     setBalance(`${walletBalance[0].wallet_balance}.00`)
+        //     //setTransactions([...JSON.parse(TransactionHistory[0].document)])
+        //     let files = TransactionHistory.map(item => JSON.parse(item.document))
+        //     setTransactions(files)
+        //     overlay.removeAttribute('id')
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
     },[])
 
     const config = {

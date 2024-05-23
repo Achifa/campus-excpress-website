@@ -57,13 +57,19 @@ const Header = ({
   let [right, setright] = useState(0)
   let [visible, setvisible] = useState('none')
   let [task, settask] = useState('none')
-  let [top, settop] = useState(0)
   let [buyer, set_buyer] = useState('')
+
 
   useEffect(() => {
       let width = window.innerWidth;
       setScreenWidth(width)
+
+      
+      
   }, [])
+
+  
+  
 
 
   // useEffect(() => {
@@ -108,11 +114,15 @@ const Header = ({
   }
 
   function openSearchResult(e) {
+   
+
     let position = e.target.getBoundingClientRect();
     let top = position.top
     let left = position.left
-    document.querySelector('.buyer-overlay').setAttribute('id', 'buyer-overlay')
-    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top}  />)
+    document.querySelector('.buyer-search-overlay').setAttribute('id', 'buyer-search-overlay')
+
+    let searchWidth = document.querySelector('.search-cnt')?.getBoundingClientRect().width
+    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top} searchWidth={searchWidth}  />)
   }
 
   useEffect(() => {
@@ -121,7 +131,7 @@ const Header = ({
         try {
            let result = await GetSearchWord(searchChar)
            dispatch(setSearchListTo(result))
-          //  console.log('result: ', result)
+           console.log('result: ', result)
            
         } catch (error) {
            console.log(error)
@@ -177,8 +187,21 @@ const Header = ({
         {
           screenWidth > 479 && location.pathname.split('/').splice(-1)[0] === ''
           ?
-          <div className="input-cnt">
-            <input onFocus={e =>openSearchResult(e)} onInput={e => {setSearchChar(e.target.value);}} type="search" name="" placeholder="What Are You Looking For..." id="" />
+          <div className="input-cnt search-cnt">
+            <input onFocus={e => openSearchResult(e)} onInput={e => {
+              async function getData() {
+                if(e.target.value !== '' && e.target.value !== ' '){ 
+                  try {
+                    let result = await GetSearchWord(e.target.value)
+                    dispatch(setSearchListTo(result))
+                  } catch (error) {
+                    console.log(error)
+                  }
+            
+                }
+              }
+              getData()
+            }} type="search" name="" placeholder="What Are You Looking For..." id="" />
             <button>Search</button>
           </div> 
           : 

@@ -1,17 +1,17 @@
 import img from '../../../assets/download (3).jpeg'
 import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
 import '../../../styles/Seller/overlay.css'  
-import { GET_PRODUCT_THUMBNAIL, GetSellerOrder } from '../../../api/seller'
 import { useEffect, useState } from 'react'
 import '../../../styles/Admin/order_card.css'
 import js_ago from 'js-ago'
 import { Link, useNavigate } from 'react-router-dom'
+import { GetItemImages } from '../../../api/seller/get'
 const OrderCard = ({data, index}) => {
     let [img, set_img] = useState('');
 
     let navigate = useNavigate()
     useEffect(() => {
-        GET_PRODUCT_THUMBNAIL(data.item.product_id)
+        GetItemImages(data.item.product_id)
         .then((result) => {
             set_img(result.file)
         })
