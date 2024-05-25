@@ -12,16 +12,18 @@ import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/dashboard/Lodge'
 
 import BuyerLayout from '../../layout/Buyer'
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchOutput from "../../components/Buyer/Header/SearchOutput";
 import { Helmet } from "react-helmet-async";
 import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
 import Ads from "../../components/Buyer/Dashboard/Ads";
+import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
  
 const Dashboard = () => {
 
     let [screenWidth, setScreenWidth] = useState(0)
     let location = useLocation()
+    let navigate = useNavigate()
     let [activeJSX, setActiveJSX] = useState(<CardCnt />)
  
     useEffect(() => {
@@ -112,6 +114,17 @@ const Dashboard = () => {
                     activeJSX
                   }
                 </div>
+
+                <button className="shadow" style={{position: 'fixed', bottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', right: '20px', width: '60px', height: '60px', background: '#fff', borderRadius: '50%'}} onClick={e => navigate('/buyer.message')}>  
+                    {/* <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}> */}
+                       
+                    {/* </span> */}
+                    {/* <span> */}
+                        <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
+                    {/* </span> */}
+                    {/* <span>Messages</span>  */}
+
+                </button>
             </BuyerLayout>
 
         </> 

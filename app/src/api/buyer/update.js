@@ -3,8 +3,8 @@ import axios from 'axios'
 
 
 let uri_1 = 'ce-server.vercel.app'
-let uri_2 = 'localhost'
-let IP = uri_1
+let uri_2 = 'localhost:2222'
+let IP = uri_2
 
 
 const source = axios.CancelToken.source();
@@ -26,7 +26,7 @@ export async function UpdatePwd(buyer_id, pwd) {
 
 async function update_request_generators(uri, body) {
     return(
-        await axios.update(`https://${IP}/${uri}`, body, {
+        await axios.update(`http://${IP}/${uri}`, body, {
             cancelToken: source.token
         })
         .then((result) => result)

@@ -66,15 +66,15 @@ const Ads = () => {
 
     return (   
         <>
-            <div className="buyer-ads-cnt" style={{margin: '10px 0 -40px 0', background: '#efefef'}}>
-                {/* <section style={{background: '#fff', padding: '5px', overflow: 'auto'}}>
+            <div className="buyer-ads-cnt shadow" style={{margin: '10px 0 -40px 0', background: '#fff', padding: screenWidth > 760 ? '10px' : '0'}}>
+                <section style={{background: '#fff', padding: '5px', overflow: 'auto', backgroundColor: '#fff', borderRadius: '5px', color: '#000'}}>
                     <ul style={{listStyleType: 'none', margin: '0', padding: '10px 0 10px 0', overflow: 'auto'}}>
                         {
                             Categories
                         }
                     </ul>   
-                </section> */}
-                <section className="img-cnt" style={{width: '100%', display: 'block', height: '100%', position: 'relative', borderRadius: '2.5px', padding: '0', margin: '0'}}>
+                </section>
+                <section className="img-cnt" style={{width: screenWidth > 761 ? 'calc(100% - 280px)' : '100%', display: 'block', height: '100%', position: 'relative', borderRadius: '2.5px', padding: '0', margin: '0'}}>
                     <img src={ads} style={{borderRadius: '2.5px', margin: '0 0 0 -8px'}}  alt="" /> 
                     {/* <canvas style={{height: '100%', width: '100%'}} id="ads-canvas"></canvas> */}  
                 </section>

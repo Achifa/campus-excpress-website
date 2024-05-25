@@ -38,7 +38,7 @@ export async function UpdateUniversity(seller_id) {
 
 async function update_request_generators(uri, body) {
     return(
-        await axios.post(`http://${IP}/seller.${uri}`, body, {
+        await axios.post(`https://${IP}/seller.${uri}`, body, {
             cancelToken: source.token
         })
         .then((result) => result)

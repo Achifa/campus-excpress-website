@@ -10,7 +10,7 @@ let IP = uri_2
 const source = axios.CancelToken.source();
 
 export async function RegisterSeller(fname,lname,email,phone,pwd,state,campus) {
-    let response = await post_request_generators('seller.registration', {fname,lname,email,phone,pwd,state,campus})
+    let response = await post_request_generators('registration', {fname,lname,email,phone,pwd,state,campus})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return (response)?.data
 }
@@ -63,7 +63,7 @@ export async function UpdateItem(constantData, dynamicData) {
 
 async function post_request_generators(uri, body) {
     return(
-        await axios.post(`http://${IP}/seller.${uri}`, body, {
+        await axios.post(`https://${IP}/seller.${uri}`, body, {
             cancelToken: source.token
         })
         .then((result) => result)

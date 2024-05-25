@@ -285,12 +285,72 @@ export default function Body() {
                 fontWeight: '400'
               }}>
 
-                <div>100</div>
-                <div>Campus Coin</div>
+                <div>30</div>
+                <div>Days Left</div>
 
               </li>
               
             </ul>
+            <br />
+            <div className="seller-profile-verification">
+                <img src={ellipsisSvg} style={{
+                  height: '20px',
+                  width: '20px',
+                  position: 'absolute',
+                  right: '10px',
+                  top: '10px',
+                  transform: 'rotate(90deg)',
+                  cursor: 'pointer'
+                }} alt="" onClick={e => {
+                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
+                setActiveJsx(<ContactEdit email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id} />)
+                
+              }} />
+                <div><b>Shop Rent</b></div>
+
+                <div>
+                  {/* <div>ID: Verified</div> */}
+                  <div>Unlimited Listing: &#8358;{
+                     50
+                  }</div>
+                  {/* <div>Student: False</div> */}
+                </div>
+
+                <div>
+                  {/* <div>ID: Verified</div> */}
+                  <div>Time Duration: {
+                     '30 Days Left'
+                  }</div>
+                  {/* <div>Student: False</div> */}
+                </div>
+            </div>
+
+            <br />
+            <div className="seller-profile-verification">
+                <img src={ellipsisSvg} style={{
+                  height: '20px',
+                  width: '20px',
+                  position: 'absolute',
+                  right: '10px',
+                  top: '10px',
+                  transform: 'rotate(90deg)',
+                  cursor: 'pointer'
+                }} alt="" onClick={e => {
+                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
+                setActiveJsx(<ContactEdit email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id} />)
+                
+              }} />
+                <div><b>Ads Promotion</b></div>
+
+                <div>
+                  {/* <div>ID: Verified</div> */}
+                  <div>Basic: {
+                    'Active'
+                  }</div>
+                  
+                  {/* <div>Student: False</div> */}
+                </div>
+            </div>
             <br />
 
             <div className="seller-profile-verification">
@@ -337,7 +397,7 @@ export default function Body() {
                 setActiveJsx(<UniEdit />)
                 
               }} /> */}
-              <div>University</div>
+              <div><b>University</b></div>
               <div>{userData.campus},{userData.state}</div>
             </div>
           </div>

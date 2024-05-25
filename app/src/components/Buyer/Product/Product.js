@@ -49,8 +49,7 @@ import {
 import Thumbnail from '../Thumbnail'
 import { GetSeller } from '../../../api/seller/get'
 import { DeleteItem } from '../../../api/seller/delete'
-
-
+import { v4 as uuid } from "uuid";
 
 
 const Product = ({product_id}) => {
@@ -310,24 +309,49 @@ const Product = ({product_id}) => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
         overlay.setAttribute('id', 'overlay');
-        try {
-            async function getData() {
-                let result = await AddView(product_id,)
-                if(result.length > 0){
-                    setItem(result[0])
-                    // alert(result[0].product_id)
-                    overlay.removeAttribute('id');
 
+        let buyer_id = window.localStorage.getItem("CE_buyer_id")
+        if(buyer_id !== '' && buyer_id !== undefined){
+            try {
+                async function getData() {
+                    let result = await AddView(item.product_id, buyer_id)
+                    if(result.length > 0){
+                        setItem(result[0])
+                        // alert(result[0].product_id)
+                        overlay.removeAttribute('id');
+    
+                    }
+                    // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
                 }
-                // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
+                setTimeout(() => {
+                    getData()
+                }, 5000); 
+            } catch (error) {
+                console.log(error)
             }
-            setTimeout(() => {
-                getData()
-            }, 5000);
-        } catch (error) {
-            console.log(error)
+        }else{
+            window.localStorage.setItem("unknownBuyer", `CE-unknown-buyer-${uuid()}`)
+            let buyer_id = window.localStorage.getItem("unknownBuyer")
+            try {
+                async function getData() {
+                    let result = await AddView(item.product_id,buyer_id)
+                    if(result.length > 0){
+                        setItem(result[0])
+                        // alert(result[0].product_id)
+                        overlay.removeAttribute('id');
+    
+                    }
+                    // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
+                }
+                setTimeout(() => { 
+                    getData()
+                }, 5000);
+            } catch (error) {
+                console.log(error)
+            }
         }
-    }, [])
+        
+    }, [item])
     
     
 

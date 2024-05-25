@@ -16,7 +16,7 @@ const Filterfilter = () => {
     let [stateValue, setStateValue] = useState('')
     let [school, setSchool] = useState([])
     let [schoolValue, setSchoolValue] = useState('')
-    let {category} = useSelector(s => s.Category)
+    let {category} = useSelector(s => s.storedCategory)
 
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const Filterfilter = () => {
 
     useEffect(() => {
         setSchool([])
-        let stateIndex = data.filter(item =>  item.label.toLocaleLowerCase() === stateValue.toLocaleLowerCase())
+        let stateIndex = data.filter(item =>  item.label?.toLocaleLowerCase() === stateValue?.toLocaleLowerCase())
         let index = data.indexOf(stateIndex[0]);
         let campuses = Object.values(school_choices).reverse();
         index < 0 ? setSchool([]) : setSchool(campuses[index])
@@ -73,15 +73,14 @@ const Filterfilter = () => {
 
     return ( 
         <>
-            <div className="buyer-filter shadow-sm" style={{
+            <div className="buyer-filter shadow" style={{
                 height: 'fit-content',
-                borderRadius: '1.5px'
+                borderRadius: '10px'
             }}>
+                <br />
                 <h5 style={{fontWeight: '500', color: 'orangered', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Filter Section </h5>
 
-                <div className="buyer-filter-cnt " style={{overflow: 'auto', height: '75vh'}}>
-                    <br />
-                    <br />
+                <div className="buyer-filter-cnt " style={{overflow: 'auto', height: 'auto'}}>
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
@@ -95,7 +94,7 @@ const Filterfilter = () => {
                                 categoriesList.map((item, index) => 
                                     
 
-                                    Object.keys(item)[0].toLocaleLowerCase() === category.toLocaleLowerCase()
+                                    Object.keys(item)[0]?.toLocaleLowerCase() === category?.toLocaleLowerCase()
                                     ?
                                     <option key={index} selected value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
                                     :
@@ -184,8 +183,9 @@ const Filterfilter = () => {
                         height: '35px',
                         width: '46%',
                         float: 'left',
-                        borderRadius: '1.5px',
+                        borderRadius: '10px',
                         outline: 'none',
+                        padding: '10px',
                         border: 'none',
                         textAlign: 'center',
                         color: '#fff',
@@ -204,8 +204,9 @@ const Filterfilter = () => {
                         height: '35px',
                         width: '46%',
                         float: 'right',
-                        borderRadius: '1.5px',
+                        borderRadius: '10px',
                         outline: 'none',
+                        padding: '10px',
                         border: 'none',
                         textAlign: 'center',
                         color: '#fff',

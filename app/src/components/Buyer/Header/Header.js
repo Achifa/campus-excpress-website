@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
 import searchSvg from '../../../assets/search-svgrepo-com.svg'
+import sellSvg from '../../../assets/sell-svgrepo-com.svg'
 import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
 
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
@@ -214,18 +215,18 @@ const Header = ({
           <ul style={{
             width: 'fit-content',
           }}>
-            <li onClick={e => navigate('/buyer.message')}>  
+            {/* <li onClick={e => navigate('/buyer.message')}>  
               <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                 { 
                   cartList
                 }
               </span>
-              {/* <span> */}
+              <span>
                 <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
-              {/* </span> */}
-              {/* <span>Messages</span>  */}
+              </span>
+              <span>Messages</span> 
 
-            </li>
+            </li> */}
             {/* { */}
               {/* screenWidth > 760 */}
 
@@ -267,7 +268,6 @@ const Header = ({
                   screenWidth > 479
                   ?
                   <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
-                    {/* <span>Menu</span> */}
                     <span>
                       <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
                     </span>
@@ -276,12 +276,20 @@ const Header = ({
                   ''
                 }
 
+                &nbsp;
                 
 
-                <li style={{padding: '5px'}} onClick={e => openAside(e)}>
-                  {/* <span>Menu</span> */}
+                {/* <li style={{padding: '5px'}} onClick={e => openAside(e)}>
                   <span>
                     <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                  </span>
+                </li> */}
+
+                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'large'}} onClick={e => openAside(e)}>
+                  <span>Sell</span>
+                  &nbsp;
+                  <span>
+                    <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
                   </span>
                 </li>
               </>

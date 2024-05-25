@@ -106,6 +106,7 @@ const CardCnt = () => {
         }
 
     }, [])
+
     
     async function applyFilter() {
         let overlay = document.querySelector('.overlay');

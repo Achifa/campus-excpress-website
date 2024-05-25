@@ -61,7 +61,7 @@ export default function Filter({
 
     useEffect(() => {
         setcampuslist([])
-        let stateIndex = data.filter(item =>  item.label.toLocaleLowerCase() === state.toLocaleLowerCase())
+        let stateIndex = data.filter(item =>  item?.label?.toLowerCase() === state?.toLowerCase())
         let index = data.indexOf(stateIndex[0]);
         let campuses = Object.values(school_choices).reverse();
         index < 0 ? setcampuslist([]) : setcampuslist(campuses[index])
@@ -71,7 +71,7 @@ export default function Filter({
     let [typeList, setTypeList] = useState([])
 
 
-    useEffect(() => {
+    useEffect(() => { 
         setCategoriesList(items.items.category)
     },[])
 
@@ -82,7 +82,7 @@ export default function Filter({
        }
     },[category])
 
-    function closeAside(params) {
+    function closeAside() {
         document.querySelector('.aside-overlay').removeAttribute('id');
     }
 
@@ -137,7 +137,7 @@ export default function Filter({
                                 categoriesList.map((item, index) => 
                                     
 
-                                    Object.keys(item)[0].toLocaleLowerCase() === category.toLocaleLowerCase()
+                                    Object.keys(item)[0]?.toLowerCase() === category?.toLowerCase()
                                     ?
                                     <option key={index} selected value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
                                     :

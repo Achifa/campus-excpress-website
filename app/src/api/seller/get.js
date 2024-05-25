@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 let uri_1 = 'ce-server.vercel.app'
-let uri_2 = 'localhost'
+let uri_2 = 'localhost:2222'
 let IP = uri_2
 
 
@@ -101,7 +101,7 @@ export async function GetChat(room_id) {
 
 async function get_request_generators(uri, params) {
      return(
-        await axios.get(`http://${IP}:2222/seller.${uri}`, {
+        await axios.get(`http://${IP}/seller.${uri}`, {
             params,
             cancelToken: source.token
         })
