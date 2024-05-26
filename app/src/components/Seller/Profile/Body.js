@@ -318,7 +318,7 @@ export default function Body() {
 
                 <div>
                   {/* <div>ID: Verified</div> */}
-                  <div>Time Duration: {
+                  <div>Expires In: {
                      '30 Days Left'
                   }</div>
                   {/* <div>Student: False</div> */}
@@ -344,12 +344,20 @@ export default function Body() {
 
                 <div>
                   {/* <div>ID: Verified</div> */}
-                  <div>Basic: {
-                    'Active'
+                  <div>Package: {
+                    'Basic (Free)'
+                  }</div>
+                  {/* <div>ID: Verified</div> */}
+                  <div>Expires In: {
+                    '30 Days'
                   }</div>
                   
                   {/* <div>Student: False</div> */}
+                  
+                  {/* <div>Student: False</div> */}
                 </div>
+
+                
             </div>
             <br />
 
