@@ -7,7 +7,7 @@ import '../../styles/Buyer/large-screen.css'
 import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/dashboard/Lodge'
 
