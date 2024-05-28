@@ -92,28 +92,28 @@ async function SendSMS(req,res) {
     // Download the helper library from https://www.twilio.com/docs/node/install
 // Set environment variables for your credentials
 // Read more at http://twil.io/secure
-const accountSid = "AC4b4493d78417349ac3732a5ff0a1cfb0";
-const authToken = "18d93ff8525d0909cdd5fa3c3a4d1bc7";
-const verifySid = "VAa50690af141238da3768aa80f203cf98";
-const client = require("twilio")(accountSid, authToken);
+// const accountSid = "AC4b4493d78417349ac3732a5ff0a1cfb0";
+// const authToken = "18d93ff8525d0909cdd5fa3c3a4d1bc7";
+// const verifySid = "VAa50690af141238da3768aa80f203cf98";
+// const client = require("twilio")(accountSid, authToken);
 
-client.verify.v2
-  .services(verifySid)
-  .verifications.create({ to: phone, channel: "sms" })
-  .then((verification) => console.log(verification.status))
-  .then(() => {
-    const readline = require("readline").createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-    readline.question("Please enter the OTP:", (otpCode) => {
-      client.verify.v2
-        .services(verifySid)
-        .verificationChecks.create({ to: phone, code: otpCode })
-        .then((verification_check) => console.log(verification_check.status))
-        .then(() => readline.close());
-    });
-  });
+// client.verify.v2
+//   .services(verifySid)
+//   .verifications.create({ to: phone, channel: "sms" })
+//   .then((verification) => console.log(verification.status))
+//   .then(() => {
+//     const readline = require("readline").createInterface({
+//       input: process.stdin,
+//       output: process.stdout,
+//     });
+//     readline.question("Please enter the OTP:", (otpCode) => {
+//       client.verify.v2
+//         .services(verifySid)
+//         .verificationChecks.create({ to: phone, code: otpCode })
+//         .then((verification_check) => console.log(verification_check.status))
+//         .then(() => readline.close());
+//     });
+//   });
 }
 
 module.exports={

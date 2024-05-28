@@ -4,7 +4,7 @@ import axios from 'axios'
 
 let uri_1 = 'ce-server.vercel.app'
 let uri_2 = 'localhost:2222'
-let IP = uri_2
+let IP = uri_1
 
 
 const source = axios.CancelToken.source();
@@ -82,7 +82,7 @@ export async function AddView(product_id,user_id) {
 
 async function post_request_generators(uri, body) {
     return(
-        await axios.post(`http://${IP}/${uri}`, body, {
+        await axios.post(`https://${IP}/${uri}`, body, {
             cancelToken: source.token
         })
         .then((result) => result)

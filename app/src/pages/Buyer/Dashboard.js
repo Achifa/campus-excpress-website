@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -7,7 +7,7 @@ import '../../styles/Buyer/large-screen.css'
 import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/dashboard/Lodge'
 
