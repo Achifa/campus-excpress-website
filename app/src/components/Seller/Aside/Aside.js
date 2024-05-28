@@ -4,7 +4,7 @@ import img from '../../../logo/[Original size] Untitled (1).png'
 import arrow from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
 // import logo from '../../../assets/c'
 import sell from '../../../assets/sell-svgrepo-com (3).svg'
-import mssg from '../../../assets/message-circle-dots-svgrepo-com.svg'
+import walletSvg from '../../../assets/wallet-2-svgrepo-com.svg'
 import settings from '../../../assets/settings-svgrepo-com (5).svg'
 import user from '../../../assets/account-management-svgrepo-com.svg'
 import inventory from '../../../assets/store-inventory-inventory-stock-supply-svgrepo-com.svg'
@@ -130,10 +130,10 @@ export default function Aside() {
                                 <span></span>
                                 <span>Id Verification</span>
                             </li> */}
-                            <li onClick={e => navigate('/seller.settings.payments')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
+                            {/* <li onClick={e => navigate('/seller.settings.payments')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
                                 <span></span>
                                 <span>Payments/Billing</span>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </li>
@@ -159,7 +159,16 @@ export default function Aside() {
 
                
 
-                
+                <li style={{display: 'flex'}} className='seller__extra__menu' onClick={e => navigate('/seller.wallet')}>
+                    <span>
+                        <img src={walletSvg} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
+
+                    </span>
+                    &nbsp;
+                    &nbsp;
+
+                    <span>Wallet</span>
+                </li>
 
                 <li style={{display: 'flex'}} className='seller__extra__menu' onClick={e => navigate('/seller.profile')}>
                     <span>
@@ -171,6 +180,8 @@ export default function Aside() {
 
                     <span>Account</span>
                 </li>
+
+                
 
             
             </ul>

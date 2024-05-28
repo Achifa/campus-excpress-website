@@ -38,6 +38,7 @@ import {
   SendEmail, 
   SendSMS 
 } from '../../../api/seller/post'
+import js_ago from 'js-ago'
 
 function DescEdit() {
   let title = useRef('')
@@ -167,6 +168,111 @@ function ContactEdit({email,phone,seller_id, name}) {
   )
 }
 
+function ShopRent() {
+
+  let list = [
+
+    
+      {tier: 'Basic', offers: ['Free', 'Up to 7 listings', '30 Days']},
+      {tier: 'Standard', offers: ['150', 'Up to 18 listings', '30 Days']},
+      {tier: 'Premium', offers: ['500', 'Up to 36 listings', '30 Days']},
+      {tier: 'Elite', offers: ['1200', 'Unlimited listings', '30 Days']},
+    
+   
+  ]
+  return(
+    <>
+      <div className="university-edit" style={{width: '95%'}}>
+        <div className="seller-input-cnt">
+          <h4><u>Shop Rent on Campus Express</u></h4>
+
+          <section style={{width: '100%', height: 'fit-content'}}>
+
+            <br />
+
+            
+            {
+              list.map(item => 
+              
+                <div style={{
+                  height: 'auto',
+                  width: '300px',
+                  background: '#FF4500',
+                  borderRadius: '5px',
+                  padding: '10px',
+                  color: '#fff'
+                  }}>
+                  <h1><b>{item.tier}</b></h1>
+
+                  <br />
+
+                  <ol>
+                    <li><p>Price: {item.offers[0]}</p></li>
+
+                    <li><p>Listing Restriction: {item.offers[1]}</p></li>
+
+                    <li><p>Duration: {item.offers[2]}</p></li>
+                  </ol>
+
+                  <button>
+                    Activate
+                  </button>
+                </div>
+              )
+            }
+
+            {/* <h6>Campus Express offers a Shop Rent feature designed to help campus vendors establish a virtual presence on our website. This feature provides vendors with their own online shop space, enhancing their ability to showcase and sell products. The Shop Rent feature is available in three packages:</h6>
+
+            <ol>
+              <li>
+                **Basic Package (Free)**
+                - **Price:** Free
+                - **Listing Restriction:** Up to 7 listings
+                - **Duration:** 30 days
+              </li>
+
+              <li>
+                **Standard Package (150 Naira Monthly)**
+                  - **Price:** 150 Naira
+                  - **Listing Restriction:** Up to 15 listings
+                  - **Duration:** 30 days
+              </li>
+
+              <li>
+                **Pro Package (500 Naira Monthly)**
+                  - **Price:** 500 Naira
+                  - **Listing Restriction:** Unlimited listings
+                  - **Duration:** 30 days
+              </li>
+            </ol>
+
+            
+
+            <small>
+              Each package is designed to accommodate different needs and budgets, providing vendors with the flexibility to choose the option that best supports their business goals. The Shop Rent feature ensures that vendors can maintain a consistent online presence, attract more customers, and manage their product listings efficiently.
+            </small> */}
+          </section>
+        </div>
+
+        <div className="seller-input-cnt">
+          <section style={{width: '100%'}}>
+              
+              
+          </section>
+            
+        </div>
+        {/* <div className="btn-cnt">
+          <button>Cancel</button>
+        </div> */}
+      </div>
+    </>
+  )
+}
+
+function AdsPromotion() {
+  
+}
+
 export default function Body() {
 
   
@@ -267,7 +373,7 @@ export default function Body() {
                 fontWeight: '400'
               }}>
 
-                <div>100</div>
+                <div>&#8358;100</div>
                 <div>Total Earned</div>
 
               </li>
@@ -285,8 +391,8 @@ export default function Body() {
                 fontWeight: '400'
               }}>
 
-                <div>30</div>
-                <div>Days Left</div>
+                <div>0</div>
+                <div>Refunds/Return</div>
 
               </li>
               
@@ -303,24 +409,44 @@ export default function Body() {
                   cursor: 'pointer'
                 }} alt="" onClick={e => {
                 document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<ContactEdit email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id} />)
+                setActiveJsx(<ShopRent email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id} />)
                 
               }} />
                 <div><b>Shop Rent</b></div>
 
                 <div>
                   {/* <div>ID: Verified</div> */}
-                  <div>Unlimited Listing: &#8358;{
-                     50
-                  }</div>
+                  <div style={{textTransform: 'capitalize'}}>Tier: 
+                  
+                  &nbsp;
+                   {
+                     shop.rent?JSON.parse(shop.rent).tier: ''
+                  }
+                  
+                  &nbsp;{shop.rent
+                    ?
+                      JSON.parse(shop.rent).tier === 'basic'
+                      ? ('(Free)') 
+                      : 
+                      (JSON.parse(shop.rent).price) 
+                    : 
+                    ''
+
+                  }
+                  </div>
                   {/* <div>Student: False</div> */}
                 </div>
 
                 <div>
                   {/* <div>ID: Verified</div> */}
                   <div>Expires In: {
-                     '30 Days Left'
-                  }</div>
+                    shop.rent
+                    ?
+                      30 - parseInt(js_ago(new Date(JSON.parse(shop.rent).date)).split(' ')[0]) 
+                    :
+                    ''
+
+                  }&nbsp;Days</div>
                   {/* <div>Student: False</div> */}
                 </div>
             </div>
@@ -344,13 +470,29 @@ export default function Body() {
 
                 <div>
                   {/* <div>ID: Verified</div> */}
-                  <div>Package: {
-                    'Basic (Free)'
+                  <div style={{textTransform: 'capitalize'}}>Package: {
+                    shop.subscription?JSON.parse(shop.subscription).package: ''
+                  }
+
+                  &nbsp;{shop.subscription
+                    ?
+                      JSON.parse(shop.subscription).package === 'basic'
+                      ? ('(Free)') 
+                      : 
+                      (JSON.parse(shop.subscription).price) 
+                    : 
+                    ''
+
                   }</div>
                   {/* <div>ID: Verified</div> */}
                   <div>Expires In: {
-                    '30 Days'
-                  }</div>
+                    shop.subscription
+                    ?
+                      30 - parseInt(js_ago(new Date(JSON.parse(shop.subscription).date)).split(' ')[0]) 
+                    :
+                    ''
+
+                  }&nbsp;Days</div>
                   
                   {/* <div>Student: False</div> */}
                   

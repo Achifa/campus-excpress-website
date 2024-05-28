@@ -227,7 +227,9 @@ const CardCnt = () => {
                 borderRadius: '1.5px',
                 height: 'fit-content', 
                 padding: '0',
-                background: '#fff'
+                background: '#fff',
+                position: 'relative',
+                
 
             }}>
                 {/* <div className="buyer-sort shadow-sm" style={{marginTop: '0px',borderRadius: '1.5px', zIndex: '1000'}}>

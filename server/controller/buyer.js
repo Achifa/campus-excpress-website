@@ -851,10 +851,6 @@ async function get_chat(req,res){
 } 
 
 
-async function new_view(){
-
-}
-
 async function filter_items(req,res){
     let {category,condition,price,state,campus} = req.query;
  
@@ -864,7 +860,7 @@ async function filter_items(req,res){
     let items = await retrieve_products()
     // console.log('items: ', category)
 
-    try {
+    try { 
             new Promise((resolve, reject) => { 
                 if(category !== ''){
                     // alert(items[0].category, category)
@@ -948,8 +944,47 @@ async function filter_items(req,res){
 } 
 
 
-module.exports = {
+async function add_new_view(req,res) {
+    let {product_id,user_id} = req.body;
 
+    let view_id = shortId.generate() 
+
+    
+
+    new Promise((resolve) => {
+       NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM views WHERE buyer_id = '${user_id}' AND product_id= '${product_id}'`)
+            .then(result => {
+                if((result.rows).length > 0 ){ 
+                    resolve(false)
+                }else{
+                    resolve(true)
+
+                }
+            })
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+    })
+    .then((data) => {
+        if(data){
+            NeonDB.then((pool) => 
+                pool.query(`INSERT INTO views(id,view_id,product_id,buyer_id,date) values(DEFAULT, '${view_id}', '${product_id}', '${user_id}', '${new Date()}')`)
+                .then(result => res.send(result.rows))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        }else{
+            res.send(true) 
+        }
+    })
+    .catch(err => console.log(err))
+    
+}
+
+
+module.exports = {
+    add_new_view,
     register_buyer,
     log_buyer_in,
     get_buyer,

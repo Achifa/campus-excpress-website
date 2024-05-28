@@ -31,7 +31,8 @@ const {
     get_chat_rooms,
     upload_chat,
     get_chat,
-    filter_items
+    filter_items,
+    add_new_view
 
 } = require("../controller/buyer");
 const { sendAdsCampaigne } = require("../mail/ads");
@@ -73,7 +74,7 @@ buyer_route.get('/orders', get_orders);
 
 buyer_route.get('/get-chat-rooms', get_chat_rooms);
 buyer_route.get('/get-chat', get_chat);
-
+buyer_route.get('/filter', filter_items);
 
 buyer_route.get('/search-word', get_search_word);
 
@@ -91,9 +92,8 @@ buyer_route.post('/buyer.email-validation', parser, ValidateEmail);
 
 buyer_route.post('/new-chat', parser, upload_chat);
 
-buyer_route.post('/new-view', parser, upload_chat);
+buyer_route.post('/new-view', parser, add_new_view);
 
-buyer_route.get('/filter', filter_items);
 
 
 module.exports = {buyer_route} 

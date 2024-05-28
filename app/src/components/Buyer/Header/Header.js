@@ -32,7 +32,13 @@ import Filter from "./Filter";
 import Search from "./SearchOutput";
 import SearchBar from "./SearchBar";
 import { setSearchListTo } from "../../../redux/buyer_store/SearchList";
+import logoutSvg from '../../../assets/logout-2-svgrepo-com.svg'
 
+import helpSvg from '../../../assets/help-svgrepo-com.svg'
+import refundSvg from '../../../assets/return-svgrepo-com.svg'
+import cancelSvg from '../../../assets/cancel-delivery-svgrepo-com.svg'
+import userSvg from '../../../assets/user-alt-1-svgrepo-com.svg'
+import contactSvg from '../../../assets/costumer-support-call-svgrepo-com.svg'
 const Header = ({
   
 }) => {
@@ -164,8 +170,17 @@ const Header = ({
     }
     fetchData()
   },[])
+  let list2 = [
+    {uri: '',text: 'My Account', img: userSvg},
+    {uri: '',text: 'Help Center', img: helpSvg}, 
+    {uri: '',text: 'Refund & Return', img: refundSvg}, 
+    // {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
+    {uri: '',text: 'Contact Us', img: contactSvg}, 
+    {uri: 'logout',text: buyer?.fname ? 'Logout' : 'Login', img: buyer?.fname ? logoutSvg : login}
+]
 
 
+  
   
   
 
@@ -182,6 +197,18 @@ const Header = ({
         }
 
       <div className="buyer-header" style={{position: 'sticky', top: '0', zIndex: '10000'}}>
+
+        {
+            screenWidth > 480
+            ?
+            ''
+            :
+            <li style={{padding: '5px'}} onClick={e => openAside(e)}>
+              <span>
+                <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+              </span>
+            </li>
+        }
 
 
         <img src={img} style={{height: screenWidth > 760 ? '80px' : '50px', width: screenWidth > 760 ? '80px' : '50px'}}  alt="" />
@@ -263,19 +290,34 @@ const Header = ({
               {/* :  */}
 
               <>
+
+
               
                 {
                   screenWidth > 479
                   ?
-                  <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
-                    <span>
-                      <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
-                    </span>
-                  </li>
+                    <>
+
+                      <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
+                        <span>
+                          <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                        </span>
+                      </li>
+
+                      
+                      <li>
+                        
+                      </li>
+                      
+                    </>
                   :
                   ''
                 }
 
+
+
+
+                &nbsp;
                 &nbsp;
                 
 

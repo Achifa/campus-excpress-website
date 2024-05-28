@@ -12,10 +12,10 @@ const {
 } = require("./templates");
 // const { v4 } = require('uuid');
    
-greetingTime(new Date());
+greetingTime(new Date()); 
 require('dotenv').config();    
 
-const app = express();  
+const app = express();   
 app.use(cookieParser());
 app.use(morgan('dev'));   
 

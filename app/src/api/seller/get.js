@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 let uri_1 = 'ce-server.vercel.app'
-let uri_2 = 'localhost:2222'
+let uri_2 = '192.168.17.146:2222'
 let IP = uri_2
 
 

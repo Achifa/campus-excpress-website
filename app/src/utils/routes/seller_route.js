@@ -13,6 +13,7 @@ import OrderPage from '../../pages/Seller/OrderPage';
 import MessageRoom from '../../pages/Seller/MessageRoom';
 import MessageLg from '../../pages/Seller/MessageLg';
 import ForgotPwd from '../../Authorization/ForgotPassword';
+import Wallet from '../../pages/Seller/Wallet';
 // import SettingsLg from '../../pages/Seller/SettingsLg';
 
 export let seller_route = [
@@ -45,6 +46,8 @@ export let seller_route = [
     // {  path:'/seller.settings', component: <SettingsLg /> },
 
     { path: '/seller.order-page/:id', component: <OrderPage /> },
+    { path: '/seller.wallet', component: <Wallet /> },
+
 
     // { path: '/product/:id', component: <ProductPage />}, 
 
