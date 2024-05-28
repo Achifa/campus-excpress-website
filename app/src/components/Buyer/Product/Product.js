@@ -374,7 +374,7 @@ const Product = ({product_id}) => {
                 <meta property="og:site_name" content={`${item.title}`} />
                 <meta property="og:title" content={`${item.title}`} />
                 <meta property="og:description" content={`${item.description}`} />
-                <meta property="og:image" itemprop="image" content={metaImg} />
+                <meta property="og:image" itemprop="image" content={`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url"  content={`https://www.campusexpressng.com/product?product_id=${item.product_id}`} />
                 {/* <meta property="og:updated_time" content="1440432930" /> */}
@@ -609,7 +609,7 @@ const Product = ({product_id}) => {
                                             const encodedMessage = encodeURIComponent(message);
                                             const imageUrl = URL.createObjectURL(blob);
                                             console.log(imageUrl)
-                                            const whatsappUrl = `whatsapp://send?text=${encodedMessage}`;
+                                            const whatsappUrl = `whatsapp://send?text=${encodedMessage}%20${`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`}`;
 
                                             // Open WhatsApp with the share URL
                                             window.open(whatsappUrl, '_blank');
