@@ -3,7 +3,7 @@ import axios from 'axios'
 
 let uri_1 = 'ce-server.vercel.app'
 let uri_2 = 'localhost:2222'
-let IP = uri_2
+let IP = uri_1
 
 const source = axios.CancelToken.source();
 
@@ -19,7 +19,7 @@ export async function DeleteItem(product_id) {
 
 async function delete_request_generators(uri, params) {
     return(
-       await axios.delete(`http://${IP}/${uri}`, {
+       await axios.delete(`https://${IP}/${uri}`, {
            params: params,
            cancelToken: source.token
        })

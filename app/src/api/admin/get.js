@@ -4,7 +4,7 @@ import axios from 'axios'
 
 let uri_1 = 'ce-server.vercel.app'
 let uri_2 = '192.168.151.146:2222'
-let IP = uri_2
+let IP = uri_1
 
 
 const source = axios.CancelToken.source();
@@ -61,7 +61,7 @@ export async function GetProductThumbnail(product_id) {
 
 async function get_request_generators(uri, params) {
      return(
-        await axios.get(`http://${IP}/${uri}`, {
+        await axios.get(`https://${IP}/${uri}`, {
             params,
             cancelToken: source.token
         })
