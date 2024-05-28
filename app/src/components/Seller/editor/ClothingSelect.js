@@ -1,4 +1,19 @@
-const SubCategory = ({edit,productSubCategory,cType,gender}) => {
+import { useEffect, useState } from "react";
+
+const SubCategory = ({edit,subCategory_state,productSubCategory,category,cType,gender,categoriesList}) => {
+    let [footWear,setFootWear] = useState([])
+    let [maleList,setMaleList] = useState([])
+    let [feMaleList,setFeMaleList] = useState([])
+
+    useEffect(() => {
+
+        let data = categoriesList.filter(data => Object.keys(data)[0] === category)
+        setFootWear(data[0]["FootWear"])
+        setMaleList(data[0]["ClothingMale"])
+        setFeMaleList(data[0]["ClothingFemale"])
+
+    },[categoriesList,subCategory_state])
+     
     return ( 
         <>
             <div className="input-cnt">
@@ -9,10 +24,9 @@ const SubCategory = ({edit,productSubCategory,cType,gender}) => {
                         
                         cType === 'Foot Wear'
                         ?
-                        
                             
-                            ["Sandals","Shoes","Cotina","Palms","Boots","Slippers"].map ((item, index) => 
-                                item === edit.condition
+                            footWear?.map((item, index) => 
+                                item === window.localStorage.getItem('draft_sub_category')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :
@@ -26,16 +40,16 @@ const SubCategory = ({edit,productSubCategory,cType,gender}) => {
 
                             ?
 
-                            ["Underwear","Tops","Trousees","Nicker/Shorts","Sports-wear","Swim-suit"].map ((item, index) => 
-                                item === edit.condition
+                            maleList.map((item, index) => 
+                                item === window.localStorage.getItem('draft_sub_category')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :
                                 <option key={index} value={item}>{item}</option>
                             )
                             :
-                            ["Underwear","Tops","Trousees","Nicker/Shorts","Sports-wear","Gown","Skirt","Swim-suit"].map ((item, index) => 
-                                item === edit.condition
+                            feMaleList.map((item, index) => 
+                                item === window.localStorage.getItem('draft_sub_category')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :

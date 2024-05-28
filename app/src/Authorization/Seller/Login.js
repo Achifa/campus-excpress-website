@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import '../../styles/Buyer/login.css'
 import { LogSellerIn } from "../../api/seller";
+import SellerLayout from "../../layout/Seller";
 const SellerLogin = () => {
     let navigate = useNavigate();
     let [btn, setBtn] = useState("Login")
@@ -14,10 +15,10 @@ const SellerLogin = () => {
 
     let Login = (e) => {
         
-        let check = document.querySelector('form').querySelector('.err-mssg');
+        let check = document.querySelector('.err-cnt').querySelector('.err-mssg');
 
         if(check){
-            document.querySelector('form').querySelector('.err-mssg').remove()
+            document.querySelector('.err-cnt').querySelector('.err-mssg').remove()
         }
 
         Validation();
@@ -37,15 +38,15 @@ const SellerLogin = () => {
                 console.log(err)
                 
 
-                let check = document.querySelector('form').querySelector('.err-mssg');
+                let check = document.querySelector('.err-cnt').querySelector('.err-mssg');
                 if(check){
-                    document.querySelector('form').querySelector('.err-mssg').remove()
+                    document.querySelector('.err-cnt').querySelector('.err-mssg').remove()
                     let div = document.createElement('div');
                     div.className = 'err-mssg';
                     div.style.display = 'table'
                     div.style.margin = '0 auto'
                     div.innerHTML = 'Invalid Credentials'
-                    document.querySelector('form').append(div)
+                    document.querySelector('.err-cnt').append(div)
                     
                 }else{
                     let div = document.createElement('div');
@@ -53,7 +54,7 @@ const SellerLogin = () => {
                     div.style.display = 'table'
                     div.style.margin = '0 auto'
                     div.innerHTML = 'Invalid Credentials'
-                    document.querySelector('form').append(div)
+                    document.querySelector('.err-cnt').append(div)
                 }
                 e.target.disabled = false;
                 setBtn("Login")
@@ -151,51 +152,61 @@ const SellerLogin = () => {
 
     return ( 
         <>
-            <div className="seller-login-cnt">
 
-                <section className="shadow-sm">
-                    <h5 style={{color: 'orangered'}}>Login Here</h5>
-                    <form action="">
+            {/* <SellerLayout> */}
+            <div className="seller-login-cnt" style={{background: 'orangered', bottom: '0', position: 'absolute', height: 'calc(100vh - 0px)'}}>
+
+                <section className="shadow-sm" style={{background: '#fff', height: 'fit-content'}}>
                     
+                    <div className="err-cnt">
+
+                    </div>
+                    <br />
+                    <h6><b style={{background: 'orangered', color: '#fff', padding: '10px', borderRadius: '5px', marginBottom: '20px', height: '150px'}}>Login Form For Sellers</b></h6>
+                
+                    <br />
+                    <form action="" >
+                        
 
 
-                     
+                    
 
                         <div style={{flexDirection: 'column', alignItems: 'flex-start'}} className="seller-input-cnt">
                             <label htmlFor="">Email</label>
-                            <input name="email" onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
+                            <input style={{background: '#efefef'}} name="email" onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
                             
                         </div>
 
                         <div style={{flexDirection: 'column', alignItems: 'flex-start'}} className="seller-input-cnt">
                             <label htmlFor="">Password</label>
-                            <input onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
+                            <input style={{background: '#efefef'}} onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
                             
                         </div>
 
                         
 
                         
-                      
+                    
                         <div className="seller-input-cnt">
                             
-                           <button onClick={e => {e.preventDefault(); Login(e)}}>
+                        <button style={{background: '#ff4500',color: '#fff'}} onClick={e => {e.preventDefault(); Login(e)}}>
                             {
                                 btn
                             }
-                           </button>
+                        </button>
                             
                         </div>
                     </form>
 
-                    <div onClick={e => navigate('/seller/reset-password')}>
-                        <small style={{cursor: 'pointer'}}>Forgot Password? Recover Password Here</small>
+                    <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.password-reset')}>
+                        <small style={{cursor: 'pointer', color: 'orangered', fontWeight: '500'}}>Recover Forgotten Password Here</small>
                     </div>
-                    <div onClick={e => navigate('/seller/signup')}>
-                        <small style={{cursor: 'pointer'}}>Don't Have An Account, Signup Here</small>
+                    <div style={{textAlign: 'center'}} onClick={e => navigate('/seller.signup')}>
+                        <small style={{cursor: 'pointer', color: 'orangered', fontWeight: '500'}}>Don't Have An Account, Signup Here</small>
                     </div>
                 </section>
             </div>
+            {/* </SellerLayout> */}
         </>
      );
 }

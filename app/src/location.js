@@ -229,28 +229,6 @@ export var school_choices = {
         text: "Federal University Ndufu Alike IkwoÂ (FUNAI)"
     }, ],
     "26": [{
-        value: 229,
-        text: "ESUT, Agbani"
-    }, {
-        value: 228,
-        text: "Godfrey Okoye University, Emene"
-    }, {
-        value: 227,
-        text: "IMT"
-    }, {
-        value: 226,
-        text: "Madonna University"
-    }, {
-        value: 225,
-        text: "Osisatech Polytechnic"
-    }, {
-        value: 231,
-        text: "University of Nigeria, Nsukka"
-    }, {
-        value: 230,
-        text: "University of Nigeria, UNEC"
-    }, ],
-    "25": [{
         value: 236,
         text: "Ambrose Alli University, Ekpoma"
     }, {
@@ -272,7 +250,7 @@ export var school_choices = {
         value: 238,
         text: "UNIBEN"
     }, ],
-    "24": [{
+    "25": [{
         value: 239,
         text: "Afe Babalola University"
     }, {
@@ -281,6 +259,28 @@ export var school_choices = {
     }, {
         value: 241,
         text: "Ekiti State University, Ado Ekiti"
+    }, ],
+    "24": [{
+        value: 229,
+        text: "ESUT, Agbani"
+    }, {
+        value: 228,
+        text: "Godfrey Okoye University, Emene"
+    }, {
+        value: 227,
+        text: "IMT"
+    }, {
+        value: 226,
+        text: "Madonna University"
+    }, {
+        value: 225,
+        text: "Osisatech Polytechnic"
+    }, {
+        value: 231,
+        text: "University of Nigeria, Nsukka"
+    }, {
+        value: 230,
+        text: "University of Nigeria, UNEC"
     }, ],
     "23": [{
         value: 242,

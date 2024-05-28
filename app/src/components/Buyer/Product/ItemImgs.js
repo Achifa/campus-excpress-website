@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { GetItemImages } from "../../../api/buyer";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { setItemImagesTo } from "../../../redux/buyer/ItemImages";
+import { setItemImagesTo } from "../../../redux/buyer_store/ItemImages";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
-import { setActiveImgTo } from "../../../redux/buyer/ActiveImg";
+import { setActiveImgTo } from "../../../redux/buyer_store/ActiveImg";
+import { GetItemImages } from "../../../api/buyer/get";
 
-const ItemImgs = () => {
+const ItemImgs = ({product_id}) => {
     let location = useLocation()
     let dispatch = useDispatch()
     let [img, set_img] = useState(imgSvg);
@@ -17,12 +17,18 @@ const ItemImgs = () => {
 
 
     useEffect(() => {
-        GetItemImages(location.pathname.split('/')[2])
-        .then((result) => {
-            dispatch(setItemImagesTo(result));
-            setImageList(result)
-        })
-        .catch(err => console.log(err))
+        try {
+            async function getData() {
+                let result = await GetItemImages(product_id)
+                if(result?.length > 0){
+                    setImageList(result)
+                    dispatch(setItemImagesTo(result));
+                }
+            }
+            getData()
+        } catch (error) {
+            console.log(error)
+        }
     }, [])
 
     let handleActiveImg = i => {
@@ -36,7 +42,7 @@ const ItemImgs = () => {
                     imageList.map((item, index) => {
                         return(
                             <div key={index} style={{border: ActiveImg === index ? '2px solid orangered': 'none', cursor: 'pointer', height: '50px', width: '50px', backgroundImage: `url(${item.file})`, backgroundRepeat: 'no-repeat', backgroundSize: '50px 50px', backgroundPosition: 'center'}} onClick={e => handleActiveImg(index)}>
-                                {/* <img src={item.file} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" /> */}
+                                <img src={item.file} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
                             </div>
                         )
                     })

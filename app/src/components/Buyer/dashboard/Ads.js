@@ -1,6 +1,6 @@
 
-import Category, { setCategoryTo } from "../../../redux/buyer/Category";
-import img from '../../../images/Slider.png'
+import Category, { setCategoryTo } from "../../../redux/buyer_store/Category";
+import ads from '../../../images/Slider.png'
 import foodSvg from '../../../assets/food-market-purchasing-svgrepo-com.svg'
 import electronicsSvg from '../../../assets/broadcast-device-electronics-svgrepo-com.svg'
 import vehicleSvg from '../../../assets/car-hand-drawn-outlined-vehicle-svgrepo-com.svg'
@@ -18,10 +18,24 @@ import cosmeticsSvg from '../../../assets/medical-medicine-health-23-svgrepo-com
 import tabletsSvg from '../../../assets/tablet-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 const Ads = () => {
-    let navigate = useNavigate()
+    let [screenWidth, setScreenWidth] = useState(0)
+ 
+    let navigate = useNavigate() 
+
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
     let dispatch = useDispatch()
+
+ 
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
 
     let categories = [
         ["Food", foodSvg],
@@ -48,21 +62,24 @@ const Ads = () => {
             <span style={{fontSize: 'small', whiteSpace: 'nowrap', float: 'right', width: 'calc(100% - 30px)', textAlign: 'left', marginLeft: '45px'}}>{(item[0])}</span>
         </li>
     )
-    return ( 
+
+
+    return (   
         <>
-            <div className="buyer-ads-cnt">
-                <section style={{background: '#fff', padding: '5px', overflow: 'auto'}}>
+            <div className="buyer-ads-cnt" style={{marginTop: '10px', background: '#efefef'}}>
+                {/* <section style={{background: '#fff', padding: '5px', overflow: 'auto'}}>
                     <ul style={{listStyleType: 'none', margin: '0', padding: '10px 0 10px 0', overflow: 'auto'}}>
                         {
                             Categories
                         }
-                    </ul>
+                    </ul>   
+                </section> */}
+                <section className="img-cnt" style={{width: '100%', display: 'block', height: '100%', position: 'relative', borderRadius: '2.5px'}}>
+                    {/* <img src={ads} style={{borderRadius: '10px'}}  alt="" />  */}
+                    {/* <canvas style={{height: '100%', width: '100%'}} id="ads-canvas"></canvas> */}  
                 </section>
-                <section className="img-cnt">
-                    <img src={img}  alt="" />
-                </section>
-            </div>
-        </> 
+            </div> 
+        </>   
      );
 } 
  

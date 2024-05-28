@@ -1,14 +1,24 @@
 import img from '../../../assets/download (3).jpeg'
 import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
-import { useEffect, useState } from 'react'
+import { 
+    useEffect, useState 
+} from 'react'
 import jsAgo from 'js-ago'
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
-import { AddItemToCart, DeleteItemFromCart, GetCart, GetCartItems, UpdateCartUnit } from '../../../api/buyer';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCartTo } from '../../../redux/buyer/Cart';
-import { useNavigate } from 'react-router-dom';
+import { 
+    useDispatch, useSelector 
+} from 'react-redux';
+import { 
+    setCartTo 
+} from '../../../redux/buyer_store/Cart';
+import { 
+    useNavigate 
+} from 'react-router-dom';
 import Card from './CartCard';
 import Btn from './Btn';
+import { 
+    GetCartItems 
+} from '../../../api/buyer/get';
 
 const Cart = () => { 
     let [Items, setItems] = useState([])
@@ -36,46 +46,50 @@ const Cart = () => {
     }
     useEffect(() => {
         
-        GetCartItems(window.localStorage.getItem('CE_buyer_id'))
-        .then((result) => { 
-            setItems(result);
-            let prices = []
-            let unitList = []
+        try {
+            let result = GetCartItems(window.localStorage.getItem('CE_buyer_id'))
 
-            result.map((item) => prices.push(eval(item.item.price)))
-            result.forEach((product) => unitList.push({product_id: product.item.product_id, unit: parseInt(product.cart.unit)}))
-            setUnit(unitList)
-            let s = sum(prices, prices.length);
-            setSubTotal(s)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+            if(result){
+                setItems(result);
+                let prices = []
+                let unitList = []
+
+                result.map((item) => prices.push(parseInt(item.item.price)))
+                result.forEach((product) => unitList.push({product_id: product.item.product_id, unit: parseInt(product.cart.unit)}))
+                setUnit(unitList)
+                let s = sum(prices, prices.length);
+                setSubTotal(s)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        
         
     }, [])
 
-    function StockChange(type,item) {
-        if(type === 'add'){
-            let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
+    // function StockChange(type,item) {
+    //     if(type === 'add'){
+    //         let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
             
-            if(oldUnit < item[0].stock){
-                //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
+    //         if(oldUnit < item[0].stock){
+    //             //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
 
-                document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
-                getTotalPrice()
-            }
+    //             document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
+    //             getTotalPrice()
+    //         }
 
-        }else{
-            let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
+    //     }else{
+    //         let oldUnit = unit.filter(data => data.product_id === item[0].product_id)[0].unit;
 
-            if(oldUnit > 1){
-                //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
-                document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit - 1;
-                getTotalPrice()
-            }
+    //         if(oldUnit > 1){
+    //             //unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit + 1;
+    //             document.querySelector(`#ce${item[0].product_id}`).innerHTML = unit.filter(data => data.product_id === item[0].product_id)[0].unit = oldUnit - 1;
+    //             getTotalPrice()
+    //         }
             
-        }
-    }
+    //     }
+    // }
+    
     let [screenWidth, setScreenWidth] = useState(0)
 
     useEffect(() => {
@@ -98,35 +112,40 @@ const Cart = () => {
                {
                 Items.map((item, index) => {
                     return(
-                        <Card unit={unit} getTotalPrice={getTotalPrice} item={item} index={index} />
+                        <Card product_id={item.item.product_id} unit={unit} getTotalPrice={getTotalPrice} item={item} index={index} />
                     )
                 })
                }
             </div>
 
             {
-                screenWidth > 759
+                screenWidth > 659
+                
                 ?
 
-                <div className="buyer-cart-checkout">
-                <div style={{borderBottom: '1px solid #eeeeee'}}>
-                        <span>Cart Summary</span>
-                </div>
+                    <div className="buyer-cart-checkout">
+                        <div style={{borderBottom: '1px solid #eeeeee'}}>
+                                <span>Cart Summary</span>
+                        </div>
 
-                <div>
-                        <small style={{float: 'left'}}>Sub total</small>
-                        <small style={{float: 'right'}}><small>&#8358;</small>{new Intl.NumberFormat('en-us').format(subTotal)}</small>
-                </div>
+                        <div>
+                                <small style={{float: 'left'}}>Sub total</small>
+                                <small style={{float: 'right'}}><small>&#8358;</small>{new Intl.NumberFormat('en-us').format(subTotal)}</small>
+                        </div>
 
-                <div style={{fontSize: 'small'}}>
-                        <small>Delivery is free</small>
-                </div>
-                <div style={{height: '80px'}}>
-                        <Btn url={url} subTotal={subTotal} />
-                </div>
-                </div>
+                        <div style={{fontSize: 'small'}}>
+                                <small>Delivery is free</small>
+                        </div>
+                        <div style={{height: '80px'}}>
+                                <Btn url={url} subTotal={subTotal} />
+                        </div>
+                    </div>
                 :
-                <Btn url={url} subTotal={subTotal} />
+                <>
+                    <div style={{position: 'fixed', bottom: '0', padding: '20px', left: '0', width: '100%'}}>
+                        <Btn url={url} subTotal={subTotal} />
+                    </div>
+                </>
                 
 
             }

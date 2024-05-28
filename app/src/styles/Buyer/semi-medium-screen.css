@@ -51,7 +51,7 @@
 
 
     .buyer-main-cnt{
-        padding: 40px 5px 40px 5px; 
+        padding: 5px 5px 5px 5px; 
         background-color: orangered;
     }
 
@@ -420,7 +420,7 @@
     }
 
     .buyer-product-data #left .img-cnt{
-        height: 450px;
+        height: 300px;
         width: 100%;
 
     }

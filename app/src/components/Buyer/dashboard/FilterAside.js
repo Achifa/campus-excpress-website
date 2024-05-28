@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import items from '../../../items.json'
 import { data, school_choices } from "../../../location";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryTo } from "../../../redux/buyer/Category";
+import { setCategoryTo } from "../../../redux/buyer_store/Category";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import '../../../styles/Buyer/FilterAside.css'
@@ -73,17 +73,22 @@ const Filterfilter = () => {
 
     return ( 
         <>
-            <div className="buyer-filter shadow-sm">
-                <div className="buyer-filter-cnt ">
-                    <h5 style={{fontWeight: '500', color: 'orangered'}}>Filter Section </h5>
+            <div className="buyer-filter shadow-sm" style={{
+                height: 'fit-content',
+                borderRadius: '1.5px'
+            }}>
+                <h5 style={{fontWeight: '500', color: 'orangered', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Filter Section </h5>
+
+                <div className="buyer-filter-cnt " style={{overflow: 'auto', height: '75vh'}}>
+                    <br />
+                    <br />
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
-                            &nbsp;
-                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Category</label>
+                            <label htmlFor="" style={{color: '#000', marginTop: '10px', fontWeight: '500', fontSize: 'small'}}>Category</label>
                         </div>
-                        <select name="" onInput={e => {dispatch(setCategoryTo(e.target.innerHTML.toLowerCase())); setCategories(e.target.value)}} id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => {dispatch(setCategoryTo(e.target.value)); setCategories(e.target.value)}} id="">
                             <option value={''}>Select A Category</option>
 
                             {
@@ -99,9 +104,9 @@ const Filterfilter = () => {
                             }
                         </select>
 
-                        <br />
+                        <br /> 
 
-                        <select name="" id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
                             <option value={''}>Select Product Type</option>
 
                             {
@@ -112,16 +117,13 @@ const Filterfilter = () => {
                         </select>
                     </div>
 
-                    
-
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
-                            &nbsp;
-                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Condition</label>
+                            <label htmlFor="" style={{color: '#000', marginTop: '10px', fontWeight: '500', fontSize: 'small'}}>Condition</label>
                         </div>
-                        <select name="" id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
                             <option value={''}>Select Product Type</option>
 
                             {
@@ -136,14 +138,13 @@ const Filterfilter = () => {
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
-                            &nbsp;
-                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Price Range</label>
+                            <label htmlFor="" style={{color: '#000', marginTop: '10px', fontWeight: '500', fontSize: 'small'}}>Price Range</label>
                         </div>
                         <RangeSlider />
                         <br />
                         <div>
-                            <input style={{height: '45px', width: '40%', float: 'left'}} placeholder="From..." type="number" name="" id="" />
-                            <input style={{height: '45px', width: '40%', float: 'right'}} placeholder="To..." type="number" name="" id="" />
+                            <input style={{height: '35px', width: '40%', float: 'left'}} placeholder="From..." type="number" name="" id="" />
+                            <input style={{height: '35px', width: '40%', float: 'right'}} placeholder="To..." type="number" name="" id="" />
                         </div>
                     </div>
 
@@ -151,10 +152,9 @@ const Filterfilter = () => {
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />
                             &nbsp;
-                            &nbsp;
-                            <label htmlFor="" style={{color: '#000', fontWeight: 'bolder', fontSize: 'medium'}}>Location</label>
+                            <label htmlFor="" style={{color: '#000', marginTop: '10px', fontWeight: '500', fontSize: 'small'}}>Location</label>
                         </div>
-                        <select name="" id="" onChange={e => setStateValue(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => setStateValue(e.target.value)}>
                             <option value={''}>Select State</option>
 
                             {
@@ -165,7 +165,7 @@ const Filterfilter = () => {
                         </select>
                         <br />
 
-                        <select name="" id="" onChange={e => setSchoolValue(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => setSchoolValue(e.target.value)}>
                             <option value={''}>Select Campus</option>
 
                             {
@@ -175,53 +175,54 @@ const Filterfilter = () => {
                             }
                         </select>
                     </div>
-                    <br />
 
-                    <div className="buyer-filter-btn" style={{display: 'inline-block', width: '100%', justifyContent: 'space-between'}}>
-                        <button onClick={e => {e.preventDefault(); handleOverlay()}} style={{
-                            height: '50px',
-                            width: '46%',
-                            float: 'left',
-                            borderRadius: '5px',
-                            outline: 'none',
-                            border: 'none',
-                            textAlign: 'center',
-                            color: '#fff',
-                            display: 'flex', 
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            position: 'relative',
-                            fontSize: 'medium',
-                            fontWeight: '500',
-                            backgroundColor: 'orangered',
-                            margin: '0'
-                        }}>
-                            Cancel
-                        </button>
-                        <button style={{
-                            height: '50px',
-                            width: '46%',
-                            float: 'right',
-                            borderRadius: '5px',
-                            outline: 'none',
-                            border: 'none',
-                            textAlign: 'center',
-                            color: '#fff',
-                            display: 'flex', 
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            position: 'relative',
-                            fontSize: 'medium',
-                            fontWeight: '500',
-                            backgroundColor: 'orangered',
-                            margin: '0'
-                        }}>
-                            Apply
-                        </button>
-                    </div>
+                    
+                </div>
+
+                <div className="buyer-filter-btn" style={{display: 'inline-block', width: '100%', justifyContent: 'space-between', padding: '10px'}}>
+                    <button onClick={e => {e.preventDefault(); handleOverlay()}} style={{
+                        height: '35px',
+                        width: '46%',
+                        float: 'left',
+                        borderRadius: '1.5px',
+                        outline: 'none',
+                        border: 'none',
+                        textAlign: 'center',
+                        color: '#fff',
+                        display: 'flex', 
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        fontSize: 'medium',
+                        fontWeight: '500',
+                        backgroundColor: 'orangered',
+                        margin: '0'
+                    }}>
+                        Cancel
+                    </button>
+                    <button style={{
+                        height: '35px',
+                        width: '46%',
+                        float: 'right',
+                        borderRadius: '1.5px',
+                        outline: 'none',
+                        border: 'none',
+                        textAlign: 'center',
+                        color: '#fff',
+                        display: 'flex', 
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        fontSize: 'medium',
+                        fontWeight: '500',
+                        backgroundColor: 'orangered',
+                        margin: '0'
+                    }}>
+                        Apply
+                    </button>
                 </div>
             </div>
-        </>
+        </> 
      );
 }
  

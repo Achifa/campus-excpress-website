@@ -7,6 +7,7 @@ const CategorySelect = ({edit,productCategory}) => {
     useEffect(() => { 
         setCategoriesList(items.items.category)
     },[])
+   
     
     return ( 
         <>
@@ -19,7 +20,7 @@ const CategorySelect = ({edit,productCategory}) => {
                         categoriesList.map((item, index) => {
                             {/* <option key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option> */}
 
-                            return(Object.keys(item)[0] === edit.category
+                            return(window.localStorage.getItem('draft_category') === Object.keys(item)[0]
                             ?
                             <option selected key={index} value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
                             :

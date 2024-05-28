@@ -1,11 +1,14 @@
-import React from 'react'
-import Header from '../components/Buyer/Header'
+import React, { useState } from 'react'
+import Header from '../components/Buyer/Header/Header'
 
-const BuyerLayout = ({ children }) => {
+const BuyerLayout = (props) => {
+
+    
     return (
         <>
             <Header />
-            {children}
+            
+            {props.children}
         </>
 
     )

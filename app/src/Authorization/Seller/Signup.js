@@ -6,6 +6,8 @@ import { data, school_choices } from '../../location';
 import { socket } from '../../socket';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import SellerLayout from '../../layout/Seller';
+import logoSvg from '../../assets/default.svg'
 
 const Signup = () => {
 
@@ -39,8 +41,6 @@ const Signup = () => {
         campus: false,
         state: false
     })
-
-    
 
     function addErrMssg(err,pElem) {
             
@@ -99,9 +99,8 @@ const Signup = () => {
             )
             e.target.disabled = true;
             RegisterSeller(fname.trim(),lname.trim(),email,phone,pwd,state,campus)
-            .then((result) => navigate('/seller/login'))
+            .then((result) => navigate('/seller.login'))
             .catch((err) => {
-                console.log(err.response.data.err )
                 if(err.response.data === 'duplicate email'){
                     addErrMssg([{mssg:'Email already exist, please try something else'}], document.querySelector('.email').parentElement)
                 }else if(err.response.data === 'duplicate phone'){
@@ -215,7 +214,7 @@ const Signup = () => {
     function handleVerification(email,seller_id){
         SendToken(email,seller_id)
         .then((result) => {
-            navigate('/seller/login')
+            navigate('/seller.login')
         })
         .catch((err) => console.log(err))
         
@@ -236,23 +235,31 @@ const Signup = () => {
 
     return ( 
         <>
+
+            {/* <SellerLayout> */}
             <div className="seller-signup">
                 
                 <div id="left">
 
+                    <img src={logoSvg} style={{height: '100%', width: '100%'}} alt="" />
+
+                    
+
                 </div>
                 <div id="right">
-                    <h6><b style={{color: 'orangered'}}><u>Signup Form For Sellers</u></b></h6>
+                    <br />
+                    <h6><b style={{background: 'orangered', color: '#fff', padding: '10px', borderRadius: '5px', marginBottom: '20px', height: '150px'}}>Signup Form For Sellers</b></h6>
                 
+                    <br />
                     <form action="">
                         <div className="seller-input-cnt">
                             <section>
                                 <label htmlFor="">FirstName</label>
-                                <input name='fname' onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                                <input style={{background: '#efefef'}} name='fname' onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
                             </section>
                             <section>
                                 <label htmlFor="">LastName</label>
-                                <input name='lname' onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
+                                <input style={{background: '#efefef'}} name='lname' onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
                             </section>
                         </div>
 
@@ -260,14 +267,14 @@ const Signup = () => {
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Email</label>
-                                <input name='email' onInput={e => {setEmail(e.target.value)}} className='email'  placeholder='Email...' type="text" />
+                                <input style={{background: '#efefef'}} name='email' onInput={e => {setEmail(e.target.value)}} className='email'  placeholder='Email...' type="text" />
                             </section> 
                         </div>
 
                         <div className="seller-input-cnt">
                             <section style={{width: '100%', float: 'left'}}>
                                 <label htmlFor="">Phone</label>
-                                <input name='phone'
+                                <input style={{background: '#efefef'}} name='phone'
                                 className='phone' onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
 
                                 
@@ -278,7 +285,7 @@ const Signup = () => {
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Password</label>
-                                <input name='password' className='pwd' onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
+                                <input style={{background: '#efefef'}} name='password' className='pwd' onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
                             </section>
                             <section>
                                 <button onClick={e => {
@@ -340,7 +347,7 @@ const Signup = () => {
                     
                         <div className="seller-input-cnt">
                             
-                            <button  onClick={e => {e.preventDefault(); Registration(e)}}>{btn}</button>
+                            <button style={{background: '#ff4500', color: '#fff'}} onClick={e => {e.preventDefault(); Registration(e)}}>{btn}</button>
                             
                         </div>
 
@@ -351,15 +358,16 @@ const Signup = () => {
                     {/* <div>
                         <small style={{color: 'orangered'}}>Forgot Password? Recover Password Here</small>
                     </div> */}
-                    <div onClick={e => navigate('/seller/login')}>
+                    <div onClick={e => navigate('/seller.login')} style={{width: '100%', textAlign: 'center', color: 'orangered'}}>
                         <small style={{cursor: 'pointer'}}>Already Have An Account, Signin Here</small>
                     </div>
+                    
 
                     <br />
                 </div>
 
             </div>
-        
+            {/* </SellerLayout> */}
         </>
      );
 }

@@ -6,24 +6,25 @@ const cookieParser = require('cookie-parser');
 const { buyer_route } = require('./route/buyer');
 const greetingTime = require("greeting-time");
 const { default: axios } = require('axios');
- 
+const { retrieve_room, retrieve_seller,     retrieve_products } = require('./utils');
+const { 
+    adsMail
+} = require("./templates");
+// const { v4 } = require('uuid');
+   
 greetingTime(new Date());
-require('dotenv').config();
+require('dotenv').config(); 
 
-
-const app = express();
+const app = express(); 
 app.use(cookieParser());
-app.use(morgan('dev'));
-
- 
-let urls = ['http://localhost:3000', 'http://192.168.0.2:3000', 'https://campus-excpress-website-6fwkxq5ma-achifa.vercel.app'];
+app.use(morgan('dev'));  
 
 app.use(cors({
   origin: '*',
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'UPDATE'],
   credentials: true,
   optionsSuccessStatus: 200
-}));
+})); 
 
 app.use(seller_route)
 app.use(buyer_route)
@@ -31,9 +32,9 @@ app.use(admin_route)
 
 
 
-
 var server = app.listen(process.env.PORT,_ => console.log('app is live @',process.env.PORT));
-io(server, {cors: {origin: '*'}}).on('connection', socket => {
+io(server, {cors: {origin: '*'}}).on('connection',(socket) => {
+  
   socket.on('getTime', () => {
     socket.emit('greetings', greetingTime(new Date()))
   })
@@ -51,43 +52,11 @@ io(server, {cors: {origin: '*'}}).on('connection', socket => {
     )
     .catch(err => console.log(err))
   })
+
   
 
 });
-
-app.post("/paystack-webhook", parser, async (req, res) => {
-	const payload = req.body;
-
-  let wallet_update = NeonDB.then((pool) => 
-  pool.query(`update campus_express_seller_wallet set wallet_balance = wallet_balance + ${payload.data.metadata.amount} where seller_id = '${payload.data.metadata.seller_id}'`)
-    .then(result => result.rowCount > 0 ? (true) : (false))
-    .catch(err => console.log(err))
-  )
-  .catch(err => console.log(err))
-
-  let transaction_update = NeonDB.then((pool) => 
-  pool.query(`insert into campus_express_seller_transactions (id,document,seller_id) values(DEFAULT, '${JSON.stringify(payload.data)}', '${payload.data.metadata.seller_id}')`)
-    .then(result => result.rowCount > 0 ? (true) : (false))
-    .catch(err => console.log(err))
-  )
-  .catch(err => console.log(err))
-
-  new Promise((resolve, reject) => {
-    resolve(wallet_update)
-  })
-  .then(wallet_result => {
-    let transaction_result = transaction_update
-    return{wallet_result, transaction_result}
-  })
-  .then(({wallet_update, transaction_result}) => {
-    res.status(200).end();
-    // io(server, {cors: {origin: '*'}}).on('connection', socket => {
-    //   socket.io.emit('transaction_verification', {amount: payload.data.metadata.amount, seller_id: payload.data.metadata.seller_id})
-    // });
-  })
-  .catch(err => console.log(err))
-
-});
+ 
 
 app.post("/bank-verification", parser, (req,res) => {
   let {acctNum,bank} = req.body
@@ -107,7 +76,7 @@ app.post("/bank-verification", parser, (req,res) => {
 app.post("/transfer", parser, async(req,res) => {
   let {withdrwawalAmount,acctNum,bank,acctName} = req.body;
   const https = require('https')
-  const { v4: uuidv4 } = require('uuid');
+  const { v4: uuidv4, v4 } = require('uuid');
   console.log(withdrwawalAmount)
 
 
@@ -187,14 +156,54 @@ app.post("/transfer", parser, async(req,res) => {
   }
 })
 
-    
 
+app.post("/send-mail", parser, async(req,res) =>  {
+
+  let {email} = req.body;
+
+  // console.log(email)
+  let data = await retrieve_products()
+  let ads = adsMail(data)
+  const nodemailer = require('nodemailer');
+
+  // Create a transporter using SMTP
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.privateemail.com',  // Replace with your SMTP server hostname
+    port: 465, // Replace with your SMTP server port
+    secure: true, // Set to true if using SSL/TLS
+    auth: { 
+        user: 'campus-express@campusexpressng.com', // Replace with your email address
+        pass: 'A!nianuli82003', // Replace with your email password or app-specific password
+    },
+  }); 
+
+  // Email content 
+  const mailOptions = {
+      from: 'campus-express@campusexpressng.com', // Replace with your email address
+      to: `${email}`, // Replace with the recipient's email address
+      subject: 'Verify Your Email Address',
+      html: 'ads'
+  };
+
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.error('Error:', error);
+      } else {
+          console.log('Email sent:', info.response);
+      }
+  });
+
+
+
+  
+})
     
+     
 
 
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', reason.stack || reason)
   // Recommended: send the information to sentry.io
-  // or whatever crash reporting service you use
+  // or whatever crash reporting service you use  
 });
-

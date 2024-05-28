@@ -1,14 +1,16 @@
 import React from 'react'
-import Header from '../components/Seller/Header'
+import Aside from '../components/Admin/Aside/Aside'
+import Header from '../components/Admin/Header/Header'
 
-const SellerLayout = ({ children }) => {
+const AdminLayout = ({ children }) => {
     return (
         <>
             <Header />
+            <Aside />
             {children}
         </>
 
     )
 }
 
-export default SellerLayout
+export default AdminLayout

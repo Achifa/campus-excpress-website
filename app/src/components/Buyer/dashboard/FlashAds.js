@@ -13,78 +13,28 @@ import pet from '../../../images/images (5).jpeg'
 const FlashAds = () => {
     return ( 
         <>
-            <div className="buyer-flash-ads">
-                {/* <div style={{height: '50px', padding: '10px'}}>
+            <div className="buyer-flash-ads" style={{
+                height: '280px', width: '100%', 
+            }}>
+                <div style={{height: '50px', padding: '10px', borderBottom: '1px solid #efefef',}}>
                     <div style={{float: 'left', color: 'orangered'}}><b>Flash Sales</b></div>
 
                     <div style={{float: 'right', cursor: 'pointer'}}><i>SEE ALL</i></div>
-                </div> */}
-                <ul>
-                    <li  style={{backgroundImage: `url(${phn})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                </div>
+                <ul style={{
+                    height: 'fit-content', width: '100%', padding: '0', margin: '0', overflow: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'left', flexDirection: 'row'
+                }}>
+                   
+                    <li  style={{
+                        height: '200px', width: '200px', flexShrink: '0'
+                    }}>
 
 
                     </li>
-
-                    <li  style={{backgroundImage: `url(${groce})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${shoe})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${clothes})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${gen})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${watch})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${laptop})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${tab})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${hb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${pet})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-
-                    <li  style={{backgroundImage: `url(${lodge})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}>
-
-
-                    </li>
-                    {/* <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li> */}
+                  
                 </ul>
             </div>
-            <br />
+            {/* <br /> */}
         </>
      );
 }

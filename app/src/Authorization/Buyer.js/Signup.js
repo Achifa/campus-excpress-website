@@ -1,8 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../styles/Buyer/signup.css'
-import { useLocation, useNavigate } from 'react-router-dom';
-import { RegisterBuyer } from '../../api/buyer';
-import { data, school_choices } from '../../location';
+import { 
+    useLocation, 
+    useNavigate 
+} from 'react-router-dom';
+import { 
+    data, 
+    school_choices 
+} from '../../location';
+import { RegisterBuyer } from '../../api/buyer/post';
 
 const BuyerSignup = () => {
     let navigate = useNavigate();
@@ -19,17 +25,206 @@ const BuyerSignup = () => {
     let [campus, setCampus] = useState('')
 
     let [query, setquery] = useState('')
+    const validation = useRef(false);
 
     const [value, setValue] = useState('Select State');
     const [campusLocale, setCampusLocale] = useState('Select Campus');
     const [campusLocaleList, setCampusLocaleList] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
     const [CampusisFocus, setCampusIsFocus] = useState(false);
+    let [btn, setBtn] = useState("Signup")
 
-    let Registration = () => {
-        RegisterBuyer(fname,lname,email,phone,pwd,state,campus)
-        .then((result) => result ? navigate('/buyer/login') : '')
-        .catch((err) => console.log(err))
+    let book = useRef({
+        fname: false,
+        lname: false,
+        email: false,
+        pwd: false,
+        phn: false,
+        campus: false,
+        state: false
+    })
+
+    function addErrMssg(err,pElem) {
+            
+        let check = pElem.querySelector('.err-mssg');
+        if(check){
+            pElem.querySelector('.err-mssg').remove()
+            let div = document.createElement('div');
+            div.className = 'err-mssg';
+            // console.log(err)
+            if(err.length > 0 ){
+                div.innerHTML = err[0].mssg;
+                pElem.append(div)
+                
+
+            }else{
+                
+                let check = pElem.querySelector('.err-mssg');
+
+                if(check){
+                    pElem.querySelector('.err-mssg').remove()
+                }
+            }
+            
+            
+        }else{
+
+            let div = document.createElement('div');
+            div.className = 'err-mssg';
+            // console.log(err)
+
+            if(err.length !== 0 ){
+                div.innerHTML = err[0].mssg;
+                pElem.append(div)
+                
+
+            }else{
+                
+                let check = pElem.querySelector('.err-mssg');
+
+                if(check){
+                    pElem.querySelector('.err-mssg').remove()
+                }
+            }
+        }
+     
+    }
+
+    let Registration = (e) => {
+        
+        // e.currentTarget.disabled = true;
+        Validation();
+        Object.values(book.current).filter(item => item !== true).length > 0 ? validation.current = false : validation.current = true;
+        console.log(validation.current)
+        if(validation.current){
+            setBtn(
+                <div className="Authloader" style={{background: '#fff',border: '1px solid orangered'}}></div>
+            )
+            // e.currentTarget.disabled = true;
+            try {
+                let result = RegisterBuyer(fname.trim(),lname.trim(),email,phone,pwd,state,campus)
+
+                if(result){
+                    if(location.search){
+                        navigate(`/${query}`)
+                    }else{
+                        navigate('/login')
+                    }
+                }
+
+            } catch (err) {
+                
+                if(err.response.data === 'duplicate email'){
+                    addErrMssg([{mssg:'Email already exist, please try something else'}], document.querySelector('.email').parentElement)
+                }else if(err.response.data === 'duplicate phone'){
+                    addErrMssg([{mssg:'Phone Number already exist, please try something else'}], document.querySelector('.phone').parentElement)
+                }
+                setBtn("Signup")
+                // console.log(err)
+                e.currentTarget.disabled = false;
+            }
+           
+        }else{
+            console.log(validation.current)
+
+            setBtn("Signup")
+            e.currentTarget.disabled = false;
+        }
+    }
+
+    function Validation() {
+        let inputs = [...document.querySelectorAll('input')]
+        let select = [...document.querySelectorAll('select')]
+        
+
+        inputs.map(async(item) => {
+            if(item.type === 'text'){
+
+                if(item.name === 'fname'){
+
+                    let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty'}
+                    let length = item.value.length > 3 ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please name must be at least 3 letters.'}
+                    let specialCharFree = /^[a-zA-Z]+$/.test(item.value.trim()) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
+                    let errs = [empty,length,specialCharFree];
+                    
+                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement);
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.fname = false : book.current.fname = true
+                    
+                }else if(item.name === 'lname'){
+
+                    let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty'}
+                    let length = item.value.length > 3 ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please name must be at least 3 letters.'}
+                    let specialCharFree = /^[a-zA-Z]+$/.test(item.value.trim()) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter only alphabets.'}
+
+                    let errs = [empty,length,specialCharFree];
+                    
+                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.lname = false : book.current.lname = true
+
+                }else if(item.name === 'email'){
+
+                    // let emailvailidity = await checkEmailDuplicate();
+                    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
+                    let validEmail = emailRegex.test(item.value) ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please enter a valid email address.'}
+                    // let emailDuplicate =  emailvailidity ? {bool: true, mssg: ''} : {bool: false, mssg: 'Email already exist, please try something else'} 
+                    let errs = [empty,validEmail];
+                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                    let list = errs.filter(item => item.mssg !== '')
+                    list.length > 0 ? book.current.email = false : book.current.email = true
+
+                }
+                
+            }else if(item.type === 'password'){
+                if(item.name === 'password'){
+                    let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
+                    let length = item.value.length >= 8 ? {bool: true, mssg: ''} :  {bool: false, mssg: 'Password must contain at least 8 characters.'}
+                    let errs = [empty,length];
+                    
+                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.pwd = false : book.current.pwd = true
+                }
+            }else if(item.type === 'number'){
+                if(item.name === 'phone'){
+                    let empty = item.value !== '' ? {bool: true, mssg: ''} : {bool: false, mssg: 'Please field cannot be empty.'}
+                    let length = item.value.length >= 11 ? {bool: true, mssg: ''} :  {bool: false, mssg: 'Invalid Phone Number'}
+                    let errs = [empty,length];
+                    
+                    addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+
+                    let list =errs.filter(item => item.mssg !== '')
+
+                    list.length > 0 ? book.current.phn = false : book.current.phn = true
+                }
+            }
+        })
+
+        select.map(item => {
+            if(item.name === 'state'){
+                let empty = state !== '' ?  {bool: true, mssg: ''} :  {bool: false, mssg: 'Please select a state'}
+                let errs = [empty];
+                    
+                addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                let list =errs.filter(item => item.mssg !== '')
+
+                list.length > 0 ? book.current.state = false : book.current.state = true
+            }else if(item.name === 'campus'){
+                let empty = campus !== '' ?  {bool: true, mssg: ''} :  {bool: false, mssg: 'Please select a campus'}
+                let errs = [empty];
+                    
+                addErrMssg(errs.filter(item => item.mssg !== ''),item.parentElement)
+                let list =errs.filter(item => item.mssg !== '')
+
+                list.length > 0 ? book.current.campus = false : book.current.campus = true
+            }
+        })
     }
 
     useEffect(() => {
@@ -54,67 +249,74 @@ const BuyerSignup = () => {
         <>
             <div className="seller-signup">
                 
-
- 
                 <div id="left">
 
                 </div>
                 <div id="right">
-                   
+                    <h6><b style={{color: 'orangered'}}><u>Signup Form For Buyer</u></b></h6>
+                
                     <form action="">
-                    
                         <div className="seller-input-cnt">
                             <section>
                                 <label htmlFor="">FirstName</label>
-                                <input onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                                <input style={{background: '#efefef'}} name='fname' onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
                             </section>
                             <section>
                                 <label htmlFor="">LastName</label>
-                                <input onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
+                                <input style={{background: '#efefef'}} name='lname' onInput={e => setLname(e.target.value)}  placeholder='LastName' type="text" />
                             </section>
                         </div>
 
 
                         <div className="seller-input-cnt">
-                            <section style={{width: '70%'}}>
+                            <section style={{width: '100%'}}>
                                 <label htmlFor="">Email</label>
-                                <input onInput={e => setEmail(e.target.value)}  placeholder='Email...' type="text" />
-                            </section>
-                            <section style={{width: '30%'}}>
-                                <button>Verify</button>
-                            </section>
+                                <input style={{background: '#efefef'}} name='email' onInput={e => {setEmail(e.target.value)}} className='email'  placeholder='Email...' type="text" />
+                            </section> 
                         </div>
 
                         <div className="seller-input-cnt">
-                            <section style={{width: '70%', float: 'left'}}>
+                            <section style={{width: '100%', float: 'left'}}>
                                 <label htmlFor="">Phone</label>
-                                <input onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
+                                <input style={{background: '#efefef'}} name='phone'
+                                className='phone' onInput={e => setPhone(e.target.value)}  placeholder='Phone Number...' type="number" />
+
+                                
                             </section>
-                            <section style={{width: '30%'}}>
-                                <button>Verify</button>
-                            </section>
+                            
                         </div>
 
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Password</label>
-                                <input onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="text" />
+                                <input style={{background: '#efefef'}} name='password' className='pwd' onInput={e => setPwd(e.target.value)}  placeholder='Password...' type="password" />
+                            </section>
+                            <section>
+                                <button onClick={e => {
+                                    e.target.disabled = true
+                                    e.preventDefault();
+                                    let pwd = document.querySelector('.pwd');
+                                    if(pwd.type !== 'text'){
+                                        pwd.type = 'text'
+                                        setTimeout(( ) => {pwd.type = 'password'; e.target.disabled = false}, 800)
+                                    }
+                                }}>Show</button>
                             </section>
                             
                         </div>
 
-                        <div className="seller-input-cnt">
+                        {/* <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Confirm Password</label>
-                                <input onInput={e => setCPwd(e.target.value)}  placeholder='Confirm Password...' type="text" />
+                                <input name='confirm-password' onInput={e => setCPwd(e.target.value)}  placeholder='Confirm Password...' type="password" />
                             </section>
                             
-                        </div>
+                        </div> */}
 
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
-                                <label htmlFor="">State <small>(Optional)</small></label>
-                                <select onInput={e => setState(e.target.value)}  name="" id="">
+                                <label htmlFor="">State </label>
+                                <select onInput={e => setState(e.target.value)}  name="state" id="">
                                     <option value="">Select State</option>
                                     {
                                         data.map((item,index) => {
@@ -130,8 +332,8 @@ const BuyerSignup = () => {
 
                         <div className="seller-input-cnt">
                             <section style={{width: '100%'}}>
-                                <label htmlFor="">Campus <small>(Optional)</small></label>
-                                <select onInput={e => setCampus(e.target.value)}  name="" id="">
+                                <label htmlFor="">Campus </label>
+                                <select onInput={e => setCampus(e.target.value)}  name="campus" id="">
                                     <option value="">Select Campus</option>
                                     {
                                         campusLocaleList.map((item,index) => {
@@ -149,7 +351,7 @@ const BuyerSignup = () => {
                     
                         <div className="seller-input-cnt">
                             
-                            <button onClick={e => {e.preventDefault(); Registration()}}>Register</button>
+                            <button  onClick={e => {e.preventDefault(); Registration(e)}}>{btn}</button>
                             
                         </div>
 
@@ -160,9 +362,11 @@ const BuyerSignup = () => {
                     {/* <div>
                         <small style={{color: 'orangered'}}>Forgot Password? Recover Password Here</small>
                     </div> */}
-                    <div onClick={e => navigate('/login')}>
-                        <small>Already Have An Account, Signin Here</small>
+                    <div onClick={e => navigate('/login')} style={{width: '100%', textAlign: 'center', color: 'orangered'}}>
+                        <small style={{cursor: 'pointer'}}>Already Have An Account, Signin Here</small>
                     </div>
+
+                    <br />
                 </div>
 
             </div>

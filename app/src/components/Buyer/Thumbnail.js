@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
-import { GET_PRODUCT_THUMBNAIL } from '../../api/buyer';
 import { useNavigate } from 'react-router-dom';
+import { GetProductThumbnail } from '../../api/buyer/get';
  
 
 const Thumbnail = ({product_id}) => {
@@ -14,18 +14,22 @@ const Thumbnail = ({product_id}) => {
     }, [])
   
     useEffect(() => {
-        GET_PRODUCT_THUMBNAIL(product_id)
-        .then((result) => {
-            set_img(result.file)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        try {
+            async function fetchData(params) {
+                let result = await GetProductThumbnail(product_id)
+                set_img(result?.file) 
+            }
+            fetchData()
+        } catch (error) {
+            console.log(error)
+        }
+
+        
     },[])
 
     return ( 
         <>
-            <img onClick={e => navigate(`/product/${product_id}`)} src={img} style={{height: screenWidth > 480 ? '160px' : '140px', width: '100%', borderRadius: '5px', display: 'table', margin: '0 auto'}} alt="" />
+            <img onClick={e => navigate(`/product?product_id=${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '5px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />
         </>
      );
 }

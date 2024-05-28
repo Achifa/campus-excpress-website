@@ -58,15 +58,15 @@
 
 @media screen  and (min-width: 760px) {
     .password-reset{
-        height: calc(100vh - 100px);
-        width: calc(100% - 200px);
+        height: calc(100vh - 0px);
+        width: calc(100% - 0px);
         margin: auto;
         overflow: auto;
         padding: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #f9f9f9;
+        background-color: transparent;
     }
 
     .password-reset .input-cnt{
@@ -83,11 +83,11 @@
 
 
     .password-reset form{
-        height: fit-content;
+        height: 300px;
         width: 600px;
         padding: 20px;
         border-radius: 10px;
-        
+        text-align: center;
         background-color: #fff;
     }
 

@@ -10,7 +10,7 @@ const Inbox = () => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         GetSellerInbox()
         .then(({data}) => {
             setInboxList(data)
@@ -32,20 +32,21 @@ const Inbox = () => {
                 </div>
             </div>
 
-            
-            {
-                inboxList.length > 0
-                ?
-                <InboxCard inboxList={inboxList} />
-                :
-                <>
-                    <br />
-                    <br />
-                   
-                    <small style={{color: 'orangered'}}>{loaderText}</small>
-                </>
+            <div className="seller-main">
+                {
+                    inboxList.length > 0
+                    ?
+                    <InboxCard inboxList={inboxList} />
+                    :
+                    <>
+                        <br />
+                        <br />
+                    
+                        <small style={{color: 'orangered'}}>{loaderText}</small>
+                    </>
 
-            }
+                }
+            </div>
         </>
      );
 }

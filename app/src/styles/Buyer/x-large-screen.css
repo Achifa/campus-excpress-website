@@ -51,7 +51,7 @@
     }
 
     .buyer-main-cnt{
-        padding: 40px 40px 40px 40px; 
+        padding: 20px 20px 20px 20px; 
         background-color: orangered;
     }
 
@@ -287,7 +287,7 @@
 
     .buyer-card-cnt {
         min-height: calc(100vh - 70px);
-        width: calc(100% - 300px);
+        width: calc(100% - 0px);
         overflow: auto;
         padding: 10px;
         float: right;
@@ -298,11 +298,11 @@
     }
     .buyer-card-cnt .card{
         height: 400px;
-        width: calc(32% - 3px);
+        width: calc(25% - 10px);
         flex-shrink: 0;
         float: left;
         position: relative;
-        margin: 10px 2.5px 10px 2.5px;
+        margin: 10px 5px 10px 5px;
         padding: 10px;
         text-align: left;
         cursor: pointer;
@@ -413,7 +413,7 @@
     }
 
     .buyer-product-data #left .img-cnt{
-        height: 450px;
+        height: 350px;
         width: 100%;
 
     }

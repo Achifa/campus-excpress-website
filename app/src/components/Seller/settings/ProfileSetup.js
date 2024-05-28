@@ -17,7 +17,7 @@ const ProfileSetup = () => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         GetSeller(window.localStorage.getItem('CE_seller_id'))
         .then((result) => {
             setUserData(result)
@@ -39,7 +39,7 @@ const ProfileSetup = () => {
 
     let UpdateProfile = () => {
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
         updateSellerProfile(fname,lname,state,campus,window.localStorage.getItem('CE_seller_id'))
         .then((result) => result ? overlay.removeAttribute('id') : '')
         .catch((err) => console.log(err))
@@ -80,9 +80,9 @@ const ProfileSetup = () => {
                             <label htmlFor="">Email</label>
                             <input value={userData ? userData.email : ''} placeholder='Email...' type="text" />
                         </section>
-                        <section style={{width: '30%'}}>
+                        {/* <section style={{width: '30%'}}>
                             <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
-                        </section>
+                        </section> */}
                     </div>
 
                     <div className="seller-input-cnt">
@@ -90,9 +90,9 @@ const ProfileSetup = () => {
                             <label htmlFor="">Phone</label>
                             <input value={userData ? userData.phone : ''}  placeholder='Phone Number...' type="number" />
                         </section>
-                        <section style={{width: '30%'}}>
+                        {/* <section style={{width: '30%'}}>
                             <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
-                        </section>
+                        </section> */}
                     </div>
 
                     

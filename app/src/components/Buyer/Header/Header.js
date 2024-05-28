@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
+import searchSvg from '../../../assets/search-svgrepo-com.svg'
+import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
+
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
 import dArrowSvg from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
@@ -10,19 +13,28 @@ import '../../../styles/search.css'
 import BuyerAside from "../Aside";
 import login from '../../../assets/login.svg'
 
-import img from '../../../images/Campus express (3).png'
+import img from '../../../logo/[Original size] Untitled (1).png'
 import BuyerMenu from "./Menu";
 import { useDispatch, useSelector } from "react-redux";
-import { setBuyerJsxTo } from "../../../redux/buyer/BuyerOverlayJsx";
-import { GetBuyer, GetCart, GetSavedItem, GetSearchWord } from "../../../api/buyer";
-import { setCartTo } from "../../../redux/buyer/Cart";
-import { setSaveTo } from "../../../redux/buyer/Save"; 
+import { setBuyerJsxTo } from "../../../redux/buyer_store/BuyerOverlayJsx";
+import { setCartTo } from "../../../redux/buyer_store/Cart";
+import { setSaveTo } from "../../../redux/buyer_store/Save"; 
 import SearchResult from "./SearchResult";
 import FloatingMenu from "./FloatingMenu";
 import Aside from "./Aside";
-import SearchBar from "./SeachBar";
+import {
+  GetBuyer, 
+  GetSavedItem,
+  GetSearchWord 
+} from "../../../api/buyer/get";
+import Filter from "./Filter";
+import Search from "./SearchOutput";
+import SearchBar from "./SearchBar";
+import { setSearchListTo } from "../../../redux/buyer_store/SearchList";
 
-const BuyerHeader = () => {
+const Header = ({
+  
+}) => {
 
   let {buyerJsx} = useSelector(s => s.buyerJsx)
   let {Cart} = useSelector(s => s.Cart)
@@ -53,28 +65,11 @@ const BuyerHeader = () => {
       setScreenWidth(width)
   }, [])
 
-  useEffect(() => {
-    GetCart(window.localStorage.getItem('CE_buyer_id'))
-    .then((result) => {
-        dispatch(setCartTo(result))
-    })
-    .catch((err) => {
-        console.log(err)
-    })
 
-    GetSavedItem(window.localStorage.getItem('CE_buyer_id'))
-    .then((result) => {
-        dispatch(setSaveTo(result))
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-  }, [])
-
-  useEffect(() => {
-    setCartList([...Cart].length)
-    console.log([...Cart]) 
-  }, [Cart])
+  // useEffect(() => {
+  //   setCartList([...Cart].length)
+  //   console.log([...Cart]) 
+  // }, [Cart])
   let [width, setWidth] = useState(0)
 
   useEffect(() => {
@@ -86,6 +81,7 @@ const BuyerHeader = () => {
 
   },[]) 
 
+  
   useEffect(() => {
     if(location.pathname.split('/').splice(-1)[0] === 'product'){
       setWidth('100%')
@@ -103,215 +99,198 @@ const BuyerHeader = () => {
     }
   }
 
-  function openFloatingMenu(e,task) {
-    settask(task)
-
-    if(task === 'help'){
-      if(visible === 'none')
-      {
-        let list = ['Help Center', 'Refund & Return', 'Cancel An Order', 'Track An Order', 'Payment Option', 'Contact Us']
-        setList(list)
-        setvisible('flex')
-        let rect = e.target.getBoundingClientRect();
-        let t = rect.top;
-
-        let r = rect.right;
-        setright(r)
-        settop(t)
-
-        setTimeout(() => {
-          setvisible('none')
-        }, 8000);
-      }
-      else{
-        setvisible('none')
-
-      }
-
-
-
-    }else{
-      if(visible === 'none')
-      {
-        let list = ['My Account', 'Order', 'Inbox', 'Saved Item', 'Voucher', 'Logout']
-        setList(list)
-        setvisible('flex')
-        let rect = e.target.getBoundingClientRect();
-        let t = rect.top;
-
-        let r = rect.right;
-        setright(r)
-        settop(t)
-
-
-        setTimeout(() => {
-          setvisible('none')
-        }, 8000);
-
-      }else{
-        setvisible('none')
-
-      }
-
-
-
-    }
-  }
-  
-  function openAside(params) {
+  function openAside() {
     document.querySelector('.aside-overlay').setAttribute('id', 'aside-overlay')
+  }
+
+  function openFilter() {
+    document.querySelector('.filter-overlay').setAttribute('id', 'filter-overlay')
   }
 
   function openSearchResult(e) {
     let position = e.target.getBoundingClientRect();
     let top = position.top
     let left = position.left
-    document.querySelector('.buyer-search-overlay').setAttribute('id', 'buyer-search-overlay')
-
-    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top} list={[searchRes]} />)
+    document.querySelector('.buyer-overlay').setAttribute('id', 'buyer-overlay')
+    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top}  />)
   }
 
   useEffect(() => {
-    
-    GetSearchWord(searchChar === '' || searchChar === ' ' ? '' : searchChar)
-    .then((result) => { 
-        setSearchRes(result)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    async function getData() {
+      if(searchChar !== '' && searchChar !== ' '){ 
+        try {
+           let result = await GetSearchWord(searchChar)
+           dispatch(setSearchListTo(result))
+          //  console.log('result: ', result)
+           
+        } catch (error) {
+           console.log(error)
+        }
+   
+       }
+    }
+    getData()
   }, [searchChar])
 
-  useEffect(() => {
-    if(location.pathname.split('/')){
 
+
+  useEffect(() => {
+    
+    async function fetchData() {
+      // if(window.localStorage.getItem('buyerData') !== null){
+      //   let data = JSON?.parse(window.localStorage.getItem('buyerData'))
+      //   if(data === 'undefined' || data === null || data === ''){
+
+      //     let result = await GetBuyer(window.localStorage.getItem('CE_buyer_id'))
+      //     window.localStorage.setItem('buyerData', JSON.stringify(result))
+      //     // alert('data'.JSON.stringify(result)) 
+  
+      //   }
+      // }
+      
+
+      
     }
-  }, [location])
-
-  useEffect(() => {
-    GetBuyer(window.localStorage.getItem('CE_buyer_id'))
-    .then((result) => {
-      set_buyer(result)
-      console.log(result)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    fetchData()
   },[])
+
+
+  
+  
 
 
   return ( 
     <>
-      {
-        <FloatingMenu buyer={buyer} list={list} top={top} visible={visible} right={right} />
-      }
-
+     
       {
         <Aside />
       }
 
-      
-
-      
-      <div className="buyer-overlay" onClick={e =>e.target === document.querySelector('.buyer-overlay') ? handleOverlay() : ''}>
         {
-          buyerJsx === 'filter' ? <BuyerAside /> : <BuyerMenu />
+          searchResultElem
         }
 
-      </div>
-      <div className="buyer-header" >
+      <div className="buyer-header" style={{position: 'sticky', top: '0', zIndex: '10000'}}>
 
 
-        <img src={img} style={{height: '70px', width: '70px'}}  alt="" />
+        <img src={img} style={{height: screenWidth > 760 ? '80px' : '50px', width: screenWidth > 760 ? '80px' : '50px'}}  alt="" />
         {
-          screenWidth > 479
+          screenWidth > 479 && location.pathname.split('/').splice(-1)[0] === ''
           ?
           <div className="input-cnt">
-            <input onBlur={e => {
-
-            }} onFocus={e =>openSearchResult(e)} onInput={e => {setSearchChar(e.target.value);}} type="search" name="" placeholder="What Are You Looking For..." id="" />
+            <input onFocus={e =>openSearchResult(e)} onInput={e => {setSearchChar(e.target.value);}} type="search" name="" placeholder="What Are You Looking For..." id="" />
             <button>Search</button>
           </div> 
           : 
           ''
         }
 
-        <ul>
-          <li onClick={e => navigate('/cart')}>
-            <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
-              { 
-                cartList
-              }
-            </span>
-            <span>
-              <img src={cartSvg} style={{height: '25px', width: '25px'}} alt="" />
-            </span>
-            <span>Cart</span>
-
-          </li>
-          {
-            screenWidth > 760
-
-            ?
-
-            <>
-
-              <li onClick={e => buyer.fname? openFloatingMenu(e,'user') : navigate('/login')}>
-              <span>
-              
-                {
-                  buyer.fname
-                  ?
-                  buyer.fname
-                  :
-                  'Login'
+        {
+          location.pathname.split('/').splice(-1)[0] === ''
+          ?
+          <ul style={{
+            width: 'fit-content',
+          }}>
+            <li onClick={e => navigate('/buyer.message')}>  
+              <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
+                { 
+                  cartList
                 }
               </span>
+              {/* <span> */}
+                <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
+              {/* </span> */}
+              {/* <span>Messages</span>  */}
 
-              <span> 
-                <img src={buyer.fname ? dArrowSvg : login} style={{height: buyer.fname ? '22px' : '16px', width: buyer.fname ? '12px' : '30px', marginTop: buyer.fname ? '5px' : '0px', marginLeft: buyer.fname ? '5px' : '-3px', rotate: visible === 'flex' && task === 'user' ? '0deg' : '180deg'}} alt="" />
-              </span>
-              </li>
-
-              <li onClick={e => openFloatingMenu(e,'help')}> 
-                <span>Help</span>
-                <span>
-                  <img src={dArrowSvg} style={{height: '22px', width: '12px', marginTop: '5px', marginLeft: '5px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
-                </span>
-              </li>
-
-            </>
-
-            : 
-            
-            <li onClick={e => openAside(e)}>
-              {/* <span>Menu</span> */}
-              <span>
-                <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
-              </span>
             </li>
-          }
-        </ul>
+            {/* { */}
+              {/* screenWidth > 760 */}
 
+              {/* ? */}
+
+              {/* <>
+
+                <li onClick={e => buyer.fname? openFloatingMenu(e,'user') : navigate('/login')}>
+                <span>
+                
+                  {
+                    buyer.fname
+                    ?
+                    buyer.fname
+                    :
+                    'Login'
+                  }
+                </span>
+
+                <span> 
+                  <img src={buyer.fname ? dArrowSvg : login} style={{height: buyer.fname ? '22px' : '16px', width: buyer.fname ? '12px' : '30px', marginTop: buyer.fname ? '5px' : '0px', marginLeft: buyer.fname ? '5px' : '-3px', rotate: visible === 'flex' && task === 'user' ? '0deg' : '180deg'}} alt="" />
+                </span>
+                </li>
+
+                <li onClick={e => openFloatingMenu(e,'help')}> 
+                  <span>Help</span>
+                  <span>
+                    <img src={dArrowSvg} style={{height: '22px', width: '12px', marginTop: '5px', marginLeft: '5px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                  </span>
+                </li>
+
+              </> */}
+
+              {/* :  */}
+
+              <>
+              
+                {
+                  screenWidth > 479
+                  ?
+                  <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
+                    {/* <span>Menu</span> */}
+                    <span>
+                      <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                    </span>
+                  </li>
+                  :
+                  ''
+                }
+
+                
+
+                <li style={{padding: '5px'}} onClick={e => openAside(e)}>
+                  {/* <span>Menu</span> */}
+                  <span>
+                    <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                  </span>
+                </li>
+              </>
+            {/* } */}
+          </ul>
+          :
+          ''
+        }
         
         
 
       </div>
 
+      
 
       {
-          screenWidth > 479
-          ?
-          ''
-          :
-          <SearchBar />
+        screenWidth < 479 && location.pathname.split('/')[1]==='search'
+        ? 
+        <SearchBar />
+        :
+        screenWidth < 479 && location.pathname.split('/')[1]===''
+        ?
+        <SearchBar />
+        :
+        ''
       }
-        
-      {
-        searchResultElem
-      }
+      {/* <Filter /> */}
+
+
+    
     </>
   );
 }
   
-export default BuyerHeader;
+export default Header; 

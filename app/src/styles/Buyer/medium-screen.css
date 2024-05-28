@@ -525,7 +525,7 @@
     }
 
     .buyer-product-data #left .img-cnt{
-        height: 450px;
+        height: 350px;
         width: 100%;
 
     }
@@ -877,58 +877,46 @@
     /**/
 
     .buyer-cart{
-        height: calc(100vh - 120px);
-        width: 100%;
-        margin: auto;
+        height: calc(100% - 120px);
+        width: calc(100% - 300px);
+        float: left;
         overflow: auto;
-        padding: 20px 20px 20px 20px;
-        background-color: #f9f9f9;
+        padding: 10px 10px 10px 10px;
         
     }
-
-    .buyer-items-stock{
-        height: 30px;
-        width: fit-content;
-        float: right;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: small;
-    }
-
-    .buyer-items-stock button{
-        height: 30px;
-        width: 30px;
-        margin: 0 10px 0 10px;
-        font-size: small;
-    }
-
     .buyer-cart-checkout{
-        height: 120px;
-        width: 100%;
-        position: fixed;
-        bottom: 0;
-        left: 0;
+        height: fit-content;
+        width: 250px;
         display: flex;
         align-items: center;
+        flex-direction: column;
         justify-content: center;
-        padding: 10px;
+        padding: 10px 0 10px 0;
         background-color: #f9f9f9;
     }
+    .buyer-cart-checkout div{
+        background-color: #fff;
+        color: #333333;
+        font-weight: 500;
+        text-align: left;
+        border-bottom: 1px solid #222222;
+        outline: none;
+        padding: 20px;
 
-    .buyer-checkout-btn {
-        width: 95%;
-        height: 60px;
-        margin: auto;
+        border: none;
+        height: 50px;
+        width: 100%;
     }
+
     .buyer-cart-checkout button{
         background-color: orangered;
         color: #fff;
         font-weight: 500;
         outline: none;
-        border-radius: 5px;
+        border-radius: 3.5px;
         border: none;
-        height: 70%;
+        margin: auto;
+        height: 50px;
         width: 100%;
     }
     .buyer-cart-card{
@@ -944,7 +932,7 @@
     }
     .buyer-cart-body{
         height: 100%;
-        width: calc(100% - 150px);
+        width: calc(100% - 160px);
         margin: auto;
         float: right;
         cursor: pointer;

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import menuSvg from '../../../assets/menu-grid-svgrepo-com (1).svg'
+import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
 import { useEffect, useState } from 'react'
 
 const Menu = ({handleMenu}) => {

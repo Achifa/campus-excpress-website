@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import items from '../../items.json'
 import { data, school_choices } from "../../location";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryTo } from "../../redux/buyer/Category";
+import { setCategoryTo } from "../../redux/buyer_store/Category";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 const BuyerAside = () => {

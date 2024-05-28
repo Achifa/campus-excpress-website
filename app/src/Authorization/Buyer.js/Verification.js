@@ -25,7 +25,7 @@ const BuyerVerification = () => {
     useEffect(() => {
 
         let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+        //overlay.setAttribute('id', 'overlay');
 
         ValidateEmail(location.pathname.split('/').splice(-1)[0]) 
         .then((result) => {

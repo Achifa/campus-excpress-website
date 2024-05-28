@@ -26,7 +26,7 @@ const SizeSelect = ({edit,productSizeSelect,cType}) => {
                         <option value={''}>Select Size</option>
                         {
                             sizeList.map ((item, index) => 
-                                item === edit.condition
+                                item === window.localStorage.getItem('draft_size')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :
@@ -44,7 +44,7 @@ const SizeSelect = ({edit,productSizeSelect,cType}) => {
                         <option value={''}>Select Size</option>
                         {
                             ["XX-Large", "X-Large", "Large", "Medium", "Small", "X-Small", "XX-Small"].map ((item, index) => 
-                                item === edit.condition
+                                item === window.localStorage.getItem('draft_size')
                                 ?
                                 <option selected key={index} value={item}>{item}</option>
                                 :

@@ -1,12 +1,30 @@
-import { useDispatch } from "react-redux";
-import { DeleteItemFromCart, UpdateCartUnit } from "../../../api/buyer";
-import { useEffect, useState } from "react";
+import { 
+    useDispatch 
+} from "react-redux";
+import { 
+    useEffect, 
+    useState 
+} from "react";
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
-import { setCartTo } from "../../../redux/buyer/Cart";
-import Thumbnail from "../Thumbnail";
-import { isBuyerLoggedIn } from "../LoggedIn";
+import { 
+    setCartTo 
+} from "../../../redux/buyer_store/Cart";
+import { 
+    isBuyerLoggedIn 
+} from "../LoggedIn"; 
+import { 
+    useNavigate 
+} from "react-router-dom";
+import Thumbnail from "./Thumbnail";
+import { 
+    GetProductThumbnail 
+} from "../../../api/buyer/get";
+import { 
+    UpdateCartUnit 
+} from "../../../api/buyer/update";
+import { DeleteItemFromCart } from "../../../api/buyer/delete";
 
-const Card = ({item,index,unit,getTotalPrice}) => {
+const Card = ({item,index,unit,getTotalPrice, product_id}) => {
 
     // let [isLoggedIn, setIsLoggedIn] = useState(false)
     // useEffect(() => {
@@ -14,20 +32,18 @@ const Card = ({item,index,unit,getTotalPrice}) => {
     // },[])
     let dispatch = useDispatch()
 
-    let [activeImg, setActiveImg] = useState(imgSvg)
-
     function UpdateCart(type,item) {
         let oldUnit = unit.filter(data => data.product_id === item.item.product_id)[0].unit;
                     
                    
         
         function Handler(params) {
-            UpdateCartUnit(type,window.localStorage.getItem('CE_buyer_id'),item.item.product_id)
-            .then((result) => { 
+            try {
+                let result = UpdateCartUnit(type,window.localStorage.getItem('CE_buyer_id'),item.item.product_id)
                 if(type === 'add'){
                     let oldUnit = unit.filter(data => data.product_id === item.item.product_id)[0].unit;
                     
-                    if(oldUnit < item.item.stock){
+                    if(oldUnit < JSON.parse(item.item.others).stock){
                         //unit.filter(data => data.product_id === item.item.product_id).item.unit = oldUnit + 1;
         
                         document.querySelector(`#ce${item.item.product_id}`).innerHTML = unit.filter(data => data.product_id === item.item.product_id)[0].unit = oldUnit + 1;
@@ -44,14 +60,13 @@ const Card = ({item,index,unit,getTotalPrice}) => {
                     }
                     
                 }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+            } catch (error) {
+                console.log(error)
+            }
         }
 
         if(type === 'add'){
-            if(oldUnit < item.item.stock){
+            if(oldUnit < JSON.parse(item.item.others).stock){
                 Handler()
             }
         }else{
@@ -65,22 +80,32 @@ const Card = ({item,index,unit,getTotalPrice}) => {
     function AddToCart(e,product_id) {
         e.target.disabled = true;
 
-        DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-        .then((result) => {
+        try {
+            let result = DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
             dispatch(setCartTo(result))
-            console.log(result)
             e.target.disabled = false;
             e.target.parentElement.remove()
             getTotalPrice(); 
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+    let [img, set_img] = useState(imgSvg);
+  
+    useEffect(() => {
+        try {
+            let result = GetProductThumbnail(item.product_id)
+            set_img(result.file)
+        } catch (error) {
+            console.log(error)
+        }
+    },[])
+
     return ( 
         <>
             <div key={index} className="buyer-cart-card shadow-sm">
-                <Thumbnail product_id={item.item.product_id} />
+                <Thumbnail product_id={product_id} />
                 <button  className="buyer-cart-remove-btn" style={{background: 'orangered'}} onClick={e => AddToCart(e,item.item.product_id)}>
                     Remove
                 </button>
@@ -100,7 +125,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
                     </div>
 
                     <div className="buyer-item-units">
-                        <span>{item.item.stock} units Available</span>
+                        <span>{JSON.parse(item.item.others).stock} units Available</span>
                     </div>
 
                     <div className="buyer-item-spec">
@@ -114,7 +139,7 @@ const Card = ({item,index,unit,getTotalPrice}) => {
                             {item.cart.unit}
                         </div>
 
-                        <button onClick={e => UpdateCart('add',item)} disabled={item.item.stock > 1 && unit.filter(data => data.product_id === item.item.product_id)[0].unit <= item.item.stock ? false : true}>+</button>
+                        <button onClick={e => UpdateCart('add',item)} disabled={JSON.parse(item.item.others).stock > 1 && unit.filter(data => data.product_id === item.item.product_id)[0].unit <= JSON.parse(item.item.others).stock ? false : true}>+</button>
                     </div>
                 </div>
             </div>
