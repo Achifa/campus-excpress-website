@@ -1,7 +1,8 @@
 const { NeonDB } = require("../../db");
+const { retrieve_room, retrieve_buyer, retrieve_message_meta_data_with_type, retrieve_message, retrieve_room_with_seller, retrieve_seller, retrieve_message_meta_data } = require("../../utils");
 
-async function overview(req,res)  {
-    let {id} = req.body;
+async function GetOverview(req,res)  {
+    let {id} = req.query;
     
 
     async function get_total_sale(params) {
@@ -52,7 +53,42 @@ async function overview(req,res)  {
 }
 
 
-async function shop(req,res)  {
+async function GetItemsSold(req,res)  {
+    let {shop_id} = req.query;
+
+    let response = await NeonDB.then((pool) => 
+        pool.query(`select * from sold_items where shop_id = '${shop_id}'`)
+        .then(result => (result.rows))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+
+
+    response.map(item => {
+        NeonDB.then((pool) => 
+            pool.query(`select * from seller_shop where product_id = '${item.product_id}'`)
+            .then(result => res.send(result.rows))
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+    })
+    
+}
+
+async function GetReviews(req,res)  {
+    let {id} = req.query;
+
+    NeonDB.then((pool) => 
+        pool.query(`select * from reviews where seller_id = '${id}'`)
+        .then(result => res.send(result.rows))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+}
+
+
+async function GetItems(req,res)  {
     let {id} = req.query;
 
     NeonDB.then((pool) => 
@@ -63,9 +99,21 @@ async function shop(req,res)  {
     .catch(err => console.log(err))
 }
 
-async function get_edited_item(req,res)  {
+
+async function GetShop(req,res)  {
+    let {seller_id} = req.query;
+
+    NeonDB.then((pool) => 
+        pool.query(`select * from campus_shop where seller_id = '${seller_id}'`)
+        .then(result => res.send(result.rows[0]))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+}
+
+async function GetEditedItem(req,res)  {
     let {product_id} = req.query;
-    function getMetadata(params) {
+    function getMetadata() {
         return(
             NeonDB.then((pool) => 
                 pool.query(`select * from seller_shop where product_id = '${product_id}'`)
@@ -101,120 +149,94 @@ async function get_edited_item(req,res)  {
     res.status(200).send({meta_data, photos})
 }
 
-async function wallet_data(req,res)  {
+async function GetSellerData(req,res) {
     let {seller_id} = req.query;
-
-    console.log(seller_id)
-
-    function walletBalance() {
-        return(
-            NeonDB.then((pool) => 
-                pool.query(`select * from campus_express_seller_wallet where seller_id = '${seller_id}'`)
-                .then(result => result.rows)
-                .catch(err => console.log(err))
-                )
-            .catch(err => console.log(err))
-        )
-    }
-
-    function Transactions() {
-        return(
-            NeonDB.then((pool) => 
-                pool.query(`select * from campus_express_seller_transactions where seller_id = '${seller_id}'`)
-                .then(result => result.rows)
-                .catch(err => console.log(err))
-            )
-            .catch(err => console.log(err))
-        )
-    }
-
-    let wallet = await walletBalance()
-    let documents = await Transactions()
-
-
-    res.send({walletBalance: wallet, TransactionHistory: documents})
-
-}
-
-
-async function get_seller_order(req,res) {
-    let {seller_id} = req.body;
-
-    let ids = await NeonDB.then((pool) => 
-        pool.query(`select * from seller_shop where seller_id = '${seller_id}'`)
-        .then(result => (result.rows))
-        .catch(err => console.log(err))
-    )
-    .catch(err => console.log(err))
-    
-    let data = ids.map(async(item) => 
-        await NeonDB.then((pool) => 
-            pool.query(`SELECT * FROM campus_express_buyer_orders  WHERE product_id = '${item.product_id}'`)
-            .then(result => ({item: item, order: result.rows}))
-            .catch(err => console.log(err))
-        )
-        .catch(err => console.log(err))
-    )
-
-
-    let response = await Promise.all(data).then(result => result)
-
-    let result = response.filter(item => item.order.length > 0 ? item : '')
-
-    res.send(result)
-    // console.log(result)
-    
-}
-
-
-async function get_seller_inbox(req,res) {
-    let {seller_id} = req.body;
-    
-    
     NeonDB.then((pool) => 
-        pool.query(`SELECT * FROM seller_inbox  WHERE seller_id = '${seller_id}'`)
-        .then(result => {
-            res.send(result.rows)
-        })
+        pool.query(`SELECT * FROM campus_sellers WHERE seller_id = '${seller_id}'`)
+        .then(result => res.send(result.rows[0]))
         .catch(err => console.log(err))
     )
     .catch(err => console.log(err))
 
 }
 
-async function get_buyer_that_ordered_item(req,res) {
-    let {product_id} = req.query;
-    console.log(product_id)
+async function GetChatRooms(req,res){
+    let {seller_id} = req.query;
+    let book = []
+ 
+    let room = await retrieve_room_with_seller(seller_id);
+  
 
-    let data = await NeonDB.then((pool) => 
-            pool.query(`SELECT * FROM campus_express_buyer_orders  WHERE product_id = '${product_id}'`)
-            .then(result => result.rows)
-            .catch(err => console.log(err))
-        )
-        .catch(err => console.log(err))
+    room.map(async(item) => { 
+
+        let buyer_data = await retrieve_seller(seller_id);
+        let mssg_meta_data = await retrieve_message_meta_data_with_type(item.room_id);
+        // console.log( mssg_meta_data.splice(-1)[0]) 
+
+       async function get_text_mssg(meta) {
+
+            if(meta === 'text'){
+                return await retrieve_message(mssg_meta_data.splice(-1)[0]?.mssg_id)
+            }else{
+                return {mssg: ''}
+            }
+        }
+
+        let mssg = await get_text_mssg(mssg_meta_data.splice(-1)[0]?.mssg_type);
+        // console.log(mssg)
+
+        book.push({buyer_data, mssg: mssg, room: item.room_id})   
+        if(book.length === room.length){  
+            res.status(200).send(book);  
+            // console.log(book)
+    
+        }
+    })    
+
+} 
 
 
-    let buyers = data.map(async(item) => 
-        await NeonDB.then((pool) => 
-            pool.query(`SELECT * FROM campus_buyers  WHERE buyer_id = '${item.buyer_id}'`)
-            .then(result => ({item: item, buyer: result.rows[0]}))
-            .catch(err => console.log(err))
-        )
-        .catch(err => console.log(err))
-    )
+async function GetChat(req,res){
+    let {room_id} = req.query;
+    // let {seller_id} = req.query;
+    // let book = []
+    let room = await retrieve_message_meta_data(room_id);
+    console.log('room: ', room,room_id) 
+    
+    let books = await room.map(async(item) => {
+ 
+        // let mssg = item.mssg_type === 'text' ? await retrieve_message(item.mssg_id) : '';
+        async function split_chat_type() {
+            if(item.mssg_type === 'text'){
+                let mssg = await retrieve_message(item.mssg_id)
+                // console.log('text chat: ',mssg)
+                return mssg
+            }else{
+                // console.log('file chat: ', '')
+                return null 
+            }   
+        }
 
+        let mssg = await split_chat_type()
+      
+        return ({type: item.mssg_type, mssg: mssg?.mssg, mssg_id: item.mssg_id, sender: item.sender_id, date: item.date});
+    }) 
 
-    let result = await Promise.all(buyers).then(result => result)
+    let data = await Promise.all(books).then(result => result).catch(err => console.log(err))
+    
+    // res.send(data) 
 
-    res.send(result)
-}
+} 
+
 
 module.exports={
-    shop,
-    get_buyer_that_ordered_item,
-    overview,
-    get_edited_item,
-    wallet_data,
-    get_seller_order,
-    get_seller_inbox
-}
+    GetItems,
+    GetEditedItem,
+    GetOverview,
+    GetSellerData,
+    GetChatRooms,
+    GetChat,
+    GetShop,
+    GetItemsSold,
+    GetReviews
+} 

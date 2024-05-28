@@ -2,7 +2,7 @@ import {
     useDispatch, 
     useSelector 
 } from 'react-redux'
-import img from '../../../assets/download (3).jpeg'
+import img from '../../../assets/seen-svgrepo-com (1).svg'
 import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
 import { 
     useEffect,
@@ -16,13 +16,14 @@ import {
 import { 
     setSaveTo 
 } from '../../../redux/buyer_store/Save'
+import timsSvg from '../../../assets/date-2-svgrepo-com.svg'
 import { 
     isBuyerLoggedIn 
 } from '../LoggedIn'
 import { UnSaveItem } from '../../../api/buyer/delete'
 import { SaveItem } from '../../../api/buyer/post'
 import SaveButton from './SaveButton'
-
+import js_ago from 'js-ago'
 const Card = ({item, index}) => {
     let [screenWidth, setScreenWidth] = useState(0)
     let [btnMode, setBtnMode] = useState(true)
@@ -151,21 +152,9 @@ const Card = ({item, index}) => {
                 elem
             }
             <div className="cols" id={item.product_id} >
-                <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10px'}}>
+                <div className="card shadow" key={index} style={{height: 'fit-content', marginBottom: '10px', borderRadius: '10px'}}>
                     
-                    <span  style={{background: 'orangered',display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute',color: '#000', borderRadius: '5px', top: screenWidth > 400 ? '15px' : '10px', left: screenWidth > 400 ? '15px' : '8px', padding: '2.5px', zIndex: '1000', padding: '0 5px 0 5px'}}>
-                        <span  style={{background: 'orangered',color: 'orangered', padding: '0'}}>
-                            <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '12px', width: screenWidth  > 480 ? '20px' : '12px', marginBottom: '5px'}} alt="" />
-
-                        </span>
-
-                        &nbsp;
-                        {/* &nbsp; */}
-
-                        <span  style={{background: 'orangered', color: '#fff', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}> 
-                            {JSON.parse(item.others)?.locale}
-                        </span>
-                    </span>
+                    
                     
                     <Thumbnail product_id={item.product_id} />
 
@@ -178,18 +167,29 @@ const Card = ({item, index}) => {
                                 fontSize: 'x-small',
                                 fontWeight: '500',
                                 fontFamily: 'Times New Roman',
-                                height: '20px',
+                                maxHeight: '36px',
                                 lineHeight: '18px',
-                                color: '#000'
+                                color: '#000',
+                                display: 'webkitBox',
+                                
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: '2',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
                             }} onClick={e => navigate(`/product?product_id=${item.product_id}`)} >{item.title}</small>
                             : 
                             <small style={{
                                 fontSize: 'small',
                                 fontWeight: '500',
                                 fontFamily: 'Times New Roman',
-                                height: '20px',
+                                maxHeight: '36px',
                                 lineHeight: '18px',
-                                color: '#000'
+                                color: '#000',
+
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: '2',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
                             }} onClick={e => navigate(`/product?product_id=${item.product_id}`)} >{item.title}</small>
                         }
 
@@ -239,6 +239,25 @@ const Card = ({item, index}) => {
     </div>*/}
                     </div>
 
+                    
+                    {/*<br />*/} 
+
+                    
+
+                    <span  style={{background: '#fff',display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'left', position: 'relative',color: '#000', borderRadius: '5px', padding: '2.5px', zIndex: '1000', padding: '0 5px 0 5px'}}>
+                        <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
+                            <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '12px', width: screenWidth  > 480 ? '20px' : '12px', marginBottom: '5px'}} alt="" />
+
+                        </span>
+
+                        &nbsp;
+                        {/* &nbsp; */}
+
+                        <span  style={{background: '#fff', color: '#FF4500', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}> 
+                            {JSON.parse(item.others)?.locale}
+                        </span>
+                    </span>
+
                     {/* <button style={BtnStyles} onClick={e => {
                         let response = isBuyerLoggedIn('dashboard');
                         if(!response.bool){set_elem(response.elem)} else{set_elem(AddToCart(e,item.product_id))}
@@ -251,24 +270,29 @@ const Card = ({item, index}) => {
                         </span>
                         <span style={{fontSize: 'x-small'}}>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
                     </button> */}
-                    {/*<br />*/} 
 
-                    {/* <div className="card-footer">
-                        <img src={img} style={{height: '30px', width: '30px', borderRadius: '10px'}} alt="" />
+                    <div className="" style={{height: 'fit-content', display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', padding: '0 5px 0 5px', margin: '10px 0 0 0'}}>
+                       <div style={{
+                         display: 'flex', justifyContent: 'left', width: '50%', alignItems: 'center',
+                       }}>
+                            <img src={img} style={{height: '15px', width: '15px', borderRadius: '10px'}} alt="" />
 
-                        <div style={{height: 'fit-content', width: 'fit-content', position: 'absolute', left: '40px', bottom: '5px', fontWeight: '800', fontSize: 'small'}} >Jacob.N.N</div>
+                            <div style={{height: 'fit-content', width: 'fit-content', fontWeight: '400', fontSize: 'x-small'}} >40 views</div>
+                       </div>
 
-                        <div style={{position: 'absolute', right: '5px', bottom: '5px', color: '#626262', fontSize: 'small', fontWeight: '500'}}>
+                        <div style={{color: '#626262', fontSize: 'x-small', fontWeight: '500', display: 'flex', justifyContent: 'left', width: '50%', alignItems: 'center'}}>
                             <span>
-                                <img src={timeSvg} style={{height: '20px', width: '20px', marginBottom: '3px'}} alt="" />
+                                <img src={timsSvg} style={{height: '15px', width: '15px', marginBottom: '3px'}} alt="" />
 
                             </span>
                             &nbsp;
                             <span>
-                                2 days ago
+                                {
+                                    js_ago(new Date(item.date))
+                                }
                             </span>
                         </div>
-                    </div> */}
+                    </div>
 
                 </div>
             </div> 

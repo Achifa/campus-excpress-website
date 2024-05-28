@@ -39,7 +39,8 @@ const {
      create_room_id,
      retrieve_message_meta_data,
      retrieve_product_with_id,
-     retrieve_buyer 
+     retrieve_buyer, 
+     retrieve_products
 } = require("../utils");
 
 const maxAge = 90 * 24 * 60 * 60; 
@@ -850,16 +851,145 @@ async function get_chat(req,res){
 } 
 
 
-async function new_view(){
+async function filter_items(req,res){
+    let {category,condition,price,state,campus} = req.query;
+ 
+    console.log(category,condition,price,state,campus)
+    // let {seller_id} = req.query;
+    
+    let items = await retrieve_products()
+    // console.log('items: ', category)
 
+    try { 
+            new Promise((resolve, reject) => { 
+                if(category !== ''){
+                    // alert(items[0].category, category)
+
+                    let response = items.filter(item => {
+                        return(
+                            item.category === category
+                        )
+                    })
+                console.log('result category :', response)
+
+
+                    resolve(response) 
+                }else{
+                    reject(items)
+                }
+            })
+            .then((result) => {
+                if(condition !==''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.condition === condition
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                // console.log('result :', result)
+
+                if(price !== '' && price?.length !== 0){
+                    let response = result.filter(item => {
+                        return(
+                            item.price > price[0] && item.price < price[1] 
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                if(state !== ''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.locale?.split(',')[0] === state
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                if(campus !== ''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.locale?.split(',').splice(1).join(',').trim() === campus
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                // alert(JSON.stringify(result))
+                res.send(result)
+
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+   
+
+
+     
+} 
+
+
+async function add_new_view(req,res) {
+    let {product_id,user_id} = req.body;
+
+    let view_id = shortId.generate() 
+
+    
+
+    new Promise((resolve) => {
+       NeonDB.then((pool) => 
+            pool.query(`SELECT * FROM views WHERE buyer_id = '${user_id}' AND product_id= '${product_id}'`)
+            .then(result => {
+                if((result.rows).length > 0 ){ 
+                    resolve(false)
+                }else{
+                    resolve(true)
+
+                }
+            })
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+    })
+    .then((data) => {
+        if(data){
+            NeonDB.then((pool) => 
+                pool.query(`INSERT INTO views(id,view_id,product_id,buyer_id,date) values(DEFAULT, '${view_id}', '${product_id}', '${user_id}', '${new Date()}')`)
+                .then(result => res.send(result.rows))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        }else{
+            res.send(true) 
+        }
+    })
+    .catch(err => console.log(err))
+    
 }
 
-module.exports = {
 
+module.exports = {
+    add_new_view,
     register_buyer,
     log_buyer_in,
     get_buyer,
 
+    filter_items,
 
     get_lodges,
     get_shop_items,

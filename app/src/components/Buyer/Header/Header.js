@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
 import searchSvg from '../../../assets/search-svgrepo-com.svg'
+import sellSvg from '../../../assets/sell-svgrepo-com.svg'
 import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
 
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
 import dArrowSvg from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import { CE_buyer_ID, CE_buyer_INITIAL } from "../Secrets";
+import { CE_buyer_ID, CE_buyer_INITIAL } from "../Ids";
 import '../../../styles/Buyer/overlays.css'
 import '../../../styles/search.css'
 import BuyerAside from "../Aside";
@@ -31,7 +32,13 @@ import Filter from "./Filter";
 import Search from "./SearchOutput";
 import SearchBar from "./SearchBar";
 import { setSearchListTo } from "../../../redux/buyer_store/SearchList";
+import logoutSvg from '../../../assets/logout-2-svgrepo-com.svg'
 
+import helpSvg from '../../../assets/help-svgrepo-com.svg'
+import refundSvg from '../../../assets/return-svgrepo-com.svg'
+import cancelSvg from '../../../assets/cancel-delivery-svgrepo-com.svg'
+import userSvg from '../../../assets/user-alt-1-svgrepo-com.svg'
+import contactSvg from '../../../assets/costumer-support-call-svgrepo-com.svg'
 const Header = ({
   
 }) => {
@@ -57,13 +64,19 @@ const Header = ({
   let [right, setright] = useState(0)
   let [visible, setvisible] = useState('none')
   let [task, settask] = useState('none')
-  let [top, settop] = useState(0)
   let [buyer, set_buyer] = useState('')
+
 
   useEffect(() => {
       let width = window.innerWidth;
       setScreenWidth(width)
+
+      
+      
   }, [])
+
+  
+  
 
 
   // useEffect(() => {
@@ -108,11 +121,15 @@ const Header = ({
   }
 
   function openSearchResult(e) {
+   
+
     let position = e.target.getBoundingClientRect();
     let top = position.top
     let left = position.left
-    document.querySelector('.buyer-overlay').setAttribute('id', 'buyer-overlay')
-    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top}  />)
+    document.querySelector('.buyer-search-overlay').setAttribute('id', 'buyer-search-overlay')
+
+    let searchWidth = document.querySelector('.search-cnt')?.getBoundingClientRect().width
+    setSearchResultElem(<SearchResult  searchLeft={left} searchTop={top} searchWidth={searchWidth}  />)
   }
 
   useEffect(() => {
@@ -121,7 +138,7 @@ const Header = ({
         try {
            let result = await GetSearchWord(searchChar)
            dispatch(setSearchListTo(result))
-          //  console.log('result: ', result)
+           console.log('result: ', result)
            
         } catch (error) {
            console.log(error)
@@ -153,8 +170,17 @@ const Header = ({
     }
     fetchData()
   },[])
+  let list2 = [
+    {uri: '',text: 'My Account', img: userSvg},
+    {uri: '',text: 'Help Center', img: helpSvg}, 
+    {uri: '',text: 'Refund & Return', img: refundSvg}, 
+    // {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
+    {uri: '',text: 'Contact Us', img: contactSvg}, 
+    {uri: 'logout',text: buyer?.fname ? 'Logout' : 'Login', img: buyer?.fname ? logoutSvg : login}
+]
 
 
+  
   
   
 
@@ -172,13 +198,38 @@ const Header = ({
 
       <div className="buyer-header" style={{position: 'sticky', top: '0', zIndex: '10000'}}>
 
+        {
+            screenWidth > 480
+            ?
+            ''
+            :
+            <li style={{padding: '5px'}} onClick={e => openAside(e)}>
+              <span>
+                <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+              </span>
+            </li>
+        }
+
 
         <img src={img} style={{height: screenWidth > 760 ? '80px' : '50px', width: screenWidth > 760 ? '80px' : '50px'}}  alt="" />
         {
           screenWidth > 479 && location.pathname.split('/').splice(-1)[0] === ''
           ?
-          <div className="input-cnt">
-            <input onFocus={e =>openSearchResult(e)} onInput={e => {setSearchChar(e.target.value);}} type="search" name="" placeholder="What Are You Looking For..." id="" />
+          <div className="input-cnt search-cnt">
+            <input onFocus={e => openSearchResult(e)} onInput={e => {
+              async function getData() {
+                if(e.target.value !== '' && e.target.value !== ' '){ 
+                  try {
+                    let result = await GetSearchWord(e.target.value)
+                    dispatch(setSearchListTo(result))
+                  } catch (error) {
+                    console.log(error)
+                  }
+            
+                }
+              }
+              getData()
+            }} type="search" name="" placeholder="What Are You Looking For..." id="" />
             <button>Search</button>
           </div> 
           : 
@@ -191,18 +242,18 @@ const Header = ({
           <ul style={{
             width: 'fit-content',
           }}>
-            <li onClick={e => navigate('/buyer.message')}>  
+            {/* <li onClick={e => navigate('/buyer.message')}>  
               <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                 { 
                   cartList
                 }
               </span>
-              {/* <span> */}
+              <span>
                 <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
-              {/* </span> */}
-              {/* <span>Messages</span>  */}
+              </span>
+              <span>Messages</span> 
 
-            </li>
+            </li> */}
             {/* { */}
               {/* screenWidth > 760 */}
 
@@ -239,26 +290,48 @@ const Header = ({
               {/* :  */}
 
               <>
+
+
               
                 {
                   screenWidth > 479
                   ?
-                  <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
-                    {/* <span>Menu</span> */}
-                    <span>
-                      <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
-                    </span>
-                  </li>
+                    <>
+
+                      <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
+                        <span>
+                          <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                        </span>
+                      </li>
+
+                      
+                      <li>
+                        
+                      </li>
+                      
+                    </>
                   :
                   ''
                 }
 
+
+
+
+                &nbsp;
+                &nbsp;
                 
 
-                <li style={{padding: '5px'}} onClick={e => openAside(e)}>
-                  {/* <span>Menu</span> */}
+                {/* <li style={{padding: '5px'}} onClick={e => openAside(e)}>
                   <span>
                     <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                  </span>
+                </li> */}
+
+                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'large'}} onClick={e => openAside(e)}>
+                  <span>Sell</span>
+                  &nbsp;
+                  <span>
+                    <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
                   </span>
                 </li>
               </>

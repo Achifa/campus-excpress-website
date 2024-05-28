@@ -8,14 +8,17 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router } from 'react-router-dom';
 import store from './redux/store';
 import { ErrorBoundary } from 'react-error-boundary';
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
     <Provider store={store}>
-      <Router>
-        <App /> 
-      </Router>
+      <HelmetProvider>
+        <Router>
+          <App /> 
+        </Router>
+      </HelmetProvider>
     </Provider>
  
 );

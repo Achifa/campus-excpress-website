@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { get_chat } from '../../../../../api/seller'
 import { useNavigate } from 'react-router-dom'
 
 export default function MessageHead({data, index}) {

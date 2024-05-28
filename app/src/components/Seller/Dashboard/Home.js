@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { OVERVIEW } from "../../../api/seller";
 import '../../../styles/Seller/overlay.css' 
 import Card from "./Card";
 import items from '../../../items.json'
+import { GetOverview } from "../../../api/seller/get";
 
 const Home = () => {
 
@@ -29,9 +29,9 @@ const Home = () => {
         
         let overlay = document.querySelector('.overlay')
 
-        //overlay.setAttribute('id', 'overlay');
+        overlay.setAttribute('id', 'overlay');
         
-        OVERVIEW(window.localStorage.getItem("CE_seller_id"))
+        GetOverview(window.localStorage.getItem("CE_seller_id"))
         .then((result) => {
             
             set_total_for_sale(result.total_sale)
@@ -100,20 +100,7 @@ const Home = () => {
 
                 </div>
 
-                <button onClick={e => navigate('/seller.editor')} style={{
-                    height: 'fit-content',
-                    width: 'fit-content',
-                    padding: '10px',
-                    position: 'fixed',
-                    bottom: '85px',
-                    borderRadius: '5px',
-                    background: 'orangered',
-                    color: '#fff',
-                    right: screenWidth > 760 ? '70px' : '30px'
-                }}>
-                    Create
-                </button>
-
+                
 
             </div>
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { CheckPwdResetToken, GetSeller, ResetPwd, updatePwd } from '../api/seller';
 import '../../styles/settings.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { UpdatePwd } from '../api/reuseable';
 
 const PasswordReset = () => {
     let [userData, setUserData] = useState('')
@@ -13,7 +13,7 @@ const PasswordReset = () => {
 
     
     function ResetPwd(params) {
-        updatePwd(email,pwd)
+        UpdatePwd(email,pwd)
         .then((result) => {
             navigate('/seller.login')
         })

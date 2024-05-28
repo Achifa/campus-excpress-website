@@ -2,8 +2,8 @@ import axios from 'axios'
 // import {IP} from '@env'
 
 
-let uri_1 = 'ce-server.vercel.app'
-let uri_2 = '192.168.28.146'
+let uri_1 = 'https://ce-server.vercel.app'
+let uri_2 = 'http://localhost:2222'
 let IP = uri_1
 
 
@@ -11,6 +11,12 @@ const source = axios.CancelToken.source();
 
 export async function _(params) {
     let response = await get_request_generators(`route`, {params})
+    setTimeout(() => source.cancel('timeout'), 10000) 
+    return (response)?.data
+}
+
+export async function Filter_Cards(category,condition,price,state,campus) {
+    let response = await get_request_generators(`filter`, {category,condition,price,state,campus})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return (response)?.data
 }
@@ -104,7 +110,7 @@ export async function GetChat(room_id) {
 
 async function get_request_generators(uri, params) {
      return(
-        await axios.get(`https://${IP}/${uri}`, {
+        await axios.get(`${IP}/${uri}`, {
             params,
             cancelToken: source.token
         })

@@ -18,23 +18,13 @@ const SimilarItems = ({category}) => {
     return ( 
         <>
             {
-                        role === 0
-                        ?
-                        <>
-                            <div className="buyer-product-related-items">
-                                <h6 style={{padding:'10px'}}>Similar Items You May Like</h6>
+                <div className="buyer-product-related-items">
+                    <h6 style={{padding:'10px'}}>Similar Items You May Like</h6>
 
-                                <CardCnt category={category} />   
-                            
-                            </div>
-
-                            
-
-                        </>
-
-                        :
-                        ''
-                    }
+                    <CardCnt category={category} />   
+                
+                </div>
+            }
         </>
      );
 }

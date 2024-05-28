@@ -15,8 +15,14 @@ const SellerLayout = ({ children }) => {
     }, [])
     return (
         <>
-            <Header />
-            {/* <Aside /> */}
+            {
+                location.pathname.split('/').splice(-1)[0] === 'seller.profile'
+                ?
+                ''
+                :
+                <Header />
+            }
+            <Aside />
 
             
             {children}

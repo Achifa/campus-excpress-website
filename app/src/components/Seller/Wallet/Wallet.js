@@ -2,11 +2,12 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { usePaystackPayment } from 'react-paystack';
 import { useEffect, useState } from 'react';
-import { AuthorizeWalletAccess, WalletData, createBill } from '../../../api/seller';
+// import { AuthorizeWalletAccess, WalletData, createBill } from '../../../api/seller';
 import PayStack from '../PayStack';
 import { socket } from '../../../socket';
 // import '../../styles/Seller/overlays.css'
 import Withdrawal from '../Withdrawal';
+import Flw from '../Flw';
     
 const Wallets = () => {
     
@@ -18,17 +19,17 @@ const Wallets = () => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
-        WalletData(window.localStorage.getItem("CE_seller_id"))
-        .then(({walletBalance, TransactionHistory}) => {
-            setBalance(`${walletBalance[0].wallet_balance}.00`)
-            //setTransactions([...JSON.parse(TransactionHistory[0].document)])
-            let files = TransactionHistory.map(item => JSON.parse(item.document))
-            setTransactions(files)
-            overlay.removeAttribute('id')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        // WalletData(window.localStorage.getItem("CE_seller_id"))
+        // .then(({walletBalance, TransactionHistory}) => {
+        //     setBalance(`${walletBalance[0].wallet_balance}.00`)
+        //     //setTransactions([...JSON.parse(TransactionHistory[0].document)])
+        //     let files = TransactionHistory.map(item => JSON.parse(item.document))
+        //     setTransactions(files)
+        //     overlay.removeAttribute('id')
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
     },[])
 
     const config = {
@@ -41,22 +42,8 @@ const Wallets = () => {
         }
     };
     
-    // you can call this function anything
-    const onSuccess = (reference) => {
-      // Implementation for whatever you want to do with reference and after success call.
-      console.log(reference);
-    };
-  
-    // you can call this function anything
-    const onClose = () => {
-      // implementation for  whatever you want to do when the Paystack dialog closed.
-      console.log('closed')
-    }
-
-    const initializePayment = usePaystackPayment(config);
-
     function handleDeposit(params) {
-       setForm(<PayStack />)
+       setForm(<Flw />)
 
        let overlay = document.querySelector('.seller-overlay');
        overlay.setAttribute('id', 'seller-overlay')
@@ -92,14 +79,14 @@ const Wallets = () => {
                 }
             </div>
             
-            <div className="seller-wallet-cnt">
+            <div className="seller-wallet-cnt" style={{padding: '10px', background: '#fff4e0', height: 'calc(100vh - 70px)'}}>
 
                 <div className="seller-wallet-top shadow-sm">
                     <p><span style={{fontSize: 'medium', marginBottom: '20px'}}>Current Balance</span> <span><small>&#8358;</small>&nbsp;{balance}</span></p>
                     <div>
-                        <span onClick={e => handleWithdraw()} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Withdraw Funds</span>
+                        <span onClick={e => handleWithdraw()} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', background: '#FF4500', margin: '0 0 0 0', padding: '10px', borderRadius: '5px', color: '#fff'}}>Withdraw Funds</span>
 
-                        <span onClick={e => handleDeposit()} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}>Deposit Funds</span>
+                        <span onClick={e => handleDeposit()} style={{fontSize: 'medium', height: '50%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', background: '#FF4500', margin: '10px 0 0 0', padding: '10px', borderRadius: '5px', color: '#fff'}}>Deposit Funds</span>
                        
                     </div>
 

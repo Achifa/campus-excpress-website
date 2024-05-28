@@ -3,7 +3,7 @@ const {connectToDatabase, NeonDB} = require('../db');
 const {Pool, Client} = require("pg");
 
 
-const seller_authentication = (req, res, next) => {
+const SellerAuth = (req, res, next) => {
     const {seller_id} = req.body; 
     NeonDB.then((pool) => 
         pool.query(`SELECt * FROM campus_sellers WHERE seller_id = '${seller_id}'`)
@@ -23,7 +23,7 @@ const seller_authentication = (req, res, next) => {
     
 }
 
-const check_seller = (req, res, next) => {
+const CheckSeller = (req, res, next) => {
     const {seller_id} = req.body; 
 
     NeonDB.then((pool) => 
@@ -102,4 +102,4 @@ async function ValidateEmail(req,res) {
 }
 
 
-module.exports = { seller_authentication, ValidateEmail, check_seller, CheckPwdResetToken };
+module.exports = { SellerAuth, ValidateEmail, CheckSeller, CheckPwdResetToken };

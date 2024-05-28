@@ -111,9 +111,9 @@
     }
 
     .buyer-flash-sales ul li{
-        height: 180px;
+        height: 100px;
         flex-shrink: 0;
-        width: calc(20% - 10px);
+        width: calc(33.3% - 10px);
         background-color: #f9f9f9;
         margin: 5px;
         border-radius: 5px;

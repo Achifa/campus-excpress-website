@@ -3,8 +3,8 @@ import axios from 'axios'
 
 
 let uri_1 = 'ce-server.vercel.app'
-let uri_2 = '192.168.86.146'
-let IP = uri_1
+let uri_2 = 'localhost:2222'
+let IP = uri_2
 
 
 const source = axios.CancelToken.source();
@@ -69,8 +69,8 @@ export async function UploadChat(buyer_id,seller_id) {
     return (response)?.data
 }
 
-export async function AddView(buyer_id,product_id) {
-    let response = await post_request_generators('new-view', {buyer_id,product_id})
+export async function AddView(product_id,user_id) {
+    let response = await post_request_generators('new-view', {product_id,user_id})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return (response)?.data
 }
@@ -82,7 +82,7 @@ export async function AddView(buyer_id,product_id) {
 
 async function post_request_generators(uri, body) {
     return(
-        await axios.post(`https://${IP}/${uri}`, body, {
+        await axios.post(`http://${IP}/${uri}`, body, {
             cancelToken: source.token
         })
         .then((result) => result)

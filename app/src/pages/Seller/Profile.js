@@ -10,7 +10,7 @@ const Me = () => {
         <>
             <SellerLayout>
                 <div className="seller-main">
-                    <div className="seller-profile-cnt">
+                    <div className="seller-profile-cnt" style={{height: '100%'}}>
 
                         <TopView />
                         <Body />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { GetSeller } from "../../../api/seller"
+import { GetSeller } from "../../../api/seller/get"
 
 
 const LocationSelect = ({edit,productLocale}) => {

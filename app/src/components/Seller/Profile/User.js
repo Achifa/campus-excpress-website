@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { GetSeller } from '../../../api/seller'
+import { GetSeller } from '../../../api/seller/get'
+// import { GetSeller } from '../../../api/seller'
 
 
 export default function User() {

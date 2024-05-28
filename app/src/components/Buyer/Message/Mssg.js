@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { get_mssg } from '../../../api/seller';
 
 const Mssg = ({mssg_id}) => {
     let [text, set_text] = useState('');
@@ -10,15 +9,15 @@ const Mssg = ({mssg_id}) => {
     }, [])
   
     useEffect(() => {
-        get_mssg(mssg_id)
-        .then(({data}) => {
-            console.log(data)
+        // get_mssg(mssg_id)
+        // .then(({data}) => {
+        //     console.log(data)
 
-            set_text(data.message)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        //     set_text(data.message)
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // })
     },[]) 
 
     // onClick={e => navigate(`/product/${product_id}?seller_id=${seller_id}`)}

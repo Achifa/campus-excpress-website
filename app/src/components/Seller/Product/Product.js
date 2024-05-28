@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { GetItem } from '../../../api/seller'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
 import Description from './Description'
+import { GetItem } from '../../../api/seller/get';
 
 
 

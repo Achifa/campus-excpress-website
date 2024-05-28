@@ -1,8 +1,8 @@
 import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import '../../styles/Buyer/login.css'
-import { LogSellerIn } from "../../api/seller";
 import SellerLayout from "../../layout/Seller";
+import { LogSellerIn } from "../../api/seller/post";
 const SellerLogin = () => {
     let navigate = useNavigate();
     let [btn, setBtn] = useState("Login")
@@ -13,7 +13,7 @@ const SellerLogin = () => {
     const validation = useRef(false);
 
 
-    let Login = (e) => {
+    let Login = async(e) => {
         
         let check = document.querySelector('.err-cnt').querySelector('.err-mssg');
 
@@ -28,16 +28,14 @@ const SellerLogin = () => {
             )
             e.target.disabled = true;
 
-            LogSellerIn(email,pwd)
-            .then((result) => {
-                window.localStorage.setItem("CE_seller_id", result.id)
-                window.localStorage.setItem("CE_seller_name_initial", result.name)
-                navigate('/seller')
-            })
-            .catch((err) => {
-                console.log(err)
-                
+            let response = await LogSellerIn(email,pwd);
 
+            if(response){
+                window.localStorage.setItem("CE_seller_id", response.id)
+                window.localStorage.setItem("CE_seller_name_initial", response.name)
+                navigate('/seller')
+
+            }else{
                 let check = document.querySelector('.err-cnt').querySelector('.err-mssg');
                 if(check){
                     document.querySelector('.err-cnt').querySelector('.err-mssg').remove()
@@ -56,9 +54,11 @@ const SellerLogin = () => {
                     div.innerHTML = 'Invalid Credentials'
                     document.querySelector('.err-cnt').append(div)
                 }
-                e.target.disabled = false;
+                e.target.disabled = false; 
                 setBtn("Login")
-            })
+            }
+
+          
         }
         
 

@@ -61,7 +61,7 @@ export default function Filter({
 
     useEffect(() => {
         setcampuslist([])
-        let stateIndex = data.filter(item =>  item.label.toLocaleLowerCase() === state.toLocaleLowerCase())
+        let stateIndex = data.filter(item =>  item?.label?.toLowerCase() === state?.toLowerCase())
         let index = data.indexOf(stateIndex[0]);
         let campuses = Object.values(school_choices).reverse();
         index < 0 ? setcampuslist([]) : setcampuslist(campuses[index])
@@ -71,7 +71,7 @@ export default function Filter({
     let [typeList, setTypeList] = useState([])
 
 
-    useEffect(() => {
+    useEffect(() => { 
         setCategoriesList(items.items.category)
     },[])
 
@@ -82,7 +82,7 @@ export default function Filter({
        }
     },[category])
 
-    function closeAside(params) {
+    function closeAside() {
         document.querySelector('.aside-overlay').removeAttribute('id');
     }
 
@@ -137,7 +137,7 @@ export default function Filter({
                                 categoriesList.map((item, index) => 
                                     
 
-                                    Object.keys(item)[0].toLocaleLowerCase() === category.toLocaleLowerCase()
+                                    Object.keys(item)[0]?.toLowerCase() === category?.toLowerCase()
                                     ?
                                     <option key={index} selected value={Object.keys(item)[0]}>{Object.keys(item)[0]}</option>
                                     :
@@ -182,7 +182,7 @@ export default function Filter({
                             &nbsp;
                             <label htmlFor="price" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Price Range</label>
                         </div>
-                        <RangeSlider min={0} max={1000000} step={1} onInput={e => {
+                        <RangeSlider min={0} max={1000000000} step={1} onInput={e => {
                             setMinPrice(e[0]); 
                             setMaxPrice(e[1]);
                             ChangePrice(e)
@@ -191,9 +191,9 @@ export default function Filter({
                             }}/>
                         <br />
                         <div>
-                            <input style={{height: '35px', width: '40%', float: 'left'}} placeholder="From..." type="text" name="" id="" value={new Intl.NumberFormat('en-us').format(minPrice)} />
+                            <input style={{height: '35px', width: '40%', float: 'left'}} placeholder="From..." type="text" name="" id="" onInput={e => {setMinPrice(e.target.value); ChangePrice([e.target.value, maxPrice])}} value={new Intl.NumberFormat('en-us').format(minPrice)} />
 
-                            <input style={{height: '35px', width: '40%', float: 'right'}} placeholder="To..." type="text" value={new Intl.NumberFormat('en-us').format(maxPrice)} name="" id="" />
+                            <input style={{height: '35px', width: '40%', float: 'right'}} placeholder="To..." type="text" onInput={e => {setMaxPrice(e.target.value); ChangePrice([minPrice,e.target.value])}} value={new Intl.NumberFormat('en-us').format(maxPrice)} name="" id="" />
                         </div>
                     </div>
 

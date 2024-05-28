@@ -2,7 +2,7 @@ const { NeonDB } = require("../../db");
 const { pwd_reset } = require("../../templates");
 const { bcrypt, shortId } = require("../../modules");
 
-function update_seller_profile(req,res) {
+function UpdateSellerProfile(req,res) {
     let {
         fname,lname,state,campus,seller_id
     } = req.body;
@@ -27,7 +27,7 @@ function update_seller_profile(req,res) {
     .catch(err => console.log(err))
 }
 
-function update_product(req,res) {
+function UpdateProduct(req,res) {
 
     let {constantData, dynamicData}= req.body;
 
@@ -91,7 +91,7 @@ function update_product(req,res) {
 
 }
 
-async function update_pwd(req,res) {
+async function UpdatePwd(req,res) {
     let {email, pwd} = req.body;
     
     let hPwd = await bcrypt.hash(pwd, 10)
@@ -107,9 +107,38 @@ async function update_pwd(req,res) {
 
 }
 
-async function reset_pwd(req,res){
 
-    let {email,seller_id} = req.body;
+async function UpdateShop(req,res) {
+    let {title, description, seller_id} = req.body;
+    
+    NeonDB.then((pool) => 
+        pool.query(`UPDATE campus_shop set shop_title='${title.replace(/'/g, '"')}', shop_description='${description.replace(/'/g, '"')}' WHERE seller_id = '${seller_id}'`)
+        .then(result => {
+            result.rowCount > 0 ? res.send(true) : res.send(false)
+        })
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
+async function UpdateInventory(req,res) {
+    let {inventory, seller_id} = req.body;
+    console.log(inventory)
+    NeonDB.then((pool) => 
+        pool.query(`UPDATE campus_shop set inventory='${JSON.stringify(inventory)}' WHERE seller_id = '${seller_id}'`)
+        .then(result => {
+            result.rowCount > 0 ? res.send(true) : res.send(false)
+        })
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
+async function ResetPwd(req,res){
+
+    let {email,seller_id} = req.body; 
 
     let date = new Date()
     async function SendEmail(params) {
@@ -180,8 +209,10 @@ async function reset_pwd(req,res){
 }
 
 module.exports={
-    update_seller_profile,
-    update_product,
-    update_pwd,
-    reset_pwd
+    UpdateSellerProfile,
+    UpdateProduct,
+    UpdatePwd,
+    ResetPwd,
+    UpdateShop,
+    UpdateInventory
 }

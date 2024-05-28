@@ -4,7 +4,6 @@ import dateSvg from '../../../assets/date-2-svgrepo-com.svg'
 import userSvg from '../../../assets/user-rounded-svgrepo-com.svg'
 import stockSvg from '../../../assets/stock-svgrepo-com.svg'
 import { useState, useEffect } from 'react'
-import { get_buyer_that_ordered_item } from '../../../api/seller'
 import { useLocation } from 'react-router-dom'
 import js_ago from 'js-ago'
 export default function OrderItemData() {
@@ -13,12 +12,7 @@ export default function OrderItemData() {
     let [list, set_list] = useState([])
  
     useEffect(() => {
-        get_buyer_that_ordered_item(location.pathname.split('/').splice(-1)[0])
-        .then(({data}) => {
-            console.log(data)
-            set_list(data)
-        })
-        .catch(err => console.log(err))
+       
     }, [location])
 
   return (

@@ -38,6 +38,45 @@ async function register_seller(req,res) {
             .catch(err => console.log(err))
         )
     }
+
+    async function CreateNewShop(params) {
+        let shop_id = shortId.generate()
+        NeonDB.then((pool) => 
+        pool.query(`insert into campus_shop (
+            id,
+            shop_id,
+            shop_title,
+            shop_description,
+            seller_id,
+            inventory,
+            reviews,
+            isActive,
+            isEmpty,
+            subscription,
+            date,
+            coin
+            ) 
+            values(
+            DEFAULT,
+            '${shop_id}',
+            '',
+            '',
+            '${seller_id}',
+            '',
+            '',
+            ${true},
+            ${true},
+            ${0},
+            '${new Date()}',
+            ${100}
+            )` 
+        )
+        .then(result => result.rowCount > 0 ? true : false))
+        .catch(err => {
+            console.log(err)
+        }).catch(err => console.log(err))
+        
+    }
     
     async function SendEmail(params) {
         let token = shortId.generate()
@@ -183,6 +222,11 @@ async function register_seller(req,res) {
             // console.log('overview',result)
             let newSeller = CreateNewSeller()
             return(newSeller ? (true) : (false))
+        })
+        .then((result) => {
+            // console.log('wallet',result)
+            let newSellerShop = result ? CreateNewShop() : false;
+            return(newSellerShop ? (true) : (false))
         })
         .then((result) => {
             // console.log('wallet',result)

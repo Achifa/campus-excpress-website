@@ -1,44 +1,42 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
-import { SHOP } from "../../../api/seller";
+import { GetItems, GetShop } from "../../../api/seller/get";
 
 const Body = () => {
     let [cards, set_cards] = useState([])
-    let [loaderText, setLoaderText] = useState('Loading...')
    
     useEffect(() => {
 
         let overlay = document.querySelector('.overlay')
-        //overlay.setAttribute('id', 'overlay');
+        overlay.setAttribute('id', 'overlay');
         
-        SHOP(window.localStorage.getItem("CE_seller_id"))
-        .then((result) => { 
-            set_cards(result)
-            overlay.removeAttribute('id')
-            result.length < 1 
-            ?
-            setLoaderText('No item for sale, click here to start selling')
-            :
-            setLoaderText('')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        async function getData() {
+            let response = await GetItems(window.localStorage.getItem("CE_seller_id"))
 
-        
+            set_cards(response)
+            overlay.removeAttribute('id') 
+           
+        }
+
+        getData()
     }, [])
 
 
     return ( 
         <>
             {
+                cards !== undefined
+                ?
                 cards.map((item, index) => 
                 
-                    <Card item={item} index={index} />
-                )
-            }
+                <Card item={item} index={index} />)
+                :
+                ''
+            
+            } 
         </>
      );
 }
  
 export default Body;
+

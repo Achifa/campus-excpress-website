@@ -3,12 +3,11 @@ import img from '../../../images/download (5).jpeg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { AuthenticateSeller } from "../../../api/seller";
-import { GetSeller, ResetPwd } from '../../../api/seller';
 import { socket } from "../../../socket";
 import Menu from "./MenuBtn";
 import Nav from "./Nav";
 import usePath from "../../../hooks/usePath";
+import { GetSeller } from "../../../api/seller/get";
 
  
 const Header = () => {
@@ -24,14 +23,14 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        AuthenticateSeller(window.localStorage.getItem('CE_seller_id'))
-        .then((result) => {
+        // AuthenticateSeller(window.localStorage.getItem('CE_seller_id'))
+        // .then((result) => {
 
-            if(!result){
-                navigate('/seller.login')
-            }
-        })
-        .catch((err) => console.log(err))
+        //     if(!result){
+        //         navigate('/seller.login')
+        //     }
+        // })
+        // .catch((err) => console.log(err))
     }, [])
 
     let handleMenu = e => {
@@ -60,12 +59,12 @@ const Header = () => {
     let [userData, setUserData] = useState('')
 
     useEffect(() => {
-        GetSeller(window.localStorage.getItem('CE_seller_id'))
-        .then((result) => {
+        async function getData(){
+            let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
             setUserData(result)
             console.log(result)
-        })  
-        .catch((err) => console.log(err))
+        }
+        getData()
     }, [])
 
     let [greetings, setGreeting] = useState('Hello')
@@ -109,13 +108,14 @@ const Header = () => {
                 display: 'flex',
                 // justifyContent: 'space-between',
                 padding: '0',
+                
                 position: 'sticky',
                 backgroundColor: '#fff',
                 top: '0',
                 fontWeight: '500',
                 background: location.pathname.split('/').splice(-1)[0] === 'seller' ? 'orangered' : '#fff',
                 zIndex: '1000',
-                height: location.pathname.split('/').splice(-1)[0] === 'seller' ? '40%' : '60px',
+                // height: location.pathname.split('/').splice(-1)[0] === 'seller' ? '40%' : '60px',
                 backgroundImage: 'url(../../../images/download (5).jpeg)',
                 backgroundClip: 'content-box',
                 backgroundSize: 'contain'
@@ -147,9 +147,9 @@ const Header = () => {
                             </a>
 
                             <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">Successful Sales</a></li>
-                                <li><a className="dropdown-item" href="#">Unsuccessful Sales</a></li>
-                                <li><a className="dropdown-item" href="#">Reported</a></li>
+                                <li><a className="dropdown-item" href="#">Published</a></li>
+                                <li><a className="dropdown-item" href="#">Rejected</a></li>
+                                {/* <li><a className="dropdown-item" href="#">Pending</a></li> */}
                             </ul>
                         </div>
                     </>
@@ -161,7 +161,7 @@ const Header = () => {
                 {
                     location.pathname.split('/').splice(-1)[0] !== 'seller.signup' || location.pathname.split('/').splice(-1)[0] !== 'seller.login' || location.pathname.split('/').splice(-1)[0] !== 'seller.reset-password'
                     ?  
-                    <>&nbsp; &nbsp; Campus Express</>
+                    ''
                     : 
                     <span onClick={e=> path === 'signup' || path === 'login' ? navigate(`/seller.${path === 'signup' ? 'login' : 'signup'}`) : ''} 
                     style={{
@@ -213,7 +213,7 @@ const Header = () => {
                             }} type="search" name="" id="" placeholder="" />
                         </div> */}
 
-                        <ul style={{
+                        {/* <ul style={{
                             listStyleType: 'none',
                             display: location.pathname.split('/').splice(-1)[0] === 'seller' ? 'flex' : 'none',
                             alignItems: 'center',
@@ -257,7 +257,7 @@ const Header = () => {
                                 textTransform: 'capitalize'
                             }}>profile</li>
 
-                        </ul>
+                        </ul> */}
                     </>
                     :
                     "" 
