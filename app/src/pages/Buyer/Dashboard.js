@@ -16,7 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SearchOutput from "../../components/Buyer/Header/SearchOutput";
 import { Helmet } from "react-helmet-async";
 // import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
-import Ads from "../../components/Buyer/Dashboard/Ads";
+import Ads from "../../components/Buyer/dashboard/Ads";
 import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
  
 const Dashboard = () => {
