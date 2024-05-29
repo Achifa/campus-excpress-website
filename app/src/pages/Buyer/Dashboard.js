@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -7,7 +7,7 @@ import '../../styles/Buyer/large-screen.css'
 import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/dashboard/Lodge'
 
@@ -15,8 +15,8 @@ import BuyerLayout from '../../layout/Buyer'
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchOutput from "../../components/Buyer/Header/SearchOutput";
 import { Helmet } from "react-helmet-async";
-import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
-import Ads from "../../components/Buyer/Dashboard/Ads";
+// import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
+import Ads from "../../components/Buyer/dashboard/Ads";
 import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
  
 const Dashboard = () => {

@@ -24,6 +24,7 @@ import { UnSaveItem } from '../../../api/buyer/delete'
 import { SaveItem } from '../../../api/buyer/post'
 import SaveButton from './SaveButton'
 import js_ago from 'js-ago'
+
 const Card = ({item, index}) => {
     let [screenWidth, setScreenWidth] = useState(0)
     let [btnMode, setBtnMode] = useState(true)
