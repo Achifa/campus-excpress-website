@@ -276,8 +276,8 @@ const Card = ({item, index}) => {
                          display: 'flex', justifyContent: 'left', width: '50%', alignItems: 'center',
                        }}>
                             <img src={img} style={{height: '15px', width: '15px', borderRadius: '10px'}} alt="" />
-
-                            <div style={{height: 'fit-content', width: 'fit-content', fontWeight: '400', fontSize: 'x-small'}} >40 views</div>
+                            &nbsp;
+                            <div style={{height: 'fit-content', width: 'fit-content', fontWeight: '400', fontSize: 'x-small'}} > {item.views} views</div>
                        </div>
 
                         <div style={{color: '#626262', fontSize: 'x-small', fontWeight: '500', display: 'flex', justifyContent: 'left', width: '50%', alignItems: 'center'}}>
@@ -285,6 +285,7 @@ const Card = ({item, index}) => {
                                 <img src={timsSvg} style={{height: '15px', width: '15px', marginBottom: '3px'}} alt="" />
 
                             </span>
+                            &nbsp;
                             &nbsp;
                             <span>
                                 {

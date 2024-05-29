@@ -851,9 +851,6 @@ async function get_chat(req,res){
 } 
 
 
-async function new_view(){
-
-}
 
 async function filter_items(req,res){
     let {category,condition,price,state,campus} = req.query;
@@ -947,8 +944,66 @@ async function filter_items(req,res){
      
 } 
 
+function UpdateView(req,res) {
+
+    let {product_id, buyer_id,} = req.body;
+    let date = new Date();
+    let view_id = shortId.generate();
+
+    new Promise((resolve, reject) => {
+        NeonDB.then((pool) => 
+            pool.query(`select * from "views" where product_id = '${product_id}' AND buyer_id = '${buyer_id}'`)
+            .then((result) => result.rows.length > 0 ? reject(false) : resolve(true))
+            .catch((err) => console.log(err))
+        )
+        .catch(err => console.log(err))
+    })
+    .then(() => 
+        NeonDB.then((pool) => 
+            pool.query(`INSERT INTO views(id, view_id, product_id, buyer_id, date) values(DEFAULT, '${view_id}', '${product_id}', '${buyer_id}', '${date}')`)
+            .then((result) => result.rowCount)
+            .catch((err) => {
+                console.log(err)
+            })
+        )
+        .catch(err => console.log(err))
+    )
+    .then(() => 
+        NeonDB.then((pool) => 
+            pool.query(`UPDATE seller_shop set views = views+1 WHERE product_id = '${product_id}'`)
+            .then((result) => result.rowCount === 1 ? true : false)
+            .catch((err) => {
+                console.log(err)
+            })
+        )
+        .catch(err => console.log(err))
+    )
+    .then((data) =>{ 
+        if(data){
+            res.status(200).send(true)
+        }else{
+            res.status(501).send(false)
+
+        }
+    })
+    .catch(err => {
+        res.status(501).send(false)
+        console.log(err)
+    })
+
+
+    
+
+
+
+    
+
+}
+
 
 module.exports = {
+
+    UpdateView,
 
     register_buyer,
     log_buyer_in,

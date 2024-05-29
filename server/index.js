@@ -160,15 +160,17 @@ app.post("/transfer", parser, async(req,res) => {
 
 
 app.get('/share-image', (req,res) => {
-  let {product_id} = req.query;
-  NeonDB.then((pool) => 
-      pool.query(`SELECt * FROM product_photo WHERE product_id = '${product_id}'`)
-      .then(result => res.send(result.rows[0].file))
-      .catch(err => {
-        console.log(err)
-      })
-    )
-    .catch(err => console.log(err))
+  // let {product_id} = req.query;
+  // NeonDB.then((pool) => 
+  //     pool.query(`SELECt * FROM product_photo WHERE product_id = '${product_id}'`)
+  //     .then(result => res.send(result.rows[0].file))
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+  //   )
+  //   .catch(err => console.log(err))
+
+  
 })
 
 

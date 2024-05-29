@@ -31,7 +31,8 @@ const {
     get_chat_rooms,
     upload_chat,
     get_chat,
-    filter_items
+    filter_items,
+    UpdateView
 
 } = require("../controller/buyer");
 const { sendAdsCampaigne } = require("../mail/ads");
@@ -81,7 +82,7 @@ buyer_route.get('/search-word', get_search_word);
 buyer_route.post("/send-mail", parser, sendAdsCampaigne);
     
      
-
+ 
 buyer_route.post('/buyer.password-update', parser, update_pwd);
 buyer_route.post('/buyer.password-reset', parser, reset_pwd);
 
@@ -91,7 +92,7 @@ buyer_route.post('/buyer.email-validation', parser, ValidateEmail);
 
 buyer_route.post('/new-chat', parser, upload_chat);
 
-buyer_route.post('/new-view', parser, upload_chat);
+buyer_route.post('/new-view', parser, UpdateView);
 
 buyer_route.get('/filter', filter_items);
 
