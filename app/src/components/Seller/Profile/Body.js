@@ -43,7 +43,7 @@ function DescEdit() {
   let title = useRef('')
   let desc= useRef('')
   return(
-    <div className="descripion-edit">
+    <div className="profile-edit">
       <div className="input-cnt">
         <input onInput={e => title.current = (e.target.value)} placeholder='Enter Shop Title' type="text" />
       </div>
@@ -77,7 +77,7 @@ function InvetoryEdit() {
       
     }
   return(
-    <div className="inventory-edit">
+    <div className="profile-edit">
       &nbsp;<h3>Selected List</h3>
       <br />
       <div className="selected-options">
@@ -134,7 +134,7 @@ function ContactEdit({email,phone,seller_id, name}) {
  
 
   return(
-    <div className="university-edit">
+    <div className="profile-edit">
       <div className="seller-input-cnt">
           <section style={{width: '100%'}}>
               <label htmlFor="">Verify Email </label>
@@ -168,11 +168,13 @@ function ContactEdit({email,phone,seller_id, name}) {
 }
 
 function Coin() {
-  return(<div className="university-edit" style={{width: '300px'}}>
+  return(<div className="profile-edit" style={{background: '#FF4500'}}>
+
+      <h2 style={{width: '100%', textAlign: 'center', color: '#fff', fontSize: '3.5vh', fontWeight: '500'}}>Campus Coin Exchange</h2>
       <div className="seller-input-cnt">
 
         <section style={{width: '100%', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
-          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Select The Amount To Buy</p>
+          <p style={{color: '#fff', fontWeight: '400', padding: '10px 0 10px 0', borderRadius: '5px', width: '100%'}}>Select The Amount To Buy</p>
 
           <select name="" id="" style={{background: '#efefef'}}>
             {
@@ -187,7 +189,7 @@ function Coin() {
 
           <br />
 
-            <button>
+            <button style={{border: '1px solid #fff'}}>
               Buy Coin Now
             </button>
         </section>
@@ -196,7 +198,7 @@ function Coin() {
 
       <div className="seller-input-cnt">
           <section style={{width: '100%'}}>
-            <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%', border: '1px solid #FF4500'}}>Exchange Coin For Cash</p>
+            <p style={{color: '#fff', padding: '10px', borderRadius: '5px', width: '100%', border: '1px solid #FF4500', padding: '10px 0 10px 0', fontWeight: '400'}}>Exchange Coin For Cash</p>
 
             <select name="" id="" style={{background: '#efefef'}}>
               {
@@ -211,7 +213,7 @@ function Coin() {
 
             <br />
 
-            <button>
+            <button style={{border: '1px solid #fff'}}>
               Exchange Coin Now
             </button>
           </section>
@@ -226,11 +228,18 @@ function Coin() {
 }
 
 function Rent() {
-  return(<div className="university-edit" style={{width: '300px'}}>
+  return(<div className="profile-edit" style={{background: '#FF4500'}}>
       <div className="seller-input-cnt">
 
+        
+
         <section style={{width: '100%', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
-          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Select Shop Rent</p>
+          <h2 style={{width: '100%', textAlign: 'center', color: '#fff', fontSize: '3.5vh', fontWeight: '500'}}>Campus Shop Rent </h2>
+
+          <br />
+          
+          <p style={{color: '#fff', fontWeight: '400', padding: '10px 0 10px 0', borderRadius: '5px', width: '100%'}}>Select Rent Price</p>
+
 
           <select name="" id="" style={{background: '#efefef'}}>
             {
@@ -245,7 +254,7 @@ function Rent() {
 
           <br />
 
-            <button>
+            <button style={{border: '1px solid #fff'}}>
               Pay Rent Now
             </button>
         </section>
@@ -262,22 +271,27 @@ function Rent() {
 }
 
 function Ads() {
-  return(<div className="university-edit" style={{width: '70%'}}>
-      <div className="seller-input-cnt" style={{overflowX: 'hidden', height: '400px', display: 'inline-block'}}>
+  return(<div className="profile-edit" style={{background: '#FF4500', padding: '10px', height: 'auto', width: '100vw'}}>
 
-        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+      <div className="seller-input-cnt" style={{width: '100%', height: 'fit-content', display: 'inline-block', overflow: 'auto'}}>
+        <h2><b>Ads Packages</b></h2>
+
+
+        <section style={{width: '100%', background: '#fff', margin: '0 0px 20px 0px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
           <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Elite</p>
 
           <div style={{padding: '10px'}}>
 
-            <p>Cost: 35 coins per month</p>
+            <h2><b>Cost: 35 coins per month</b></h2>
             <p>Duration: 30 days</p>
-            <div>Features:</div>
-            <p>Top-tier visibility with highest priority in all search results.</p>
-            <p>Exclusive premium highlighting, including custom badges and banners.</p>
-            <p>Guaranteed featured placement on the homepage and other prominent sections of the site.</p>
-            <p>Includes access to advanced analytics to track performance and optimize listings.</p>
-            <p>The best choice for vendors who are serious about dominating the marketplace and driving maximum sales.</p>
+            <div> <b>Features:</b> </div>
+            <ul style={{padding: '20px'}}>
+              <li style={{listStyleType: 'disc'}}>Top-tier visibility with highest priority in all search results.</li>
+              <li style={{listStyleType: 'disc'}}>Exclusive premium highlighting, including custom badges and banners.</li>
+              <li style={{listStyleType: 'disc'}}>Guaranteed featured placement on the homepage and other prominent sections of the site.</li>
+              <li style={{listStyleType: 'disc'}}>Includes access to advanced analytics to track performance and optimize listings.</li>
+              <li style={{listStyleType: 'disc'}}>The best choice for vendors who are serious about dominating the marketplace and driving maximum sales.</li>
+            </ul>
 
           </div>
 
@@ -288,17 +302,20 @@ function Ads() {
             </button>
         </section>
 
-        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+        <section style={{width: '100%', background: '#fff', margin: '0 0px 20px 0px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
           <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Premium</p>
 
           <div style={{padding: '10px'}}>
-            <p>Cost: 25 coins per month</p>
+            <h2><b>Cost: 25 coins per month</b></h2>
             <p>Duration: 30 days</p>
-            <div>Features:</div>
-            <p>High priority placement in search results, ensuring listings are seen by more users.</p>
-            <p>Premium highlighting, including bold text and additional visual elements to stand out.</p>
-            <p>Featured placement in promotional sections of the website.</p>
-            <p>Perfect for vendors who want to maximize their exposure and attract a larger customer base.</p>
+            <div><b>Features:</b></div>
+            
+            <ul style={{padding: '20px'}}>
+              <li style={{listStyleType: 'disc'}}>High priority placement in search results, ensuring listings are seen by more users.</li>
+              <li style={{listStyleType: 'disc'}}>Premium highlighting, including bold text and additional visual elements to stand out.</li>
+              <li style={{listStyleType: 'disc'}}>Featured placement in promotional sections of the website.</li>
+              <li style={{listStyleType: 'disc'}}>Perfect for vendors who want to maximize their exposure and attract a larger customer base.</li>
+            </ul>
           </div>
 
           <br />
@@ -308,17 +325,19 @@ function Ads() {
             </button>
         </section>
 
-        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+        <section style={{width: '100%', background: '#fff', margin: '0 0px 20px 0px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
           <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Standard</p>
 
           <div style={{padding: '10px'}}>
             <p>Cost: 15 coins per month</p>
             <p>Duration: 30 days</p>
-            <div>Features:</div>
-            <p>Significant boost in visibility on the Campus Express platform.</p>
-            <p>Listings appear higher in search results.</p>
-            <p>Includes eye-catching highlighting and a featured badge.</p>
-            <p>Suitable for vendors aiming for moderate to high engagement with potential customers.</p>
+            <div><b>Features:</b></div>
+            <ul style={{padding: '20px'}}>
+              <li style={{listStyleType: 'disc'}}>Significant boost in visibility on the Campus Express platform.</li>
+              <li style={{listStyleType: 'disc'}}>Listings appear higher in search results.</li>
+              <li style={{listStyleType: 'disc'}}>Includes eye-catching highlighting and a featured badge.</li>
+              <li style={{listStyleType: 'disc'}}>Suitable for vendors aiming for moderate to high engagement with potential customers.</li>
+            </ul>
           </div>
 
           <br />
@@ -328,17 +347,19 @@ function Ads() {
             </button>
         </section>
 
-        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+        <section style={{width: '100%', background: '#fff', margin: '0 0px 20px 0px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
           <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Basic</p>
 
           <div style={{padding: '10px'}}>
             <p>Cost: 5 coins per month</p>
             <p>Duration: 30 days</p>
-            <div>Features:</div>
-            <p>Enhanced visibility compared to the Regular package.</p>
-            <p>Listings are slightly prioritized in search results.</p>
-            <p>Includes basic highlighting to attract more attention.</p>
-            <p>Ideal for vendors looking for a small boost in visibility without a significant investment.</p>
+            <div><b>Features:</b></div>
+            <ul style={{padding: '20px'}}>
+              <li style={{listStyleType: 'disc'}}>Enhanced visibility compared to the Regular package.</li>
+              <li style={{listStyleType: 'disc'}}>Listings are slightly prioritized in search results.</li>
+              <li style={{listStyleType: 'disc'}}>Includes basic highlighting to attract more attention.</li>
+              <li style={{listStyleType: 'disc'}}>Ideal for vendors looking for a small boost in visibility without a significant investment.</li>
+            </ul>
           </div>
 
           <br />
@@ -348,16 +369,18 @@ function Ads() {
             </button>
         </section>
 
-        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+        <section style={{width: '100%', background: '#fff', margin: '0 0px 20px 0px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
           <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Regular</p>
 
           <div style={{padding: '10px'}}>
             <p>Cost: 0 coins</p>
             <p>Duration: 30 days</p>
-            <div>Features:</div>
-            <p>Basic visibility on the Campus Express website.</p>
-            <p>Listings appear in standard search results without any special highlighting.</p>
-            <p>Suitable for vendors who are just starting out or have a limited budget.</p>
+            <div><b>Features:</b></div>
+            <ul style={{padding: '20px'}}>
+              <li style={{listStyleType: 'disc'}}>Basic visibility on the Campus Express website.</li>
+              <li style={{listStyleType: 'disc'}}>Listings appear in standard search results without any special highlighting.</li>
+              <li style={{listStyleType: 'disc'}}>Suitable for vendors who are just starting out or have a limited budget.</li>
+            </ul>
           </div>
 
           <br />
@@ -680,8 +703,8 @@ export default function Body() {
                 <div className='seller-profile-items-sold'>
                   <ul>
                     {
-                      (typeof soldItems) === 'array' && soldItems.length > 0 ? soldItems.map((item, index) => <li>
-                        <li>
+                      (typeof soldItems) === 'array' && soldItems.length > 0 ? soldItems.map((item, index) => <li style={{listStyleType: 'disc'}}>
+                        <li style={{listStyleType: 'disc'}}>
                           <div className="cols" >
                             <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10x', flexShrink: '0', width: '200px', borderRadius: '10px'}}>
                                 
@@ -751,7 +774,7 @@ export default function Body() {
                       ?  
                       JSON.parse(shop.inventory).length > 0 
                         ? 
-                        JSON.parse(shop.inventory).map(item => <li>{item}</li>) 
+                        JSON.parse(shop.inventory).map(item => <li style={{listStyleType: 'disc'}}>{item}</li>) 
                         : 
                         <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF4500', color: '#fff'}}>
                           Please Add Items You Sell
