@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -16,7 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SearchOutput from "../../components/Buyer/Header/SearchOutput";
 import { Helmet } from "react-helmet-async";
 // import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
-import Ads from "../../components/Buyer/dashboard/Ads";
+import Ads from "../../components/Buyer/Dashboard/Ads";
 import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
  
 const Dashboard = () => {

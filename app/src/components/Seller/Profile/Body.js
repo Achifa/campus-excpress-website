@@ -167,6 +167,216 @@ function ContactEdit({email,phone,seller_id, name}) {
   )
 }
 
+function Coin() {
+  return(<div className="university-edit" style={{width: '300px'}}>
+      <div className="seller-input-cnt">
+
+        <section style={{width: '100%', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Select The Amount To Buy</p>
+
+          <select name="" id="" style={{background: '#efefef'}}>
+            {
+              
+              [<span>&#8358;500 for 10 Coin</span>, <span>&#8358;1000 for 20 Coin</span>, <span>&#8358;1500 for 30 Coin</span>, <span>&#8358;2000 for 40 Coin</span>, <span>&#8358;2500 for 50 Coin</span>, <span>&#8358;3000 for 60 Coin</span>, <span>&#8358;3500 for 70 Coin</span>, <span>&#8358;4000 for 80 Coin</span>, <span>&#8358;4500 for 90 Coin</span>, <span>&#8358;5000 for 100 Coin</span>, <span>&#8358;5500 for 120 Coin</span>, <span>&#8358;600 for 130 Coin</span>, <span>&#8358;6500 for 140 Coin</span>, ].map(item => 
+                <option value="">{
+                  item
+                }</option>
+              )
+            }
+          </select>
+
+          <br />
+
+            <button>
+              Buy Coin Now
+            </button>
+        </section>
+          
+      </div>
+
+      <div className="seller-input-cnt">
+          <section style={{width: '100%'}}>
+            <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%', border: '1px solid #FF4500'}}>Exchange Coin For Cash</p>
+
+            <select name="" id="" style={{background: '#efefef'}}>
+              {
+                
+                [<span>&#8358;100 for 10 Coin</span>, <span>&#8358;900 for 20 Coin</span>, <span>&#8358;1400 for 30 Coin</span>, <span>&#8358;1900 for 40 Coin</span>, <span>&#8358;2400 for 50 Coin</span>, <span>&#8358;2900 for 60 Coin</span>, <span>&#8358;3400 for 70 Coin</span>, <span>&#8358;3900 for 80 Coin</span>, <span>&#8358;4400 for 90 Coin</span>, <span>&#8358;4900 for 100 Coin</span>, <span>&#8358;5400 for 120 Coin</span>, <span>&#8358;5900 for 130 Coin</span>, <span>&#8358;6400 for 140 Coin</span>, ].map(item => 
+                  <option value="">{
+                    item
+                  }</option>
+                )
+              }
+            </select>
+
+            <br />
+
+            <button>
+              Exchange Coin Now
+            </button>
+          </section>
+          
+      </div>
+
+      {/* <div className="btn-cnt">
+        <button>Cancel</button>
+      </div> */}
+
+    </div>)
+}
+
+function Rent() {
+  return(<div className="university-edit" style={{width: '300px'}}>
+      <div className="seller-input-cnt">
+
+        <section style={{width: '100%', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Select Shop Rent</p>
+
+          <select name="" id="" style={{background: '#efefef'}}>
+            {
+              
+              [<span>0 Coins For 5 Listing (Free)</span>, <span>10 Coins For 15 Listing</span>, <span>20 Coins For 30 Listing</span>, <span>35 Coins For 60 Listing</span>, <span>40 Coins For 120 Listing</span>, <span>65 Coins For 250 Listing</span>].map(item => 
+                <option value="">{
+                  item
+                }</option>
+              )
+            }
+          </select>
+
+          <br />
+
+            <button>
+              Pay Rent Now
+            </button>
+        </section>
+          
+      </div>
+
+    
+
+      {/* <div className="btn-cnt">
+        <button>Cancel</button>
+      </div> */}
+
+    </div>)
+}
+
+function Ads() {
+  return(<div className="university-edit" style={{width: '70%'}}>
+      <div className="seller-input-cnt" style={{overflowX: 'hidden', height: '400px', display: 'inline-block'}}>
+
+        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Elite</p>
+
+          <div style={{padding: '10px'}}>
+
+            <p>Cost: 35 coins per month</p>
+            <p>Duration: 30 days</p>
+            <div>Features:</div>
+            <p>Top-tier visibility with highest priority in all search results.</p>
+            <p>Exclusive premium highlighting, including custom badges and banners.</p>
+            <p>Guaranteed featured placement on the homepage and other prominent sections of the site.</p>
+            <p>Includes access to advanced analytics to track performance and optimize listings.</p>
+            <p>The best choice for vendors who are serious about dominating the marketplace and driving maximum sales.</p>
+
+          </div>
+
+          <br />
+
+            <button>
+              Activate Now
+            </button>
+        </section>
+
+        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Premium</p>
+
+          <div style={{padding: '10px'}}>
+            <p>Cost: 25 coins per month</p>
+            <p>Duration: 30 days</p>
+            <div>Features:</div>
+            <p>High priority placement in search results, ensuring listings are seen by more users.</p>
+            <p>Premium highlighting, including bold text and additional visual elements to stand out.</p>
+            <p>Featured placement in promotional sections of the website.</p>
+            <p>Perfect for vendors who want to maximize their exposure and attract a larger customer base.</p>
+          </div>
+
+          <br />
+
+            <button>
+              Activate Now
+            </button>
+        </section>
+
+        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Standard</p>
+
+          <div style={{padding: '10px'}}>
+            <p>Cost: 15 coins per month</p>
+            <p>Duration: 30 days</p>
+            <div>Features:</div>
+            <p>Significant boost in visibility on the Campus Express platform.</p>
+            <p>Listings appear higher in search results.</p>
+            <p>Includes eye-catching highlighting and a featured badge.</p>
+            <p>Suitable for vendors aiming for moderate to high engagement with potential customers.</p>
+          </div>
+
+          <br />
+
+            <button>
+              Activate Now
+            </button>
+        </section>
+
+        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Basic</p>
+
+          <div style={{padding: '10px'}}>
+            <p>Cost: 5 coins per month</p>
+            <p>Duration: 30 days</p>
+            <div>Features:</div>
+            <p>Enhanced visibility compared to the Regular package.</p>
+            <p>Listings are slightly prioritized in search results.</p>
+            <p>Includes basic highlighting to attract more attention.</p>
+            <p>Ideal for vendors looking for a small boost in visibility without a significant investment.</p>
+          </div>
+
+          <br />
+
+            <button>
+              Activate Now
+            </button>
+        </section>
+
+        <section style={{width: '100%', margin: '0 10px 20px 10px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
+          <p style={{background: '#FF4500', color: '#fff', padding: '10px', borderRadius: '5px', width: '100%'}}>Regular</p>
+
+          <div style={{padding: '10px'}}>
+            <p>Cost: 0 coins</p>
+            <p>Duration: 30 days</p>
+            <div>Features:</div>
+            <p>Basic visibility on the Campus Express website.</p>
+            <p>Listings appear in standard search results without any special highlighting.</p>
+            <p>Suitable for vendors who are just starting out or have a limited budget.</p>
+          </div>
+
+          <br />
+
+            <button>
+              Activate Now
+            </button>
+        </section>
+          
+      </div>
+
+    
+
+      {/* <div className="btn-cnt">
+        <button>Cancel</button>
+      </div> */}
+
+    </div>)
+}
 export default function Body() {
 
   
@@ -267,7 +477,7 @@ export default function Body() {
                 fontWeight: '400'
               }}>
 
-                <div>100</div>
+                <div>&#8358;100</div>
                 <div>Total Earned</div>
 
               </li>
@@ -292,6 +502,35 @@ export default function Body() {
               
             </ul>
             <br />
+
+             <div className="seller-profile-verification">
+                <img src={ellipsisSvg} style={{
+                  height: '20px',
+                  width: '20px',
+                  position: 'absolute',
+                  right: '10px',
+                  top: '10px',
+                  transform: 'rotate(90deg)',
+                  cursor: 'pointer'
+                }} alt="" onClick={e => {
+                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
+                setActiveJsx(<Coin />)
+                
+              }} />
+                <div><b>Campus Coin</b></div>
+
+                <div>
+                  {/* <div>ID: Verified</div> */}
+                  <div>Available Coin: {
+                     160
+                  }</div>
+                  {/* <div>Student: False</div> */}
+                </div>
+
+            </div>
+
+            <br />
+
             <div className="seller-profile-verification">
                 <img src={ellipsisSvg} style={{
                   height: '20px',
@@ -303,16 +542,16 @@ export default function Body() {
                   cursor: 'pointer'
                 }} alt="" onClick={e => {
                 document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<ContactEdit email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id} />)
+                setActiveJsx(<Rent />)
                 
               }} />
                 <div><b>Shop Rent</b></div>
 
                 <div>
                   {/* <div>ID: Verified</div> */}
-                  <div>Unlimited Listing: &#8358;{
-                     50
-                  }</div>
+                  <div>Unlimited Listing: {
+                     50 
+                  } coin</div>
                   {/* <div>Student: False</div> */}
                 </div>
 
@@ -337,7 +576,7 @@ export default function Body() {
                   cursor: 'pointer'
                 }} alt="" onClick={e => {
                 document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<ContactEdit email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id} />)
+                setActiveJsx(<Ads />)
                 
               }} />
                 <div><b>Ads Promotion</b></div>
