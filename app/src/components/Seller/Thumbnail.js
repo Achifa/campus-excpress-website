@@ -17,9 +17,9 @@ const Thumbnail = ({product_id,seller_id}) => {
         try {
             async function getData() {
                 let result = await GetProductThumbnail(product_id)
-                result.file
+                result?.file
                 ?
-                set_img(result.file)
+                set_img(result?.file)
                 :
                 set_img(imgSvg)
             }

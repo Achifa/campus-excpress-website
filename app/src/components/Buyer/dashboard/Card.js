@@ -153,7 +153,7 @@ const Card = ({item, index}) => {
                 elem
             }
             <div className="cols" id={item.product_id} >
-                <div className="card shadow" key={index} style={{height: 'fit-content', marginBottom: '10px', borderRadius: '10px'}}>
+                <div className="card shadow" key={index} style={{height: 'auto', marginBottom: '10px', borderRadius: '10px'}}>
                     
                     
                     
@@ -245,7 +245,7 @@ const Card = ({item, index}) => {
 
                     
 
-                    <span  style={{background: '#fff',display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'left', position: 'relative',color: '#000', borderRadius: '5px', padding: '2.5px', zIndex: '1000', padding: '0 5px 0 5px'}}>
+                    <span  style={{background: '#fff',display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'left', position: 'relative',color: '#000', borderRadius: '5px', padding: '2.5px', zIndex: '1000', padding: '0 5px 0 5px', overflow: 'hidden'}}>
                         <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
                             <img src={locationSvg} style={{height: screenWidth  > 480 ? '15px' : '12px', width: screenWidth  > 480 ? '20px' : '12px', marginBottom: '5px'}} alt="" />
 
@@ -254,7 +254,7 @@ const Card = ({item, index}) => {
                         &nbsp;
                         {/* &nbsp; */}
 
-                        <span  style={{background: '#fff', color: '#FF4500', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500'}}> 
+                        <span  style={{background: '#fff', color: '#FF4500', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500', overflow: 'hidden'}}> 
                             {JSON.parse(item.others)?.locale}
                         </span>
                     </span>

@@ -239,7 +239,7 @@ async function upload_meta_data(replacedTitle,replacedDescription,category,price
  
     return(
         NeonDB.then((pool) => 
-            pool.query(`insert into seller_shop (id,product_id,seller_id,status,title,description,price,package,category,others,date,state) values(DEFAULT, '${productId}','${seller_id}','unsold','${replacedTitle}','${replacedDescription}','${price}','${0}','${category}','${JSON.stringify(others)}','${date}','{"state": "pending", "reason": "new"}' )`)
+            pool.query(`insert into seller_shop (id,product_id,seller_id,status,title,description,price,package,category,others,date,state,views) values(DEFAULT, '${productId}','${seller_id}','unsold','${replacedTitle}','${replacedDescription}','${price}','${0}','${category}','${JSON.stringify(others)}','${date}','{"state": "pending", "reason": "new"}',${0} )`)
             .then(result => result.rowCount > 0 ? (true) : (false))
             .catch(err => console.log(err))
         )

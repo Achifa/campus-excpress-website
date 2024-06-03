@@ -39,17 +39,17 @@ import {
   SendSMS 
 } from '../../../api/seller/post'
 
-function DescEdit() {
-  let title = useRef('')
-  let desc= useRef('')
+function DescEdit({shop_title, shop_description}) {
+  let title = useRef(shop_description)
+  let desc= useRef(shop_description)
   return(
-    <div className="profile-edit">
+    <div className="descripion-edit">
       <div className="input-cnt">
-        <input onInput={e => title.current = (e.target.value)} placeholder='Enter Shop Title' type="text" />
+        <input defaultValue={shop_title} onInput={e => title.current = (e.target.value)} placeholder='Enter Shop Title' type="text" />
       </div>
 
       <div className="input-cnt">
-        <textarea onInput={e => desc.current = (e.target.value)} name="" id="" placeholder='Enter Your Description'></textarea>
+        <textarea defaultValue={shop_description} onInput={e => desc.current = (e.target.value)} name="" id="" placeholder='Enter Your Description'></textarea>
       </div>
 
       <div className="btn-cnt">
@@ -77,7 +77,7 @@ function InvetoryEdit() {
       
     }
   return(
-    <div className="profile-edit">
+    <div className="inventory-edit">
       &nbsp;<h3>Selected List</h3>
       <br />
       <div className="selected-options">
@@ -271,10 +271,11 @@ function Rent() {
 }
 
 function Ads() {
-  return(<div className="profile-edit" style={{background: '#FF4500', padding: '10px', height: 'auto', width: '100vw'}}>
+  return(<div className="profile-edit" style={{background: '#FF4500', padding: '10px', height: '95vh', width: '100vw'}}>
 
       <div className="seller-input-cnt" style={{width: '100%', height: 'fit-content', display: 'inline-block', overflow: 'auto'}}>
-        <h2><b>Ads Packages</b></h2>
+        <h2 style={{color: '#fff'}}><b>Ads Packages</b></h2>
+        <br />
 
 
         <section style={{width: '100%', background: '#fff', margin: '0 0px 20px 0px', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
@@ -675,7 +676,7 @@ export default function Body() {
                   cursor: 'pointer'
                 }} alt="" onClick={e => {
                 document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<DescEdit />)
+                setActiveJsx(<DescEdit shop_title={shop?.shop_title} shop_description={shop?.shop_description} />)
                
               }} />
                 <span>{
@@ -767,14 +768,14 @@ export default function Body() {
               }} />
                 <span>Inventory</span>
                 
-                <div className='seller-profile-inventory'>
-                  <ul>
+                <div className='seller-profile-inventory' style={{overflow: 'auto', flexWrap: 'wrap'}}>
+                  <ul style={{overflow: 'hidden', flexWrap: 'wrap'}}>
                     {
                       shop.inventory 
                       ?  
                       JSON.parse(shop.inventory).length > 0 
                         ? 
-                        JSON.parse(shop.inventory).map(item => <li style={{listStyleType: 'disc'}}>{item}</li>) 
+                        JSON.parse(shop.inventory).map(item => <li style={{listStyleType: 'none', margin: '10px'}}>{item}</li>) 
                         : 
                         <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF4500', color: '#fff'}}>
                           Please Add Items You Sell

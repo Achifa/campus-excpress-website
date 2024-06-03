@@ -43,8 +43,11 @@ const CardCnt = ({category, product_id}) => {
         try {
            async function getData() {
             let result = await GetItems(category)
+            console.log(result)
             
-            let data = result.filter(item => alert(item.product_id !== product_id))
+            let data = result?.length > 0 ? result.filter(item => (item.product_id !== product_id)) : []
+            console.log(data)
+
             setItems(data)
             // overlay.removeAttribute('id');
            }
@@ -112,9 +115,9 @@ const CardCnt = ({category, product_id}) => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product?product_id=${item.product_id}`)} >{item.title}</small>
                                         : 
-                                        <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
+                                        <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product?product_id=${item.product_id}`)} >{item.title}</small>
                                     }
 
                                     {/* <br /> */}
@@ -124,14 +127,14 @@ const CardCnt = ({category, product_id}) => {
                                     {
                                         screenWidth > 479
                                         ?
-                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '500', color: '#000'}}>&#8358;{
+                                        <h6 onClick={e => navigate(`/product?product_id=${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '500', color: '#000'}}>&#8358;{
                                             new Intl.NumberFormat('en-us').format(item.price)
                                         }</h6>
                                         : 
-                                        <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
+                                        <h6 onClick={e => navigate(`/product?product_id=${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
                                     }
 
-                                    {/* <div onClick={e => navigate(`/product/${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
+                                    {/* <div onClick={e => navigate(`/product?product_id=${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
                                         <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', left: '20px', padding: '5px 0 5px 0'}}>
                                             <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
 
@@ -207,9 +210,6 @@ const CardCnt = ({category, product_id}) => {
                 }
                 
             </div>
-
-            
-
         </>
      );
 }

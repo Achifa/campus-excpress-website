@@ -285,7 +285,7 @@ const Header = ({
                   </span>
                 </li> */}
 
-                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'large'}} onClick={e => openAside(e)}>
+                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'large'}} onClick={e => navigate(`/seller`) }>
                   <span>Sell</span>
                   &nbsp;
                   <span>

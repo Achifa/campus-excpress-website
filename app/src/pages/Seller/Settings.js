@@ -5,6 +5,9 @@ import SettingsMain from '../../components/Seller/Settings/SettingsMain'
 import '../../styles/Seller/setttings.css'
 import '../../styles/Seller/overlay.css' 
 import '../../styles/settings.css';
+import editSvg from '../../assets/edit-svgrepo-com.svg'
+import userPhoto from '../../assets/user-rounded-svgrepo-com.svg'
+
 import bankList from '../../bank.json' 
 import { useLocation, useNavigate } from 'react-router-dom'
 import { GetSeller } from '../../api/seller/get'
@@ -85,15 +88,11 @@ function Profile() {
     let [passport, setPassport] = useState('')
 
     useEffect(() => {
-        let overlay = document.querySelector('.settings-overlay')
-        //overlay.setAttribute('id', 'overlay');
-        async function getData() {
-            let result = GetSeller(window.localStorage.getItem('CE_seller_id'))
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+        async function getData(){
+            let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
             setUserData(result)
-            setFname(result.fname)
-            setLname(result.lname)
-            setCampus(result.campus)
-            setState(result.state)
             overlay.removeAttribute('id')
 
         }
@@ -124,13 +123,36 @@ function Profile() {
 
     }, [state])
     
+    let [photo, setPhoto] = useState(userPhoto)
 
     return(
         <>
-            <div className="seller-profile-setup" style={{width: 'fit-content', height: 'fit-content'}}>
+            <div className="overlay">
+                <div className="loader">
+                </div>
+            </div>
+            <div className="seller-profile-setup" style={{width: 'fit-content', height: 'fit-content', marginTop: '-5px'}}>
                     {/* <h4>Profile Settings</h4> */}
  
                     <form action="">
+
+                        <div className="seller-input-cnt" style={{position: 'relative'}}>
+                            <input id='coverphoto' style={{background: '#f9f9f9', display: 'none'}}   type="file" />
+                            <div style={{height: '120px', width: '120px', position: 'relative', borderRadius: '50%', background: '#fff4e0'}}>
+
+                                <img src={photo}  style={{height: '100%', width: '100%', borderRadius: '50%'}} alt="" />
+
+
+                                <label style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '5px', borderRadius: '50%', top: '10px', background: '#FF4500'}} htmlFor="coverphoto">
+                                    <img src={editSvg}  style={{height: '30px', width: '30px'}} alt="" />
+
+                                </label>
+                            </div>
+                            
+
+                        </div>
+
+                        <br />
 
                     
                         <div className="seller-input-cnt">

@@ -109,7 +109,7 @@ const Product = ({product_id}) => {
         try {
             async function getData() {
                 let result = await GetItem([product_id])
-                if(result.length > 0){
+                if(result?.length > 0){
                     setItem(result[0])
                 }
                 // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
@@ -315,7 +315,7 @@ const Product = ({product_id}) => {
             try {
                 async function getData() {
                     let result = await AddView(item.product_id, buyer_id)
-                    if(result.length > 0){
+                    if(result?.length > 0){
                         setItem(result[0])
                         // alert(result[0].product_id)
                         overlay.removeAttribute('id');
@@ -335,7 +335,7 @@ const Product = ({product_id}) => {
             try {
                 async function getData() {
                     let result = await AddView(item.product_id,buyer_id)
-                    if(result.length > 0){
+                    if(result?.length > 0){
                         setItem(result[0])
                         // alert(result[0].product_id)
                         overlay.removeAttribute('id');
@@ -353,7 +353,7 @@ const Product = ({product_id}) => {
         
     }, [item])
     
-    
+    // alert()
 
 
     let [immediate_purchase, set_immediate_purchase] = useState(1)

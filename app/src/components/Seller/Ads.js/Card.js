@@ -29,6 +29,12 @@ export default function Card({item,index}) {
             }
         }>
             <div className="listing-cnt">
+                {/* <div style={{width: '100%', textAlign: 'left', display: 'flex'}}>
+                    <div className="input-cnt" style={{width: '35px', height: '35px', textAlign: 'left'}}>
+                        <input type="checkbox" name="" id="" />
+                        <span>Mark This Item If Sold</span>
+                    </div>
+                </div> */}
                 <div className="listing-card-top">
                     <div className="listing-thumbnail-cnt">
                         <Thumbnail product_id={item.product_id} />
@@ -36,20 +42,20 @@ export default function Card({item,index}) {
 
                     <div className="listing-title-cnt">
                         {item.title}
-                        <div style={{width: '100', color: 'orange', position: 'absolute', bottom: '0', fontSize: 'small', textAlign: 'center', marginTop: '20px', background: '#fff4e0', padding: '5px'}}>Please Delete This Item If It's Not Available</div>
+                        {/* <div style={{width: '100', color: 'orange', position: 'absolute', bottom: '0', fontSize: 'small', textAlign: 'center', marginTop: '20px', background: '#fff4e0', padding: '5px'}}>Please Delete This Item If It's Not Available</div> */}
 
 
                     </div>
 
                 </div>
 
-                <div className="listing-card-desc">
+                <div className="listing-card-desc" style={{width: '100%', textAlign: 'left'}}>
                     {
                         item.description.length > 0
                         ?
                         item.description
                         :
-                        <div style={{width: '100%', textAlign: 'center'}}>No Description For This Item</div>
+                        <div style={{width: '100%', textAlign: 'left'}}>No Description For This Item</div>
                     }
                 </div>
 
@@ -90,7 +96,7 @@ export default function Card({item,index}) {
                 </div>
             </div>
             <div class="bottom-section">
-                <span class="title">
+                <span class="title" style={{fontSize: 'small', }}>
                     {item.title}
                 </span>
                 <div class="row row1">

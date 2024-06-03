@@ -159,6 +159,25 @@ app.post("/transfer", parser, async(req,res) => {
 })
 
 
+app.post('/share-image', parser, (req,res) => {
+
+  let {user} = req.body;
+
+  let user_id = JSON.parse(user.id)
+  let dates = JSON.parse(user.date)
+  let counts = JSON.parse(user.visits)
+  NeonDB.then((pool) => 
+    pool.query(`INSERT INTO visitors(id, user_id, dates, counts, isRegistered, buyer_id) values(DEFAULT, ${user_id}, ${JSON.stringify(dates)}, ${counts})`)
+    .then(result => res.send(result.rows[0].file))
+    .catch(err => {
+      console.log(err)
+    })
+  )
+  .catch(err => console.log(err))
+ 
+  
+})
+
 app.get('/share-image', (req,res) => {
   // let {product_id} = req.query;
   // NeonDB.then((pool) => 

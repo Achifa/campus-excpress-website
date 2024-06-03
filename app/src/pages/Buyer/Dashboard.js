@@ -7,17 +7,26 @@ import '../../styles/Buyer/large-screen.css'
 import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
-import { useEffect, useState } from "react"; 
+import { useEffect, useId, useState } from "react"; 
 import { useSelector } from "react-redux";
 // import Lodge from '../../components/Buyer/dashboard/Lodge'
 
 import BuyerLayout from '../../layout/Buyer'
-import { useLocation, useNavigate } from "react-router-dom";
+import { 
+    useLocation, 
+    useNavigate 
+} from "react-router-dom";
 import SearchOutput from "../../components/Buyer/Header/SearchOutput";
-import { Helmet } from "react-helmet-async";
+import { 
+    Helmet 
+} from "react-helmet-async";
 // import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
 import Ads from "../../components/Buyer/Dashboard/Ads";
 import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
+import { 
+    NewVisitor 
+} from "../../api/buyer/post";
+import PaidAds from "../../components/Buyer/Dashboard/PaidAds";
  
 const Dashboard = () => {
 
@@ -31,6 +40,40 @@ const Dashboard = () => {
         setScreenWidth(width)
         // document.body.style.background='orangered'
     }, [])
+
+    let reactId = useId();
+    useEffect(() => {
+
+        if(localStorage.getItem('new-visitor')){
+            let user = JSON.parse(localStorage.getItem('new-visitor'))
+            let id = window.localStorage.getItem('CE_buyer_id')
+
+            let userId = user.id;
+            let visit = user.visit;
+            let dates = user.date;
+
+            let newVisit = visit + 1;
+            let newDate = [...dates, new Date()];
+    
+            let str = {id: userId, date: newDate, visit: newVisit, isRegistered: id !== '' ? true : false, buyer_id: id !== '' ? id : ''}
+            localStorage.setItem('new-visitor', JSON.stringify(str))
+
+            NewVisitor(str)
+
+        }else{
+            let newVisitorID = reactId;
+            let date = new Date();
+            let visit = 1
+    
+            let str = {id: newVisitorID, date: [date], visit: visit}
+    
+            localStorage.setItem('new-visitor', JSON.stringify(str))
+            NewVisitor(str)
+
+        }
+
+        
+    }, []);
 
     useEffect(() => {
 
