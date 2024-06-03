@@ -1,4 +1,4 @@
-import CardCnt from "../../components/Buyer/Dashboard/CardCnt";
+import CardCnt from "../../components/Buyer/dashboard/CardCnt";
 import '../../styles/Buyer/xx-large-screen.css'
 import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
@@ -21,12 +21,12 @@ import {
     Helmet 
 } from "react-helmet-async";
 // import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
-import Ads from "../../components/Buyer/Dashboard/Ads";
+import Ads from "../../components/Buyer/dashboard/Ads";
 import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
 import { 
     NewVisitor 
 } from "../../api/buyer/post";
-import PaidAds from "../../components/Buyer/Dashboard/PaidAds";
+// import PaidAds from "../../components/Buyer/Dashboard/PaidAds";
  
 const Dashboard = () => {
 
