@@ -44,7 +44,14 @@ const Dashboard = () => {
     let reactId = useId();
     useEffect(() => {
 
+        async function uploadNewRef() {
+            let response = await NewVisitor(src)
+            console.log(response)
+        }
+        let src = location.search ?location.search.split('=')[1] : ''
+
         if(localStorage.getItem('new-visitor')){
+
             let user = JSON.parse(localStorage.getItem('new-visitor'))
             let id = window.localStorage.getItem('CE_buyer_id')
 
@@ -55,21 +62,23 @@ const Dashboard = () => {
             let newVisit = visit + 1;
             let newDate = [...dates, new Date()];
     
-            let str = {id: userId, date: newDate, visit: newVisit, isRegistered: id !== '' ? true : false, buyer_id: id !== '' ? id : ''}
-            localStorage.setItem('new-visitor', JSON.stringify(str))
+            // let str = {id: userId, date: newDate, visit: newVisit, isRegistered: id !== null ? true : false, buyer_id: id !== '' ? id : ''}
 
-            NewVisitor(str)
+            let str = {id: userId, date: newDate, visit: newVisit, src: src}
+            localStorage.setItem('new-visitor', JSON.stringify(str))
+            uploadNewRef()
+            
 
         }else{
             let newVisitorID = reactId;
             let date = new Date();
             let visit = 1
     
-            let str = {id: newVisitorID, date: [date], visit: visit}
+            let str = {id: newVisitorID, date: [date], visit: visit, src: src}
     
             localStorage.setItem('new-visitor', JSON.stringify(str))
-            NewVisitor(str)
-
+            
+            uploadNewRef()
         }
 
         

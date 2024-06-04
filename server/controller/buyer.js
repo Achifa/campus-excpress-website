@@ -994,11 +994,26 @@ function UpdateView(req,res) {
 
     
 
-
-
-    
-
 }
+
+
+
+function AddNewReferral(req,res) {
+
+    let {src} = req.body;
+    let date = new Date();
+    let id = shortId.generate()
+    NeonDB.then((pool) => 
+        pool.query(`INSERT INTO referral_visits(id, source, user_id, created_at) values(DEFAULT, '${src}', '${id}', '${date}')`)
+        .then((result) => res.send(true))
+        .catch((err) => {
+            console.log(err)
+        })
+    )
+    .catch(err => console.log(err))
+}
+
+
 
 
 module.exports = {
@@ -1019,7 +1034,7 @@ module.exports = {
     get_item_thumbnail,
 
     get_thumbnail,
-
+    AddNewReferral,
     add_item_to_cart,
     delete_item_from_cart,
     update_cart,

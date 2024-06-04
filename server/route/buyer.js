@@ -32,7 +32,8 @@ const {
     upload_chat,
     get_chat,
     filter_items,
-    UpdateView
+    UpdateView,
+    AddNewReferral
 
 } = require("../controller/buyer");
 const { sendAdsCampaigne } = require("../mail/ads");
@@ -93,6 +94,7 @@ buyer_route.post('/buyer.email-validation', parser, ValidateEmail);
 buyer_route.post('/new-chat', parser, upload_chat);
 
 buyer_route.post('/new-view', parser, UpdateView);
+buyer_route.post('/new-visitor', parser, AddNewReferral);
 
 buyer_route.get('/filter', filter_items);
 

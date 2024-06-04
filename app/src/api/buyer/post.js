@@ -76,8 +76,8 @@ export async function AddView(product_id,user_id) {
 }
 
 
-export async function NewVisitor(user) {
-    let response = await post_request_generators('new-visitor', {user})
+export async function NewVisitor(src) {
+    let response = await post_request_generators('new-visitor', {src})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return (response)?.data
 }

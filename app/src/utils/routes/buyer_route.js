@@ -1,4 +1,4 @@
-import Dashboard from '../../pages/Buyer/Dashboard';
+import Dashboard from '../../pages/Buyer/dashboard';
 import ProductPage from '../../pages/Buyer/Product';
 import BuyerSignup from '../../Authorization/Buyer.js/Signup';
 import BuyerLogin from '../../Authorization/Buyer.js/Login';
