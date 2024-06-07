@@ -182,11 +182,11 @@ function Profile() {
                         <div className="seller-input-cnt">
                             <section>
                                 <label htmlFor="">FirstName</label>
-                                <input style={{background: '#f9f9f9'}}  defaultValue={userData ? userData.fname : ''} onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                                <input style={{background: '#f9f9f9'}}  value={userData ? userData.fname : ''} onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
                             </section>
                             <section>
                                 <label htmlFor="">LastName</label>
-                                <input style={{background: '#f9f9f9'}} defaultValue={userData ? userData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName...' type="text" />
+                                <input style={{background: '#f9f9f9'}} value={userData ? userData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName...' type="text" />
                             </section>
                         </div>
 
