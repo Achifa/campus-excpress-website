@@ -12,43 +12,44 @@ import userPhoto from '../../../assets/user-svgrepo-com (2).svg'
 
 import img from '../../../images/images (3).jpeg'
 import { useNavigate } from 'react-router-dom'
+import { GetSeller, GetSellerPhoto } from '../../../api/seller/get'
 export default function TopView() {
-    let dispatch = useDispatch()
-    let list = [
-        ['Personal Info', 'personal_data', user],
-        // ['Profile Info', 'profile_data'],
-        // ['Settings', 'settings', settings],
-        // ['Contact Info', 'contact_info', ''],
-        ['History', 'history', history],
-        ['Reviews', 'reviews', reviews],
-        ['Security', 'pwd', pwd],
-        ['Notifications', 'notice', notice],
-        ['Payments', 'payment', wallet]
-    ]
-
+    
 
     let [screenWidth, setScreenWidth] = useState(0)
-    let [activeHead, setActiveHead] = useState('')
+    let [photo, setPhoto] = useState(userPhoto)
 
     useEffect(() => { 
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
 
+    let [userData, setUserData] = useState()
     
-    function handle_menu_change(e) {
-        // alert(e.currentTarget)
-        console.log(e.currentTarget.dataset.id)
-        dispatch(setMenuTo(e.currentTarget.dataset.id))
-    }
-  let navigate = useNavigate()
+    useEffect(() => {
+        async function getData(){
+          let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
+          setUserData(result)
+          console.log(result)
+        }
+        getData()
+      }, [])
+
+      useEffect(() => {
+        async function getPhoto(){
+          let result = await GetSellerPhoto(window.localStorage.getItem('CE_seller_id'))
+          setPhoto(result.file)
+        }
+        getPhoto()
+      }, [])
+    let navigate = useNavigate()
 
 
   return (
     <>
         <div className="seller-profile-left">
             
-            <img style={{padding: '10px'}} src={userPhoto}  alt="" />
+            <img style={{padding: '10px'}} src={photo}  alt="" />
 
             <img onClick={e => navigate('/seller.settings.profile')} src={editSvg} style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '10px', top: '10px'}}  alt="" />
 
@@ -59,14 +60,15 @@ export default function TopView() {
 
             <div>
                 <div className="seller-profile-name">
-                    Akpulu fabian
+                    {userData?.fname} {userData?.lname}
                 </div>
 
 
                 <div className="seller-profile-date">
-                    Awka, Nigeria - {
-                        new Date().toUTCString()
-                    }
+                    {userData?.state}-{userData?.campus}
+                </div>
+                <div className="seller-profile-date">
+                    Member since {userData?.date?(userData.date):'loading...'}
                 </div>
 
                 {/* <div className="seller-profile-date">

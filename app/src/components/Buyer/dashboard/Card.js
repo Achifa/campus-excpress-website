@@ -254,7 +254,7 @@ const Card = ({item, index}) => {
                         &nbsp;
                         {/* &nbsp; */}
 
-                        <span  style={{background: '#fff', color: '#FF4500', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500', overflow: 'hidden'}}> 
+                        <span  style={{background: '#fff', color: '#FF4500', padding: '0',  fontSize: screenWidth > 480 ? 'x-small' : 'xx-small', fontWeight: '500', overflow: 'hidden', height: '15px'}}> 
                             {JSON.parse(item.others)?.locale}
                         </span>
                     </span>

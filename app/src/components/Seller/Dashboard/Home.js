@@ -4,6 +4,7 @@ import '../../../styles/Seller/overlay.css'
 import Card from "./Card";
 import items from '../../../items.json'
 import { GetOverview } from "../../../api/seller/get";
+import sellSvg from '../../../assets//sell-svgrepo-com.svg'
 
 const Home = () => {
 
@@ -60,7 +61,14 @@ const Home = () => {
                 </div>
             </div>
             
-            <div className="seller-home">
+            <div className="seller-home" style={{position: 'relative'}}>
+                <div style={{padding: '10px', borderRadius: '5px', display: screenWidth > 760 ? 'none' : 'flex',  background: '#FF4500', color: '#fff', fontSize: 'large', position: 'fixed', right: '15px', bottom: '100px'}} onClick={e => navigate(`/seller.editor`) }>
+                    <span>Sell</span>
+                    &nbsp;
+                    <span>
+                        <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
+                    </span>
+                </div>
                 <div className="seller-home-overview">
 
                     <ul>

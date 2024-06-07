@@ -160,6 +160,18 @@ async function GetSellerData(req,res) {
 
 }
 
+
+async function GetSellerPhoto(req,res) {
+    let {seller_id} = req.query;
+    NeonDB.then((pool) => 
+        pool.query(`SELECT * FROM cooverphoto WHERE seller_id = '${seller_id}'`)
+        .then(result => res.send(result.rows[0]))
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
 async function GetChatRooms(req,res){
     let {seller_id} = req.query;
     let book = []
@@ -235,6 +247,7 @@ module.exports={
     GetOverview,
     GetSellerData,
     GetChatRooms,
+    GetSellerPhoto,
     GetChat,
     GetShop,
     GetItemsSold,

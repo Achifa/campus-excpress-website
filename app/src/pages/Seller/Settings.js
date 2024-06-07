@@ -99,16 +99,14 @@ function Profile() {
         getData()
     }, [])
    
-    const [value, setValue] = useState('Select State');
-    const [campusLocale, setCampusLocale] = useState('Select Campus');
-    const [campusLocaleList, setCampusLocaleList] = useState([]);
-    const [isFocus, setIsFocus] = useState(false);
-    const [CampusisFocus, setCampusIsFocus] = useState(false);
+    let [photo, setPhoto] = useState(userPhoto)
 
+    const [campusLocaleList, setCampusLocaleList] = useState([]);
+   
     let UpdateProfile = () => {
         let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
-        UpdateSellerProfile(fname,lname,state,campus,window.localStorage.getItem('CE_seller_id'))
+        UpdateSellerProfile(fname,lname,state,campus,window.localStorage.getItem('CE_seller_id'),photo)
         .then((result) => result ? overlay.removeAttribute('id') : '')
         .catch((err) => console.log(err))
     }
@@ -123,7 +121,33 @@ function Profile() {
 
     }, [state])
     
-    let [photo, setPhoto] = useState(userPhoto)
+
+    let handleImage = () => {
+        let f = document.querySelector("#coverphoto");
+
+        [...f.files].map(item => {
+            let typeCheck = item.type.split('/')[0];
+            let type = typeCheck === 'image' ? 'img' : typeCheck === 'video' ? 'mp4' : ''
+            
+            if(type === 'mp4') {
+                openNotice("Only Photo Can Be Uploaded Here")
+                
+            }else{
+                let reader = new FileReader({type: 'image/*'});
+
+                reader.onload = (result) => {
+                    let img = reader.result;
+                    setPhoto(img);
+
+                }   
+                reader.readAsDataURL(item);
+            }
+
+            
+        })
+         
+        // getImage([[...f.files][0],[...f.files][0].type,[...f.files][0].size,[...f.files][0].name])
+    } 
 
     return(
         <>
@@ -137,7 +161,7 @@ function Profile() {
                     <form action="">
 
                         <div className="seller-input-cnt" style={{position: 'relative'}}>
-                            <input id='coverphoto' style={{background: '#f9f9f9', display: 'none'}}   type="file" />
+                            <input id='coverphoto' style={{background: '#f9f9f9', display: 'none'}} onChange={handleImage}  type="file" />
                             <div style={{height: '120px', width: '120px', position: 'relative', borderRadius: '50%', background: '#fff4e0'}}>
 
                                 <img src={photo}  style={{height: '100%', width: '100%', borderRadius: '50%'}} alt="" />

@@ -10,8 +10,8 @@ let IP = uri_1
 const source = axios.CancelToken.source();
 
 
-export async function UpdateSellerProfile(fname,lname,state,campus,seller_id) {
-    let response = await update_request_generators('profile-update', {fname,lname,state,campus,seller_id})
+export async function UpdateSellerProfile(fname,lname,state,campus,seller_id,photo) {
+    let response = await update_request_generators('profile-update', {fname,lname,state,campus,seller_id,photo})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return(response)
 }

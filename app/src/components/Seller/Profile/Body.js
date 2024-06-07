@@ -17,6 +17,7 @@ import PasswordReset from './PasswordReset'
 import NoticeSetup from './NoticeSetup'
 import Payments from './Payments'
 import { 
+  GetItems,
   GetReviews, 
   GetSeller, 
   GetShop, 
@@ -38,10 +39,13 @@ import {
   SendEmail, 
   SendSMS 
 } from '../../../api/seller/post'
+import Flw from '../../Payments/Flw'
+import { closePaymentModal, useFlutterwave } from 'flutterwave-react-v3'
 
 function DescEdit({shop_title, shop_description}) {
   let title = useRef(shop_description)
   let desc= useRef(shop_description)
+  
   return(
     <div className="descripion-edit">
       <div className="input-cnt">
@@ -53,8 +57,11 @@ function DescEdit({shop_title, shop_description}) {
       </div>
 
       <div className="btn-cnt">
-        <button onClick={e => {
-          UpdateShop(title.current, desc.current, window.localStorage.getItem('CE_seller_id'))
+        <button onClick={async(e) => {
+          let response = await UpdateShop(title.current, desc.current, window.localStorage.getItem('CE_seller_id'));
+          if(response){
+            window.location.reload()
+          }
         }}>Update</button>
         <button>Cancel</button>
       </div>
@@ -62,8 +69,12 @@ function DescEdit({shop_title, shop_description}) {
   )
 }
 
-function InvetoryEdit() {
+function InvetoryEdit({list}) {
   let [selectedList, setSelectedList] = useState([]);
+
+  useEffect(() => {
+    let data = list !== '' ? setSelectedList(JSON.parse(list)) : []
+  },[])
 
   let [invetoryList, setInventoryList] = useState(
     items.items.category.map(item => Object.keys(item)[0])
@@ -72,7 +83,7 @@ function InvetoryEdit() {
     async function UpdateInventoryHandler() {
       let result = await UpdateInventory(selectedList, window.localStorage.getItem("CE_seller_id"))
       if(result){
-
+        window.location.reload()
       }
       
     }
@@ -167,7 +178,33 @@ function ContactEdit({email,phone,seller_id, name}) {
   )
 }
 
-function Coin() {
+function Coin({email,phone,seller_id, name}) {
+
+  let [price, setPrice] = useState('')
+  useEffect(() => {
+    console.log(email,phone)
+  },[price])
+
+  const config = {
+    public_key: 'FLWPUBK-502f1f73c8abf430f161a528241c198a-X',
+    tx_ref: Date.now(),
+    amount: parseInt(price) + 45,
+    currency: 'NGN',
+    payment_options: 'card,mobilemoney,ussd',
+    customer: {
+        email: email,
+        phone_number: phone,
+        name: name,
+        ce_id: seller_id
+    },
+    customizations: {
+    title: 'Campus Express',
+    description: 'Campus Coin Purchase',
+    logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+    },
+  };
+
+  const handleFlutterPayment = useFlutterwave(config);
   return(<div className="profile-edit" style={{background: '#FF4500'}}>
 
       <h2 style={{width: '100%', textAlign: 'center', color: '#fff', fontSize: '3.5vh', fontWeight: '500'}}>Campus Coin Exchange</h2>
@@ -176,11 +213,12 @@ function Coin() {
         <section style={{width: '100%', borderRadius: '5px', padding: '10px', border: '1px solid #FF4500'}}>
           <p style={{color: '#fff', fontWeight: '400', padding: '10px 0 10px 0', borderRadius: '5px', width: '100%'}}>Select The Amount To Buy</p>
 
-          <select name="" id="" style={{background: '#efefef'}}>
+          <select onInput={e => setPrice(e.target.value.split(' ')[0].split('').splice(1).join(''))} name="" id="" style={{background: '#efefef'}}>
+          <option value="">Select Coin To Buy</option>
             {
               
               [<span>&#8358;500 for 10 Coin</span>, <span>&#8358;1000 for 20 Coin</span>, <span>&#8358;1500 for 30 Coin</span>, <span>&#8358;2000 for 40 Coin</span>, <span>&#8358;2500 for 50 Coin</span>, <span>&#8358;3000 for 60 Coin</span>, <span>&#8358;3500 for 70 Coin</span>, <span>&#8358;4000 for 80 Coin</span>, <span>&#8358;4500 for 90 Coin</span>, <span>&#8358;5000 for 100 Coin</span>, <span>&#8358;5500 for 120 Coin</span>, <span>&#8358;600 for 130 Coin</span>, <span>&#8358;6500 for 140 Coin</span>, ].map(item => 
-                <option value="">{
+                <option value={item.innerHTML}>{
                   item
                 }</option>
               )
@@ -189,7 +227,15 @@ function Coin() {
 
           <br />
 
-            <button style={{border: '1px solid #fff'}}>
+            <button onClick={e => {
+              handleFlutterPayment({
+                callback: (response) => {
+                  console.log(response);
+                  // closePaymentModal() // this will close the modal programmatically
+                },
+                onClose: () => {}
+              });
+            }} style={{border: '1px solid #fff'}}>
               Buy Coin Now
             </button>
         </section>
@@ -244,7 +290,7 @@ function Rent() {
           <select name="" id="" style={{background: '#efefef'}}>
             {
               
-              [<span>0 Coins For 5 Listing (Free)</span>, <span>10 Coins For 15 Listing</span>, <span>20 Coins For 30 Listing</span>, <span>35 Coins For 60 Listing</span>, <span>40 Coins For 120 Listing</span>, <span>65 Coins For 250 Listing</span>].map(item => 
+              [<span>0 Coins For 3 Listing (Free)</span>, <span>10 Coins For 15 Listing</span>, <span>20 Coins For 30 Listing</span>, <span>35 Coins For 60 Listing</span>, <span>40 Coins For 120 Listing</span>, <span>65 Coins For 250 Listing</span>].map(item => 
                 <option value="">{
                   item
                 }</option>
@@ -408,6 +454,8 @@ export default function Body() {
   const [soldItems, setSoldItems] = useState([]);
   let [reviews, setReviews] = useState([])
   let [shop, setShop] = useState('')
+  let [TotalSold, setTotalSold] = useState('0')
+  let [TotalEarned, setTotalEarned] = useState('0')
 
   
   let [screenWidth, setScreenWidth] = useState(0)
@@ -419,6 +467,7 @@ export default function Body() {
     async function getShop() {
       let shop = await GetShop(window.localStorage.getItem("CE_seller_id"))
       setShop(shop)
+      console.log(shop)
       overlay.removeAttribute('id')
     }
     getShop()
@@ -439,9 +488,6 @@ export default function Body() {
 
   }, [shop])
 
-
-
-
   useEffect(() => {
     
     async function getReviews() {
@@ -450,7 +496,33 @@ export default function Body() {
     }
     getReviews()
 
+  }, [shop])
+
+  useEffect(() => {
     
+    async function getSellerShop() {
+      let shop = await GetItems(window.localStorage.getItem("CE_seller_id"))
+
+
+      
+      if(shop.length > 0){
+        let result = shop.filter(shop.status === 'sold');
+        if(result.length > 0){
+          result.forEach((number) => {
+            setTotalEarned(TotalEarned += number);
+          });
+        }else{
+          setTotalEarned(0)
+          setTotalSold(0)
+        }
+      }else{
+        setTotalEarned(0)
+        setTotalSold(0)
+      }
+
+      
+    }
+    getSellerShop()
 
   }, [shop])
 
@@ -459,8 +531,8 @@ export default function Body() {
 
   useEffect(() => {
     async function getData(){
-        let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
-        setUserData(result)
+      let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
+      setUserData(result)
     }
     getData()
   }, [])
@@ -501,7 +573,9 @@ export default function Body() {
                 fontWeight: '400'
               }}>
 
-                <div>&#8358;100</div>
+                <div>&#8358;{
+                  TotalEarned
+                }</div>
                 <div>Total Earned</div>
 
               </li>
@@ -510,7 +584,7 @@ export default function Body() {
                 fontWeight: '400'
               }}>
 
-                <div>10</div>
+                <div>{TotalSold}</div>
                 <div>Total Sales</div>
 
               </li>
@@ -519,8 +593,8 @@ export default function Body() {
                 fontWeight: '400'
               }}>
 
-                <div>30</div>
-                <div>Days Left</div>
+                {/* <div>30</div>
+                <div>Days Left</div> */}
 
               </li>
               
@@ -538,7 +612,7 @@ export default function Body() {
                   cursor: 'pointer'
                 }} alt="" onClick={e => {
                 document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<Coin />)
+                setActiveJsx(<Coin email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id}  />)
                 
               }} />
                 <div><b>Campus Coin</b></div>
@@ -546,7 +620,7 @@ export default function Body() {
                 <div>
                   {/* <div>ID: Verified</div> */}
                   <div>Available Coin: {
-                     160
+                    shop?.coin
                   }</div>
                   {/* <div>Student: False</div> */}
                 </div>
@@ -573,8 +647,8 @@ export default function Body() {
 
                 <div>
                   {/* <div>ID: Verified</div> */}
-                  <div>Unlimited Listing: {
-                     50 
+                  <div style={{textTransform: 'capitalize'}}>{(shop.rent)?JSON.parse(shop.rent).tier:'...'}: {
+                    (shop.rent)?JSON.parse(shop.rent).price:'...'
                   } coin</div>
                   {/* <div>Student: False</div> */}
                 </div>
@@ -607,8 +681,8 @@ export default function Body() {
 
                 <div>
                   {/* <div>ID: Verified</div> */}
-                  <div>Basic: {
-                    'Active'
+                  <div style={{textTransform: 'capitalize'}}>{(shop.subscription)?JSON.parse(shop.subscription).package:'...'}: {
+                    (shop.subscription)?JSON.parse(shop.subscription).price:'...'
                   }</div>
                   
                   {/* <div>Student: False</div> */}
@@ -763,7 +837,7 @@ export default function Body() {
                   cursor: 'pointer'
                 }} alt="" onClick={e => {
                 document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<InvetoryEdit />)
+                setActiveJsx(<InvetoryEdit list={shop.inventory} />)
 
               }} />
                 <span>Inventory</span>

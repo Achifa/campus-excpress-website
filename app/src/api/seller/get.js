@@ -28,6 +28,13 @@ export async function GetSeller(seller_id) {
 }
 
 
+export async function GetSellerPhoto(seller_id) {
+    let response = await get_request_generators(`profile-photo`, {seller_id})
+    setTimeout(() => source.cancel('timeout'), 10000) 
+    return (response)?.data
+}
+
+
 export async function GetReviews(seller_id) {
     let response = await get_request_generators(`reviews`, {seller_id})
     setTimeout(() => source.cancel('timeout'), 10000) 

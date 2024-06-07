@@ -156,16 +156,16 @@ const Product = ({product_id}) => {
     }
 
     useEffect(() => {
-        let overlay = document.querySelector('.overlay')
+        // let overlay = document.querySelector('.overlay')
 
         try {
-            overlay.setAttribute('id', 'overlay');
+            // overlay.setAttribute('id', 'overlay');
             
             async function getData() {
                 let result = await GetSeller(item?.seller_id)
                 set_phone(result?.phone)
                 // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
-                overlay.removeAttribute('id')
+                // overlay.removeAttribute('id')
             }
             getData()
         } catch (error) {

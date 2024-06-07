@@ -15,7 +15,7 @@ const Thumbnail = ({product_id}) => {
   
     useEffect(() => {
         try {
-            async function fetchData(params) {
+            async function fetchData() {
                 let result = await GetProductThumbnail(product_id)
                 result?.file
                 ?

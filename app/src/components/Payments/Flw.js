@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 
-export default function Flw({price, buyer}) {
+export default function Flw({price, user}) {
     
     const config = {
         public_key: 'FLWPUBK-502f1f73c8abf430f161a528241c198a-X',
@@ -10,10 +10,10 @@ export default function Flw({price, buyer}) {
         currency: 'NGN',
         payment_options: 'card,mobilemoney,ussd',
         customer: {
-            email: buyer.email,
-            phone_number: buyer.phone,
-            name: buyer.fname + " " + buyer.lname,
-            ce_id: buyer.buyer_id
+            email: user.email,
+            phone_number: user.phone,
+            name: user.fname + " " + user.lname,
+            ce_id: user.user_id
         },
         customizations: {
         title: 'Campus Express',

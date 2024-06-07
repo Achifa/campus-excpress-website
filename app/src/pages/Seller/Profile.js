@@ -6,6 +6,7 @@ import SellerLayout from "../../layout/Seller";
 import TopView from "../../components/Seller/Profile/TopView";
 import Body from "../../components/Seller/Profile/Body";
 const Me = () => {
+    
     return ( 
         <>
             <SellerLayout>

@@ -5,7 +5,7 @@ const {
     DeleteItem 
 } = require("../controller/seller/delete");
 const { 
-    GetSellerData, GetOverview, GetItems, GetEditedItem, GetChatRooms, GetChat, GetShop, GetItemsSold, GetReviews 
+    GetSellerData, GetOverview, GetItems, GetEditedItem, GetChatRooms, GetChat, GetShop, GetItemsSold, GetReviews, GetSellerPhoto 
 } = require("../controller/seller/get");
 const { 
     UploadNewItem, ValidateBank, SendSMS, SendEmail 
@@ -68,6 +68,7 @@ seller_route.get('/seller.reviews', GetReviews);
 seller_route.get('/seller.listing', GetItems);
 seller_route.get('/seller.edited-item', GetEditedItem);
 seller_route.get('/seller.profile', GetSellerData); 
+seller_route.get('/seller.profile-photo', GetSellerPhoto); 
 seller_route.get('/seller.thumbnail', get_thumbnail);
 
 // @@ GET REQUEST

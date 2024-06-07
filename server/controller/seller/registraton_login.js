@@ -17,7 +17,7 @@ async function register_seller(req,res) {
     let seller_id = `CE-${shortId.generate()}`
     let wallet_id = `CEW-${seller_id}`
 
-    async function CreateNewSeller(params) {
+    async function CreateNewSeller() {
         return(
             NeonDB.then((pool) => 
                 pool.query(`insert into campus_sellers(id,fname, lname,seller_id,email,phone,password,state,campus,isActive,isVerified,isEmailVerified,isPhoneVerified,date ) values(DEFAULT, '${fname}', '${lname}', '${seller_id}', '${email}', '${phone}', '${hPwd}', '${state}', '${campus}', '${false}','${false}','${false}','${false}', '${date}')`)
@@ -28,7 +28,7 @@ async function register_seller(req,res) {
         )
     }
     
-    async function CreateNewSellerWallet(params) {
+    async function CreateNewSellerWallet() {
         return(
             NeonDB.then((pool) => 
                 pool.query(`insert into campus_express_seller_wallet(id,wallet_id,seller_id,wallet_balance,wallet_pin,wallet_number,date) values(DEFAULT,'${wallet_id}','${seller_id}','${0.00}','${pwd}','${phone}','${date}')`)
@@ -39,7 +39,18 @@ async function register_seller(req,res) {
         )
     }
 
-    async function CreateNewShop(params) {
+    async function CreateCoverPhoto() {
+        return(
+            NeonDB.then((pool) => 
+                pool.query(`insert into coverphoto(id,file,seller_id,date) values(DEFAULT,'${null}','${seller_id}','${new Date()}')`)
+                .then(result => result.rowCount > 0 ?(true) : (false))
+                .catch(err => console.log(err))
+            )
+            .catch(err => console.log(err))
+        )
+    }
+
+    async function CreateNewShop() {
         let shop_id = shortId.generate()
         NeonDB.then((pool) => 
         pool.query(`insert into campus_shop (
@@ -78,10 +89,10 @@ async function register_seller(req,res) {
         
     }
     
-    async function SendEmail(params) {
+    async function SendEmail() {
         let token = shortId.generate()
     
-        function createEmailToken(params) {
+        function createEmailToken() {
             return(
                 NeonDB.then((pool) => 
                     pool.query(`insert into email_token(id,email,user_id,token,date) values(DEFAULT, '${email}', '${seller_id}', '${token}', '${date}')`)
@@ -96,7 +107,7 @@ async function register_seller(req,res) {
             )
         }
     
-        function sendEmailToken(params) {
+        function sendEmailToken() {
             const nodemailer = require('nodemailer');
     
             // Create a transporter using SMTP
@@ -227,6 +238,11 @@ async function register_seller(req,res) {
             // console.log('wallet',result)
             let newSellerShop = result ? CreateNewShop() : false;
             return(newSellerShop ? (true) : (false))
+        })
+        .then((result) => {
+            // console.log('wallet',result)
+            let coverphoto = result ? CreateCoverPhoto() : false;
+            return(coverphoto ? (true) : (false))
         })
         .then((result) => {
             // console.log('wallet',result)

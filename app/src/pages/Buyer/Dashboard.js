@@ -26,6 +26,7 @@ import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
 import { 
     NewVisitor 
 } from "../../api/buyer/post";
+import axios from "axios";
 // import PaidAds from "../../components/Buyer/Dashboard/PaidAds";
  
 const Dashboard = () => {
@@ -95,6 +96,50 @@ const Dashboard = () => {
 
 
     let {storedCategory} = useSelector(s => s.storedCategory)
+
+  const [locale, setLocale] = useState({ lat: null, lng: null });
+  const [city, setCity] = useState('');
+  const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     if (navigator.geolocation) {
+//       navigator.geolocation.getCurrentPosition(
+//         (position) => {
+//           const { latitude, longitude } = position.coords;
+//           setLocale({ lat: latitude, lng: longitude });
+//           console.log('latitude: ', { lat: latitude, lng: longitude })
+
+//           // Reverse Geocoding
+//           const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
+//           const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+
+//           axios.get(geocodeUrl)
+//             .then((response) => {
+//               const results = response.data.results;
+//               if (results.length > 0) {
+//                 const city = results[0].address_components.find(component =>
+//                   component.types.includes('locality')
+//                 );
+//                 if (city) {
+//                   setCity(city.long_name);
+//                 } else {
+//                   setError('City not found');
+//                 }
+//               }
+//             })
+//             .catch((error) => {
+//               setError('Error fetching city data');
+//             });
+//         },
+//         (error) => {
+//           setError(error.message);
+//         }
+//       );
+//     } else {
+//       setError('Geolocation is not supported by this browser.');
+//     }
+//   }, []);
+
    
     return ( 
         <>

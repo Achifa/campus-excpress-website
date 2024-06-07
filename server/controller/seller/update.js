@@ -4,10 +4,10 @@ const { bcrypt, shortId } = require("../../modules");
 
 function UpdateSellerProfile(req,res) {
     let {
-        fname,lname,state,campus,seller_id
+        fname,lname,state,campus,seller_id,photo
     } = req.body;
 
-    console.log(fname,lname,state,campus,seller_id)
+    // console.log(fname,lname,state,campus,seller_id)
 
     let date = new Date();
 
@@ -23,7 +23,17 @@ function UpdateSellerProfile(req,res) {
         .catch(err => console.log(err))
 
     })
-   
+    .then(() => {
+        NeonDB.then((pool) => 
+            pool.query(`UPDATE coverphoto set file='${photo}', date='${date}' WHERE seller_id = '${seller_id}'`)
+            .then(result => {
+                result.rowCount > 0 ? res.send(true) : res.send(false)
+            })
+            .catch(err => console.log(err))
+        )
+        .then((result) => res.send(result))
+        .catch(err => console.log(err))
+    })
     .catch(err => console.log(err))
 }
 
