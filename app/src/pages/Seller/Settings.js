@@ -85,7 +85,7 @@ function Profile() {
     let [state, setState] = useState('')
     let [campus, setCampus] = useState('')
     let [userData, setUserData] = useState('')
-    let [passport, setPassport] = useState('')
+    // let [passport, setPassport] = useState('')
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
@@ -105,7 +105,7 @@ function Profile() {
    
     let UpdateProfile = () => {
         let overlay = document.querySelector('.overlay')
-        //overlay.setAttribute('id', 'overlay');
+        overlay.setAttribute('id', 'overlay');
         UpdateSellerProfile(fname,lname,state,campus,window.localStorage.getItem('CE_seller_id'),photo)
         .then((result) => result ? overlay.removeAttribute('id') : '')
         .catch((err) => console.log(err))
