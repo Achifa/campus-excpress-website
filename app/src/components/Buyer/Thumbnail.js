@@ -33,7 +33,7 @@ const Thumbnail = ({product_id}) => {
 
     return ( 
         <>
-            <img onClick={e => navigate(`/product?product_id=${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '10px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />
+            <img loading='lazy' onClick={e => navigate(`/product?product_id=${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '10px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />
         </>
      );
 }

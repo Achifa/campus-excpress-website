@@ -297,20 +297,20 @@ async function get_shop_items(req,res) {
 
     if(category === 'trends'){
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop where state->>'state' = 'published'`)
+            pool.query(`select * from seller_shop where state->>'state' = 'published' LIMIT 25`)
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
     }else{
         NeonDB.then((pool) => 
-            pool.query(`select * from seller_shop where category = '${category}' AND state->>'state' = 'published'`)
+            pool.query(`select * from seller_shop where category = '${category}' AND state->>'state' = 'published' LIMIT 25`)
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
     }
 
     
-    
+     
 
 }
 
@@ -325,7 +325,8 @@ async function get_lodges(req,res) {
 async function get_item(req,res) {
 
     let {id} = req.query;
-    let book = []
+    let book = [];
+    console.log('id: ', id)
     
     id.map(data => {
         NeonDB.then((pool) => 
@@ -341,7 +342,6 @@ async function get_item(req,res) {
     })
     
 
-    // getItems(id)
 
 }
 
@@ -487,6 +487,8 @@ async function save_item(req,res) {
     let savedItems_id = shortId.generate();
     let date = new Date();
 
+    console.log(product_id,buyer_id)
+
     function insert_() { 
         return(
             NeonDB.then((pool) => 
@@ -571,7 +573,7 @@ async function get_saved_item(req,res) {
             }
     }))
 
-    console.log(products)
+    console.log('products: ', products)
 
     res.send(products)
 

@@ -8,9 +8,7 @@ import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
 import { useEffect, useId, useState } from "react"; 
-import { useSelector } from "react-redux";
-// import Lodge from '../../components/Buyer/dashboard/Lodge'
-
+import { useDispatch, useSelector } from "react-redux";
 import BuyerLayout from '../../layout/Buyer'
 import { 
     useLocation, 
@@ -20,29 +18,71 @@ import SearchOutput from "../../components/Buyer/Header/SearchOutput";
 import { 
     Helmet 
 } from "react-helmet-async";
-// import FlashSales from "../../components/Buyer/Dashboard/FlashSales";
 import Ads from "../../components/Buyer/dashboard/Ads";
 import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
 import { 
     NewVisitor 
 } from "../../api/buyer/post";
-import axios from "axios";
-// import PaidAds from "../../components/Buyer/Dashboard/PaidAds";
+import Card from "../../components/Buyer/dashboard/Card";
+import { GetItems, GetSavedItem } from "../../api/buyer/get";
+import Filterfilter from "../../components/Buyer/dashboard/FilterAside";
+import { setSaveTo } from "../../redux/buyer_store/Save";
  
 const Dashboard = () => {
 
-    let [screenWidth, setScreenWidth] = useState(0)
     let location = useLocation()
     let navigate = useNavigate()
-    let [activeJSX, setActiveJSX] = useState(<CardCnt />)
- 
+    let dispatch = useDispatch()
+    let [cards, setCards] = useState([]);
+    let {storedCategory} = useSelector(s => s.storedCategory)
+    let [activeJSX, setActiveJSX] = useState(<CardCnt cards={cards} />)
+    let [screenWidth, setScreenWidth] = useState(0)
+    let reactId = useId();
+
+    let {Buyer} = useSelector(s=>s.Buyer)
+
+    async function fetchData(overlay,category) {
+        let result = await GetItems(category);
+        setCards(
+            result?.map((item, index) => 
+                <Card index={index} item={item} />
+            )
+        )
+        overlay.removeAttribute('id');
+    }
+
+    async function fetchSavedData(buyer_id) {
+        let result = await GetSavedItem(buyer_id);
+        console.log(result)
+        dispatch(setSaveTo(result))
+        // overlay.removeAttribute('id');
+    }
+
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
-        // document.body.style.background='orangered'
     }, [])
 
-    let reactId = useId();
+    useEffect(() => {
+        // let overlay = document.querySelector('.overlay');
+        // overlay.setAttribute('id', 'overlay');
+        try {
+            fetchSavedData(window.localStorage.getItem('CE_buyer_id'))
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
+
+    useEffect(() => {
+        let overlay = document.querySelector('.overlay');
+        overlay.setAttribute('id', 'overlay');
+        try {
+            fetchData(overlay, 'trends')
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
+
     useEffect(() => {
 
         async function uploadNewRef() {
@@ -83,64 +123,30 @@ const Dashboard = () => {
         }
 
         
-    }, []);
+    }, [cards]);
 
     useEffect(() => {
-
         if(location.pathname.split('/')[1] === 'search'){
             setActiveJSX(<SearchOutput />)
         }else{
-            setActiveJSX(<CardCnt />)
+            setActiveJSX(<CardCnt cards={cards} />)
+        }
+
+    }, [location,cards])
+
+    useEffect(() => {
+        if(location.search.split('=').length > 1){
+            let overlay = document.querySelector('.overlay');
+            overlay.setAttribute('id', 'overlay');
+            try {
+                fetchData(overlay,location.search.split('=')[1])
+            } catch (error) {
+                console.log(error)
+            }
         }
     }, [location])
 
 
-    let {storedCategory} = useSelector(s => s.storedCategory)
-
-  const [locale, setLocale] = useState({ lat: null, lng: null });
-  const [city, setCity] = useState('');
-  const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     if (navigator.geolocation) {
-//       navigator.geolocation.getCurrentPosition(
-//         (position) => {
-//           const { latitude, longitude } = position.coords;
-//           setLocale({ lat: latitude, lng: longitude });
-//           console.log('latitude: ', { lat: latitude, lng: longitude })
-
-//           // Reverse Geocoding
-//           const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
-//           const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
-
-//           axios.get(geocodeUrl)
-//             .then((response) => {
-//               const results = response.data.results;
-//               if (results.length > 0) {
-//                 const city = results[0].address_components.find(component =>
-//                   component.types.includes('locality')
-//                 );
-//                 if (city) {
-//                   setCity(city.long_name);
-//                 } else {
-//                   setError('City not found');
-//                 }
-//               }
-//             })
-//             .catch((error) => {
-//               setError('Error fetching city data');
-//             });
-//         },
-//         (error) => {
-//           setError(error.message);
-//         }
-//       );
-//     } else {
-//       setError('Geolocation is not supported by this browser.');
-//     }
-//   }, []);
-
-   
     return ( 
         <>
 
@@ -157,7 +163,7 @@ const Dashboard = () => {
                     {/* FaceBook Tags */}
                     <meta property="og:site_name" content="Campus Express (Connecting Campus Express)" />
                     <meta property="og:title" content="Campus Express (Connecting Campus Express)" />
-                    <meta property="og:description" content={`Shop category is ${storedCategory}`} />
+                    <meta property="og:description" content={`Shopping in ${storedCategory} category`} />
                     {/* <meta property="og:image" itemprop="image" content="http://pollosweb.wesped.es/programa_pollos/play.png" /> */}
                     <meta property="og:type" content="website" />
                     <meta property="og:url"  content="https://www.campusexpressng.com" />
@@ -174,30 +180,25 @@ const Dashboard = () => {
                     background: '#fff',
                 }}>  
                 
-                    {/*<BuyerAside />*/} 
-                    
-                
 
                     {
-                        storedCategory === 'trends'
-                        ?
-                            <>
-                                <Ads />
-                                {/* <PaidAds /> */}
+                        <>
+                            {
+                                screenWidth < 479 && location.pathname.split('/')[1]==='search'
+                                ?
 
-                                {/* <FlashAds /> */}
-                                {/* <Lodge /> */}
-                                {/* <FlashSales />  */}
-                            </>
-                        :
-                        ''
+                                ''
+                                :
+                                <Ads />
+
+                            }
+                          
+                        </>
                     }
 
                     <br />
                     <br />
-                    {/* <FlashSales /> */}
-
-                    {/* <Recommended /> */}
+                   
                     
                 </div>
 
@@ -206,6 +207,16 @@ const Dashboard = () => {
                     background: '#fff',
                     height: 'fit-content',
                 }}>
+
+                    {
+                        screenWidth > 760
+                        ?
+                            <>
+                                <Filterfilter />
+                            </>
+                        :
+                        ''
+                    }
                     
                   {
                     activeJSX
@@ -213,13 +224,8 @@ const Dashboard = () => {
                 </div>
 
                 <button className="shadow" style={{position: 'fixed', bottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', right: '20px', width: '60px', height: '60px', background: '#fff', borderRadius: '50%'}} onClick={e => navigate('/buyer.message')}>  
-                    {/* <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}> */}
-                       
-                    {/* </span> */}
-                    {/* <span> */}
-                        <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
-                    {/* </span> */}
-                    {/* <span>Messages</span>  */}
+                  
+                    <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
 
                 </button>
             </BuyerLayout>

@@ -60,7 +60,7 @@ export default function SearchOutput() {
                     }}>
                         <img src={searchSvg} style={{height: '50px', width: '50px'}}  alt="" />
                             <br />
-                        <div>
+                        <div style={{width: '100%', textAlign: 'center', display: 'flex', justifyContent: 'center',alignItems: 'center',}}>
                             Search Result Will Appear Here
                         </div>
                     </div>

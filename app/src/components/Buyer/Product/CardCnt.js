@@ -21,13 +21,9 @@ import { UnSaveItem } from "../../../api/buyer/delete";
 import { SaveItem } from "../../../api/buyer/post";
 import { GetItems } from "../../../api/buyer/get";
 
-const CardCnt = ({category, product_id}) => {
-    let {Cart} = useSelector(s => s.Cart)
-    let {Save} = useSelector(s => s.Save)
-    // let {storedCategory} = useSelector(s => s.storedCategory)
+const CardCnt = ({items}) => {
 
     let [screenWidth, setScreenWidth] = useState(0)
-    let [items, setItems] = useState([])
 
     let navigate = useNavigate()
 
@@ -36,44 +32,9 @@ const CardCnt = ({category, product_id}) => {
         setScreenWidth(width)
     }, [])
 
-    useEffect(() => {
-        // let overlay = document.querySelector('.overlay');
-        //overlay.setAttribute('id', 'overlay');
-
-        try {
-           async function getData() {
-            let result = await GetItems(category)
-            console.log(result)
-            
-            let data = result?.length > 0 ? result.filter(item => (item.product_id !== product_id)) : []
-            console.log(data)
-
-            setItems(data)
-            // overlay.removeAttribute('id');
-           }
-           getData()
-        } catch (error) {
-            console.log(error)
-        }
-
-    }, [category])
     
-    let BtnStyles = {
-        height: screenWidth > 480 ? '40px' : '40px',
-        width: '100%',
-        borderRadius: '2.5px',
-        outline: 'none',
-        border: 'none',
-        float: 'right',
-        color: '#fff',
-        fontSize: 'small',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        fontWeight: '500',
-        backgroundColor: 'orangered',
-        margin: '0'
-    }
+    
+ 
     let dispatch = useDispatch()
 
     return ( 

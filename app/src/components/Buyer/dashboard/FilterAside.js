@@ -73,14 +73,14 @@ const Filterfilter = () => {
 
     return ( 
         <>
-            <div className="buyer-filter shadow" style={{
+            <div className="buyer-filter shadow-sm" style={{
                 height: 'fit-content',
                 borderRadius: '10px'
             }}>
-                <br />
+                {/* <br /> */}
                 <h5 style={{fontWeight: '500', color: 'orangered', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Filter Section </h5>
 
-                <div className="buyer-filter-cnt " style={{overflow: 'auto', height: 'auto'}}>
+                <div className="buyer-filter-cnt" style={{overflow: 'auto', height: 'auto'}}>
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             <input style={{height: '20px', cursor: 'pointer', width: '20px'}} type="checkbox" name="" id="" />

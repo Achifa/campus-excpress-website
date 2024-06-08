@@ -54,40 +54,21 @@ const Header = ({
   let [searchResultElem, setSearchResultElem] = useState(
     <SearchResult list={[searchRes]} />
   )
-  let [list, setList] = useState([])
-  let [right, setright] = useState(0)
   let [visible, setvisible] = useState('none')
   let [task, settask] = useState('none')
-  let [buyer, set_buyer] = useState('')
-
-
   useEffect(() => {
-      let width = window.innerWidth;
-      setScreenWidth(width)
-
-      
-      
+    let width = window.innerWidth;
+    setScreenWidth(width)
   }, [])
-
-  
-  
-
 
   // useEffect(() => {
   //   setCartList([...Cart].length)
   //   console.log([...Cart]) 
   // }, [Cart])
+
   let [width, setWidth] = useState(0)
 
-  useEffect(() => {
-
-    let id = CE_buyer_ID();
-    let initial = CE_buyer_INITIAL();
-    setBuyerId(id)
-    setBuyerName(initial)
-
-  },[]) 
-
+  
   
   useEffect(() => {
     if(location.pathname.split('/').splice(-1)[0] === 'product'){
@@ -96,15 +77,7 @@ const Header = ({
         setWidth(`calc(100% - 350px)`)
     }
   }, [location])
-  
-  function handleOverlay(e) {
-    let elem = document.querySelector('.buyer-overlay');
-    if(elem.hasAttribute('id')){
-      elem.removeAttribute('id')
-    }else{
-      elem.setAttribute('id', 'buyer-overlay')
-    }
-  }
+ 
 
   function openAside() {
     document.querySelector('.aside-overlay').setAttribute('id', 'aside-overlay')
@@ -142,32 +115,6 @@ const Header = ({
     }
     getData()
   }, [searchChar])
-
-
-
-  useEffect(() => {
-    
-    async function fetchData() {
-      // if(window.localStorage.getItem('buyerData') !== null){
-      //   let data = JSON?.parse(window.localStorage.getItem('buyerData'))
-      //   if(data === 'undefined' || data === null || data === ''){
-
-      //     let result = await GetBuyer(window.localStorage.getItem('CE_buyer_id'))
-      //     window.localStorage.setItem('buyerData', JSON.stringify(result))
-      //     // alert('data'.JSON.stringify(result)) 
-  
-      //   }
-      // }
-      
-
-      
-    }
-    fetchData()
-  },[])
-
-
-  
-  
 
 
   return ( 
@@ -265,17 +212,22 @@ const Header = ({
               <>
               
                 {
-                  screenWidth > 479
+                  screenWidth < 479
+                  ?
+                  ''
+                  :
+                  screenWidth < 760
                   ?
                   <li style={{padding: '5px'}} onClick={e => openFilter(e)}>
                     <span>
-                      <img src={filterSvg} style={{height: '25px', width: '25px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
+                      <img src={filterSvg} style={{height: '20px', width: '20px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
                     </span>
                   </li>
                   :
                   ''
                 }
 
+                &nbsp;
                 &nbsp;
                 
 
@@ -285,12 +237,14 @@ const Header = ({
                   </span>
                 </li> */}
 
-                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'large'}} onClick={e => navigate(`/seller`) }>
-                  <span>Sell</span>
-                  &nbsp;
+                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'medium'}} onClick={e => navigate(`/seller`) }>
                   <span>
                     <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
                   </span>
+                  &nbsp;
+
+                  <span>Sell</span>
+
                 </li>
               </>
             {/* } */}

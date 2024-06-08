@@ -83,13 +83,13 @@ export default function Filter({
     },[category])
 
     function closeAside() {
-        document.querySelector('.aside-overlay').removeAttribute('id');
+        document.querySelector('.filter-overlay').removeAttribute('id');
     }
 
 
   return (
     <>
-        <div className="filter-cnt" style={{height: '100%'}}>
+        <div className="filter-cnt" style={{height: '100%', borderTopRightRadius: '20px', borderBottomRightRadius: '20px'}}>
             <div onClick={closeAside} className="aside-close">
                 <img src={closeSvg} style={{height: '30px', width: '30px'}} alt="" />
             </div>
@@ -97,12 +97,14 @@ export default function Filter({
             <div className="buyer-filter" style={{
                     height: 'calc(100% - 0px)',
                     position: 'relative',
-                    borderRadius: '1.5px'
+                    borderRadius: '1.5px',
+                    borderTopRightRadius: '20px', 
+                    borderBottomRightRadius: '20px'
                 }}>
-                <div style={{textAlign: 'left', width: '100%', height: 'fit-content', fontWeight: '500', display: 'flex', flexDirection: 'column', fontSize: 'large', marginTop: '0', padding: '10px', color: '#fff', background: 'orangered'}}>
-                    <span style={{borderRadius: '5px', background: '#fff4e0', width: '35px', height: '35px', color: 'orangered', display: 'flex', alignItems: 'center', marginBottom: '10px', justifyContent: 'center'}}>
-                        <img src={filterSvg} style={{height: '25px', width: '25px'}} alt="" />
-                    </span>
+                <div style={{textAlign: 'left', width: '100%', height: 'fit-content', fontWeight: '500', display: 'flex', flexDirection: 'column', fontSize: 'large', marginTop: '0', padding: '10px', color: '#fff', background: '#fff4e0'}}>
+                    {/* <span style={{borderRadius: '5px',  width: '35px', height: '35px', color: 'orangered', display: 'flex', alignItems: 'center', marginBottom: '10px', justifyContent: 'center'}}>
+                        <img src={filterSvg} style={{height: '15px', width: '15px'}} alt="" />
+                    </span> */}
                     <span>
                     {
                         
@@ -110,20 +112,20 @@ export default function Filter({
                         
                             &nbsp;
                             {/* &nbsp; */}
-                            <span style={{fontSize: 'small', cursor: 'pointer'}}>Filter Panel</span>
+                            <span style={{fontSize: 'small', cursor: 'pointer', color: '#FF4500'}}>Filter Panel</span>
                         </>
                     }
                     </span>
                 </div>
 
-                <div className="buyer-filter-cnt " style={{overflow: 'auto', height: '75vh'}}>
+                <div className="buyer-filter-cnt " style={{overflow: 'auto', height: '80vh'}}>
                     {/* <br /> */}
                     {/* <br /> */}
                     <div className="input-cnt" >
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangeCategoryActive(!activeData[0])} name="category" id="category" /> */}
                             &nbsp;
-                            <label htmlFor="category" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Category</label>
+                            <label htmlFor="category" style={{color: '#FF4500', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'small'}}>Category</label>
                         </div>
                         <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" onInput={e => 
                                 {
@@ -163,7 +165,7 @@ export default function Filter({
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangeConditionActive(!activeData[1])} name="condition" id="condition" /> */}
                             &nbsp;
-                            <label htmlFor="condition" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Condition</label>
+                            <label htmlFor="condition" style={{color: '#FF4500', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'small'}}>Condition</label>
                         </div>
                         <select onInput={e => ChangeCondition(e.target.value)}  style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="">
                             <option value={''}>Select Condition</option>
@@ -180,7 +182,7 @@ export default function Filter({
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangePriceActive(!activeData[2])} name="price" id="price" /> */}
                             &nbsp;
-                            <label htmlFor="price" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Price Range</label>
+                            <label htmlFor="price" style={{color: '#FF4500', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'small'}}>Price Range</label>
                         </div>
                         <RangeSlider min={0} max={1000000000} step={1} onInput={e => {
                             setMinPrice(e[0]); 
@@ -201,7 +203,7 @@ export default function Filter({
                         <div style={{height: 'fit-content', color: '#fff', width: '100%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
                             {/* <input style={{height: '15px', cursor: 'pointer', width: '15px'}} type="checkbox" defaultChecked onInput={ChangeLocationActive(!activeData[3])} name="locale" id="locale" /> */}
                             &nbsp;
-                            <label htmlFor="locale" style={{color: '#000', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'x-small'}}>Location</label>
+                            <label htmlFor="locale" style={{color: '#FF4500', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'small'}}>Location</label>
                         </div>
                         <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => ChangeState(e.target.value)}>
                             <option value={''}>Select State</option>

@@ -21,38 +21,19 @@ import {
 import saveSvg from '../../../assets/favourite-alt-svgrepo-com (1).svg'
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
-import { 
-    setCartTo 
-} from '../../../redux/buyer_store/Cart'
-import { 
-    setSaveTo
-} from '../../../redux/buyer_store/Save'
 
-import SimilarItems from './SimilarItems'
-import Description from './Description'
 import { 
-    AddView,
-    SaveItem, 
+   
     UploadChat 
 } from '../../../api/buyer/post'
-import { 
-    UnSaveItem 
-} from '../../../api/buyer/delete'
-import { 
-    GetItem, 
-    GetProductThumbnail 
-} from '../../../api/buyer/get'
-import SaveButton from '../dashboard/SaveButton'
+
 import { 
     Helmet 
 } from 'react-helmet-async'
-import Thumbnail from '../Thumbnail'
-import { GetSeller } from '../../../api/seller/get'
-import { DeleteItem } from '../../../api/seller/delete'
-import { v4 as uuid } from "uuid";
 
 
-const Product = ({product_id}) => {
+
+const Product = ({item,phone}) => {
 
     let [screenWidth, setScreenWidth] = useState(0)
 
@@ -61,27 +42,8 @@ const Product = ({product_id}) => {
         setScreenWidth(width)
     }, [])
 
-    let [item, setItem] = useState(
-        {
-            id: '',
-            product_id: '',
-            date: '',
-            seller_id: '',
-            title: '',
-            category: '',
-            type: '', 
-            condition: '',
-            stock: '',
-            locale: '',
-            price: '',
-            description: '',
-            package: ''
-        }
-    )
+   
 
-    let [stock, set_stock] = useState(1)
-    let [phone, set_phone] = useState(1)
-    let [btnMode, setBtnMode] = useState(true)
     let [activeImg, setActiveImg] = useState(imgSvg)
 
     let {ItemImages} = useSelector(s => s.itemImages)
@@ -92,38 +54,8 @@ const Product = ({product_id}) => {
     let location = useLocation()
     const searchParams = new URLSearchParams(window.location.search);
 
-    useEffect(() => {
-        if(searchParams.has('seller')){
-            setRole(1)
-        }else{
-            setRole(0)
-        }
-    }, [location])
-
-
-
-    useEffect(() => {
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
-        let product_id = searchParams.get('product_id')
-        try {
-            async function getData() {
-                let result = await GetItem([product_id])
-                if(result?.length > 0){
-                    setItem(result[0])
-                }
-                // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
-                overlay.removeAttribute('id')
-            }
-            getData()
-        } catch (error) {
-            console.log(error)
-        }
-
-    }, [])
-    let {Save} = useSelector(s => s.Save)
-
-    let {Cart} = useSelector(s => s.Cart)
+   
+    // let {Save} = useSelector(s => s.Save)
 
     let navigate = useNavigate();
 
@@ -135,74 +67,18 @@ const Product = ({product_id}) => {
         setActiveImg(ItemImages?.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
     }, [ActiveImg])
 
-    let BtnStyles = {
-        height: '50px',
-        width: '100%',
-        borderRadius: '5px',
-        outline: 'none',
-        border: 'none',
-        cursor: 'pointer',
-        textAlign: 'center',
-        padding: '0 20px 0 20px',
-        color: '#fff',
-        display: role === 0 ? 'flex' : 'none', 
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        fontSize: 'medium',
-        fontWeight: '400',
-        backgroundColor: 'orangered',
-        margin: '20px 0 0 0'
-    }
+   
 
-    useEffect(() => {
-        // let overlay = document.querySelector('.overlay')
-
-        try {
-            // overlay.setAttribute('id', 'overlay');
-            
-            async function getData() {
-                let result = await GetSeller(item?.seller_id)
-                set_phone(result?.phone)
-                // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
-                // overlay.removeAttribute('id')
-            }
-            getData()
-        } catch (error) {
-            console.log(error)
-        }
-
-    },[item])
+    
 
     let [savedData, setSavedData] = useState([])
 
-    useEffect(() => {
-        setSavedData(Save)
-    }, [Save])
+    // useEffect(() => {
+    //     setSavedData(Save)
+    // }, [Save])
 
     let dispatch = useDispatch()
 
-    function handleDelete(seller_id, product_id) {
-        try {
-            //overlay.setAttribute('id', 'overlay');
-            
-            DeleteItem(seller_id, product_id)
-            .then((result) => {
-                if(result){
-                    navigate('/seller.shop')
-                }
-            })
-            .catch((error) => {
-                
-                console.log('Error:', error.message); 
-            }) 
-            
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
- 
     // function AddToCart(e,product_id) {
     //     e.target.disabled = true;
 
@@ -244,38 +120,38 @@ const Product = ({product_id}) => {
     // }
 
 
-    async function Saver(e,product_id) { 
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
-        setBtnMode(btnMode) 
-        let saveList = savedData;
+    // async function Saver(e,product_id) { 
+    //     let overlay = document.querySelector('.overlay')
+    //     overlay.setAttribute('id', 'overlay');
+    //     setBtnMode(btnMode) 
+    //     let saveList = savedData;
        
-        let duplicateSearch = saveList.filter(item => item.product_id === product_id)
-        if(saveList.length > 0){
-            if(duplicateSearch.length > 0){
+    //     let duplicateSearch = saveList.filter(item => item.product_id === product_id)
+    //     if(saveList.length > 0){
+    //         if(duplicateSearch.length > 0){
 
-                let result = await UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'));
-                dispatch(setSaveTo(result));
-                setBtnMode(!btnMode) 
-                overlay.removeAttribute('id')
+    //             let result = await UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'));
+    //             dispatch(setSaveTo(result));
+    //             setBtnMode(!btnMode) 
+    //             overlay.removeAttribute('id')
 
-            }else{
+    //         }else{
                 
-                let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-                dispatch(setSaveTo(result))
-                setBtnMode(!btnMode) 
-                overlay.removeAttribute('id')
+    //             let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //             dispatch(setSaveTo(result))
+    //             setBtnMode(!btnMode) 
+    //             overlay.removeAttribute('id')
 
-            }
-        }else{
+    //         }
+    //     }else{
 
-            let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-            dispatch(setSaveTo(result))
-            setBtnMode(!btnMode) 
-            overlay.removeAttribute('id')
+    //         let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+    //         dispatch(setSaveTo(result))
+    //         setBtnMode(!btnMode) 
+    //         overlay.removeAttribute('id')
 
-        }
-    }
+    //     }
+    // }
 
     function SendMssg(params) {
         let overlay = document.querySelector('.overlay')
@@ -306,64 +182,14 @@ const Product = ({product_id}) => {
         setMetaImg(ItemImages[0]?.file)
     }, [])
 
-    useEffect(() => {
-        let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
-
-        let buyer_id = window.localStorage.getItem("CE_buyer_id")
-        if(buyer_id !== '' && buyer_id !== undefined){
-            try {
-                async function getData() {
-                    let result = await AddView(item.product_id, buyer_id)
-                    if(result?.length > 0){
-                        setItem(result[0])
-                        // alert(result[0].product_id)
-                        overlay.removeAttribute('id');
-    
-                    }
-                    // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
-                }
-                setTimeout(() => {
-                    getData()
-                }, 5000); 
-            } catch (error) {
-                console.log(error)
-            }
-        }else{
-            window.localStorage.setItem("unknownBuyer", `CE-unknown-buyer-${uuid()}`)
-            let buyer_id = window.localStorage.getItem("unknownBuyer")
-            try {
-                async function getData() {
-                    let result = await AddView(item.product_id,buyer_id)
-                    if(result?.length > 0){
-                        setItem(result[0])
-                        // alert(result[0].product_id)
-                        overlay.removeAttribute('id');
-    
-                    }
-                    // set_stock(result[0].others ? JSON.parse(result[0].others).stock : 1)
-                }
-                setTimeout(() => { 
-                    getData()
-                }, 5000);
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        
-    }, [item])
-    
-    // alert()
-
-
     let [immediate_purchase, set_immediate_purchase] = useState(1)
 
     return ( 
         <>
 
             <Helmet>
-                <meta name="title" content={`${item.title}`} />
-                <meta name="description" content={`${item.description}`} />
+                <meta name="title" content={`${item?.title}`} />
+                <meta name="description" content={`${item?.description}`} />
                 {/* <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=" /> */}
                 <meta name="robots" content="index,follow" />
                 <meta name="googlebot" content="index,follow" />
@@ -371,18 +197,18 @@ const Product = ({product_id}) => {
                 <meta name="google" content="sitelinkssearchbox" />
 
                 {/* FaceBook Tags */}
-                <meta property="og:site_name" content={`${item.title}`} />
-                <meta property="og:title" content={`${item.title}`} />
-                <meta property="og:description" content={`${item.description}`} />
-                <meta property="og:image" itemprop="image" content={`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`} />
+                <meta property="og:site_name" content={`${item?.title}`} />
+                <meta property="og:title" content={`${item?.title}`} />
+                <meta property="og:description" content={`${item?.description}`} />
+                <meta property="og:image" itemprop="image" content={`https://ce-app-server.vercel.app/share-image?product_id=${item?.product_id}`} />
                 <meta property="og:type" content="website" />
-                <meta property="og:url"  content={`https://www.campusexpressng.com/product?product_id=${item.product_id}`} />
+                <meta property="og:url"  content={`https://www.campusexpressng.com/product?product_id=${item?.product_id}`} />
                 {/* <meta property="og:updated_time" content="1440432930" /> */}
 
                 {/* Twitter */}
-                <meta name="twitter:title" content={`${item.title}`} />
-                <meta name="twitter:description" content={`${item.description}`} />
-                <meta name="twitter:image" content={`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`} />
+                <meta name="twitter:title" content={`${item?.title}`} />
+                <meta name="twitter:description" content={`${item?.description}`} />
+                <meta name="twitter:image" content={`https://ce-app-server.vercel.app/share-image?product_id=${item?.product_id}`} />
                 <meta name="twitter:card" content="summary_large_image" />
 
             </Helmet>
@@ -395,15 +221,15 @@ const Product = ({product_id}) => {
                 if(e.target === document.querySelector('.buy_now_overlay')){document.querySelector('.buy_now_overlay').removeAttribute('id')}
             }}>
                 <div className="buy_now_cnt">
-                    <p style={{color: 'orangered', textDecoration: 'underline'}}><b> {stock} Units</b></p>
+                    {/* <p style={{color: 'orangered', textDecoration: 'underline'}}><b> {stock} Units</b></p>
 
 
-                    <p style={{textAlign: 'left', justifyContent: 'left'}}>There Are Only {stock} Availble {item?.title}</p>
+                    <p style={{textAlign: 'left', justifyContent: 'left'}}>There Are Only {stock} Availble {item?.title}</p> */}
 
                     <div className="btn-cnt"> 
                         <button onClick={e => {e.preventDefault(); if(immediate_purchase > 1){set_immediate_purchase(immediate_purchase - 1)}}}>-</button>
                         <div  style={{height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{immediate_purchase}</div>
-                        <button onClick={e => {e.preventDefault(); if(immediate_purchase <  stock){set_immediate_purchase(immediate_purchase + 1)}}}>+</button>
+                        {/* <button onClick={e => {e.preventDefault(); if(immediate_purchase <  stock){set_immediate_purchase(immediate_purchase + 1)}}}>+</button> */}
                     </div>
                     <br />
 
@@ -463,9 +289,9 @@ const Product = ({product_id}) => {
                                     </div> */}
                                 </section>
 
-                                <div style={{position: 'absolute', top: '-30px', right: '20px'}}>
+                                {/* <div style={{position: 'absolute', top: '-30px', right: '20px'}}>
                                     <SaveButton data={item} Saver={Saver} Save={savedData} />
-                                </div>
+                                </div> */}
 
                                 
 
@@ -514,7 +340,7 @@ const Product = ({product_id}) => {
                                 marginTop: '20px'
                             }}>
                             {/* onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} */}
-                                <button onClick={e => {role ?  handleDelete(searchParams.get('seller'), item.product_id) : SendMssg()}} style={{height: '50px', width: role ? '100%' : '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
+                                <button onClick={e => {SendMssg()}} style={{height: '50px', width: role ? '100%' : '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
                                     {
                                         role === 0
                                         ?
@@ -632,16 +458,7 @@ const Product = ({product_id}) => {
                         </div>
                     </div>      
 
-                    <SimilarItems category={item.category} product_id={item.product_id} />
-
-
-                    {
-                        item.description.length > 0 
-                        ?
-                        <Description item={item} />
-                        :
-                        ''
-                    }
+                    
 
 
                 </div>

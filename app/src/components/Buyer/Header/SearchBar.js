@@ -53,7 +53,6 @@ const SearchBar = ({updateSearchText}) => {
         try {
            let result = await GetSearchWord(searchChar)
            dispatch(setSearchListTo(result))
-          //  console.log('result: ', result)
            
         } catch (error) {
            console.log(error)

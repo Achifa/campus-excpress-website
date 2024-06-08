@@ -3,54 +3,27 @@ import {
     useRef, 
     useState 
 } from "react";
-import img from '../../../assets/download (3).jpeg'
-import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
 import '../../../styles/loader.css'
 import '../../../styles/Seller/overlay.css' 
 
 import { 
-    data, 
-    school_choices 
-} from "../../../location";
-
-import { 
     useNavigate 
 } from "react-router-dom";
-import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import Thumbnail from "../Thumbnail";
-import { 
-    useDispatch, 
-    useSelector 
-} from "react-redux";
-import { 
-    setCartTo 
-} from "../../../redux/buyer_store/Cart";
-import { 
-    setSaveTo 
-} from "../../../redux/buyer_store/Save"; 
-
-import FloatingMenu from "../Header/FloatingMenu";
-import { Filter_Cards, GetItems } from "../../../api/buyer/get";
+import { Filter_Cards } from "../../../api/buyer/get";
 import Filter from "../Header/Filter"; 
 import Card from "./Card";
 
-const CardCnt = () => {
-    let {Cart} = useSelector(s => s.Cart)
-    let {Save} = useSelector(s => s.Save)
-    let {storedCategory} = useSelector(s => s.storedCategory)
-
+const CardCnt = ({cards}) => {
     let [category, setcategory] = useState('')
-
     let [subCategory, setsubCategory] = useState('')
-    // let [subCategory, setsubCategory] = useState('')
+    let navigate = useNavigate()
+
     let [condition, setcondition] = useState('')
 
 
     let [state, setstate] = useState('')
     let [campus, setcampus] = useState('')
 
-    let [items, setItems] = useState([]);
-    let [cards, setCards] = useState([]);
     
     let [price, setprice] = useState([])
 
@@ -60,8 +33,6 @@ const CardCnt = () => {
     let campusRef = useRef('')
     let priceRef = useRef([])
 
-
-    
 
     // function sort(type) {
     //     const compareItems = (a, b) => {
@@ -81,31 +52,6 @@ const CardCnt = () => {
     //         )
     //     );
     // }
-
-    
-
-    useEffect(() => {
-        let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
-        try {
-            async function fetchData() {
-                let result = await GetItems('trends');
-                setItems(result)
-                setCards(
-                    result?.map((item, index) => 
-                        <Card index={index} item={item} />
-                    )
-                )
-                overlay.removeAttribute('id');
-
-                
-            }
-            fetchData()
-        } catch (error) {
-            console.log(error)
-        }
-
-    }, [])
 
     
     async function applyFilter() {
@@ -142,6 +88,7 @@ const CardCnt = () => {
     function ChangeCategory(data) {
         setcategory(data)
         categoryRef.current = data
+        navigate(`/?category=${data.toLowerCase()}`)
     }
 
     function ChangeSubCategory(data) {
@@ -213,12 +160,9 @@ const CardCnt = () => {
                     ChangeCategory={ChangeCategory} 
                     ChangeState={ChangeState}
                     ChangeSubCategory={ChangeSubCategory} 
-
                     category={category}
                     state={state} 
-
                     applyFilter={applyFilter}
-
                 />
 
             </div>
@@ -241,7 +185,7 @@ const CardCnt = () => {
 
                 
                 { 
-                    items?.length > 0
+                    cards?.length > 0
                     ?
                     cards
                     :

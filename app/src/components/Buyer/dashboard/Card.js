@@ -17,9 +17,6 @@ import {
     setSaveTo 
 } from '../../../redux/buyer_store/Save'
 import timsSvg from '../../../assets/date-2-svgrepo-com.svg'
-import { 
-    isBuyerLoggedIn 
-} from '../LoggedIn'
 import { UnSaveItem } from '../../../api/buyer/delete'
 import { SaveItem } from '../../../api/buyer/post'
 import SaveButton from './SaveButton'
@@ -29,77 +26,73 @@ const Card = ({item, index}) => {
     let [screenWidth, setScreenWidth] = useState(0)
     let [btnMode, setBtnMode] = useState(true)
  
-    let BtnStyles = {
-        height: screenWidth > 480 ? '40px' : '40px',
-        width: '100%',
-        borderRadius: '2.5px',
-        outline: 'none',
-        border: 'none',
-        float: 'right',
-        color: '#fff',
-        fontSize: 'small',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        fontWeight: '500',
-        backgroundColor: 'orangered',
-        margin: '0'
-    }
-    let {
-        Cart
-    } = useSelector(s => s.Cart)
-    let {
-        Save
-    } = useSelector(s => s.Save)
+    
+    
 
-    // let {
-    //     category
-    // } = useSelector(s => s.Category)
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
+
+    
+    let { 
+        savedItem
+    } = useSelector(s => s.savedItem)
+
+    let {
+        Buyer
+    } = useSelector(s => s.Buyer)
  
     let navigate = useNavigate()
     let dispatch = useDispatch()
 
-    let [savedData, setSavedData] = useState([])
-
-    useEffect(() => {
-        setSavedData(Save)
-    }, [Save])
-
-    
-
-    // let [items, setItems] = useState([])
+    let [savedListBool, setSavedListBool] = useState(false)
 
     async function Saver(e,product_id) { 
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
-        setBtnMode(btnMode) 
-        let saveList = savedData;
-       
-        let duplicateSearch = saveList.filter(item => item.product_id === product_id)
-        if(saveList.length > 0){
-            if(duplicateSearch.length > 0){
+        if(Buyer.isRegistered){
+            // alert()
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
+            setBtnMode(btnMode) 
+            // let saveList = savedItem;
+           
+            let duplicateSearch = savedItem.filter(item => item.product_id === product_id)
+            // console.log('savedItem: ', savedItem.length > 0, savedItem)
 
-                let result = await UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'));
-                dispatch(setSaveTo(result));
-                setBtnMode(!btnMode) 
-                overlay.removeAttribute('id')
+            if(savedItem.length > 0){
+                console.log('duplicateSearch: ', duplicateSearch.length > 0)
 
+                if(duplicateSearch.length > 0){
+    
+                    let result = await UnSaveItem(product_id, window.localStorage.getItem('CE_buyer_id'));
+                    dispatch(setSaveTo(result));
+                    setBtnMode(!btnMode) 
+                    overlay.removeAttribute('id')
+                    // console.log(result)
+                    
+    
+                }else{
+                    
+                    let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
+                    dispatch(setSaveTo(result))
+                    setBtnMode(!btnMode) 
+                    overlay.removeAttribute('id')
+                    // console.log(result)
+
+    
+                }
             }else{
-                
+    
                 let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
                 dispatch(setSaveTo(result))
                 setBtnMode(!btnMode) 
                 overlay.removeAttribute('id')
-
+    
             }
         }else{
 
-            let result = await SaveItem(product_id, window.localStorage.getItem('CE_buyer_id'))
-            dispatch(setSaveTo(result))
-            setBtnMode(!btnMode) 
-            overlay.removeAttribute('id')
-
         }
+        
     }
 
     // function AddToCart(e,product_id) {
@@ -145,14 +138,25 @@ const Card = ({item, index}) => {
     //     }
     // }
 
-    let [elem, set_elem] = useState('')
+    useEffect(() => {
+        // setSavedItems('savedItem: ', savedItem)
+        if(savedItem.length > 0){
+            let result = savedItem.filter(savedItem => savedItem.product_id === item.product_id)
+            result.length > 0 ? setSavedListBool(true) : setSavedListBool(false)
+        }else{
+            setSavedListBool(false)
+        }
+    }, [savedItem])
+    
+
+    let [elem, set_elem] = useState('') 
 
     return ( 
         <>
             {
                 elem
             }
-            <div className="cols" id={item.product_id} >
+            <div className="cols" key={index} id={item.product_id} >
                 <div className="card shadow" key={index} style={{height: 'auto', marginBottom: '10px', borderRadius: '10px'}}>
                     
                     
@@ -224,7 +228,9 @@ const Card = ({item, index}) => {
                             
                         </div>
 
-                        <SaveButton data={item} Saver={Saver} Save={savedData} />
+                        {/* <SaveButton data={item} Saver={Saver} Save={
+                            savedListBool
+                            } /> */}
 
                         
 

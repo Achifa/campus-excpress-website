@@ -126,6 +126,27 @@ async function get_request_generators(uri, params) {
         })     
         
     )
+    // const baseUrl = `${IP}/${uri}`;
+    // // Use URLSearchParams to create the query string
+    // const url = new URL(baseUrl);
+    // url.search = new URLSearchParams(params).toString();
+    // return(
+    //     fetch(`${url}`, {
+    //         method: 'get',
+    //         headers: {
+    //           "Content-Type": "Application/json"
+    //         },
+    //     })
+    //     .then(async(result) => await result.json())
+    //     .catch((error) => {
+    //         if (axios.isCancel(error)) {
+    //             console.log('Request canceled:', error.message);
+    //         }  else {
+    //             console.log('Error:', error.message);
+    //         }    
+    //     })  
+
+    // )
 }
 
 

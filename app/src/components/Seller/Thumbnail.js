@@ -34,7 +34,7 @@ const Thumbnail = ({product_id,seller_id}) => {
 
     return ( 
         <>
-            <img style={{height: '100%', width: '100%', borderRadius: '10px'}} src={img}  alt="" />
+            <img loading='lazy' style={{height: '100%', width: '100%', borderRadius: '10px'}} src={img}  alt="" />
         </>
      );
 }

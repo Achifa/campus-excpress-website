@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    Save: [],
+    savedItem: [],
   }
   
   export const SaveSlice = createSlice({
-    name: 'Save',
+    name: 'savedItem',
     initialState,
     reducers: {
       
