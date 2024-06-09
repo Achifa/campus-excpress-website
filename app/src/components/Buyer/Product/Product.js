@@ -18,7 +18,11 @@ import {
     useDispatch, 
     useSelector 
 } from 'react-redux'
-import saveSvg from '../../../assets/favourite-alt-svgrepo-com (1).svg'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
+// import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
+
 import imgSvg from '../../../assets/image-svgrepo-com (4).svg'; 
 import ItemImgs from './ItemImgs'
 
@@ -66,6 +70,11 @@ const Product = ({item,phone}) => {
     useEffect(() => {
         setActiveImg(ItemImages?.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
     }, [ActiveImg])
+
+    useEffect(() => {
+        setActiveImg('')
+        // setActiveImg('')
+    }, [searchParams.get('product_id')])
 
    
 
@@ -242,227 +251,241 @@ const Product = ({item,phone}) => {
                 </div>
             </div>
 
-            <br />
-            <div className="buyer-product shadow-sm" style={{background: '#fff'}}>
-                <div className="buyer-product-cnt" style={{display: 'flex', flexDirection: 'column'}}>
-
-                    <div className="buyer-product-data">
-                        <div id="left">
+            <div className="buyer-product-data">
+                <div id="left">
+                    {
+                        activeImg !== ''
+                        ?
                             <div className="img-cnt" style={{backgroundImage: `url(${activeImg})`, borderRadius: '5px', backgroundRepeat: 'no-repeat', backgroundSize: '200px 200px', backgroundPosition: 'center'}}>
-                                {/* <img src={activeImg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" /> */}
                             </div>
-                            <ItemImgs product_id={searchParams.get('product_id')} />
-                        </div>
-
-                        <div id="right" style={{position: 'relative'}}>
- 
-                            <p style={{fontWeight: '400', fontFamily: 'times-new-roman', padding: '0px', fontSize: 'x-large'}}>{item?.title}</p>
-
-                            <hr style={{margin: '15px'}} />
-
-                            {/* <br /> */}
-
-                            <div style={{background: '#fff4e0', padding: '10px', color: 'orangered', fontWeight: '500', position: 'relative', borderRadius: '5px', height: 'fit-content'}}>
-                                
-                                <p style={{fontWeight: '400', padding: '0px', fontSize: 'xx-large'}}>
-                                    <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item?.price)}
-                                </p>
-
-                                <br />
-
-                                <h3 style={{fontWeight: '500', fontSize: '3vh', textDecoration: 'underline', padding: '0px', textTransform: 'capitalize'}}>{item?.status}</h3>
-
-                                <br />
-                                <section style={{display: 'flex', justifyContent: 'flex-start'}}>
-                                    {/* <div style={{fontSize: 'small'}}>
-                                        <span ><span style={{color: '#626262', fontSize: 'small'}}>Shop Id :</span> <span style={{color: 'orangered', fontSize: 'small'}}>CE_4590-ddf</span></span> 
-                                    </div>
-                                    &nbsp;
-                                    &nbsp; */}
-                                    <div style={{fontSize: 'small'}}>
-                                        <span><span style={{color: '#626262', fontSize: 'small'}}>Product Id: </span> <span style={{color: 'orangered', fontWeight: '700', fontSize: 'small'}}>{item?.product_id}</span></span>
-                                    </div>
-                                    &nbsp;
-                                    &nbsp;
-                                    {/* <div style={{fontSize: 'small'}}>
-                                        <span><span style={{color: '#626262', fontSize: 'small'}}>Shop Rating:</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>Jacob N.N</span></span>
-                                    </div> */}
-                                </section>
-
-                                {/* <div style={{position: 'absolute', top: '-30px', right: '20px'}}>
-                                    <SaveButton data={item} Saver={Saver} Save={savedData} />
-                                </div> */}
-
-                                
-
-                                {/* <p>+ shipping from ₦0 to AWKA TOWN</p>  */}
-                            </div>
-
-                            {/* <hr /> */}
-                            {/* <br /> */}
-
-                            {/* <div style={BtnStyles} onClick={e => {
-                                document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
-                            }}>
-                                Buy Now
-                            </div> */}
-
-                            {/* <div style={BtnStyles} onClick={e => {
-                                document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
-                            }}>
-                                <>
-                                    <span>
-                                        <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
-                                    </span>
-                                    <span style={{marginTop: '0'}}>
-                                        {[...Save].filter(savedItem => savedItem?.product_id === item?.product_id)[0] ? 'Unsave' : 'Save'}
-                                    </span>
-                                </>
-                            </div> */}
+                        :
+                            <img src={imgSvg} style={{height: '100%', width: '100%', borderRadius: '5px'}} alt="" />
 
 
-                            <div style={{
-                                height: '60px',
-                                width: '100%',
-                                borderRadius: '10px',
-                                outline: 'none',
-                                border: 'none',
-                                textAlign: 'center',
-                                color: '#fff',
+                    }
+                    {
+                        item 
+                        ?
+                        <ItemImgs product_id={searchParams.get('product_id')} />
+                        :
+                        ''
+                    }
+                </div>
 
-                                display: 'flex', 
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                position: 'relative',
-                                fontSize: 'medium',
-                                fontWeight: '500',
-                                backgroundColor: '#fff',
-                                marginTop: '20px'
-                            }}>
-                            {/* onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} */}
-                                <button onClick={e => {SendMssg()}} style={{height: '50px', width: role ? '100%' : '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
-                                    {
-                                        role === 0
-                                        ?
-                                        <>
+                <div id="right" style={{position: 'relative'}}>
 
-                                            {/* <span>
-                                                <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                                            </span>
-                                            <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span> */}
-                                        
-                                            <span>
-                                                <img src={mssg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                                            </span>
-                                            <span>Message</span>
-                                        
-                                        
-                                        </>
-                                        :
-                                        <>
-                                            <span>Delete</span>
+                    <p style={{fontWeight: '400', fontFamily: 'times-new-roman', padding: '0px', fontSize: 'x-large'}}>{item?.title}</p>
 
-                                            <span>
-                                                <img src={deleteSvg} style={{height: '20px', width: '20px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                                            </span>
-                                        </>
-                                    }
-                                </button>
+                    <hr style={{margin: '15px'}} />
 
-                                <Link to={`tel:+234${phone}`} style={{height: '50px', width: '45%', borderRadius: '5px', display: role ? 'none' : 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'space-evenly', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
-                                    {
-                                        
-                                        <>
-                                            <span>
-                                                <img src={phn} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
-                                            </span>
-                                            <span style={{marginTop: '0'}}>
-                                                Call
-                                            </span>
-                                        </>  
+                    {/* <br /> */}
 
-                                        
-                                    }
-                                </Link>
+                    {   
+                        item ?
 
-                            </div>
+                        <div style={{background: '#fff4e0', padding: '10px',    color: 'orangered', fontWeight: '500', position: 'relative', borderRadius: '5px', height: 'fit-content'}}>
+                            
+                            <p style={{fontWeight: '400', padding: '0px', fontSize: 'xx-large'}}>
+                                <small>&#8358;</small>{new Intl.NumberFormat('en-us').format(item?.price)}
+                            </p>
 
-
-                           
-
-                            {/* <section style={{fontWeight: '700', padding: '10px'}}>
-                                
-                                <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
-                            </section> */}
                             <br />
 
-                            <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', alignItems: 'flex-end', padding: '10px', position: 'relative', width: '100%',}}>
-                                <small>Share With Your Friends</small>
+                            <h3 style={{fontWeight: '500', fontSize: '3vh', textDecoration: 'underline', padding: '0px', textTransform: 'capitalize'}}>{item?.status}</h3>
 
-                                <ul>
-                                    <li onClick={e => {
-                                        const url = window.location.href;
-                                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}&picture=${encodeURIComponent(activeImg)}`, '_blank');
-                                    }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                        <img src={fbSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
-                                    </li>
-
-                                    <li onClick={e => {
-                                        const url = window.location.href;
-                                        const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(item.title)}&image=${metaImg}`;
-                                        window.open(twitterUrl, '_blank');
-                                    }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                        <img src={tweeterSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
-                                    </li>
-
-                                    <li onClick={e => {
-                                        const url = window.location.href;
-                                        const shareBase64ImageToWhatsApp = (base64ImageData, title, description) => {
-  // Convert Base64 image data to a Blob
-                                            const byteCharacters = atob(base64ImageData.split(',')[1]);
-                                            const byteArrays = [];
-                                            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-                                                const slice = byteCharacters.slice(offset, offset + 512);
-                                                const byteNumbers = new Array(slice.length);
-                                                for (let i = 0; i < slice.length; i++) {
-                                                byteNumbers[i] = slice.charCodeAt(i);
-                                                }
-                                                const byteArray = new Uint8Array(byteNumbers);
-                                                byteArrays.push(byteArray);
-                                            }
-                                            const blob = new Blob(byteArrays, { type: 'image/jpeg' });
-                                            const message = description.length > 0 ? `${title}\n\nDescription:  \n${description} \n ${url}` : `${title} \n ${url}`;
-                                            const encodedMessage = encodeURIComponent(message);
-                                            const imageUrl = URL.createObjectURL(blob);
-                                            console.log(imageUrl)
-                                            const whatsappUrl = `whatsapp://send?text=${encodedMessage}%20${`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`}`;
-
-                                            // Open WhatsApp with the share URL
-                                            window.open(whatsappUrl, '_blank');
-
-
-                                        }
-                                        shareBase64ImageToWhatsApp(activeImg, item.title, item.description)
-
-
-                                       
-                                    }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                        <img src={WhatsAppSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
-                                    </li>
-                                </ul>
-
-                                
+                            <br />
+                            <section style={{display: 'flex', justifyContent: 'flex-start'}}>
+                                {/* <div style={{fontSize: 'small'}}>
+                                    <span ><span style={{color: '#626262', fontSize: 'small'}}>Shop Id :</span> <span style={{color: 'orangered', fontSize: 'small'}}>CE_4590-ddf</span></span> 
+                                </div>
+                                &nbsp;
+                                &nbsp; */}
+                                <div style={{fontSize: 'small'}}>
+                                    <span><span style={{color: '#626262', fontSize: 'small'}}>Product Id: </span> <span style={{color: 'orangered', fontWeight: '700', fontSize: 'small'}}>{item?.product_id}</span></span>
+                                </div>
+                                &nbsp;
+                                &nbsp;
+                                {/* <div style={{fontSize: 'small'}}>
+                                    <span><span style={{color: '#626262', fontSize: 'small'}}>Shop Rating:</span> <span style={{color: 'orangered', fontSize: 'x-small'}}>Jacob N.N</span></span>
+                                </div> */}
                             </section>
 
+                            {/* <div style={{position: 'absolute', top: '-30px', right: '20px'}}>
+                                <SaveButton data={item} Saver={Saver} Save={savedData} />
+                            </div> */}
 
+                            
+
+                            {/* <p>+ shipping from ₦0 to AWKA TOWN</p>  */}
                         </div>
-                    </div>      
+                        :
+                        <>
+                            <Skeleton height={60}baseColor="#fff4e0" highlightColor="#FF4500" count={1} />
+                            <Skeleton height={15}baseColor="#fff4e0" highlightColor="#FF4500" count={3} />
 
-                    
+                        </>
+                    }
+
+                    {/* <hr /> */}
+                    {/* <br /> */}
+
+                    {/* <div style={BtnStyles} onClick={e => {
+                        document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
+                    }}>
+                        Buy Now
+                    </div> */}
+
+                    {/* <div style={BtnStyles} onClick={e => {
+                        document.querySelector('.buy_now_overlay').setAttribute('id', 'buy_now_overlay')
+                    }}>
+                        <>
+                            <span>
+                                <img src={saveSvg} style={{height: '35px', width: '35px', position: 'relative',  margin: 'auto'}} alt="" />
+                            </span>
+                            <span style={{marginTop: '0'}}>
+                                {[...Save].filter(savedItem => savedItem?.product_id === item?.product_id)[0] ? 'Unsave' : 'Save'}
+                            </span>
+                        </>
+                    </div> */}
+
+
+                    <div style={{
+                        height: '60px',
+                        width: '100%',
+                        borderRadius: '10px',
+                        outline: 'none',
+                        border: 'none',
+                        textAlign: 'center',
+                        color: '#fff',
+
+                        display: 'flex', 
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        position: 'relative',
+                        fontSize: 'medium',
+                        fontWeight: '500',
+                        backgroundColor: '#fff',
+                        marginTop: '20px'
+                    }}>
+                    {/* onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} */}
+                        <button onClick={e => {SendMssg()}} style={{height: '50px', width: role ? '100%' : '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
+                            {
+                                role === 0
+                                ?
+                                <>
+
+                                    {/* <span>
+                                        <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                    </span>
+                                    <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span> */}
+                                
+                                    <span>
+                                        <img src={mssg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                    </span>
+                                    <span>Message</span>
+                                
+                                
+                                </>
+                                :
+                                <>
+                                    <span>Delete</span>
+
+                                    <span>
+                                        <img src={deleteSvg} style={{height: '20px', width: '20px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                                    </span>
+                                </>
+                            }
+                        </button>
+
+                        <Link to={`tel:+234${phone}`} style={{height: '50px', width: '45%', borderRadius: '5px', display: role ? 'none' : 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'space-evenly', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
+                            {
+                                
+                                <>
+                                    <span>
+                                        <img src={phn} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
+                                    </span>
+                                    <span style={{marginTop: '0'}}>
+                                        Call
+                                    </span>
+                                </>  
+
+                                
+                            }
+                        </Link>
+
+                    </div>
+
+
+                
+
+                    {/* <section style={{fontWeight: '700', padding: '10px'}}>
+                        
+                        <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
+                    </section> */}
+                    <br />
+
+                    <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', alignItems: 'flex-end', padding: '10px', position: 'relative', width: '100%',}}>
+                        <small>Share With Your Friends</small>
+
+                        <ul>
+                            <li onClick={e => {
+                                const url = window.location.href;
+                                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}&picture=${encodeURIComponent(activeImg)}`, '_blank');
+                            }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
+                                <img src={fbSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
+                            </li>
+
+                            <li onClick={e => {
+                                const url = window.location.href;
+                                const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(item.title)}&image=${metaImg}`;
+                                window.open(twitterUrl, '_blank');
+                            }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
+                                <img src={tweeterSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
+                            </li>
+
+                            <li onClick={e => {
+                                const url = window.location.href;
+                                const shareBase64ImageToWhatsApp = (base64ImageData, title, description) => {
+// Convert Base64 image data to a Blob
+                                    const byteCharacters = atob(base64ImageData.split(',')[1]);
+                                    const byteArrays = [];
+                                    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                                        const slice = byteCharacters.slice(offset, offset + 512);
+                                        const byteNumbers = new Array(slice.length);
+                                        for (let i = 0; i < slice.length; i++) {
+                                        byteNumbers[i] = slice.charCodeAt(i);
+                                        }
+                                        const byteArray = new Uint8Array(byteNumbers);
+                                        byteArrays.push(byteArray);
+                                    }
+                                    const blob = new Blob(byteArrays, { type: 'image/jpeg' });
+                                    const message = description.length > 0 ? `${title}\n\nDescription:  \n${description} \n ${url}` : `${title} \n ${url}`;
+                                    const encodedMessage = encodeURIComponent(message);
+                                    const imageUrl = URL.createObjectURL(blob);
+                                    console.log(imageUrl)
+                                    const whatsappUrl = `whatsapp://send?text=${encodedMessage}%20${`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`}`;
+
+                                    // Open WhatsApp with the share URL
+                                    window.open(whatsappUrl, '_blank');
+
+
+                                }
+                                shareBase64ImageToWhatsApp(activeImg, item.title, item.description)
+
+
+                            
+                            }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
+                                <img src={WhatsAppSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
+                            </li>
+                        </ul>
+
+                        
+                    </section>
 
 
                 </div>
             </div>
+
         </>
      );
 }

@@ -12,13 +12,20 @@ import {
 import { Filter_Cards } from "../../../api/buyer/get";
 import Filter from "../Header/Filter"; 
 import Card from "./Card";
+import Skeleton from "react-loading-skeleton";
 
 const CardCnt = ({cards}) => {
     let [category, setcategory] = useState('')
     let [subCategory, setsubCategory] = useState('')
     let navigate = useNavigate()
+    let [screenWidth, setScreenWidth] = useState(0)
 
     let [condition, setcondition] = useState('')
+
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
 
 
     let [state, setstate] = useState('')
@@ -189,7 +196,13 @@ const CardCnt = ({cards}) => {
                     ?
                     cards
                     :
-                    ''
+                    [1,2,3,4,5,6,7,8,9,0].map(item => 
+                    <>
+                        <Skeleton height={50}baseColor="#fff4e0" highlightColor="#FF4500" count={1} />
+                        <Skeleton height={10}baseColor="#fff4e0" highlightColor="#FF4500" count={3} />
+
+                    </>
+                    )
                 }
                 
             </div>

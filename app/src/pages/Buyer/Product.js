@@ -95,17 +95,24 @@ const ProductPage = () => {
         <>
 
             <BuyerLayout>
-                <Product item={item} phone={phone} />
-                <SimilarItems category={item?.category} product_id={item?.product_id} />
+                <div className="buyer-product shadow-sm" style={{background: '#fff'}}>
+                    <div className="buyer-product-cnt" style={{display: 'flex', flexDirection: 'column'}}>
+
+                        
+                        <Product item={item} phone={phone} />
+                        <SimilarItems category={item?.category} product_id={item?.product_id} />
 
 
-                {
-                    item?.description?.length > 0 
-                    ?
-                    <Description item={item} />
-                    :
-                    ''
-                }
+                        {
+                            item?.description?.length > 0 
+                            ?
+                            <Description item={item} />
+                            :
+                            ''
+                        }
+
+                    </div>
+                </div>
             </BuyerLayout>
         </>
      );
