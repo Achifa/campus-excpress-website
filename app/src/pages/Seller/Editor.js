@@ -28,6 +28,7 @@ import { GetItem, GetItemImages, GetProductThumbnail } from '../../api/buyer/get
 import EditorVideo from '../../components/Seller/editor/EditorVideo';
 import EditorVideoStore from '../../components/Seller/editor/EditorVideoStore';
 import LodgeAmenities from '../../components/Seller/editor/LodgeAmenities';
+import { openNotice } from '../../Functions/notice';
 
 const Editor = () => {
 
@@ -383,46 +384,129 @@ const Editor = () => {
 
             
             if(update){
-                handleFormUpdate(
-                    { 
-                        title: title.current,
-                        description: descriptionActive ? description.current : '',
-                        category: category.current,
-                        price: price.current,
-                        photos: photos.current,
-                        seller_id: seller_id,
-                        product_id : searchParams.get('product_id')
-                    }, 
+                fetch('https://ce-server.vercel.app/seller.product-update', {
+                    method: 'post',
+                    headers: {
+                        "Content-Type": "Application/json"
+                    },
+                    body: JSON.stringify(
+                        {
+                            constantData: { 
+                                title: title.current,
+                                description: description.current,
+                                category: category.current,
+                                price: price.current,
+                                photos: photos.current,
+                                seller_id : seller_id
+                            }, 
+                        
+                            dynamicData: {
+                                cType: cType_state,
+                                locale: locale_state,
+                                subCategory: window.localStorage.getItem('draft_sub_category'),
+                                gender: window.localStorage.getItem('draft_gender'),
+                                condition: condition_state,
+                                size: window.localStorage.getItem('draft_size')
+                            }
+                        }
+                    )
+                })
+                .then(async(result) => {
+                    let response = await result.json();
+                    if(response){
+                        window.localStorage.setItem('draft_gender', '')
+                        window.localStorage.setItem('draft_size', '')
+                        window.localStorage.setItem('draft_sub_category', '')
+                        window.localStorage.setItem('draft_locale', '')
+                        window.localStorage.setItem('draft_condition', '')
+                        window.localStorage.setItem('draft_title', '')
+                        window.localStorage.setItem('draft_description', '')
+                        window.localStorage.setItem('draft_category', '')
+                        window.localStorage.setItem('draft_c_type', '')
+                        window.localStorage.setItem('draft_price', '')
+
+                        openNotice('Upload Failed, Please Try Again')
+
+                        setTimeout(() => {
+                            window.location.href = '/seller.shop';
+                            document.querySelector('.overlay').removeAttribute('id')
+                        }, 800);
                     
-                    {
-                        cType: cType_state,
-                        locale: locale_state,
-                        subCategory: window.localStorage.getItem('draft_sub_category'),
-                        gender: window.localStorage.getItem('draft_gender'),
-                        condition: condition_state,
-                        size: window.localStorage.getItem('draft_size')
+                        
+                    }else{
+                        let overlay = document.querySelector('.overlay'); 
+                        overlay.removeAttribute('id')
+                        openNotice('Upload Failed, Please Try Again')
                     }
-                )
+                })
+                .catch((error) => {
+                    console.log('Error:', error.message);
+                    let overlay = document.querySelector('.overlay'); 
+                    overlay.removeAttribute('id')
+                    openNotice('Upload Failed, Please Try Again')
+                })  
             }else{
-                handleFormUpload(
-                    { 
-                        title: title.current,
-                        description: descriptionActive ? description.current : '',
-                        category: category.current,
-                        price: price.current,
-                        photos: photos.current,
-                        seller_id : seller_id
-                    }, 
+
+                fetch('https://ce-server.vercel.app/seller.product-upload', {
+                    method: 'post',
+                    headers: {
+                        "Content-Type": "Application/json"
+                    },
+                    body: JSON.stringify(
+                        {
+                            constantData: { 
+                                title: title.current,
+                                description: description.current,
+                                category: category.current,
+                                price: price.current,
+                                photos: photos.current,
+                                seller_id : seller_id
+                            }, 
+                        
+                            dynamicData: {
+                                cType: cType_state,
+                                locale: locale_state,
+                                subCategory: window.localStorage.getItem('draft_sub_category'),
+                                gender: window.localStorage.getItem('draft_gender'),
+                                condition: condition_state,
+                                size: window.localStorage.getItem('draft_size')
+                            }
+                        }
+                    )
+                })
+                .then(async(result) => {
+                    let response = await result.json();
+                    if(response){
+                        window.localStorage.setItem('draft_gender', '')
+                        window.localStorage.setItem('draft_size', '')
+                        window.localStorage.setItem('draft_sub_category', '')
+                        window.localStorage.setItem('draft_locale', '')
+                        window.localStorage.setItem('draft_condition', '')
+                        window.localStorage.setItem('draft_title', '')
+                        window.localStorage.setItem('draft_description', '')
+                        window.localStorage.setItem('draft_category', '')
+                        window.localStorage.setItem('draft_c_type', '')
+                        window.localStorage.setItem('draft_price', '')
                     
-                    {
-                        cType: cType_state,
-                        locale: locale_state,
-                        subCategory: window.localStorage.getItem('draft_sub_category'),
-                        gender: window.localStorage.getItem('draft_gender'),
-                        condition: condition_state,
-                        size: window.localStorage.getItem('draft_size')
+                        openNotice('Upload Failed, Please Try Again')
+
+                        setTimeout(() => {
+                            window.location.href = '/seller.shop';
+                            document.querySelector('.overlay').removeAttribute('id')
+                        }, 800);
+                    }else{
+                        let overlay = document.querySelector('.overlay'); 
+                        overlay.removeAttribute('id')
+                        openNotice('Upload Failed, Please Try Again')
                     }
-                )
+                })
+                .catch((error) => {
+                    console.log('Error:', error.message);
+                    let overlay = document.querySelector('.overlay'); 
+                    overlay.removeAttribute('id')
+                    openNotice('Upload Failed, Please Try Again')
+                })  
+             
             }
 
         }
@@ -598,25 +682,25 @@ const Editor = () => {
                                     </section>
                                 </div>  */}
                                 
-                                <div className="input-cnt" style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '10px 0 10px 0'}}>
+                                <div className="input-cnt" style={{display: 'flex', flexDirection: 'column', width: '100%', padding: '10px 0 10px 0', background: 'transparent'}}>
                                     <section style={{display: 'flex', alignItems: 'center'}}>
-                                        <input style={{
+                                        {/* <input style={{
                                             height: '20px',
                                             width: '20px'
                                         }} defaultChecked onInput={e => setDescriptionActive(!descriptionActive)} type="checkbox" name="" id="" />
                                         &nbsp;
-                                        &nbsp;
-                                        <span style={{fontSize: 'small', fontWeight: '500', color: 'orangered'}}>Do you have a description for this item.</span>
+                                        &nbsp; */}
+                                        <span style={{fontSize: 'small', fontWeight: '500', color: 'orangered'}}>Description (Optional)</span>
 
                                     </section>
-                                    <section style={{width: '100%', opacity: descriptionActive ? 1 : .5, pointerEvents: descriptionActive ? 'all' : 'none'}}>
+                                    {/* <section style={{width: '100%', opacity: descriptionActive ? 1 : .5, pointerEvents: descriptionActive ? 'all' : 'none'}}> */}
                                         
                                         {
                                            
                                             <EditorDescription productDescription={productDescription} edit={edit} descriptionActive={descriptionActive} />   
                                            
                                         }
-                                    </section>
+                                    {/* </section> */}
                                 </div> 
 
 

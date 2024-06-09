@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 // import { getImage } from "../../../Functions/imageToSvg";
 import { openNotice } from "../../../Functions/notice";
-import xSvg from '../../../assets/cancel-svgrepo-com.svg'
+import xSvg from '../../../assets/upload-cloud-svgrepo-com.svg'
 const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photos,category}) => {
 
     let [screenWidth, setScreenWidth] = useState(0);
@@ -51,14 +51,17 @@ const EditorPhotoStore = ({edit,deletePhoto,productPhotos,photos,category}) => {
                 
                 <input type="file" name="imgfile"  multiple style={{display: 'none'}} id="imgfile" onChange={handleImage} />
 
-                <div className="seller-shop-samples shadow-sm" style={{width: '100%'}}>
+                <div className="seller-shop-samples shadow-sm" style={{width: '100%', borderRadius: '10px'}}>
                                 
-                    <label htmlFor="imgfile" style={{height: '100%', margin: '0 5px 0 5px', background: '#fff',cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center'}}>
-                        <small>Click here to Upload photo</small>
+                    <label htmlFor="imgfile" style={{height: '100%', margin: '0 5px 0 5px', background: '#FF4500',cursor: 'pointer', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', padding: '20px', borderRadius: '10px', textAlign: 'center'}}>
+
+                        {/* <img src={xSvg} style={{height: '40px', width: '40px'}} alt="" /> */}
+                        <small style={{color: '#fff', textAlign: 'center'}}>Upload Image</small>
+
                     </label>
                     
 
-                    <section className='seller-product-image-cnt' style={{flexShrink: '0', height: '100%'}}>
+                    <section className='seller-product-image-cnt' style={{flexShrink: '0', borderRadius: '10px', height: '100%'}}>
                     
                         {
                             photos.length > 0 ? photos.map((item, index) => 
