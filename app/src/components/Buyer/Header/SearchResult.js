@@ -52,7 +52,7 @@ const SearchResult = ({searchTop,searchLeft,searchDisplay,searchWidth}) => {
                                 padding: '10px', 
                                 borderLeft: '1px solid #FF4500',  
                                 marginBottom: '10px',
-                            }} className="shadow-sm" onClick={e => navigate(`/product/${item[0]?.product_id}`)} key={index}>
+                            }} className="shadow-sm" onClick={e => window.location.href=(`/product/${item[0]?.product_id}`)} key={index}>
                                 <span style={{fontWeight: '500'}}></span>
                                 &nbsp;
                                 &nbsp; 

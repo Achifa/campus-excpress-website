@@ -117,15 +117,13 @@ async function get_request_generators(uri, params) {
         .then((result) => result)
         .catch((error) => {
             if (axios.isCancel(error)) {
-                
                 console.log('Request canceled:', error.message);
             }  else {
                 console.log('Error:', error.message);
             }    
-            
         })     
-        
     )
+
     // const baseUrl = `${IP}/${uri}`;
     // // Use URLSearchParams to create the query string
     // const url = new URL(baseUrl);

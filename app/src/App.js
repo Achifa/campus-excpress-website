@@ -60,7 +60,6 @@ function App() {
   };
 
   useEffect(() => {generateRoutes(role);}, [])
-
   const routes = useRoutes([
     ...activeRoutes,
     {

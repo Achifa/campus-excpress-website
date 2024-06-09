@@ -40,7 +40,7 @@ export default function SearchOutput() {
                             padding: '10px',
                             borderLeft: '1px solid #FF4500', 
                             marginBottom: '10px',
-                        }} onClick={e => navigate(`/product?product_id=${item.product_id}`)} key={index} className='shadow-sm'>
+                        }} onClick={e => window.location.href=(`/product?product_id=${item.product_id}`)} key={index} className='shadow-sm'>
                             {item.title}
                         </div>
                     )

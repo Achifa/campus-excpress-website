@@ -237,7 +237,7 @@ const Header = ({
                   </span>
                 </li> */}
 
-                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'medium'}} onClick={e => navigate(`/seller`) }>
+                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'medium'}} onClick={e => window.location.href = (`/seller`) }>
                   <span>
                     <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
                   </span>

@@ -161,7 +161,13 @@ const Card = ({item, index}) => {
                     
                     
                     
+                   {
+                    item
+                    ?
                     <Thumbnail product_id={item.product_id} />
+                    :
+                    ''
+                   }
 
                     <div className="card-body" style={{position: 'relative'}}>
                         
@@ -181,7 +187,7 @@ const Card = ({item, index}) => {
                                 WebkitLineClamp: '2',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis'
-                            }} onClick={e => navigate(`/product?product_id=${item.product_id}`)} >{item.title}</small>
+                            }} onClick={e => window.location.href=(`/product?product_id=${item.product_id}`)} >{item.title}</small>
                             : 
                             <small style={{
                                 fontSize: 'small',
@@ -195,7 +201,7 @@ const Card = ({item, index}) => {
                                 WebkitLineClamp: '2',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis'
-                            }} onClick={e => navigate(`/product?product_id=${item.product_id}`)} >{item.title}</small>
+                            }} onClick={e => window.location.href=(`/product?product_id=${item.product_id}`)} >{item.title}</small>
                         }
 
                         {/* <br /> */}
@@ -205,14 +211,14 @@ const Card = ({item, index}) => {
                         {
                             screenWidth > 479
                             ?
-                            <h6 onClick={e => navigate(`/product?product_id=${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '400', fontSize: 'small', color: '#000', fontFamily: 'Times New Roman'}}>&#8358;{
+                            <h6 onClick={e => window.location.href=(`/product?product_id=${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '400', fontSize: 'small', color: '#000', fontFamily: 'Times New Roman'}}>&#8358;{
                                 new Intl.NumberFormat('en-us').format(item.price)
                             }</h6>
                             : 
-                            <h6 onClick={e => navigate(`/product?product_id=${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
+                            <h6 onClick={e => window.location.href=(`/product?product_id=${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
                         }
 
-                        <div onClick={e => navigate(`/product?product_id=${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
+                        <div onClick={e => window.location.href=(`/product?product_id=${item.product_id}`)} style={{display: 'flex',background: '#fff', color: 'orangered',  alignItems: 'center', justifyContent: 'left', padding: '0'}}>
                             <span  style={{background: '#fff', color: '#000', borderRadius: '5px', top: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', left: '20px', padding: '5px 0 5px 0'}}>
                                 <span  style={{background: '#fff',color: 'orangered', padding: '0'}}>
 

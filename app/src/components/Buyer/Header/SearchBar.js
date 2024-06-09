@@ -73,7 +73,11 @@ const SearchBar = ({updateSearchText}) => {
           }
           <div style={{margin: '0 10px 0 10px'}}>
             <div className="input-cnt" style={{height: '70px', width: '80%', padding: '5px', display: 'inline-block', background: '#fff', margin: '0', float: 'left'}}>
-                <input onFocus={e =>  navigate('/search')} onBlur={e => navigate('/')} onInput={e => setSearchChar(e.target.value)} style={{width: '80%', float: 'left',margin: '0',borderTopLeftRadius: '10px',
+                <input onFocus={e =>  navigate('/search')} onBlur={e => {
+                  if(e.target !== e.currentTarget){
+                    navigate('/')
+                  }
+                }} onInput={e => setSearchChar(e.target.value)} style={{width: '80%', float: 'left',margin: '0',borderTopLeftRadius: '10px',
         borderBottomLeftRadius: '10px', background: 'rgb(255, 244, 224)'}} type="search" name="" placeholder="What Are You Looking For..." id="" />
                 <button style={BtnStyles}>Search</button>
             </div>

@@ -196,12 +196,16 @@ const CardCnt = ({cards}) => {
                     ?
                     cards
                     :
-                    [1,2,3,4,5,6,7,8,9,0].map(item => 
-                    <>
-                        <Skeleton height={50}baseColor="#fff4e0" highlightColor="#FF4500" count={1} />
-                        <Skeleton height={10}baseColor="#fff4e0" highlightColor="#FF4500" count={3} />
+                    [1,2,3,4,5,6,7,8,9,0].map((item,index) => 
+                    <div className="cols" key={index} id={item.product_id} >
+                        <div className="card shadow" key={index} style={{height: '300px', marginBottom: '10px', borderRadius: '10px'}}>
 
-                    </>
+                            <Skeleton height={80}baseColor="#fff4e0" highlightColor="#FF4500" count={1} />
+
+                            <Skeleton height={10}baseColor="#fff4e0" highlightColor="#FF4500" count={3} />
+                            
+                        </div>
+                    </div> 
                     )
                 }
                 

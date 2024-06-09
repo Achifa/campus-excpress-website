@@ -6,7 +6,7 @@ const EditorDescription = ({edit,productDescription, descriptionActive}) => {
     
     return ( 
         <>
-            <div className="input-cnt" style={{width: '100%', position: 'relative', padding: '0', marginBottom: '10px'}}>
+            <div className="input-cnt" style={{width: '100%', position: 'relative', padding: '0', marginBottom: '10px', flexDirection: 'column'}}>
                 {/* <label htmlFor="">Description</label> */}
                 
                 <textarea defaultValue={window.localStorage.getItem('draft_description') !== null && window.localStorage.getItem('draft_description') !== undefined ? window.localStorage.getItem('draft_description') : ''} maxLength={650} name='description' onInput={e =>{

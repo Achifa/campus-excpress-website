@@ -102,7 +102,7 @@ const Header = () => {
         <>
             <div className="seller-header shadow-sm" style={{
                 width: location.pathname.split('/').splice(-1)[0] === 'seller.signup' || location.pathname.split('/').splice(-1)[0] === 'seller.login' || location.pathname.split('/').splice(-1)[0] === 'seller.reset-password' ? '100vw' : '',
-                color: 'orangered',
+                color: '#fff',
                 textAlign: 'center',
                 alignItems: 'center',
                 display: 'flex',
@@ -113,14 +113,16 @@ const Header = () => {
                 backgroundColor: '#fff',
                 top: '0',
                 fontWeight: '500',
-                background: location.pathname.split('/').splice(-1)[0] === 'seller' ? 'orangered' : '#fff',
+                background: 'orangered',
                 zIndex: '1000',
                 // height: location.pathname.split('/').splice(-1)[0] === 'seller' ? '40%' : '60px',
                 backgroundImage: 'url(../../../images/download (5).jpeg)',
                 backgroundClip: 'content-box',
                 backgroundSize: 'contain'
             }}>
-            
+                <span>
+                    <h2 style={{margin: '0 10px 0 10px', textTransform: 'capitalize'}}>{location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0]}</h2>
+                </span>
                 {/* <img src={img} style={{height: screenWidth <= 760 ? '45px' : '50px', width: screenWidth <= 760 ? '45px' : '50px', color: '#fff', fontSize: 'medium', marginTop: screenWidth <= 760 ? '5px' : '0', display: 'flex'}} alt="" /> */}
 
                 {

@@ -337,7 +337,7 @@ const Editor = () => {
         book = []
         // alert()
         let inputs = [...document.querySelectorAll('input')]
-        let textareas = descriptionActive ? [...document.querySelectorAll('textarea')] : [document.querySelector('.seller-shop-title')]
+        let textareas = [document.querySelector('.seller-shop-title')]
         let selects = [...document.querySelectorAll('select')]
         // let allFields = [...inputs,...textareas,...selects]
 
@@ -360,11 +360,17 @@ const Editor = () => {
 
                         let newElem = document.createElement('div')
                         newElem.className = 'err-mssg';
+                        newElem.style.width = '100%';
+                        newElem.style.textAlign = 'left';
+                        newElem.style.justifyContent = 'left';
                         newElem.innerHTML = err;
                         pElem.append(newElem);
                     }else{
                         let newElem = document.createElement('div')
                         newElem.className = 'err-mssg';
+                        newElem.style.textAlign = 'left';
+                        newElem.style.justifyContent = 'left';
+                        newElem.style.width = '100%';
                         newElem.innerHTML = err;
                         pElem.append(newElem);
                     }

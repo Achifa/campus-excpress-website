@@ -42,19 +42,29 @@ const Dashboard = () => {
     let {Buyer} = useSelector(s=>s.Buyer)
 
     async function fetchData(overlay,category) {
-        let result = await GetItems(category);
-        setCards(
-            result?.map((item, index) => 
-                <Card index={index} item={item} />
+        GetItems(category)
+        .then((result) => {
+            setCards(
+                result?.map((item, index) => 
+                    <Card index={index} item={item} />
+                )
             )
-        )
-        overlay.removeAttribute('id');
+            overlay.removeAttribute('id')
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     }
 
     async function fetchSavedData(buyer_id) {
-        let result = await GetSavedItem(buyer_id);
-        console.log(result)
-        dispatch(setSaveTo(result))
+        GetSavedItem(buyer_id)
+        .then((result) => {
+            dispatch(setSaveTo(result))
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+
         // overlay.removeAttribute('id');
     }
 
@@ -75,11 +85,13 @@ const Dashboard = () => {
 
     useEffect(() => {
         let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
-        try {
-            fetchData(overlay, 'trends')
-        } catch (error) {
-            console.log(error)
+            if(overlay){
+                overlay.setAttribute('id', 'overlay');
+            try {
+                fetchData(overlay, 'trends')
+            } catch (error) {
+                console.log(error)
+            }
         }
     }, [location]) 
 

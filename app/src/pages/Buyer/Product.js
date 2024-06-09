@@ -19,21 +19,14 @@ const ProductPage = () => {
     useEffect(() => {
         let overlay = document.querySelector('.overlay')
         overlay.setAttribute('id', 'overlay');
-        try {
-            async function getData() {
-                let result = await GetItem([location.search.split('=').splice(-1)[0]])
-            // console.log(result)
-
-                if(result?.length > 0){
-                    setItem(result[0])
-                    overlay.removeAttribute('id')
-                }
-                
-            }
-            getData()
-        } catch (error) {
+        GetItem([location.search.split('=').splice(-1)[0]])
+        .then((result) => {
+            setItem(result[0])
+            overlay.removeAttribute('id')
+        })
+        .catch(error=>{
             console.log(error)
-        }
+        })
 
     }, [])
 
