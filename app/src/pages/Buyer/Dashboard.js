@@ -101,7 +101,7 @@ const Dashboard = () => {
             let overlay = document.querySelector('.overlay');
             overlay.setAttribute('id', 'overlay');
             try {
-                fetchData(overlay,location.search.split('=')[1])
+                fetchData(overlay,location.search.split('=')[1] === '' ? 'trends' : location.search.split('=')[1])
             } catch (error) {
                 console.log(error)
             }
