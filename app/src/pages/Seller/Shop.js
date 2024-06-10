@@ -62,7 +62,7 @@ const Shop = () => {
             <div className="seller-main">
                 <SellerLayout>
 
-                    <div className="seller-libs" style={{ padding: '10px', flexDirection: 'row'}}>
+                    <div className="seller-libs" style={{ padding: '10px', flexDirection: 'row', justifyContent: 'flex-start'}}>
                     {
 
                         <Body cards={Items} />

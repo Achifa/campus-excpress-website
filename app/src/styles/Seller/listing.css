@@ -87,7 +87,7 @@
         height: 100px;
         width: 100%;
         display: flex;
-        font-size: 3.5vh;
+        font-size: small;
         align-items: center;
         justify-content: space-between;
         background-color: #fefefe;
@@ -133,6 +133,8 @@
 
 .listing-card-btn button{
     height: 60px;
+    background-color: #FF4500;
+    color: #fff;
     width: 40%;
     border-radius: 10px;
 }

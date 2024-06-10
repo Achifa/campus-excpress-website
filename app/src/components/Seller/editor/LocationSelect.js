@@ -1,28 +1,18 @@
 import { useEffect, useState } from "react"
 import { GetSeller } from "../../../api/seller/get"
+import { useSelector } from "react-redux"
 
 
 const LocationSelect = ({edit,productLocale}) => {
     let [state, setState] = useState('')
     let [campus, setCampus] = useState('')
+    let {sellerData} = useSelector(s=> s.sellerData);
 
     useEffect(() => {
-        // let overlay = document.querySelector('.overlay')
-        //overlay.setAttribute('id', 'overlay');
-        try {
-            async function getData(){
-                let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
-                setCampus(result?.campus)
-                setState(result?.state)
-                productLocale(result?.state + ',' + ' ' + result.campus)
-                // overlay.removeAttribute('id')
-            }
-        getData()
-
-        } catch (error) {
-            console.log(error)
-        }
-    }, [])
+        setCampus(sellerData?.campus)
+        setState(sellerData?.state)
+        productLocale(sellerData?.state + ',' + ' ' + sellerData?.campus)
+    }, [sellerData])
 
 
     return ( 

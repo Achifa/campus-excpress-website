@@ -18,8 +18,6 @@ import EditorPhotoStore from '../../components/Seller/editor/EditorPhotoStore';
 import EditorDescription from '../../components/Seller/editor/EditorDescription';
 import SubCategory from '../../components/Seller/editor/ClothingSelect';
 import UploadBtn from '../../components/Seller/editor/Button';
-// import  uploadForm  from '../../Functions/upload';
-// import { uploadForm } from '../Functions/upload';
 import { validate_inputs } from '../../Functions/validation';
 import { handleFormUpdate, handleFormUpload} from '../../Functions/upload';
 import SellerLayout from '../../layout/Seller'
@@ -79,8 +77,7 @@ const Editor = () => {
     }, [])
 
     useEffect(() => {
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+       
 
         async function getData() {
 
@@ -98,7 +95,7 @@ const Editor = () => {
                 productType(JSON.parse(result[0]?.others)?.cType)
                 productCondition(JSON.parse(result[0]?.others)?.condition)    
                 // productLocale(result[0]?.others?.locale)
-                overlay.removeAttribute('id')
+                // overlay.removeAttribute('id')
                 
             }
             
@@ -292,16 +289,6 @@ const Editor = () => {
         videos.current = data;
         setimg_list(data)
     }
-
-    function setAllInputsToNull(params) {
-        productGender('')
-        productType('')
-        productSizeSelect('')
-        productSubCategory('')
-        productLocale('')
-        productCondition('')
-    }
-
 
     useEffect(() => {
         if(window.localStorage.getItem('draft_category') !== null && window.localStorage.getItem('draft_category') !== undefined && window.localStorage.getItem('draft_category') !== ''){ 
