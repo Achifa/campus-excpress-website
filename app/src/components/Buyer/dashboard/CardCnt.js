@@ -196,7 +196,7 @@ const CardCnt = ({cards}) => {
                     ?
                     cards
                     :
-                    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map((item,index) => 
+                    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((item,index) => 
                         <div className="cols" key={index} id={item.product_id}>
                             <div className="card shadow" key={index} style={{height: 'auto', marginBottom: '10px', borderRadius: '10px'}}>
                                 <div style={{width: '100%'}} role="status" class="max-w-sm p-2 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700">

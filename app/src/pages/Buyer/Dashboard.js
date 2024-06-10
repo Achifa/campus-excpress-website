@@ -154,6 +154,11 @@ const Dashboard = () => {
 
     }, [cards]);
 
+    useEffect(() => {
+        setActiveJSX(<CardCnt cards={cards} />)
+    }, [cards])
+    
+
 
     return ( 
         <>
