@@ -161,9 +161,9 @@ const ProductPage = () => {
 
                         <Contact phone={phone} role={role} SendMssg={SendMssg}  />
 
-                        <section style={{fontWeight: '400', padding: '20px'}}>
+                        <section style={{fontWeight: '400', padding: '10px', background: '#efefef', }}>
                             
-                            <small style={{fontSize: 'small', background: '#efefef', borderRadius: '6px'}}>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
+                            <small style={{fontSize: 'small', lineHeight: '15px', borderRadius: '6px'}}>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
                         </section>
 
                         <br />
