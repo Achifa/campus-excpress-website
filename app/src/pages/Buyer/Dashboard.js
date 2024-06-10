@@ -249,7 +249,7 @@ const Dashboard = () => {
                         <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
                     </span>
                     &nbsp;
-                    <span>Sell</span>
+                    <span style={{color: '#fff'}}>Sell</span>
  
                 </button>
             </BuyerLayout>
