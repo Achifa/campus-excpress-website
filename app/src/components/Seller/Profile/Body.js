@@ -3,19 +3,9 @@ import React, {
   useRef, 
   useState 
 } from 'react'
-import User from './User'
-import Bio from './Bio'
 import items from '../../../items.json'
-import ellipsisSvg from '../../../assets/filter-edit-svgrepo-com.svg'
 import '../../../styles/Seller/editOverlay.css'
-import { useSelector } from 'react-redux'
-import Settings from './Settings'
 import Reviews from './Reviews'
-import History from './History'
-import Contact from './Contact'
-import PasswordReset from './PasswordReset'
-import NoticeSetup from './NoticeSetup'
-import Payments from './Payments'
 import { 
   GetItems,
   GetReviews, 
@@ -24,14 +14,11 @@ import {
   GetSoldItems 
 } from '../../../api/seller/get'
 import { 
-  data, 
-  school_choices 
-} from '../../../location';
-import { 
   UpdateInventory, 
-  UpdateShop 
+  UpdateShop, 
+  UpdateShopDesc, 
+  UpdateShopTitle
 } from '../../../api/seller/update'
-import Thumbnail from '../Thumbnail'
 import { 
   useNavigate 
 } from 'react-router-dom'
@@ -40,27 +27,111 @@ import {
   SendSMS 
 } from '../../../api/seller/post'
 import Flw from '../../Payments/Flw'
-import { closePaymentModal, useFlutterwave } from 'flutterwave-react-v3'
+import { useFlutterwave } from 'flutterwave-react-v3'
+import Inventory from './Inventory'
+import ItemsSold from './ItemsSold'
+import Summary from './Summary'
+import CoinComp from './Coin'
+import University from './University'
+import ShopRent from './ShopRent'
+import Verification from './Verification'
+import ShopDesc from './ShopDesc'
+import AdsComp from './AdsComp'
+// import { Editor, EditorState } from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { Editor } from '@tinymce/tinymce-react';
+import ShopTitle from './ShopTitle'
 
-function DescEdit({shop_title, shop_description}) {
-  let title = useRef(shop_description)
-  let desc= useRef(shop_description)
+function TitleEdit({shop_title}) {
+  let title = useRef(shop_title)
   
   return(
-    <div className="descripion-edit">
+    <div className="descripion-edit" style={{overflow: 'auto'}}>
+    <h3>Shop Title</h3>
       <div className="input-cnt">
-        <input defaultValue={shop_title} onInput={e => title.current = (e.target.value)} placeholder='Enter Shop Title' type="text" />
-      </div>
+        <input 
+          defaultValue={shop_title} 
+          onInput={e => title.current=(e.target.value)} 
+          placeholder='Enter Shop Title' 
+          type="text" 
 
-      <div className="input-cnt">
-        <textarea defaultValue={shop_description} onInput={e => desc.current = (e.target.value)} name="" id="" placeholder='Enter Your Description'></textarea>
+        />
+        
       </div>
-
+ 
       <div className="btn-cnt">
         <button onClick={async(e) => {
-          let response = await UpdateShop(title.current, desc.current, window.localStorage.getItem('CE_seller_id'));
+          let overlay = document.querySelector('.overlay');
+          overlay.setAttribute('id', 'overlay');
+          let response = await UpdateShopTitle(title.current,window.localStorage.getItem('CE_seller_id'));
+          
           if(response){
             window.location.reload()
+            overlay.removeAttribute('id')
+          }
+        }}>Update</button>
+        <button>Cancel</button>
+      </div>
+    </div>
+  )
+}
+function DescEdit({shop_description}) {
+ 
+  let desc= useRef(shop_description)
+  const [value, setValue] = useState(desc.current);
+
+  useEffect(() => {
+    desc.current=value;
+  }, [value])
+  
+  
+
+  return(
+    <div className="descripion-edit" style={{overflow: 'auto'}}>
+
+      <h3>Description</h3>
+      
+
+      <div className="input-cnt" style={{ border: '1px solid #ccc', padding: '10px', minHeight: '300px' }}>
+        {/* <textarea defaultValue={shop_description} onInput={e => desc.current = (e.target.value)} name="" id="" placeholder='Enter Your Description'></textarea> */}
+      
+        <Editor
+          apiKey="o4jga8stx5u5sh6la3gz936w4ydyv78e0k7p6q36mi0ebww1"
+          value={value}
+          init={{
+            minHeight: 300,
+            width: '100%',
+            menubar: false,
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar:
+              'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent | removeformat | help'
+          }}
+          onEditorChange={(content, editor) => {
+            setValue(content)
+
+          }}
+        />
+      </div>
+
+  
+ 
+      <div className="btn-cnt">
+        <button onClick={async(e) => {
+          let overlay = document.querySelector('.overlay');
+          overlay.setAttribute('id', 'overlay');
+          let response = await UpdateShopDesc(desc.current, window.localStorage.getItem('CE_seller_id'));
+          
+          if(response){
+            window.location.reload()
+            overlay.removeAttribute('id')
           }
         }}>Update</button>
         <button>Cancel</button>
@@ -81,9 +152,13 @@ function InvetoryEdit({list}) {
   );
 
     async function UpdateInventoryHandler() {
+      let overlay = document.querySelector('.overlay');
+      overlay.setAttribute('id', 'overlay');
       let result = await UpdateInventory(selectedList, window.localStorage.getItem("CE_seller_id"))
+      
       if(result){
         window.location.reload()
+        overlay.removeAttribute('id')
       }
       
     }
@@ -448,17 +523,13 @@ function Ads() {
     </div>)
 }
 export default function Body() {
-
-  
-  let navigate = useNavigate()
   const [soldItems, setSoldItems] = useState([]);
   let [reviews, setReviews] = useState([])
   let [shop, setShop] = useState('')
   let [TotalSold, setTotalSold] = useState('0')
   let [TotalEarned, setTotalEarned] = useState('0')
-
-  
-  let [screenWidth, setScreenWidth] = useState(0)
+  let [activeJsx, setActiveJsx] = useState('')
+  let [userData, setUserData] = useState('')
 
 
   useEffect(() => {
@@ -467,45 +538,29 @@ export default function Body() {
     async function getShop() {
       let shop = await GetShop(window.localStorage.getItem("CE_seller_id"))
       setShop(shop)
-      console.log(shop)
       overlay.removeAttribute('id')
     }
     getShop()
 
-    
-
   }, [])
 
   useEffect(() => {
-    
     async function getSoldItems() {
       let sold_items = await GetSoldItems(shop.shop_id)
       setSoldItems(sold_items)
     }
     getSoldItems()
-
-    
-
-  }, [shop])
-
-  useEffect(() => {
-    
     async function getReviews() {
       let reviews = await GetReviews(window.localStorage.getItem("CE_seller_id"))
       setSoldItems(reviews)
     }
     getReviews()
-
-  }, [shop])
-
-  useEffect(() => {
-    
     async function getSellerShop() {
       let shop = await GetItems(window.localStorage.getItem("CE_seller_id"))
 
 
       
-      if(shop.length > 0){
+      if(shop?.length > 0){
         let result = shop.filter(shop.status === 'sold');
         if(result.length > 0){
           result.forEach((number) => {
@@ -519,25 +574,15 @@ export default function Body() {
         setTotalEarned(0)
         setTotalSold(0)
       }
-
-      
     }
     getSellerShop()
-
   }, [shop])
 
-  let [userData, setUserData] = useState('')
 
+  function updateActiveJsx(data) {
+    setActiveJsx(data)
+  }
 
-  useEffect(() => {
-    async function getData(){
-      let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
-      setUserData(result)
-    }
-    getData()
-  }, [])
-
-  let [activeJsx, setActiveJsx] = useState('')
 
    
   return (
@@ -559,333 +604,40 @@ export default function Body() {
       </div>
       <div className="seller-profile-right shadow-sm"> 
 
-          <div className="seller-profile-basics">
-            {/* <img src={ellipsisSvg} style={{
-              height: '20px',
-              width: '20px',
-              position: 'absolute',
-              right: '50px',
-              cursor: 'pointer'
-            }} alt="" /> */}
-            <ul>
-             
-              <li style={{
-                fontWeight: '400'
-              }}>
+        <div className="seller-profile-basics">
+          
+          <Summary TotalEarned={TotalEarned} TotalSold={TotalSold} />
+          <br />
 
-                <div>&#8358;{
-                  TotalEarned
-                }</div>
-                <div>Total Earned</div>
+          <CoinComp updateActiveJsx={updateActiveJsx} Coin={Coin} userData={userData} shop={shop} />
+          <br />
 
-              </li>
+          <ShopRent Rent={Rent} updateActiveJsx={updateActiveJsx} shop={shop} />
+          <br />
 
-              <li style={{
-                fontWeight: '400'
-              }}>
+          <AdsComp shop={shop} Ads={Ads} updateActiveJsx={updateActiveJsx} />
+          <br />
 
-                <div>{TotalSold}</div>
-                <div>Total Sales</div>
+          <Verification userData={userData} ContactEdit={ContactEdit} updateActiveJsx={updateActiveJsx} />
+          <br />
 
-              </li>
+          <University userData={userData} />
 
-              <li style={{
-                fontWeight: '400'
-              }}>
+        </div>
 
-                {/* <div>30</div>
-                <div>Days Left</div> */}
+        <div className="seller-profile-others">
 
-              </li>
-              
-            </ul>
-            <br />
+          <ShopTitle shop={shop} TitleEdit={TitleEdit} updateActiveJsx={updateActiveJsx} />
 
-             <div className="seller-profile-verification">
-                <img src={ellipsisSvg} style={{
-                  height: '20px',
-                  width: '20px',
-                  position: 'absolute',
-                  right: '10px',
-                  top: '10px',
-                  transform: 'rotate(90deg)',
-                  cursor: 'pointer'
-                }} alt="" onClick={e => {
-                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<Coin email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id}  />)
-                
-              }} />
-                <div><b>Campus Coin</b></div>
+          <ShopDesc shop={shop} DescEdit={DescEdit} updateActiveJsx={updateActiveJsx} />
 
-                <div>
-                  {/* <div>ID: Verified</div> */}
-                  <div>Available Coin: {
-                    shop?.coin
-                  }</div>
-                  {/* <div>Student: False</div> */}
-                </div>
+          <ItemsSold soldItems={soldItems} />
 
-            </div>
+          <Inventory updateActiveJsx={updateActiveJsx} shop={shop} InvetoryEdit={InvetoryEdit} />
 
-            <br />
 
-            <div className="seller-profile-verification">
-                <img src={ellipsisSvg} style={{
-                  height: '20px',
-                  width: '20px',
-                  position: 'absolute',
-                  right: '10px',
-                  top: '10px',
-                  transform: 'rotate(90deg)',
-                  cursor: 'pointer'
-                }} alt="" onClick={e => {
-                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<Rent />)
-                
-              }} />
-                <div><b>Shop Rent</b></div>
-
-                <div>
-                  {/* <div>ID: Verified</div> */}
-                  <div style={{textTransform: 'capitalize'}}>{(shop.rent)?JSON.parse(shop.rent).tier:'...'}: {
-                    (shop.rent)?JSON.parse(shop.rent).price:'...'
-                  } coin</div>
-                  {/* <div>Student: False</div> */}
-                </div>
-
-                <div>
-                  {/* <div>ID: Verified</div> */}
-                  <div>Time Duration: {
-                     '30 Days Left'
-                  }</div>
-                  {/* <div>Student: False</div> */}
-                </div>
-            </div>
-
-            <br />
-            <div className="seller-profile-verification">
-                <img src={ellipsisSvg} style={{
-                  height: '20px',
-                  width: '20px',
-                  position: 'absolute',
-                  right: '10px',
-                  top: '10px',
-                  transform: 'rotate(90deg)',
-                  cursor: 'pointer'
-                }} alt="" onClick={e => {
-                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<Ads />)
-                
-              }} />
-                <div><b>Ads Promotion</b></div>
-
-                <div>
-                  {/* <div>ID: Verified</div> */}
-                  <div style={{textTransform: 'capitalize'}}>{(shop.subscription)?JSON.parse(shop.subscription).package:'...'}: {
-                    (shop.subscription)?JSON.parse(shop.subscription).price:'...'
-                  }</div>
-                  
-                  {/* <div>Student: False</div> */}
-                </div>
-            </div>
-            <br />
-
-            <div className="seller-profile-verification">
-                <img src={ellipsisSvg} style={{
-                  height: '20px',
-                  width: '20px',
-                  position: 'absolute',
-                  right: '10px',
-                  top: '10px',
-                  transform: 'rotate(90deg)',
-                  cursor: 'pointer'
-                }} alt="" onClick={e => {
-                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<ContactEdit email={userData.email} phone={userData.phone} name={`${userData.fname} ${userData.lname}`} seller_id={userData.seller_id} />)
-                
-              }} />
-                <div><b>Verification</b></div>
-
-                <div>
-                  {/* <div>ID: Verified</div> */}
-                  <div>Email: {
-                    userData.isemailverified ? 'Verified' : 'Not Verified'
-                  }</div>
-                  <div>Phone Number: {
-                    userData.isphoneverified ? 'Verified' : 'Not Verified'
-                  }</div>
-                  {/* <div>Student: False</div> */}
-                </div>
-            </div>
-            <br />
-
-            <div className="seller-profile-education">
-
-              {/* <img src={ellipsisSvg} style={{
-                height: '20px',
-                width: '20px',
-                position: 'absolute',
-                right: '10px',
-                top: '10px',
-                transform: 'rotate(90deg)',
-                cursor: 'pointer'
-              }} alt="" onClick={e => {
-                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<UniEdit />)
-                
-              }} /> */}
-              <div><b>University</b></div>
-              <div>{userData.campus},{userData.state}</div>
-            </div>
-          </div>
-
-          <div className="seller-profile-others">
-            
-              <div>
-                <img src={ellipsisSvg} style={{
-                  height: '20px',
-                  width: '20px',
-                  position: 'absolute',
-                  right: '50px',
-                  cursor: 'pointer'
-                }} alt="" onClick={e => {
-                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<DescEdit shop_title={shop?.shop_title} shop_description={shop?.shop_description} />)
-               
-              }} />
-                <span>{
-                  shop?.shop_title === ''
-                  ?
-                  'Update Your Shop Title'
-                  :
-                  shop?.shop_title
-                }</span>
-                
-                <div style={{fontSize: 'medium', fontWeight: '400', lineHeight: '23px'}}>
-                  {
-                    shop?.shop_description === ''
-                    ?
-                    'Update Your Shop Description...'
-                    :
-                    shop?.shop_description
-                  }
-                </div>
-              </div>
-
-              <div>
-                <span>Items Sold</span>
-                
-                <div className='seller-profile-items-sold'>
-                  <ul>
-                    {
-                      (typeof soldItems) === 'array' && soldItems.length > 0 ? soldItems.map((item, index) => <li style={{listStyleType: 'disc'}}>
-                        <li style={{listStyleType: 'disc'}}>
-                          <div className="cols" >
-                            <div className="card" key={index} style={{height: 'fit-content', marginBottom: '10x', flexShrink: '0', width: '200px', borderRadius: '10px'}}>
-                                
-                              <Thumbnail product_id={item.product_id} />
-
-                              <div className="card-body">
-                                  
-                                {
-                                  screenWidth > 479
-                                  ?
-                                  <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
-                                  : 
-                                  <small style={{fontSize: 'small', fontFamily: 'sans-serif', height: '35px', lineHeight: '18px', color: '#000'}} onClick={e => navigate(`/product/${item.product_id}`)} >{item.title}</small>
-                                }
-
-                                {/* <br /> */}
-
-                                {/* <hr  /> */}
-                                
-                                {
-                                  screenWidth > 479
-                                  ?
-                                  <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', marginTop: '10px', fontWeight: '500', color: '#000'}}>&#8358;{
-                                      new Intl.NumberFormat('en-us').format(item.price)
-                                  }</h6>
-                                  : 
-                                  <h6 onClick={e => navigate(`/product/${item.product_id}`)} style={{marginBottom: '10px', fontWeight: '700', color: '#000'}}>&#8358;{new Intl.NumberFormat('en-us').format(item.price)}</h6>
-                                }
-
-                                  
-                              </div>
-
-                                
-
-                            </div>
-                          </div> 
-                        </li>
-                      </li>)
-                      : 
-                        <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF4500', color: '#fff'}}>
-                          No Sold Items Yet
-                        </li>
-
-                    }
-                  </ul>
-                </div>
-              </div>
-
-              <div>
-                <img src={ellipsisSvg} style={{
-                  height: '20px',
-                  width: '20px',
-                  position: 'absolute',
-                  right: '50px',
-                  cursor: 'pointer'
-                }} alt="" onClick={e => {
-                document.querySelector('.edit-overlay').setAttribute('id', 'edit-overlay')
-                setActiveJsx(<InvetoryEdit list={shop.inventory} />)
-
-              }} />
-                <span>Inventory</span>
-                
-                <div className='seller-profile-inventory' style={{overflow: 'auto', flexWrap: 'wrap'}}>
-                  <ul style={{overflow: 'hidden', flexWrap: 'wrap'}}>
-                    {
-                      shop.inventory 
-                      ?  
-                      JSON.parse(shop.inventory).length > 0 
-                        ? 
-                        JSON.parse(shop.inventory).map(item => <li style={{listStyleType: 'none', margin: '10px'}}>{item}</li>) 
-                        : 
-                        <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF4500', color: '#fff'}}>
-                          Please Add Items You Sell
-                        </li> 
-                      : 
-                      <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF4500', color: '#fff'}}>
-                          Please Add Items You Sell
-                        </li>
-                        
-                    }
-                  </ul>
-                </div>
-              </div>
-
-              <div>
-                <span>Customer Reviews</span>
-                
-                <div className='seller-profile-reviews'>
-                  <ul>
-                    {
-                      reviews.length > 0
-                      ?
-                      reviews.map((item, index) => {
-                        return(
-                          ''
-                        )
-                      })
-                      :
-                      <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF4500', color: '#fff'}}>
-                        No Reviews Yet
-                      </li>
-                    }
-                  </ul>
-                </div>
-              </div>
-          </div>
+          <Reviews reviews={reviews} />
+        </div>
 
           
       </div>

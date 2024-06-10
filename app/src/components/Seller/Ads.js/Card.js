@@ -86,7 +86,8 @@ export default function Card({item,index}) {
         </div>
 
         <div class="ads-card" style={{
-            border: item.state.state === 'published' ? '1px solid green' : '1px solid red'
+            border: item.state.state === 'published' ? '1px solid green' : '1px solid red',
+            justifyContent: 'left'
         }} data-id={
             item.product_id
         }  onClick={handleListing}>

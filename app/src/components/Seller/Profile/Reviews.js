@@ -1,24 +1,29 @@
 import React from 'react'
 
-export default function Reviews() {
+export default function Reviews({reviews}) {
   return (
     <>
-        <div className="seller-profile-reviews">
-            <section>
-                {/* <h3>Reviews</h3> */}
-            </section>
-            <section className='seller-review-box'>
+        <div>
+            <span>Customer Reviews</span>
+            
+            <div className='seller-profile-reviews'>
+              <ul>
                 {
-                    [1,2,3,4,5,6,7,8].map((item,index) => 
-                    
-                        <div className="seller-review-cnt">
-                        
-                        </div>
+                  reviews.length > 0
+                  ?
+                  reviews.map((item, index) => {
+                    return(
+                      ''
                     )
-
+                  })
+                  :
+                  <li style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF4500', color: '#fff'}}>
+                    No Reviews Yet
+                  </li>
                 }
-            </section>
-        </div>
+              </ul>
+            </div>
+          </div>
     </>
   )
 }

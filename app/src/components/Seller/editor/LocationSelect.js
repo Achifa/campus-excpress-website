@@ -7,15 +7,15 @@ const LocationSelect = ({edit,productLocale}) => {
     let [campus, setCampus] = useState('')
 
     useEffect(() => {
-        let overlay = document.querySelector('.overlay')
+        // let overlay = document.querySelector('.overlay')
         //overlay.setAttribute('id', 'overlay');
         try {
             async function getData(){
                 let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
-                setCampus(result.campus)
-                setState(result.state)
-                productLocale(result.state + ',' + ' ' + result.campus)
-                overlay.removeAttribute('id')
+                setCampus(result?.campus)
+                setState(result?.state)
+                productLocale(result?.state + ',' + ' ' + result.campus)
+                // overlay.removeAttribute('id')
             }
         getData()
 

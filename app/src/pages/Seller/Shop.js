@@ -10,22 +10,18 @@ import Body from '../../components/Seller/Ads.js/Body'
 import SellerLayout from '../../layout/Seller'
 import { GetItems } from '../../api/seller/get';
 import { DeleteItem } from '../../api/seller/delete';
-import Inventory from '../../components/Seller/Ads.js/Inventory';
+// import Inventory from '../../components/Seller/Ads.js/Inventory';
 
 const Shop = () => {
     let navigate = useNavigate()
-    let [screenWidth, setScreenWidth] = useState(0)
-
     let [Items, setItems] = useState([])
-    let [activeImg, setActiveImg] = useState(imgSvg)
     let [loaderText, setLoaderText] = useState('Loading...')
 
 
     useEffect(() => {
 
         let overlay = document.querySelector('.overlay')
-        //overlay.setAttribute('id', 'overlay');
-        
+        overlay.setAttribute('id', 'overlay');
         GetItems(window.localStorage.getItem("CE_seller_id"))
         .then((result) => { 
             setItems(result)
@@ -38,9 +34,7 @@ const Shop = () => {
         })
         .catch((err) => {
             console.log(err)
-        })
-
-        
+        }) 
     }, [])
 
     function DeleteProduct(e,product_id) {
@@ -71,7 +65,7 @@ const Shop = () => {
                     <div className="seller-libs" style={{ padding: '10px', flexDirection: 'row'}}>
                     {
 
-                        <Body />
+                        <Body cards={Items} />
                     } 
 
                     

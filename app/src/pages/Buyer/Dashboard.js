@@ -39,7 +39,7 @@ const Dashboard = () => {
     let [screenWidth, setScreenWidth] = useState(0)
     let reactId = useId();
 
-    let {Buyer} = useSelector(s=>s.Buyer)
+    // let {Buyer} = useSelector(s=>s.Buyer)
 
     async function fetchData(overlay,category) {
         GetItems(category)
@@ -74,8 +74,7 @@ const Dashboard = () => {
     }, [])
 
     useEffect(() => {
-        // let overlay = document.querySelector('.overlay');
-        // overlay.setAttribute('id', 'overlay');
+        
         try {
             fetchSavedData(window.localStorage.getItem('CE_buyer_id'))
         } catch (error) {
@@ -92,6 +91,20 @@ const Dashboard = () => {
             } catch (error) {
                 console.log(error)
             }
+        }
+        if(location.search.split('=').length > 1){
+            let overlay = document.querySelector('.overlay');
+            overlay.setAttribute('id', 'overlay');
+            try {
+                fetchData(overlay,location.search.split('=')[1])
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        if(location.pathname.split('/')[1] === 'search'){
+            setActiveJSX(<SearchOutput />)
+        }else{
+            setActiveJSX(<CardCnt cards={cards} />)
         }
     }, [location]) 
 
@@ -134,29 +147,7 @@ const Dashboard = () => {
             uploadNewRef()
         }
 
-        
     }, [cards]);
-
-    useEffect(() => {
-        if(location.pathname.split('/')[1] === 'search'){
-            setActiveJSX(<SearchOutput />)
-        }else{
-            setActiveJSX(<CardCnt cards={cards} />)
-        }
-
-    }, [location,cards])
-
-    useEffect(() => {
-        if(location.search.split('=').length > 1){
-            let overlay = document.querySelector('.overlay');
-            overlay.setAttribute('id', 'overlay');
-            try {
-                fetchData(overlay,location.search.split('=')[1])
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    }, [location])
 
 
     return ( 

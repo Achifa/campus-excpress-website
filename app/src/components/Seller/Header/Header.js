@@ -1,90 +1,40 @@
 import { useEffect, useState } from "react";
-import img from '../../../images/download (5).jpeg'
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-
+import dayjs from 'dayjs'
+import greetPlugin from 'dayjs-greet'
 import { useLocation, useNavigate } from "react-router-dom";
-import { socket } from "../../../socket";
-import Menu from "./MenuBtn";
-import Nav from "./Nav";
 import usePath from "../../../hooks/usePath";
-import { GetSeller } from "../../../api/seller/get";
+import { useDispatch, useSelector } from "react-redux";
 
  
 const Header = () => {
 
+    let {sellerData} = useSelector(s=> s.sellerData);
+
     let navigate = useNavigate()
-
-    let [screenWidth, setScreenWidth] = useState(0)
-    let [activeHead, setActiveHead] = useState('')
-
-    useEffect(() => { 
-        let width = window.innerWidth;
-        setScreenWidth(width)
-    }, [])
-
-    useEffect(() => {
-        // AuthenticateSeller(window.localStorage.getItem('CE_seller_id'))
-        // .then((result) => {
-
-        //     if(!result){
-        //         navigate('/seller.login')
-        //     }
-        // })
-        // .catch((err) => console.log(err))
-    }, [])
-
-    let handleMenu = e => {
-        let menu = document.querySelector('.seller-aside');
-        let overlay = document.querySelector('.seller-aside-overlay');
-        let isMenuVisible = menu.hasAttribute('id') ? true : false
-        let isOverlayVisible = menu.hasAttribute('id') ? true : false
-
-        if(isMenuVisible && isOverlayVisible){
-            menu.removeAttribute('id')
-            overlay.removeAttribute('id')
-        }else{
-            overlay.setAttribute('id', 'seller-aside-overlay')
-            setTimeout(() => {
-            menu.setAttribute('id', 'seller-aside')
-                
-            }, 0);
-        }
-
-    }
-
     let location = useLocation()
 
     let path = usePath()
+    dayjs.extend(greetPlugin)
 
-    let [userData, setUserData] = useState('')
+    let [activeHead, setActiveHead] = useState('') 
+    
+   
+    useEffect(() => {
+        console.log(sellerData)
+    }, [sellerData])
 
     useEffect(() => {
-        async function getData(){
-            let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
-            setUserData(result)
-            console.log(result)
-        }
-        getData()
-    }, [])
 
-    let [greetings, setGreeting] = useState('Hello')
-
-    socket.emit('getTime', {})
-
-    socket.on('greetings', greeting => {
-        setGreeting(greeting)
-    })
-
-    useEffect(() => {
-        let path = location.pathname.split('/').splice(-1)[0]
+        let path = location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0]
         if(path === ''){
-            setActiveHead(<h4 style={{fontFamily: 'cursive', textTransform: 'capitalize'}}>{greetings} {userData.lname}</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive', textTransform: 'capitalize'}}>{dayjs(new Date()).greet()} {sellerData?.fname} {sellerData?.lname}</h4>)
         }else if(path === 'editor'){
             setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Sell</h4>)
         }else if(path === 'inbox'){
             setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Inbox</h4>)
         }else if(path === 'shop'){
-            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Items for sale</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Listing</h4>)
         }
         else if(path === 'orders'){
         //     setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Orders</h4>)
@@ -106,24 +56,20 @@ const Header = () => {
                 textAlign: 'center',
                 alignItems: 'center',
                 display: 'flex',
-                // justifyContent: 'space-between',
                 padding: '0',
-                
                 position: 'sticky',
                 backgroundColor: '#fff',
                 top: '0',
                 fontWeight: '500',
                 background: 'orangered',
                 zIndex: '1000',
-                // height: location.pathname.split('/').splice(-1)[0] === 'seller' ? '40%' : '60px',
                 backgroundImage: 'url(../../../images/download (5).jpeg)',
                 backgroundClip: 'content-box',
                 backgroundSize: 'contain'
             }}>
                 <span>
-                    <h2 style={{margin: '0 10px 0 10px', textTransform: 'capitalize'}}>{location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0]}</h2>
+                    <h2 style={{margin: '0 10px 0 10px', textTransform: 'capitalize'}}>{activeHead}</h2>
                 </span>
-                {/* <img src={img} style={{height: screenWidth <= 760 ? '45px' : '50px', width: screenWidth <= 760 ? '45px' : '50px', color: '#fff', fontSize: 'medium', marginTop: screenWidth <= 760 ? '5px' : '0', display: 'flex'}} alt="" /> */}
 
                 {
                     location.pathname.split('/').splice(-1)[0] === 'seller.shop' 
@@ -136,7 +82,7 @@ const Header = () => {
                             top: '12px'
                         }}>
                             <a className="btn btn-danger dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{background: 'orangered'}}>
-                                {/* <img src={filterSvg} style={{
+                                <img src={filterSvg} style={{
                                     height: '20px', 
                                     width: '20px', 
                                     color: '#fff',
@@ -144,23 +90,20 @@ const Header = () => {
                                     right: '20px',
                                     top: '20px', 
                                     fontSize: 'medium',
-                                }} alt="" /> */}
+                                }} alt="" />
                                 Filter
                             </a>
 
                             <ul className="dropdown-menu">
                                 <li><a className="dropdown-item" href="#">Published</a></li>
                                 <li><a className="dropdown-item" href="#">Rejected</a></li>
-                                {/* <li><a className="dropdown-item" href="#">Pending</a></li> */}
+                                <li><a className="dropdown-item" href="#">Pending</a></li>
                             </ul>
                         </div>
                     </>
                     :
                     ''
                 }
-                
-              
-
 
                 {
                     location.pathname.split('/').splice(-1)[0] !== 'seller.signup' || location.pathname.split('/').splice(-1)[0] !== 'seller.login' || location.pathname.split('/').splice(-1)[0] !== 'seller.reset-password'
@@ -178,95 +121,21 @@ const Header = () => {
                         borderRadius: path === 'signup' || path === 'login' ? '5px' : '50%',
                         display: path === 'signup' || path === 'login' ? 'flex' : 'none'
                     }}>
-                            {
-                                path === 'signup' || path === 'login'
+                        {
+                            path === 'signup' || path === 'login'
+                            ?
+                                <span 
+                                style={{
+                                    textTransform: 'capitalize'
+                                }}>{path === 'signup' ? 'Login' : 'Signup'}</span>
+                            : 
 
-                                ?
-                                    <span 
-                                    style={{
-                                        textTransform: 'capitalize'
-                                    }}>{path === 'signup' ? 'Login' : 'Signup'}</span>
-                                : 
-
-                                ''
-                                
-                            }
-
-
+                            ''
+                        }
                     </span>
                 } 
 
-                {
-                    screenWidth > 760
-                    ?
-                    <>
-                       
-
-                        {/* <div className="input-cnt" style={{
-                            width: '100%',
-                            position: 'absolute',
-                            bottom: '10px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}>
-                            <input 
-                            style={{
-                                width: '400px',
-                                display: screenWidth > 480 && location.pathname.split('/').splice(-1)[0] === 'seller' ? 'flex' : 'none',
-                            }} type="search" name="" id="" placeholder="" />
-                        </div> */}
-
-                        {/* <ul style={{
-                            listStyleType: 'none',
-                            display: location.pathname.split('/').splice(-1)[0] === 'seller' ? 'flex' : 'none',
-                            alignItems: 'center',
-                            justifyContent: 'space-evenly',
-                            position: 'absolute',
-                            right: '20px',
-                            top: '35px'
-                        }}>
-
-                            <li onClick={e => navigate('/seller.message')} style={{
-                                background: '#fff',
-                                color: 'orangered',
-                                padding: '10px',
-                                margin: '0 10px 0 10px',
-                                borderRadius: '5px',
-                                fontWeight: '500',
-                                fontSize: 'medium',
-                                cursor: 'pointer',
-                                textTransform: 'capitalize'
-                            }}>message</li>
-                            <li onClick={e => navigate('/seller.shop')} style={{
-                                background: '#fff',
-                                color: 'orangered',
-                                padding: '10px',
-                                margin: '0 10px 0 10px',
-                                borderRadius: '5px',
-                                fontWeight: '500',
-                                cursor: 'pointer',
-                                fontSize: 'medium',
-                                textTransform: 'capitalize'
-                            }}>ads</li>
-                            <li onClick={e => navigate('/seller.profile')} style={{
-                                background: '#fff',
-                                color: 'orangered',
-                                padding: '10px',
-                                margin: '0 10px 0 10px',
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                fontWeight: '500',
-                                fontSize: 'medium',
-                                textTransform: 'capitalize'
-                            }}>profile</li>
-
-                        </ul> */}
-                    </>
-                    :
-                    "" 
-                }
-                  
+               
 
             </div>
 

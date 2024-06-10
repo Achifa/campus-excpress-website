@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../components/Seller/Header/Header'
 import Aside from '../components/Seller/Aside/Aside'
 import Nav from '../components/Seller/Header/Nav'
+import { GetSeller } from '../api/seller/get'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSellerTo } from '../redux/seller_store/seller'
 
-const SellerLayout = ({ children }) => {
+const SellerLayout = (props) => {
     let location = useLocation()
-    let [screenWidth, setScreenWidth] = useState(0)
-    let [activeHead, setActiveHead] = useState('')
+    let [screenWidth, setScreenWidth] = useState(0) 
+    let navigate = useNavigate()
+    let dispatch = useDispatch() 
+    let {sellerData} = useSelector(s=> s.sellerData);
 
-    useEffect(() => { 
-        let width = window.innerWidth;
-        setScreenWidth(width)
-    }, [])
+    
+    useEffect(() => {
+        if(window.localStorage.getItem('CE_seller_id') === '' || window.localStorage.getItem('CE_seller_id') === null){
+            navigate('/seller.login')
+        }
+        async function getData(){
+            let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
+            dispatch(setSellerTo(result))
+
+        } 
+        getData()
+        setScreenWidth(window.innerWidth)
+    }, [location])
+ 
     return (
         <>
             {
@@ -25,14 +40,9 @@ const SellerLayout = ({ children }) => {
             <Aside />
 
             
-            {children}
+            {props.children}
 
             {
-                //location.pathname.split('/').splice(-1)[0] !== 'seller' && location.pathname.split('/').splice(-1)[0] !== 'seller.shop' && location.pathname.split('/').splice(-1)[0] !== 'seller.messages'
-                //?
-                //''
-                //:
-
                 screenWidth > 760
                 ?
                 ''

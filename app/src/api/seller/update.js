@@ -16,8 +16,15 @@ export async function UpdateSellerProfile(fname,lname,state,campus,seller_id,pho
     return(response)
 }
 
-export async function UpdateShop(title, description, seller_id) {
-    let response = await update_request_generators('shop-update', {title, description, seller_id})
+export async function UpdateShopTitle(title,seller_id) {
+    let response = await update_request_generators('shop-title-update', {title,seller_id})
+    setTimeout(() => source.cancel('timeout'), 10000) 
+    return(response)
+}
+
+
+export async function UpdateShopDesc(description,seller_id) {
+    let response = await update_request_generators('shop-desc-update', {description,seller_id})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return(response)
 }

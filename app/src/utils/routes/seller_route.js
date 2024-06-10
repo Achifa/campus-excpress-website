@@ -1,6 +1,5 @@
 import Editor from '../../pages/Seller/Editor';
 import Shop from '../../pages/Seller/Shop';
-import SellerOrder from '../../pages/Seller/Order';
 import Setting from '../../pages/Seller/Settings';
 import SellerWallet from '../../pages/Seller/Wallet';
 import Me from '../../pages/Seller/Profile';
@@ -9,7 +8,6 @@ import Inbox from '../../pages/Seller/Inbox';
 import SellerLogin from '../../Authorization/Seller/Login';
 import SellerDashboard from '../../pages/Seller/Dashboard';
 import Message from '../../pages/Seller/Messages';
-import OrderPage from '../../pages/Seller/OrderPage';
 import MessageRoom from '../../pages/Seller/MessageRoom';
 import MessageLg from '../../pages/Seller/MessageLg';
 import ForgotPwd from '../../Authorization/ForgotPassword';
@@ -27,7 +25,6 @@ export let seller_route = [
     {  path:'/seller.editor/:id', component: <Editor /> },
     
     {  path:'/seller.shop', component: <Shop /> },
-    {  path:'/seller.orders', component: <SellerOrder/> }, 
     {  path:'/seller.inbox', component: <Inbox /> },
 
     {  path:'/seller.settings.profile', component: <Setting /> },
@@ -44,7 +41,6 @@ export let seller_route = [
 
     // {  path:'/seller.settings', component: <SettingsLg /> },
 
-    { path: '/seller.order-page/:id', component: <OrderPage /> },
 
     // { path: '/product/:id', component: <ProductPage />}, 
 

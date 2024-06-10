@@ -11,6 +11,7 @@ import menuSlice from './seller_store/settings_option';
 import savedItem from './buyer_store/Save';
 import SearchList from './buyer_store/SearchList';
 import Buyer from './buyer_store/Buyer';
+import sellerData from './seller_store/seller';
 
 
 let store = configureStore({
@@ -28,7 +29,8 @@ let store = configureStore({
 
     user: userReducer,
 
-    menu: menuSlice
+    menu: menuSlice,
+    sellerData: sellerData
 
   }
 

@@ -1,48 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { setMenuTo } from '../../../redux/seller_store/settings_option'
-import user from '../../../assets/user-alt-1-svgrepo-com.svg'
+import { useDispatch, useSelector } from 'react-redux'
 import editSvg from '../../../assets/edit-svgrepo-com.svg'
-import history from '../../../assets/history-svgrepo-com (1).svg'
-import reviews from '../../../assets/rating-svgrepo-com.svg'
-import wallet from '../../../assets/money-total-line-svgrepo-com.svg'
-import pwd from '../../../assets/password-svgrepo-com.svg'
-import notice from '../../../assets/notification-svgrepo-com (2).svg'
+
 import userPhoto from '../../../assets/user-svgrepo-com (2).svg'
 
-import img from '../../../images/images (3).jpeg'
 import { useNavigate } from 'react-router-dom'
-import { GetSeller, GetSellerPhoto } from '../../../api/seller/get'
+import { GetSellerPhoto } from '../../../api/seller/get'
 export default function TopView() {
     
+    let {sellerData} = useSelector(s=> s.sellerData);
 
     let [screenWidth, setScreenWidth] = useState(0)
     let [photo, setPhoto] = useState(userPhoto)
+    let [userData, setUserData] = useState()
+
+    let navigate = useNavigate()
 
     useEffect(() => { 
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
 
-    let [userData, setUserData] = useState()
-    
     useEffect(() => {
-        async function getData(){
-          let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
-          setUserData(result)
-          console.log(result)
-        }
-        getData()
-      }, [])
+      setUserData(sellerData)
+    }, [sellerData])
 
-      useEffect(() => {
-        async function getPhoto(){
-          let result = await GetSellerPhoto(window.localStorage.getItem('CE_seller_id'))
-          setPhoto(result.file)
-        }
-        getPhoto()
-      }, [])
-    let navigate = useNavigate()
+    useEffect(() => {
+      async function getPhoto(){
+        let result = await GetSellerPhoto(window.localStorage.getItem('CE_seller_id'))
+        console.log(result)
+        setPhoto(result?.file)
+      }
+      getPhoto()
+    }, [])
 
 
   return (
@@ -57,7 +47,6 @@ export default function TopView() {
             &nbsp;
             &nbsp;
             &nbsp;
-
             <div>
                 <div className="seller-profile-name">
                     {userData?.fname} {userData?.lname}
@@ -70,14 +59,6 @@ export default function TopView() {
                 <div className="seller-profile-date">
                     Member since {userData?.date?(userData.date):'loading...'}
                 </div>
-
-                {/* <div className="seller-profile-date">
-                    akpulufabian@gmail.com &#8226; Unverified
-                </div>
-                <div className="seller-profile-date">
-                    08032639894 &#8226; Unverified
-                </div> */}
-                
             </div>
 
         </div>
