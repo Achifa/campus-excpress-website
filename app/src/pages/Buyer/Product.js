@@ -63,6 +63,20 @@ const ProductPage = () => {
     }, [])
 
     useEffect(() => {
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+        GetItem([location.search.split('=').splice(-1)[0]])
+        .then((result) => {
+            setItem(result[0])
+            overlay.removeAttribute('id')
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+
+    }, [location])
+
+    useEffect(() => {
         // let overlay = document.querySelector('.overlay')
 
         try {
