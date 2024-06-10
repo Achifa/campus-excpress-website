@@ -31,7 +31,7 @@
         width: calc(100% - 250px);
         font-family: 'Times New Roman', Times, serif;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
     }
 
@@ -79,7 +79,7 @@
         width: calc(100% - 150px);
         font-family: 'Times New Roman', Times, serif;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
     
     }
