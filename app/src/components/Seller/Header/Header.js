@@ -20,9 +20,6 @@ const Header = () => {
     let [activeHead, setActiveHead] = useState('') 
     
    
-    useEffect(() => {
-        console.log(sellerData)
-    }, [sellerData])
 
     useEffect(() => {
 

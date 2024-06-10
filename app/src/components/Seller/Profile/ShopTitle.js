@@ -5,6 +5,8 @@ export default function ShopTitle({shop,TitleEdit,updateActiveJsx}) {
   return (
     <>
       <div>
+            <h1>Shop Title</h1>
+            <br />
             <img src={ellipsisSvg} style={{
               height: '20px',
               width: '20px',
@@ -16,13 +18,13 @@ export default function ShopTitle({shop,TitleEdit,updateActiveJsx}) {
             updateActiveJsx(<TitleEdit shop_title={shop?.shop_title}/>)
             
           }} />
-            <span>{
+            <small>{
               shop?.shop_title === ''
               ?
               'Update Your Shop Title'
               :
               shop?.shop_title
-            }</span>
+            }</small>
             
           </div>
     </>

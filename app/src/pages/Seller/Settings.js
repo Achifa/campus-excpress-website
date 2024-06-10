@@ -15,6 +15,7 @@ import { data, school_choices } from '../../location'
 import { UpdateSellerProfile } from '../../api/seller/update'
 import { openNotice } from '../../Functions/notice'
 import { ValidateBank } from '../../api/seller/post'
+import { useSelector } from 'react-redux'
 export default function Settings() {
     let [screenWidth, setScreenWidth] = useState(0)
 
@@ -74,9 +75,16 @@ export default function Settings() {
 function Profile() {
 
     let [screenWidth, setScreenWidth] = useState(0)
+
+    let {sellerData} = useSelector(s=> s.sellerData);
+
     useEffect(() => {
         let newWidth = window.innerWidth;
         setScreenWidth(newWidth);
+    },[])
+
+    useEffect(() => {
+        setUserData(sellerData)
     },[])
 
 
@@ -85,19 +93,7 @@ function Profile() {
     let [state, setState] = useState('')
     let [campus, setCampus] = useState('')
     let [userData, setUserData] = useState('')
-    // let [passport, setPassport] = useState('')
-
-    useEffect(() => {
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
-        async function getData(){
-            let result = await GetSeller(window.localStorage.getItem('CE_seller_id'))
-            setUserData(result)
-            overlay.removeAttribute('id')
-
-        }
-        getData()
-    }, [])
+   
    
     let [photo, setPhoto] = useState(userPhoto)
 
@@ -151,120 +147,122 @@ function Profile() {
 
     return(
         <>
-            <div className="overlay">
+           {/* <SellerLayout> */}
+           <div className="overlay">
                 <div className="loader">
                 </div>
             </div>
             <div className="seller-profile-setup" style={{width: 'fit-content', height: 'fit-content', marginTop: '-5px'}}>
-                    {/* <h4>Profile Settings</h4> */}
+                {/* <h4>Profile Settings</h4> */}
  
-                    <form action="">
+                <form action="">
 
-                        <div className="seller-input-cnt" style={{position: 'relative'}}>
-                            <input id='coverphoto' style={{background: '#f9f9f9', display: 'none'}} onChange={handleImage}  type="file" />
-                            <div style={{height: '120px', width: '120px', position: 'relative', borderRadius: '50%', background: '#fff4e0'}}>
+                    <div className="seller-input-cnt" style={{position: 'relative'}}>
+                        <input id='coverphoto' style={{background: '#f9f9f9', display: 'none'}} onChange={handleImage}  type="file" />
+                        <div style={{height: '120px', width: '120px', position: 'relative', borderRadius: '50%', background: '#fff4e0'}}>
 
-                                <img src={photo}  style={{height: '100%', width: '100%', borderRadius: '50%'}} alt="" />
+                            <img src={photo}  style={{height: '100%', width: '100%', borderRadius: '50%'}} alt="" />
 
 
-                                <label style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '5px', borderRadius: '50%', top: '10px', background: '#FF4500'}} htmlFor="coverphoto">
-                                    <img src={editSvg}  style={{height: '30px', width: '30px'}} alt="" />
+                            <label style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '5px', borderRadius: '50%', top: '10px', background: '#FF4500'}} htmlFor="coverphoto">
+                                <img src={editSvg}  style={{height: '30px', width: '30px'}} alt="" />
 
-                                </label>
-                            </div>
-                            
-
+                            </label>
                         </div>
+                        
 
-                        <br />
+                    </div>
+
+                    <br />
+
+                
+                    <div className="seller-input-cnt">
+                        <section>
+                            <label htmlFor="">FirstName</label>
+                            <input style={{background: '#f9f9f9'}}  value={userData ? userData.fname : ''} onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                        </section>
+                        <section>
+                            <label htmlFor="">LastName</label>
+                            <input style={{background: '#f9f9f9'}} value={userData ? userData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName...' type="text" />
+                        </section>
+                    </div>
+
+
+                    <div className="seller-input-cnt">
+                        <section style={{width: '70%'}}>
+                            <label htmlFor="">Email</label>
+                            <input style={{background: '#f9f9f9'}} value={userData ? userData.email : ''} placeholder='Email...' type="text" />
+                        </section>
+                        {/* <section style={{width: '30%'}}>
+                            <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
+                        </section> */}
+                    </div>
+
+                    <div className="seller-input-cnt">
+                        <section style={{width: '70%', float: 'left'}}>
+                            <label htmlFor="">Phone</label>
+                            <input style={{background: '#f9f9f9'}} value={userData ? userData.phone : ''}  placeholder='Phone Number...' type="number" />
+                        </section>
+                        {/* <section style={{width: '30%'}}>
+                            <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
+                        </section> */}
+                    </div>
 
                     
-                        <div className="seller-input-cnt">
-                            <section>
-                                <label htmlFor="">FirstName</label>
-                                <input style={{background: '#f9f9f9'}}  value={userData ? userData.fname : ''} onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
-                            </section>
-                            <section>
-                                <label htmlFor="">LastName</label>
-                                <input style={{background: '#f9f9f9'}} value={userData ? userData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName...' type="text" />
-                            </section>
-                        </div>
+                
+
+                    <div className="seller-input-cnt">
+                        <section style={{width: '100%'}}>
+                            <label htmlFor="">State <small>(Optional)</small></label>
+                            <select style={{background: '#f9f9f9'}}  onInput={e => setState(e.target.value)}  name="" id="">
+                                
+                                {
+                                    data.map((item,index) =>  
+                                        item.label === userData.state
+                                        ?
+                                            <option selected value={item.label}>{item.label}</option>
+                                        :
+                                            <option value={item.label}>{item.label}</option>
+                                    ).unshift(<option value="">Select State</option>)
+                                }
+                            </select>
+                        </section>
+                        
+                    </div>
+
+                    <div className="seller-input-cnt">
+                        <section style={{width: '100%'}}>
+                            <label htmlFor="">Campus <small>(Optional)</small></label>
+                            <select style={{background: '#f9f9f9'}} onInput={e => setCampus(e.target.value)}  name="" id="">
+                                <option value="">Select Campus</option>
+                                {
+                                    campusLocaleList.map((item,index) => 
+
+                                        item.text === userData.campus 
+                                        ?
+                                            <option selected value={item.text}>{item.text}</option>
+                                        : 
+                                            <option value={item.text}>{item.text}</option>
+                                    )
+                                }
+                            </select>
+                        </section>
+                        
+                    </div>
 
 
-                        <div className="seller-input-cnt">
-                            <section style={{width: '70%'}}>
-                                <label htmlFor="">Email</label>
-                                <input style={{background: '#f9f9f9'}} value={userData ? userData.email : ''} placeholder='Email...' type="text" />
-                            </section>
-                            {/* <section style={{width: '30%'}}>
-                                <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
-                            </section> */}
-                        </div>
-
-                        <div className="seller-input-cnt">
-                            <section style={{width: '70%', float: 'left'}}>
-                                <label htmlFor="">Phone</label>
-                                <input style={{background: '#f9f9f9'}} value={userData ? userData.phone : ''}  placeholder='Phone Number...' type="number" />
-                            </section>
-                            {/* <section style={{width: '30%'}}>
-                                <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
-                            </section> */}
-                        </div>
+                
+                    <div className="seller-input-cnt">
+                        
+                        <button style={{background: '#FF4500'}} onClick={e => {e.preventDefault(); UpdateProfile();}}>Update</button>
+                        
+                    </div>
 
                         
-                    
-
-                        <div className="seller-input-cnt">
-                            <section style={{width: '100%'}}>
-                                <label htmlFor="">State <small>(Optional)</small></label>
-                                <select style={{background: '#f9f9f9'}}  onInput={e => setState(e.target.value)}  name="" id="">
-                                    <option value="">Select State</option>
-                                    {
-                                        data.map((item,index) =>  
-                                            item.label === userData.state
-                                            ?
-                                                <option selected value={item.label}>{item.label}</option>
-                                            :
-                                                <option value={item.label}>{item.label}</option>
-                                        )
-                                    }
-                                </select>
-                            </section>
-                            
-                        </div>
-
-                        <div className="seller-input-cnt">
-                            <section style={{width: '100%'}}>
-                                <label htmlFor="">Campus <small>(Optional)</small></label>
-                                <select style={{background: '#f9f9f9'}} onInput={e => setCampus(e.target.value)}  name="" id="">
-                                    <option value="">Select Campus</option>
-                                    {
-                                        campusLocaleList.map((item,index) => 
-
-                                            item.text === userData.campus 
-                                            ?
-                                                <option selected value={item.text}>{item.text}</option>
-                                            : 
-                                                <option value={item.text}>{item.text}</option>
-                                        )
-                                    }
-                                </select>
-                            </section>
-                            
-                        </div>
-
-
-                    
-                        <div className="seller-input-cnt">
-                            
-                            <button style={{background: '#FF4500'}} onClick={e => {e.preventDefault(); UpdateProfile();}}>Update</button>
-                            
-                        </div>
-
-                            
-                            
-                    </form>
-                </div>
+                        
+                </form>
+            </div>
+           {/* </SellerLayout> */}
         </>
     )
 }
