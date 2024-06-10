@@ -47,7 +47,7 @@ const Dashboard = () => {
     async function fetchData(overlay,category) {
         GetItems(category)
         .then((result) => {
-            if(result.length > 0){
+            if(result?.length > 0){
                 setCards(
                     result?.map((item, index) => 
                         <Card index={index} item={item} />
@@ -249,7 +249,7 @@ const Dashboard = () => {
                   }
                 </div>
 
-                <button className="shadow" style={{position: 'fixed', bottom: '20px', padding: '10px', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center', right: '20px', width: 'auto', height: 'auto', background: '#FF4500', borderRadius: '10px'}} onClick={e => navigate('/buyer.message')}>  
+                <button className="shadow" style={{position: 'fixed', bottom: '20px', padding: '10px', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center', right: '20px', width: 'auto', height: 'auto', background: '#FF4500', borderRadius: '10px'}} onClick={e => window.location.href=('/seller')}>  
                   
                     {/* <img src={mssg} style={{height: '25px', width: '25px'}} alt="" /> */}
                     <span>
