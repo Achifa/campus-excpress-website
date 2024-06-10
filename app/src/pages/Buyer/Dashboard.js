@@ -111,11 +111,9 @@ const Dashboard = () => {
     }, [location]) 
 
     useEffect(() => {
-        
+        setActiveJSX(<CardCnt cards={cards} />)
         if(location.pathname.split('/')[1] === 'search'){
             setActiveJSX(<SearchOutput />)
-        }else{
-            setActiveJSX(<CardCnt cards={cards} />)
         }
     }, [location]) 
 
