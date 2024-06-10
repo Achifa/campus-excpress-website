@@ -49,7 +49,7 @@ export default function Aside() {
             {/* <hr /> */}
             <ul>
 
-                <li style={{display: 'flex'}} onClick={e => navigate('/seller/')}>
+                <li style={{display: 'flex'}} onClick={e => window.location.href=('/seller/')}>
                     <span>
                         <img src={dashboard} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
 
@@ -61,7 +61,7 @@ export default function Aside() {
 
                
 
-                {/* <li style={{display: 'flex'}} onClick={e => navigate('/seller.message')}>
+                {/* <li style={{display: 'flex'}} onClick={e => window.location.href=('/seller.message')}>
                     <span>
                         <img src={mssg} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
 
@@ -75,7 +75,7 @@ export default function Aside() {
 
                 
 
-                <li style={{display: 'flex'}} onClick={e => navigate('/seller.shop')}>
+                <li style={{display: 'flex'}} onClick={e => window.location.href=('/seller.shop')}>
                     <span>
                         <img src={inventory} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
 
@@ -86,7 +86,7 @@ export default function Aside() {
                     <span>Listing</span>
                 </li>
 
-                <li style={{display: 'flex'}} onClick={e => navigate('/seller.editor')}>
+                <li style={{display: 'flex'}} onClick={e => window.location.href=('/seller.editor')}>
                     <span>
                         <img src={sell} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
 
@@ -118,19 +118,19 @@ export default function Aside() {
 
                     <div style={{display: settingOption ? 'flex': 'none', maxHeight: '150px', overflow: 'auto', fontSize: 'small', width: '100%', padding: '10px'}}>
                         <ul>
-                            <li onClick={e => navigate('/seller.settings.profile')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
+                            <li onClick={e => window.location.href=('/seller.settings.profile')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
                                 <span></span>
                                 <span>Profile</span>
                             </li>
-                            <li onClick={e => navigate('/seller.settings.notice')} style={{fontSize: 'small', padding: '10px 0 10px 0', listStyleType: 'disc'}}>
+                            <li onClick={e => window.location.href=('/seller.settings.notice')} style={{fontSize: 'small', padding: '10px 0 10px 0', listStyleType: 'disc'}}>
                                 <span></span>
                                 <span>Notification</span>
                             </li>
-                            {/* <li onClick={e => navigate('/seller.settings.verification')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
+                            {/* <li onClick={e => window.location.href=('/seller.settings.verification')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
                                 <span></span>
                                 <span>Id Verification</span>
                             </li> */}
-                            <li onClick={e => navigate('/seller.settings.payments')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
+                            <li onClick={e => window.location.href=('/seller.settings.payments')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
                                 <span></span>
                                 <span>Payments/Billing</span>
                             </li>
@@ -142,17 +142,17 @@ export default function Aside() {
 
             <ul style={{position: 'absolute', bottom: '20px', width: '100%'}}>
 
-                {/* <li className='seller__extra__menu' onClick={e => navigate('/seller.inbox')}>
+                {/* <li className='seller__extra__menu' onClick={e => window.location.href=('/seller.inbox')}>
                     <span></span>
                     <span>Inbox</span>
                 </li> */}
 
-                {/* <li style={{display: 'flex'}} onClick={e => navigate('/seller.orders')}>
+                {/* <li style={{display: 'flex'}} onClick={e => window.location.href=('/seller.orders')}>
                     <span></span>
                     <span>Orders</span>
                 </li> */}
 
-                {/* <li style={{display: 'flex'}} onClick={e => navigate('/seller.')}>
+                {/* <li style={{display: 'flex'}} onClick={e => window.location.href=('/seller.')}>
                     <span></span>
                     <span>Refunds/Return</span>
                 </li> */}
@@ -161,7 +161,7 @@ export default function Aside() {
 
                 
 
-                <li style={{display: 'flex'}} className='seller__extra__menu' onClick={e => navigate('/seller.profile')}>
+                <li style={{display: 'flex'}} className='seller__extra__menu' onClick={e => window.location.href=('/seller.profile')}>
                     <span>
                         <img src={user} style={{height: '25px', width: '25px', color: '#fff', fontSize: 'medium', display: 'flex'}} alt="" />
 

@@ -29,7 +29,6 @@ const Home = () => {
 
         
         let overlay = document.querySelector('.overlay')
-
         overlay.setAttribute('id', 'overlay');
         
         GetOverview(window.localStorage.getItem("CE_seller_id"))

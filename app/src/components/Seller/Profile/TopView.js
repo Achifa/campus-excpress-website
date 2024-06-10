@@ -41,7 +41,7 @@ export default function TopView() {
             
             <img style={{padding: '10px'}} src={photo}  alt="" />
 
-            <img onClick={e => navigate('/seller.settings.profile')} src={editSvg} style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '10px', top: '10px'}}  alt="" />
+            <img onClick={e => window.location.href=('/seller.settings.profile')} src={editSvg} style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '10px', top: '10px'}}  alt="" />
 
             &nbsp;
             &nbsp;

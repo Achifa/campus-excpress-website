@@ -31,7 +31,7 @@ export default function Nav() {
         fontWeight: 'bold '
       }}>
 
-      <div onClick={e => navigate('/seller')} style={{
+      <div onClick={e => window.location.href=('/seller')} style={{
         width: '33.3%',
         fontSize: 'x-small',
         color: '#000',
@@ -46,7 +46,7 @@ export default function Nav() {
           <img src={home} style={{height: '25px', width: '25px'}} alt="" />
         </div>
       </div>
-      <div onClick={e => navigate('/seller.shop')} style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
+      <div onClick={e => window.location.href=('/seller.shop')} style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
         <div>Inventory</div>
         <div>
           <img src={lib} style={{height: '25px', width: '25px'}} alt="" />
@@ -55,7 +55,7 @@ export default function Nav() {
       
       
       <div onClick={e => 
-        // navigate('/seller.messages')
+        // window.location.href=('/seller.messages')
         alert('Not Availble At The Moment.')
       } style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
         <div>Messages</div>
@@ -64,7 +64,7 @@ export default function Nav() {
         </div>
       </div>
 
-      <div onClick={e => navigate('/seller.profile')} style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
+      <div onClick={e => window.location.href=('/seller.profile')} style={{width: '33.3%', fontSize: 'x-small', color: '#000', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column-reverse'}}>
         <div>Me</div>
         <div>
           <img src={me} style={{height: '25px', width: '25px'}} alt="" />
