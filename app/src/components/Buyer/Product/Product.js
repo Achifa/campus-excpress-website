@@ -3,12 +3,7 @@ import {
     useEffect, 
     useState 
 } from 'react'
-import phn from '../../../assets/phone-rounded-svgrepo-com.svg'
-import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
-import deleteSvg from '../../../assets/delete-svgrepo-com (1).svg'
-import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
-import tweeterSvg from '../../../assets/twitter-svgrepo-com (2).svg'
-import fbSvg from '../../../assets/facebook-1-svgrepo-com (1).svg'
+
 import { 
     Link, 
     useLocation, 
@@ -34,10 +29,12 @@ import {
 import { 
     Helmet 
 } from 'react-helmet-async'
+import Contact from './Contact'
+import Share from './Share'
 
 
 
-const Product = ({item,phone}) => {
+const Product = ({item}) => {
 
     let [screenWidth, setScreenWidth] = useState(0)
 
@@ -162,34 +159,7 @@ const Product = ({item,phone}) => {
     //     }
     // }
 
-    function SendMssg(params) {
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
-        if(screenWidth > 760){
-            try {
-                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
-                overlay.removeAttribute('id')
-                navigate(`/buyer.message/${item.seller_id}`, {seller_id: item.seller_id})
-    
-            } catch (error) {
-                console.log(error)
-            }
-        }else{
-            try {
-                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
-                overlay.removeAttribute('id')
-                navigate(`/buyer.room/${item.seller_id}?room=''`, {seller_id: item.seller_id})
-    
-            } catch (error) {
-                console.log(error)
-            }
-        }
-      
-    }
-    let [metaImg, setMetaImg] = useState('')
-    useEffect(() => {
-        setMetaImg(ItemImages[0]?.file)
-    }, [])
+   
 
     let [immediate_purchase, set_immediate_purchase] = useState(1)
 
@@ -349,139 +319,7 @@ const Product = ({item,phone}) => {
                     </div> */}
 
 
-                    <div style={{
-                        height: '60px',
-                        width: '100%',
-                        borderRadius: '10px',
-                        outline: 'none',
-                        border: 'none',
-                        textAlign: 'center',
-                        color: '#fff',
-
-                        display: 'flex', 
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        position: 'relative',
-                        fontSize: 'medium',
-                        fontWeight: '500',
-                        backgroundColor: '#fff',
-                        marginTop: '20px'
-                    }}>
-                    {/* onClick={e => role !== 0 ? DeleteProduct(e,item.product_id) : AddToCart(e,item.product_id)} */}
-                        <button onClick={e => {SendMssg()}} style={{height: '50px', width: role ? '100%' : '45%', borderRadius: '5px', display: 'flex', alignItems: 'center', cursor: 'pointer',fontSize: 'x-small', justifyContent: 'space-evenly', background: 'orangered', color: '#fff'}}>
-                            {
-                                role === 0
-                                ?
-                                <>
-
-                                    {/* <span>
-                                        <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                                    </span>
-                                    <span>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span> */}
-                                
-                                    <span>
-                                        <img src={mssg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                                    </span>
-                                    <span>Message</span>
-                                
-                                
-                                </>
-                                :
-                                <>
-                                    <span>Delete</span>
-
-                                    <span>
-                                        <img src={deleteSvg} style={{height: '20px', width: '20px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                                    </span>
-                                </>
-                            }
-                        </button>
-
-                        <Link to={`tel:+234${phone}`} style={{height: '50px', width: '45%', borderRadius: '5px', display: role ? 'none' : 'flex', alignItems: 'center', cursor: 'pointer', justifyContent: 'space-evenly', fontSize: 'x-small', background: 'orangered', color: '#fff'}}>
-                            {
-                                
-                                <>
-                                    <span>
-                                        <img src={phn} style={{height: '25px', width: '25px', position: 'relative',  margin: 'auto'}} alt="" />
-                                    </span>
-                                    <span style={{marginTop: '0'}}>
-                                        Call
-                                    </span>
-                                </>  
-
-                                
-                            }
-                        </Link>
-
-                    </div>
-
-
-                
-
-                    {/* <section style={{fontWeight: '700', padding: '10px'}}>
-                        
-                        <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
-                    </section> */}
-                    <br />
-
-                    <section style={{fontWeight: '500', display: role === 0 ? 'flex' : 'none', flexDirection: 'column', alignItems: 'flex-end', padding: '10px', position: 'relative', width: '100%',}}>
-                        <small>Share With Your Friends</small>
-
-                        <ul>
-                            <li onClick={e => {
-                                const url = window.location.href;
-                                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}&picture=${encodeURIComponent(activeImg)}`, '_blank');
-                            }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                <img src={fbSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
-                            </li>
-
-                            <li onClick={e => {
-                                const url = window.location.href;
-                                const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(item.title)}&image=${metaImg}`;
-                                window.open(twitterUrl, '_blank');
-                            }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                <img src={tweeterSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
-                            </li>
-
-                            <li onClick={e => {
-                                const url = window.location.href;
-                                const shareBase64ImageToWhatsApp = (base64ImageData, title, description) => {
-// Convert Base64 image data to a Blob
-                                    const byteCharacters = atob(base64ImageData.split(',')[1]);
-                                    const byteArrays = [];
-                                    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-                                        const slice = byteCharacters.slice(offset, offset + 512);
-                                        const byteNumbers = new Array(slice.length);
-                                        for (let i = 0; i < slice.length; i++) {
-                                        byteNumbers[i] = slice.charCodeAt(i);
-                                        }
-                                        const byteArray = new Uint8Array(byteNumbers);
-                                        byteArrays.push(byteArray);
-                                    }
-                                    const blob = new Blob(byteArrays, { type: 'image/jpeg' });
-                                    const message = description.length > 0 ? `${title}\n\nDescription:  \n${description} \n ${url}` : `${title} \n ${url}`;
-                                    const encodedMessage = encodeURIComponent(message);
-                                    const imageUrl = URL.createObjectURL(blob);
-                                    console.log(imageUrl)
-                                    const whatsappUrl = `whatsapp://send?text=${encodedMessage}%20${`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`}`;
-
-                                    // Open WhatsApp with the share URL
-                                    window.open(whatsappUrl, '_blank');
-
-
-                                }
-                                shareBase64ImageToWhatsApp(activeImg, item.title, item.description)
-
-
-                            
-                            }} style={{border: 'none', padding: '0',cursor: 'pointer'}}>
-                                <img src={WhatsAppSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
-                            </li>
-                        </ul>
-
-                        
-                    </section>
-
+                    
 
                 </div>
             </div>

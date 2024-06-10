@@ -4,6 +4,8 @@ import '../../styles/Buyer/x-large-screen.css'
 import '../../styles/Buyer/medium-screen.css'
 import '../../styles/Buyer/small-screen.css'
 import '../../styles/Buyer/large-screen.css'
+import sellSvg from '../../assets/sell-svgrepo-com.svg'
+
 import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
@@ -106,6 +108,10 @@ const Dashboard = () => {
                 console.log(error)
             }
         }
+    }, [location]) 
+
+    useEffect(() => {
+        
         if(location.pathname.split('/')[1] === 'search'){
             setActiveJSX(<SearchOutput />)
         }else{
@@ -236,10 +242,15 @@ const Dashboard = () => {
                   }
                 </div>
 
-                <button className="shadow" style={{position: 'fixed', bottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', right: '20px', width: '60px', height: '60px', background: '#fff', borderRadius: '50%'}} onClick={e => navigate('/buyer.message')}>  
+                <button className="shadow" style={{position: 'fixed', bottom: '20px', padding: '10px', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center', right: '20px', width: 'auto', height: 'auto', background: '#FF4500', borderRadius: '10px'}} onClick={e => navigate('/buyer.message')}>  
                   
-                    <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
-
+                    {/* <img src={mssg} style={{height: '25px', width: '25px'}} alt="" /> */}
+                    <span>
+                        <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
+                    </span>
+                    &nbsp;
+                    <span>Sell</span>
+ 
                 </button>
             </BuyerLayout>
 

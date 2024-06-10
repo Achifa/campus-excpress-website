@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Product from "../../components/Buyer/Product/Product";
 import BuyerLayout from "../../layout/Buyer";
 import { useEffect, useState } from "react";
@@ -6,14 +6,46 @@ import SimilarItems from "../../components/Buyer/Product/SimilarItems";
 import Description from "../../components/Buyer/Product/Description";
 import { GetItem } from "../../api/buyer/get";
 import { GetSeller } from "../../api/seller/get";
-import { AddView } from "../../api/buyer/post";
+import { AddView, UploadChat } from "../../api/buyer/post";
 import { v4 as uuid } from "uuid";
+import Contact from "../../components/Buyer/Product/Contact";
+import Share from "../../components/Buyer/Product/Share";
+import { useSelector } from "react-redux";
+import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 
 const ProductPage = () => {
 
     let location = useLocation()
     let [item, setItem] = useState()
     let [phone, set_phone] = useState(1)
+    let navigate = useNavigate();
+
+    let {ItemImages} = useSelector(s => s.itemImages)
+    let {ActiveImg} = useSelector(s => s.ActiveImg)
+
+    let [role, setRole] = useState(0)
+    let [screenWidth, setScreenWidth] = useState(0)
+
+    let [activeImg, setActiveImg] = useState(imgSvg)
+    const searchParams = new URLSearchParams(window.location.search);
+
+    useEffect(() => { 
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
+
+    useEffect(() => {
+        setActiveImg(ItemImages?.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
+    }, [ItemImages])
+
+    useEffect(() => {
+        setActiveImg(ItemImages?.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
+    }, [ActiveImg])
+
+    useEffect(() => {
+        setActiveImg('')
+        // setActiveImg('')
+    }, [searchParams.get('product_id')])
 
 
     useEffect(() => {
@@ -84,6 +116,35 @@ const ProductPage = () => {
         }
         
     }, [item])
+
+    function SendMssg() {
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+        if(screenWidth > 760){
+            try {
+                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
+                overlay.removeAttribute('id')
+                navigate(`/buyer.message/${item.seller_id}`, {seller_id: item.seller_id})
+    
+            } catch (error) {
+                console.log(error)
+            }
+        }else{
+            try {
+                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
+                overlay.removeAttribute('id')
+                navigate(`/buyer.room/${item.seller_id}?room=''`, {seller_id: item.seller_id})
+    
+            } catch (error) {
+                console.log(error)
+            }
+        }
+      
+    }
+    let [metaImg, setMetaImg] = useState('')
+    useEffect(() => {
+        setMetaImg(ItemImages[0]?.file)
+    }, [])
     return ( 
         <>
 
@@ -93,9 +154,6 @@ const ProductPage = () => {
 
                         
                         <Product item={item} phone={phone} />
-                        <SimilarItems category={item?.category} product_id={item?.product_id} />
-
-
                         {
                             item?.description?.length > 0 
                             ?
@@ -103,6 +161,22 @@ const ProductPage = () => {
                             :
                             ''
                         }
+
+                        <Contact phone={phone} role={role} SendMssg={SendMssg}  />
+
+                        <section style={{fontWeight: '700', padding: '10px'}}>
+                            
+                            <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
+                        </section>
+
+                        <br />
+
+                        
+                        <Share activeImg={activeImg} item={item} role={role} metaImg={metaImg} />
+                        <SimilarItems category={item?.category} product_id={item?.product_id} />
+
+
+                        
 
                     </div>
                 </div>

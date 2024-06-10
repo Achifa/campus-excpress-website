@@ -1,35 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
-import searchSvg from '../../../assets/search-svgrepo-com.svg'
-import sellSvg from '../../../assets/sell-svgrepo-com.svg'
-import mssg from '../../../assets/messages-1-svgrepo-com (1).svg'
-
+import { useLocation, useNavigate } from "react-router-dom";
 import menuSvg from '../../../assets/menu-alt-01-svgrepo-com.svg'
-import dArrowSvg from '../../../assets/down-arrow-backup-2-svgrepo-com.svg'
+
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import { CE_buyer_ID, CE_buyer_INITIAL } from "../Ids";
 import '../../../styles/Buyer/overlays.css'
 import '../../../styles/search.css'
-import BuyerAside from "../Aside";
-import login from '../../../assets/login.svg'
-
 import img from '../../../logo/[Original size] Untitled (1).png'
-import BuyerMenu from "./Menu";
 import { useDispatch, useSelector } from "react-redux";
-import { setBuyerJsxTo } from "../../../redux/buyer_store/BuyerOverlayJsx";
-import { setCartTo } from "../../../redux/buyer_store/Cart";
-import { setSaveTo } from "../../../redux/buyer_store/Save"; 
 import SearchResult from "./SearchResult";
-import FloatingMenu from "./FloatingMenu";
 import Aside from "./Aside";
 import {
-  GetBuyer, 
-  GetSavedItem,
   GetSearchWord 
 } from "../../../api/buyer/get";
-import Filter from "./Filter";
-import Search from "./SearchOutput";
 import SearchBar from "./SearchBar";
 import { setSearchListTo } from "../../../redux/buyer_store/SearchList";
 
@@ -231,13 +213,13 @@ const Header = ({
                 &nbsp;
                 
 
-                {/* <li style={{padding: '5px'}} onClick={e => openAside(e)}>
+                <li style={{padding: '5px'}} onClick={e => openAside(e)}>
                   <span>
                     <img src={menuSvg} style={{height: '30px', width: '30px', rotate: visible === 'flex' && task === 'help' ? '0deg' : '180deg'}} alt="" />
                   </span>
-                </li> */}
+                </li>
 
-                <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'medium'}} onClick={e => window.location.href = (`/seller`) }>
+                {/* <li style={{padding: '5px 10px 5px 10px', background: '#FF4500', color: '#fff', fontSize: 'medium'}} onClick={e => window.location.href = (`/seller`) }>
                   <span>
                     <img src={sellSvg} style={{height: '25px', width: '25px'}} alt="" />
                   </span>
@@ -245,7 +227,7 @@ const Header = ({
 
                   <span>Sell</span>
 
-                </li>
+                </li> */}
               </>
             {/* } */}
           </ul>
