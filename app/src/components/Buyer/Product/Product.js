@@ -55,6 +55,10 @@ const Product = ({item}) => {
     let location = useLocation()
     const searchParams = new URLSearchParams(window.location.search);
 
+    let [metaImg, setMetaImg] = useState('')
+    useEffect(() => {
+        setMetaImg(ItemImages[0]?.file)
+    }, [])
    
     // let {Save} = useSelector(s => s.Save)
 
@@ -317,6 +321,7 @@ const Product = ({item}) => {
                             </span>
                         </>
                     </div> */}
+                    <Share activeImg={activeImg} item={item} role={role} metaImg={metaImg} />
 
 
                     

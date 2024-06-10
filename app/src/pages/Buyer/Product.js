@@ -141,10 +141,7 @@ const ProductPage = () => {
         }
       
     }
-    let [metaImg, setMetaImg] = useState('')
-    useEffect(() => {
-        setMetaImg(ItemImages[0]?.file)
-    }, [])
+    
     return ( 
         <>
 
@@ -164,15 +161,14 @@ const ProductPage = () => {
 
                         <Contact phone={phone} role={role} SendMssg={SendMssg}  />
 
-                        <section style={{fontWeight: '700', padding: '10px'}}>
+                        <section style={{fontWeight: '400', padding: '20px'}}>
                             
-                            <small>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
+                            <small style={{fontSize: 'small', background: '#efefef', borderRadius: '6px'}}>Payment Must Be Made Via Campus Express Platform To Avoid Fraud Else You Can <b>Trade With The Seller Outside The Platform At Your Own Risk.</b></small>
                         </section>
 
                         <br />
 
                         
-                        <Share activeImg={activeImg} item={item} role={role} metaImg={metaImg} />
                         <SimilarItems category={item?.category} product_id={item?.product_id} />
 
 
