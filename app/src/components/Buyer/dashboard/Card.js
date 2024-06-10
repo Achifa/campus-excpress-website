@@ -2,7 +2,7 @@ import {
     useDispatch, 
     useSelector 
 } from 'react-redux'
-import img from '../../../assets/seen-svgrepo-com (1).svg'
+import img from '../../../assets/'
 import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
 import { 
     useEffect,
@@ -293,7 +293,7 @@ const Card = ({item, index}) => {
                             <div style={{height: 'fit-content', width: 'fit-content', fontWeight: '400', fontSize: 'x-small'}} > {item.views} views</div>
                        </div>
 
-                        <div style={{color: '#626262', fontSize: 'x-small', fontWeight: '500', display: 'flex', justifyContent: 'left', width: '50%', alignItems: 'center'}}>
+                        <div style={{color: '#626262', fontSize: 'x-small', fontWeight: '500', display: 'flex', justifyContent: 'left', flexWrap: 'nowrap', width: '50%', alignItems: 'center'}}>
                             <span>
                                 <img src={timsSvg} style={{height: '15px', width: '15px', marginBottom: '3px'}} alt="" />
 

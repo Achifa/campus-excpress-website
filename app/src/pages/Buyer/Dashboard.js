@@ -47,7 +47,7 @@ const Dashboard = () => {
     async function fetchData(overlay,category) {
         GetItems(category)
         .then((result) => {
-            if(result?.length > 0){
+            if(result){
                 setCards(
                     result?.map((item, index) => 
                         <Card index={index} item={item} />
