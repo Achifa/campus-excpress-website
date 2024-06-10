@@ -92,6 +92,11 @@ const Dashboard = () => {
                 console.log(error)
             }
         }
+    }, [])
+    
+
+    useEffect(() => {
+        
         if(location.search.split('=').length > 1){
             let overlay = document.querySelector('.overlay');
             overlay.setAttribute('id', 'overlay');
