@@ -118,11 +118,26 @@ async function UpdatePwd(req,res) {
 }
 
 
-async function UpdateShop(req,res) {
+async function UpdateShopTitle(req,res) {
     let {title, description, seller_id} = req.body;
     
     NeonDB.then((pool) => 
-        pool.query(`UPDATE campus_shop set shop_title='${title.replace(/'/g, '"')}', shop_description='${description.replace(/'/g, '"')}' WHERE seller_id = '${seller_id}'`)
+        pool.query(`UPDATE campus_shop set shop_title='${title.replace(/'/g, '"')}' WHERE seller_id = '${seller_id}'`)
+        .then(result => {
+            result.rowCount > 0 ? res.send(true) : res.send(false)
+        })
+        .catch(err => console.log(err))
+    )
+    .catch(err => console.log(err))
+
+}
+
+
+async function UpdateShopDesc(req,res) {
+    let {title, description, seller_id} = req.body;
+    
+    NeonDB.then((pool) => 
+        pool.query(`UPDATE campus_shop set shop_description='${description.replace(/'/g, '"')}' WHERE seller_id = '${seller_id}'`)
         .then(result => {
             result.rowCount > 0 ? res.send(true) : res.send(false)
         })
@@ -223,6 +238,7 @@ module.exports={
     UpdateProduct,
     UpdatePwd,
     ResetPwd,
-    UpdateShop,
-    UpdateInventory
+    UpdateShopTitle,
+    UpdateShopDesc,
+    UpdateInventory,
 }

@@ -5,10 +5,22 @@ const {
     DeleteItem 
 } = require("../controller/seller/delete");
 const { 
-    GetSellerData, GetOverview, GetItems, GetEditedItem, GetChatRooms, GetChat, GetShop, GetItemsSold, GetReviews, GetSellerPhoto 
+    GetSellerData,
+    GetOverview,
+    GetItems,
+    GetEditedItem,
+    GetChatRooms,
+    GetChat,
+    GetShop,
+    GetItemsSold,
+    GetReviews,
+    GetSellerPhoto 
 } = require("../controller/seller/get");
 const { 
-    UploadNewItem, ValidateBank, SendSMS, SendEmail 
+    UploadNewItem,
+    ValidateBank,
+    SendSMS,
+    SendEmail 
 } = require("../controller/seller/post");
 
 const { 
@@ -19,7 +31,8 @@ const {
 const { 
     UpdateSellerProfile,
     UpdateProduct,
-    UpdateShop,
+    UpdateShopTitle,
+    UpdateShopDesc,
     UpdateInventory
 } = require("../controller/seller/update");
 
@@ -44,7 +57,8 @@ seller_route.post('/seller.login', parser, log_seller_in);
 // @@ UPDATES 
 seller_route.post('/seller.profile-update', parser, UpdateSellerProfile);
 seller_route.post('/seller.product-update', parser, UpdateProduct);
-seller_route.post('/seller.shop-update', parser, UpdateShop);
+seller_route.post('/seller.shop-title-update', parser, UpdateShopTitle);
+seller_route.post('/seller.shop-desc-update', parser, UpdateShopDesc);
 seller_route.post('/seller.inventory-update', parser, UpdateInventory);
 // @@ UPDATES 
 

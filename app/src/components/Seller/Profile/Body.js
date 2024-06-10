@@ -77,6 +77,7 @@ function TitleEdit({shop_title}) {
     </div>
   )
 }
+
 function DescEdit({shop_description}) {
  
   let desc= useRef(shop_description)
@@ -522,6 +523,7 @@ function Ads() {
 
     </div>)
 }
+
 export default function Body() {
   const [soldItems, setSoldItems] = useState([]);
   let [reviews, setReviews] = useState([])

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import filterSvg from '../../../assets/filter-edit-svgrepo-com.svg'
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import greetPlugin from 'dayjs-greet'
 import { useLocation, useNavigate } from "react-router-dom";
 import usePath from "../../../hooks/usePath";
@@ -28,7 +28,7 @@ const Header = () => {
 
         let path = location.pathname.split('/').splice(-1)[0].split('.').splice(-1)[0]
         if(path === ''){
-            setActiveHead(<h4 style={{fontFamily: 'cursive', textTransform: 'capitalize'}}>{dayjs(new Date()).greet()} {sellerData?.fname} {sellerData?.lname}</h4>)
+            setActiveHead(<h4 style={{fontFamily: 'cursive', textTransform: 'capitalize'}}> {sellerData?.fname} {sellerData?.lname}</h4>)
         }else if(path === 'editor'){
             setActiveHead(<h4 style={{fontFamily: 'cursive'}}>Sell</h4>)
         }else if(path === 'inbox'){
