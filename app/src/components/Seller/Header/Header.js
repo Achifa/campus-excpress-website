@@ -15,7 +15,7 @@ const Header = () => {
     let location = useLocation()
 
     let path = usePath()
-    dayjs.extend(greetPlugin)
+    // dayjs.extend(greetPlugin)
 
     let [activeHead, setActiveHead] = useState('') 
     
