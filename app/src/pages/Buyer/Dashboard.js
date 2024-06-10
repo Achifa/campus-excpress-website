@@ -29,6 +29,7 @@ import Card from "../../components/Buyer/dashboard/Card";
 import { GetItems, GetSavedItem } from "../../api/buyer/get";
 import Filterfilter from "../../components/Buyer/dashboard/FilterAside";
 import { setSaveTo } from "../../redux/buyer_store/Save";
+import { openNotice } from "../../Functions/notice";
  
 const Dashboard = () => {
 
@@ -46,12 +47,19 @@ const Dashboard = () => {
     async function fetchData(overlay,category) {
         GetItems(category)
         .then((result) => {
-            setCards(
-                result?.map((item, index) => 
-                    <Card index={index} item={item} />
+            if(result.length){
+                setCards(
+                    result?.map((item, index) => 
+                        <Card index={index} item={item} />
+                    )
                 )
-            )
-            overlay.removeAttribute('id')
+                overlay.removeAttribute('id')
+            }else{
+                setTimeout(() => {
+                    openNotice('Something Went Wrong, Please Hold While We Refresh...')
+                    window.location.reload()
+                }, 3000);
+            }
         })
         .catch(error=>{
             console.log(error)
@@ -104,6 +112,7 @@ const Dashboard = () => {
             overlay.setAttribute('id', 'overlay');
             try {
                 fetchData(overlay,location.search.split('=')[1] === '' ? 'trends' : location.search.split('=')[1])
+
             } catch (error) {
                 console.log(error)
             }
