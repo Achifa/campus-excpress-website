@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Buyer/Header/Header'
 import { useDispatch } from 'react-redux'
-import { setBuyerTo } from '../redux/buyer_store/buyer'
+import { setBuyerTo } from '../redux/buyer_store/BuyerData'
 import { v4 as uuid } from "uuid";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GetBuyer } from '../api/buyer/get';
