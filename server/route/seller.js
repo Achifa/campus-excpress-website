@@ -1,6 +1,6 @@
 
 
-const { get_thumbnail } = require("../controller/buyer");
+const { get_thumbnail } = require("../controller/buyer/get");
 const { 
     DeleteItem 
 } = require("../controller/seller/delete");

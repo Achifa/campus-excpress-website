@@ -31,10 +31,11 @@ import {
 } from 'react-helmet-async'
 import Contact from './Contact'
 import Share from './Share'
+import { useFlutterwave } from 'flutterwave-react-v3'
 
 
 
-const Product = ({item}) => {
+const Product = ({item,phone}) => {
 
     let [screenWidth, setScreenWidth] = useState(0)
 
@@ -42,6 +43,31 @@ const Product = ({item}) => {
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
+
+    function SendMssg() {
+        let overlay = document.querySelector('.overlay')
+        overlay.setAttribute('id', 'overlay');
+        if(screenWidth > 760){
+            try {
+                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
+                overlay.removeAttribute('id')
+                navigate(`/buyer.message/${item.seller_id}`, {seller_id: item.seller_id})
+    
+            } catch (error) {
+                console.log(error)
+            }
+        }else{
+            try {
+                let result = UploadChat(window.localStorage.getItem('CE_buyer_id'), item.seller_id)
+                overlay.removeAttribute('id')
+                navigate(`/buyer.room/${item.seller_id}?room=''`, {seller_id: item.seller_id})
+    
+            } catch (error) {
+                console.log(error)
+            }
+        }
+      
+    }
 
    
 
@@ -59,10 +85,15 @@ const Product = ({item}) => {
     useEffect(() => {
         setMetaImg(ItemImages[0]?.file)
     }, [])
+    let {buyerData} = useSelector(s => s.buyerData)
    
     // let {Save} = useSelector(s => s.Save)
 
     let navigate = useNavigate();
+
+    useEffect(() => {
+      console.log('buyerData: ', buyerData)
+    }, [buyerData])
 
     useEffect(() => {
         setActiveImg(ItemImages?.length > 0 ? ItemImages[ActiveImg].file : imgSvg)
@@ -163,9 +194,45 @@ const Product = ({item}) => {
     //     }
     // }
 
+    const config = {
+        public_key: 'FLWPUBK-502f1f73c8abf430f161a528241c198a-X',
+        tx_ref: Date.now(),
+        amount: parseInt(item?.price) + 45,
+        currency: 'NGN',
+        payment_options: 'card,mobilemoney,ussd',
+        customer: {
+            email: buyerData?.email,
+            phone_number: buyerData?.phone,
+            name: buyerData?.name,
+            ce_id: item?.seller_id
+        },
+        customizations: {
+        title: 'Campus Express',
+        description: 'Campus Purchase',
+        logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+        },
+    };
+
+    const handleFlutterPayment = useFlutterwave(config);
    
 
     let [immediate_purchase, set_immediate_purchase] = useState(1)
+
+    function handleOrder() {
+        let buyer = window.localStorage.getItem('CE_buyer_id');
+        if(buyer === null || buyer === '' || buyer === 'null'){
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
+        }else{
+            handleFlutterPayment({
+                callback: (response) => {
+                console.log(response);
+                // closePaymentModal() // this will close the modal programmatically
+                },
+                onClose: () => {}
+            });
+        }
+    }
 
     return ( 
         <>
@@ -321,6 +388,19 @@ const Product = ({item}) => {
                             </span>
                         </>
                     </div> */}
+
+                    <br />
+                    {
+                        screenWidth > 481
+                        ?
+                        <>
+                            <Contact phone={phone} role={role} SendMssg={SendMssg}  />
+                            <br />
+                            <button onClick={handleOrder}>Order Now</button>
+                        </>
+                        :
+                        ''
+                    }
                     <Share activeImg={activeImg} item={item} role={role} metaImg={metaImg} />
 
 

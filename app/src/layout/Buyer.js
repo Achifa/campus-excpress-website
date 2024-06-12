@@ -20,7 +20,8 @@ const BuyerLayout = (props) => {
         }else{
             async function getData(){
                 window.localStorage.removeItem('unknownBuyer')
-                let result = await GetBuyer(window.localStorage.getItem('CE_seller_id'))
+                let result = await GetBuyer(window.localStorage.getItem('CE_buyer_id'))
+                console.log(result)
                 dispatch(setBuyerTo(result))
             } 
             getData()
