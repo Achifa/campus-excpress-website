@@ -855,10 +855,9 @@ async function get_chat(req,res){
 
 
 async function filter_items(req,res){
-    let {category,condition,price,state,campus} = req.query;
+    let {category,subCategory,condition,price,state,campus} = req.body;
  
-    console.log(category,condition,price,state,campus)
-    // let {seller_id} = req.query;
+    // console.log(category,condition,price,state,campus)
     
     let items = await retrieve_products()
     // console.log('items: ', category)
@@ -873,8 +872,6 @@ async function filter_items(req,res){
                             item.category === category
                         )
                     })
-                console.log('result category :', response)
-
 
                     resolve(response) 
                 }else{
@@ -882,6 +879,24 @@ async function filter_items(req,res){
                 }
             })
             .then((result) => {
+                // console.log('category response :', result)
+
+
+                if(condition !==''){
+                    let response = result.filter(item => {
+                        return(
+                            JSON.parse(item.others)?.cType === subCategory
+                        )
+                    })
+                    return(response)
+                }else{
+                    return(result)
+                }
+            })
+            .then((result) => {
+                // console.log('sub-category response :', result)
+
+
                 if(condition !==''){
                     let response = result.filter(item => {
                         return(
@@ -894,12 +909,13 @@ async function filter_items(req,res){
                 }
             })
             .then((result) => {
-                // console.log('result :', result)
+                // console.log('condition response :', result)
+
 
                 if(price !== '' && price?.length !== 0){
                     let response = result.filter(item => {
                         return(
-                            item.price > price[0] && item.price < price[1] 
+                            item.price > parseInt(price[0]) && item.price < parseInt(price[1]) 
                         )
                     })
                     return(response)
@@ -908,6 +924,8 @@ async function filter_items(req,res){
                 }
             })
             .then((result) => {
+                // console.log('price response :', result)
+
                 if(state !== ''){
                     let response = result.filter(item => {
                         return(
@@ -920,6 +938,8 @@ async function filter_items(req,res){
                 }
             })
             .then((result) => {
+                // console.log('state response :', result)
+                
                 if(campus !== ''){
                     let response = result.filter(item => {
                         return(
@@ -932,9 +952,8 @@ async function filter_items(req,res){
                 }
             })
             .then((result) => {
-                // alert(JSON.stringify(result))
+                // console.log('campus response :', result)
                 res.send(result)
-
             })
             
         } catch (error) {
@@ -951,6 +970,7 @@ function UpdateView(req,res) {
     let {product_id, buyer_id,} = req.body;
     let date = new Date();
     let view_id = shortId.generate();
+    console.log(product_id,buyer_id)
 
     new Promise((resolve, reject) => {
         NeonDB.then((pool) => 

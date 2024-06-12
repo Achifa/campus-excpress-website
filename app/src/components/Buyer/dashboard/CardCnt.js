@@ -6,124 +6,24 @@ import {
 import '../../../styles/loader.css'
 import '../../../styles/Seller/overlay.css' 
 
-import { 
-    useNavigate 
-} from "react-router-dom";
 import { Filter_Cards } from "../../../api/buyer/get";
 import Filter from "../Header/Filter"; 
 import Card from "./Card";
-import Skeleton from "react-loading-skeleton";
 
-const CardCnt = ({cards}) => {
-    let [category, setcategory] = useState('')
-    let [subCategory, setsubCategory] = useState('')
-    let navigate = useNavigate()
-    let [screenWidth, setScreenWidth] = useState(0)
-
-    let [condition, setcondition] = useState('')
-
-    useEffect(() => {
-        let width = window.innerWidth;
-        setScreenWidth(width)
-    }, [])
-
-
-    let [state, setstate] = useState('')
-    let [campus, setcampus] = useState('')
-
-    
-    let [price, setprice] = useState([])
-
-    let categoryRef = useRef('')
-    let conditionRef = useRef('')
-    let stateRef = useRef('')
-    let campusRef = useRef('')
-    let priceRef = useRef([])
-
-
-    // function sort(type) {
-    //     const compareItems = (a, b) => {
-    //         if(type === 'priceL'){
-    //             return a.price - b.price
-    //         }else{ 
-    //             return b.price - a.price
-    //         }
-    //     }
-    //         // Sorting the array by date (oldest to newest)
-    //     const sortedArray = items.sort(compareItems);
-    //     console.log(sortedArray)
-    //     // Logging the sorted array
-    //     setCards(
-    //         sortedArray.map((item, index) => 
-    //             <Card index={index} item={item} />    
-    //         )
-    //     );
-    // }
-
-    
-    async function applyFilter() {
-        let overlay = document.querySelector('.overlay');
-        overlay.setAttribute('id', 'overlay');
-
-        try {
-            console.log(categoryRef)
-            let response = await Filter_Cards(categoryRef.current,conditionRef.current,priceRef.current,stateRef.current,campusRef.current)
-
-            console.log(response)
-
-            function setCards(cb) {
-                setCards(
-                    response?.map((item, index) => 
-                        <Card index={index} item={item} />
-                    )
-                )
-
-                cb()
-            }
-            
-            setCards(() => {
-                document.querySelector('.filter-overlay').removeAttribute('id')
-                overlay.removeAttribute('id');
-            })
-
-            
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    function ChangeCategory(data) {
-        setcategory(data)
-        categoryRef.current = data
-        navigate(`/?category=${data.toLowerCase()}`)
-    }
-
-    function ChangeSubCategory(data) {
-        // campusRef.current = data
-        setsubCategory(data)
-    }
-
-    function ChangeCondition(data) {
-        conditionRef.current = data
-        setcondition(data)
-    }
-
-    function ChangeState(data) {
-        stateRef.current = data
-        setstate(data)
-    }
-
-    function ChangeCampus(data) {
-        campusRef.current = data
-        setcampus(data)
-
-    }
-
-    function ChangePrice(data) {
-        priceRef.current = data
-        setprice(data)
-    }
-
+const CardCnt = ({
+        cards,
+        applyFilter,
+        ChangeCampus,
+        ChangeCondition,
+        ChangePrice,
+        ChangeCategory,
+        ChangeState,
+        ChangeSubCategory,
+        category,
+        state
+    }) => {
+   
+   
 
     // useEffect(() => {
         

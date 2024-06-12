@@ -65,13 +65,18 @@ export default function Card({item,index}) {
                         <span></span>
                     </button>
                     <button  onClick={async(e) => { 
+                            let overlay = document.querySelector('.overlay')
+                            overlay.setAttribute('id', 'overlay');          
                             let response = await  DeleteItem(window.localStorage.getItem('CE_seller_id'), item.product_id)
                             if(response){
                                 document.querySelector('.listing-overlay').removeAttribute('id')
-                                let list = [...document.querySelectorAll('.card')]
+                                let list = [...document.querySelectorAll('.ads-card')]
                                 
                                 let card = list.filter(data => data.dataset?.id === item.product_id)
-                                card[0].remove()
+                                // console.log(card)
+                                card[0]?.remove()
+                                document.querySelector('.overlay').removeAttribute('id')
+
 
                             }
                         }

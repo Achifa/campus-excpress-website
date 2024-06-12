@@ -84,7 +84,7 @@
 
     
     .seller-home{
-        height: calc(100% - 250px);
+        height: calc(100% - 0px);
         width: 100%;
         /* margin: auto; */
         padding: 0;
@@ -92,7 +92,7 @@
     }
 
     .seller-home-overview{
-        height: calc(100vh - 250px);
+        height: calc(100vh - 0px);
         width:100%;
         display: flex;
         align-items: center;

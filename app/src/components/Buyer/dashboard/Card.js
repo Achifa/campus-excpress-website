@@ -2,7 +2,7 @@ import {
     useDispatch, 
     useSelector 
 } from 'react-redux'
-import img from '../../../assets/'
+import img from '../../../assets/eye-svgrepo-com (1).svg'
 import locationSvg from '../../../assets/location-svgrepo-com-1.svg'
 import { 
     useEffect,
@@ -25,31 +25,23 @@ import js_ago from 'js-ago'
 const Card = ({item, index}) => {
     let [screenWidth, setScreenWidth] = useState(0)
     let [btnMode, setBtnMode] = useState(true)
- 
-    
-    
-
     useEffect(() => {
         let width = window.innerWidth;
         setScreenWidth(width)
     }, [])
-
-    
+   
     let { 
         savedItem
     } = useSelector(s => s.savedItem)
 
     let {
-        Buyer
-    } = useSelector(s => s.Buyer)
- 
-    let navigate = useNavigate()
+        buyerData
+    } = useSelector(s => s.buyerData)
+
     let dispatch = useDispatch()
-
     let [savedListBool, setSavedListBool] = useState(false)
-
     async function Saver(e,product_id) { 
-        if(Buyer.isRegistered){
+        if(buyerData.isRegistered){
             // alert()
             let overlay = document.querySelector('.overlay')
             overlay.setAttribute('id', 'overlay');

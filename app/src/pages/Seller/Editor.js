@@ -418,12 +418,9 @@ const Editor = () => {
                         window.localStorage.setItem('draft_c_type', '')
                         window.localStorage.setItem('draft_price', '')
 
-                        openNotice('Upload Failed, Please Try Again')
-
-                        setTimeout(() => {
-                            window.location.href = '/seller.shop';
-                            document.querySelector('.overlay').removeAttribute('id')
-                        }, 800);
+                        openNotice('Update Successful, Redirecting...')
+                        window.location.href = '/seller.shop';
+                        document.querySelector('.overlay').removeAttribute('id')
                     
                         
                     }else{
@@ -481,12 +478,9 @@ const Editor = () => {
                         window.localStorage.setItem('draft_c_type', '')
                         window.localStorage.setItem('draft_price', '')
                     
-                        openNotice('Upload Failed, Please Try Again')
-
-                        setTimeout(() => {
-                            window.location.href = '/seller.shop';
-                            document.querySelector('.overlay').removeAttribute('id')
-                        }, 800);
+                        openNotice('Upload Successful, Redirecting...')
+                        window.location.href = '/seller.shop';
+                        document.querySelector('.overlay').removeAttribute('id')
                     }else{
                         let overlay = document.querySelector('.overlay'); 
                         overlay.removeAttribute('id')
@@ -514,7 +508,7 @@ const Editor = () => {
             </div>
 
             <div className="notice-cnt" style={{margin: 'auto'}}>
-                <span style={{margin: "0 15px 0 .5px"}}>An Error Occured, Please Try Again</span>
+                <span style={{margin: "0 15px 0 .5px"}}></span>
                 <button className="notice-cnt-btn" style={{width: '40px', height: '30px', background: 'red', borderRadius: '2px', fontWeight: '500', fontSize: 'small'}}>
                     close
                 </button>

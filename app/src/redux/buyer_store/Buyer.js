@@ -1,19 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    Buyer: {
-        isRegistered: false,
-        ref: null
-    },
+    buyerData: null,
   }
   
   export const BuyerSlice = createSlice({
-    name: 'Buyer',
+    name: 'buyerData',
     initialState,
     reducers: {
-      
       setBuyerTo: (state, action) => {
-        state.Buyer = action.payload
+        state.buyerData = action.payload
       },
     },
   })

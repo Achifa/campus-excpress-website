@@ -9,7 +9,7 @@ import sellSvg from '../../assets/sell-svgrepo-com.svg'
 import '../../styles/Buyer/buy_now.css'
 import '../../styles/filter.css'
 import '../../styles/Buyer/semi-medium-screen.css'
-import { useEffect, useId, useState } from "react"; 
+import { useEffect, useId, useRef, useState } from "react"; 
 import { useDispatch, useSelector } from "react-redux";
 import BuyerLayout from '../../layout/Buyer'
 import { 
@@ -23,6 +23,7 @@ import {
 import Ads from "../../components/Buyer/dashboard/Ads";
 import mssg from '../../assets/messages-1-svgrepo-com (1).svg'
 import { 
+    Filter_Cards,
     NewVisitor 
 } from "../../api/buyer/post";
 import Card from "../../components/Buyer/dashboard/Card";
@@ -37,11 +38,30 @@ const Dashboard = () => {
     let navigate = useNavigate()
     let dispatch = useDispatch()
     let [cards, setCards] = useState([]);
-    let {storedCategory} = useSelector(s => s.storedCategory)
-    let [activeJSX, setActiveJSX] = useState(<CardCnt cards={cards} />)
+    let {storedCategory} = useSelector(s => s.storedCategory);
+
+    let [category, setcategory] = useState('')
+    let [state, setstate] = useState('')
+
+    let [activeJSX, setActiveJSX] = useState(<CardCnt 
+            ChangeCampus={ChangeCampus} 
+            ChangeCondition={ChangeCondition} 
+            ChangePrice={ChangePrice} 
+            ChangeCategory={ChangeCategory} 
+            ChangeState={ChangeState}
+            ChangeSubCategory={ChangeSubCategory} 
+            category={category}
+            state={state} 
+            applyFilter={applyFilter}
+            cards={cards} 
+
+        />)
     let [screenWidth, setScreenWidth] = useState(0)
+    const [geoLocation, setGeoLocation] = useState({ lat: null, lng: null });
+    const [city, setCity] = useState('');
     let reactId = useId();
 
+   
     // let {Buyer} = useSelector(s=>s.Buyer)
 
     async function fetchData(overlay,category) {
@@ -55,11 +75,13 @@ const Dashboard = () => {
                 )
                 overlay.removeAttribute('id')
             }else{
+                openNotice('Error Occured Please Wait While We Reload...')
                 setTimeout(() => {
-                    openNotice('Something Went Wrong, Please Hold While We Refresh...')
                     window.location.reload()
-                }, 3000);
+                }, 1000);
             }
+
+            
         })
         .catch(error=>{
             console.log(error)
@@ -77,6 +99,51 @@ const Dashboard = () => {
 
         // overlay.removeAttribute('id');
     }
+
+    const fetchCity = async (lat, lng) => {
+        const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+    
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.results && data.results.length > 0) {
+            const addressComponents = data.results[0].address_components;
+            const cityComponent = addressComponents.find(component =>
+              component.types.includes('locality')
+            );
+            if (cityComponent) {
+              setCity(cityComponent.long_name);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching city', error);
+        }
+      };
+
+    useEffect(() => {
+        if (location.lat && location.lng) {
+          fetchCity(location.lat, location.lng);
+        }
+    }, [location]);
+
+    useEffect(() => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+        position => {
+            setGeoLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            });
+        },
+        error => {
+            console.error('Error fetching location', error);
+        }
+        );
+    } else {
+        console.error('Geolocation is not supported by this browser');
+    }
+    }, []);
 
     useEffect(() => {
         let width = window.innerWidth;
@@ -102,25 +169,35 @@ const Dashboard = () => {
                 console.log(error)
             }
         }
-    }, [])
-    
+    }, [location])
 
     useEffect(() => {
-        
-        if(location.search.split('=').length > 1){
-            let overlay = document.querySelector('.overlay');
-            overlay.setAttribute('id', 'overlay');
+        let overlay = document.querySelector('.overlay');
+            if(overlay){
+                overlay.setAttribute('id', 'overlay');
             try {
-                fetchData(overlay,location.search.split('=')[1] === '' ? 'trends' : location.search.split('=')[1])
-
+                fetchData(overlay, 'trends')
             } catch (error) {
                 console.log(error)
             }
         }
-    }, [location]) 
+    }, [])
+    
 
     useEffect(() => {
-        setActiveJSX(<CardCnt cards={cards} />)
+        setActiveJSX(<CardCnt
+            ChangeCampus={ChangeCampus} 
+            ChangeCondition={ChangeCondition} 
+            ChangePrice={ChangePrice} 
+            ChangeCategory={ChangeCategory} 
+            ChangeState={ChangeState}
+            ChangeSubCategory={ChangeSubCategory} 
+            category={category}
+            state={state} 
+            applyFilter={applyFilter}
+            cards={cards} 
+            
+        />)
         if(location.pathname.split('/')[1] === 'search'){
             setActiveJSX(<SearchOutput />)
         }
@@ -168,13 +245,85 @@ const Dashboard = () => {
     }, [cards]);
 
     useEffect(() => {
-        setActiveJSX(<CardCnt cards={cards} />)
+        setActiveJSX(<CardCnt
+            ChangeCampus={ChangeCampus} 
+            ChangeCondition={ChangeCondition} 
+            ChangePrice={ChangePrice} 
+            ChangeCategory={ChangeCategory} 
+            ChangeState={ChangeState}
+            ChangeSubCategory={ChangeSubCategory} 
+            category={category}
+            state={state} 
+            applyFilter={applyFilter}
+         cards={cards} />)
     }, [cards])
     
+    let categoryRef = useRef('')
+    let subCategoryRef = useRef('')
+    let conditionRef = useRef('')
+    let stateRef = useRef('')
+    let campusRef = useRef('')
+    let priceRef = useRef([])
 
+    async function applyFilter() {
+        let overlay = document.querySelector('.overlay');
+        overlay.setAttribute('id', 'overlay');
+
+        try {
+            // console.log(categoryRef)
+            let response = await Filter_Cards(categoryRef.current,subCategoryRef.current,conditionRef.current,priceRef.current,stateRef.current,campusRef.current)
+            .then((result) => {
+                setCards(
+                    result?.map((item, index) => 
+                        <Card index={index} item={item} />
+                    )
+                )
+                document.querySelector('.filter-overlay').removeAttribute('id')
+                overlay.removeAttribute('id');
+            })
+            .catch((err )=> console.log(err))            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    function ChangeCategory(data) {
+        categoryRef.current = data
+        setcategory(data)
+        // navigate(`/?category=${data.toLowerCase()}`)
+    }
+
+    function ChangeSubCategory(data) {
+        subCategoryRef.current = data
+    }
+
+    function ChangeCondition(data) {
+        conditionRef.current = data
+    }
+
+    function ChangeState(data) {
+        stateRef.current = data
+        setstate(data)
+    }
+
+    function ChangeCampus(data) {
+        campusRef.current = data
+        // alert(data)
+    } 
+
+    function ChangePrice(data) {
+        priceRef.current = data
+    }
 
     return ( 
         <>
+            <div className="notice-cnt" style={{margin: 'auto'}}>
+                    <span style={{margin: "0 15px 0 .5px"}}></span>
+                    <button className="notice-cnt-btn" style={{width: '40px', height: '30px', background: 'red', borderRadius: '2px', fontWeight: '500', fontSize: 'small'}}>
+                        close
+                    </button>
+            </div>
 
             <BuyerLayout>
 
@@ -238,7 +387,17 @@ const Dashboard = () => {
                         screenWidth > 760
                         ?
                             <>
-                                <Filterfilter />
+                                <Filterfilter
+                                    ChangeCampus={ChangeCampus} 
+                                    ChangeCondition={ChangeCondition} 
+                                    ChangePrice={ChangePrice} 
+                                    ChangeCategory={ChangeCategory} 
+                                    ChangeState={ChangeState}
+                                    ChangeSubCategory={ChangeSubCategory} 
+                                    category={category}
+                                    state={state} 
+                                    applyFilter={applyFilter}
+                                 />
                             </>
                         :
                         ''

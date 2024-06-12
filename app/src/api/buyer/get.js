@@ -4,7 +4,7 @@ import axios from 'axios'
 
 let uri_1 = 'https://ce-server.vercel.app'
 let uri_2 = 'http://localhost:2222'
-let IP = uri_1
+let IP = uri_2
 
 
 const source = axios.CancelToken.source();
@@ -12,13 +12,7 @@ const source = axios.CancelToken.source();
 export async function _(params) {
     let response = await get_request_generators(`route`, {params})
     setTimeout(() => source.cancel('timeout'), 10000) 
-    return (response)?.data
-}
-
-export async function Filter_Cards(category,condition,price,state,campus) {
-    let response = await get_request_generators(`filter`, {category,condition,price,state,campus})
-    setTimeout(() => source.cancel('timeout'), 10000) 
-    return (response)?.data
+    return (response)?.data 
 }
 
 export async function GetBuyer(buyer_id) {

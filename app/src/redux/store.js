@@ -10,8 +10,8 @@ import userReducer from './auth_state/auth';
 import menuSlice from './seller_store/settings_option';
 import savedItem from './buyer_store/Save';
 import SearchList from './buyer_store/SearchList';
-import Buyer from './buyer_store/Buyer';
 import sellerData from './seller_store/seller';
+import buyerData from './buyer_store/buyer';
 
 
 let store = configureStore({
@@ -25,8 +25,7 @@ let store = configureStore({
     storedCategory: storedCategory,
     Type: Type,
     savedItem: savedItem,
-    Buyer: Buyer,
-
+    buyerData: buyerData,
     user: userReducer,
 
     menu: menuSlice,

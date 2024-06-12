@@ -27,17 +27,9 @@ export default function Filter({
         ChangeState,
         ChangeCampus,
         ChangePrice,
-
-        state,
+        // state,
         category,
-
         applyFilter,
-
-        ChangeCategoryActive,
-        ChangeConditionActive,
-        ChangePriceActive,
-        ChangeLocationActive,
-        activeData
     }) {
 
     let [screenWidth, setScreenWidth] = useState(0)
@@ -46,8 +38,10 @@ export default function Filter({
     let dispatch = useDispatch();
 
     let [campuslist, setcampuslist] = useState([])
-    let [minPrice, setMinPrice] = useState('')
-    let [maxPrice, setMaxPrice] = useState('')
+    let [minPrice, setMinPrice] = useState(0)
+    let [maxPrice, setMaxPrice] = useState(0)
+    // let [state, setState] = useState('')
+
 
     // let [categoryActive, setcategoryActive] = useState(false)
     // let [conditionActive, setconditionActive] = useState(false)
@@ -59,13 +53,13 @@ export default function Filter({
         setScreenWidth(width)
     }, [])
 
-    useEffect(() => {
+    function setCampusListAfterStateSelect(state) {
         setcampuslist([])
         let stateIndex = data.filter(item =>  item?.label?.toLowerCase() === state?.toLowerCase())
         let index = data.indexOf(stateIndex[0]);
         let campuses = Object.values(school_choices).reverse();
         index < 0 ? setcampuslist([]) : setcampuslist(campuses[index])
-    }, [state])
+    }
 
     let [categoriesList, setCategoriesList] = useState([])
     let [typeList, setTypeList] = useState([])
@@ -150,7 +144,7 @@ export default function Filter({
 
                         {/* <br />  */}
 
-                        {/* <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} onInput={e => ChangeSubCategory(e.target.value)} name="" id="">
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} onInput={e => ChangeSubCategory(e.target.value)} name="" id="">
                             <option value={''}>Select Product Type</option>
 
                             {
@@ -158,7 +152,7 @@ export default function Filter({
                                     <option key={index} value={item}>{item}</option>
                                 )
                             }
-                        </select> */}
+                        </select>
                     </div>
 
                     <div className="input-cnt" >
@@ -193,9 +187,9 @@ export default function Filter({
                             }}/>
                         <br />
                         <div>
-                            <input style={{height: '35px', width: '40%', float: 'left'}} placeholder="From..." type="text" name="" id="" onInput={e => {setMinPrice(e.target.value); ChangePrice([e.target.value, maxPrice])}} value={new Intl.NumberFormat('en-us').format(minPrice)} />
+                            <input style={{height: '35px', width: '40%', float: 'left'}} placeholder="From..." type="text" name="" id="" onInput={e => {setMinPrice(parseInt(e.target.value)); ChangePrice([parseInt(e.target.value), parseInt(maxPrice)])}} value={new Intl.NumberFormat('en-us').format(parseInt(minPrice))} />
 
-                            <input style={{height: '35px', width: '40%', float: 'right'}} placeholder="To..." type="text" onInput={e => {setMaxPrice(e.target.value); ChangePrice([minPrice,e.target.value])}} value={new Intl.NumberFormat('en-us').format(maxPrice)} name="" id="" />
+                            <input style={{height: '35px', width: '40%', float: 'right'}} placeholder="To..." type="text" onInput={e => {setMaxPrice(parseInt(e.target.value)); ChangePrice([parseInt(minPrice),parseInt(e.target.value)])}} value={new Intl.NumberFormat('en-us').format(maxPrice)} name="" id="" />
                         </div>
                     </div>
 
@@ -205,7 +199,10 @@ export default function Filter({
                             &nbsp;
                             <label htmlFor="locale" style={{color: '#FF4500', marginTop: '6px', fontWeight: '400', fontFamily: 'Times New Roman', fontSize: 'small'}}>Location</label>
                         </div>
-                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => ChangeState(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onInput={e => {
+                            ChangeState(e.target.value); 
+                            setCampusListAfterStateSelect(e.target.value)
+                        }}>
                             <option value={''}>Select State</option>
 
                             {
@@ -216,7 +213,7 @@ export default function Filter({
                         </select>
                         <br />
 
-                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onChange={e => ChangeCampus(e.target.value)}>
+                        <select style={{height: '35px', width: '100%', float: 'left', padding: '5px'}} name="" id="" onInput={e => ChangeCampus(e.target.value)}>
                             <option value={''}>Select Campus</option>
 
                             {

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 let uri_1 = 'https://ce-server.vercel.app'
 let uri_2 = 'http://localhost:2222'
-let IP = uri_1
+let IP = uri_2
 
 
 const source = axios.CancelToken.source();
@@ -39,6 +39,13 @@ export async function ResetPwd(email,buyer_id) {
     return (response)
 }
 
+
+export async function Filter_Cards(category,subCategory,condition,price,state,campus) {
+    let response = await post_request_generators(`filter`, {category,subCategory,condition,price,state,campus})
+    setTimeout(() => source.cancel('timeout'), 10000) 
+    return (response)
+}
+
 export async function CheckPwdResetToken(buyer_id,token) {
     let response = await post_request_generators('buyer.password-token-check', {buyer_id,token})
     setTimeout(() => source.cancel('timeout'), 10000) 
@@ -69,8 +76,8 @@ export async function UploadChat(buyer_id,seller_id) {
     return (response)
 }
 
-export async function AddView(product_id,user_id) {
-    let response = await post_request_generators('new-view', {product_id,user_id})
+export async function AddView(product_id,buyer_id) {
+    let response = await post_request_generators('new-view', {product_id,buyer_id})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return (response)
 }

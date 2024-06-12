@@ -84,7 +84,7 @@
     
     .seller-home{
         height: calc(100% - 70px);
-        width: calc(100% - 200px);
+        width: calc(100% - 0px);
         /* margin: auto; */
         padding: 0;
         background-color: #f9f9f9;

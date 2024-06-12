@@ -12,25 +12,31 @@ const Thumbnail = ({product_id}) => {
     useEffect(() => {
         setScreenWidth(window.innerWidth)
     }, [])
+
+    async function fetchData() {
+        let result = await GetProductThumbnail(product_id)
+        result?.file
+        ?
+        set_img(result.file) 
+        :
+        set_img(imgSvg) 
+    }
   
     useEffect(() => {
         try {
-            async function fetchData() {
-                let result = await GetProductThumbnail(product_id)
-                result?.file
-                ?
-                set_img(result.file) 
-                :
-                set_img(imgSvg) 
-            }
             fetchData()
         } catch (error) {
             console.log(error)
         }
+    },[product_id]) 
 
-        
-    },[])
-
+    useEffect(() => {
+        try {
+            fetchData()
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
     return ( 
         <>
             <img loading='lazy' onClick={e => navigate(`/product?product_id=${product_id}`)} src={img} style={{height: screenWidth > 480 ? '140px' : '120px', width: '100%', borderRadius: '10px', display: 'table', margin: '0 auto', position: 'relative'}} alt="" />

@@ -96,7 +96,7 @@ buyer_route.post('/new-chat', parser, upload_chat);
 buyer_route.post('/new-view', parser, UpdateView);
 buyer_route.post('/new-visitor', parser, AddNewReferral);
 
-buyer_route.get('/filter', filter_items);
+buyer_route.post('/filter', parser, filter_items);
 
 
 module.exports = {buyer_route} 

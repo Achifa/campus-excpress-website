@@ -9,9 +9,10 @@ import { GetSeller } from "../../api/seller/get";
 import { AddView, UploadChat } from "../../api/buyer/post";
 import { v4 as uuid } from "uuid";
 import Contact from "../../components/Buyer/Product/Contact";
-import Share from "../../components/Buyer/Product/Share";
+// import Share from "../../components/Buyer/Product/Share";
 import { useSelector } from "react-redux";
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
+import { openNotice } from "../../Functions/notice";
 
 const ProductPage = () => {
 
@@ -44,13 +45,10 @@ const ProductPage = () => {
 
     useEffect(() => {
         setActiveImg('')
-        // setActiveImg('')
     }, [searchParams.get('product_id')])
 
 
-    useEffect(() => {
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
+    function fetchData(overlay) {
         GetItem([location.search.split('=').splice(-1)[0]])
         .then((result) => {
             setItem(result[0])
@@ -58,27 +56,38 @@ const ProductPage = () => {
         })
         .catch(error=>{
             console.log(error)
+            openNotice('Error Occured Please Wait While We Reload...')
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000);
         })
+    }
+
+    useEffect(() => {
+        try {
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
+            fetchData(overlay)
+        } catch (error) {
+            console.log(error)
+            
+        }
 
     }, [])
 
     useEffect(() => {
-        let overlay = document.querySelector('.overlay')
-        overlay.setAttribute('id', 'overlay');
-        GetItem([location.search.split('=').splice(-1)[0]])
-        .then((result) => {
-            setItem(result[0])
-            overlay.removeAttribute('id')
-        })
-        .catch(error=>{
+        try {
+            let overlay = document.querySelector('.overlay')
+            overlay.setAttribute('id', 'overlay');
+            fetchData(overlay)
+        } catch (error) {
             console.log(error)
-        })
+            
+        }
 
     }, [location])
 
     useEffect(() => {
-        // let overlay = document.querySelector('.overlay')
-
         try {
             async function getData() {
                 let result = await GetSeller(item?.seller_id)
@@ -91,45 +100,37 @@ const ProductPage = () => {
 
     },[item])
 
-    
-    useEffect(() => {
+    async function AddNewViewer(product_id,buyer_id) {
+        let result = await AddView(product_id, buyer_id)
+        if(result?.length > 0){
+            setItem(result[0])
+           .removeAttribute('id');
+
+        }
+    }
+
+    window.onload= (()=> {
         let buyer_id = window.localStorage.getItem("CE_buyer_id")
-        if(buyer_id !== '' && buyer_id !== undefined){
+        if(buyer_id !== '' && buyer_id !== undefined && buyer_id !== null && buyer_id !== 'null'){
             try {
-                async function getData() {
-                    let result = await AddView(item?.product_id, buyer_id)
-                    if(result?.length > 0){
-                        setItem(result[0])
-                       .removeAttribute('id');
-    
-                    }
-                }
                 setTimeout(() => {
-                    getData()
+                    AddNewViewer(item?.product_id,buyer_id)
                 }, 5000); 
             } catch (error) {
                 console.log(error)
             }
         }else{
-            window.localStorage.setItem("unknownBuyer", `CE-unknown-buyer-${uuid()}`)
             let buyer_id = window.localStorage.getItem("unknownBuyer")
             try {
-                async function getData() {
-                    let result = await AddView(item.product_id,buyer_id)
-                    if(result?.length > 0){
-                        setItem(result[0])
-                       
-                    }
-                }
                 setTimeout(() => { 
-                    getData()
+                    AddNewViewer(item?.product_id,buyer_id)
                 }, 5000);
             } catch (error) {
                 console.log(error)
             }
         }
         
-    }, [item])
+    })
 
     function SendMssg() {
         let overlay = document.querySelector('.overlay')
@@ -158,7 +159,12 @@ const ProductPage = () => {
     
     return ( 
         <>
-
+            <div className="notice-cnt" style={{margin: 'auto'}}>
+                <span style={{margin: "0 15px 0 .5px"}}></span>
+                <button className="notice-cnt-btn" style={{width: '40px', height: '30px', background: 'red', borderRadius: '2px', fontWeight: '500', fontSize: 'small'}}>
+                    close
+                </button>
+            </div>
             <BuyerLayout>
                 <div className="buyer-product shadow-sm" style={{background: '#fff'}}>
                     <div className="buyer-product-cnt" style={{display: 'flex', flexDirection: 'column'}}>
