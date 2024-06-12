@@ -21,8 +21,8 @@ export async function GetBuyer(buyer_id) {
     return (response)?.data
 }
 
-export async function GetItems(category) {
-    let response = await get_request_generators(``, {category})
+export async function GetItems(category,limit) {
+    let response = await get_request_generators(``, {category,limit})
     setTimeout(() => source.cancel('timeout'), 10000) 
     return (response)?.data
 }

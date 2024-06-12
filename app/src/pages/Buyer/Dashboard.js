@@ -42,6 +42,7 @@ const Dashboard = () => {
 
     let [category, setcategory] = useState('')
     let [state, setstate] = useState('')
+    let [limit, setlimit] = useState(30)
 
     let [activeJSX, setActiveJSX] = useState(<CardCnt 
             ChangeCampus={ChangeCampus} 
@@ -65,7 +66,15 @@ const Dashboard = () => {
     // let {Buyer} = useSelector(s=>s.Buyer)
 
     async function fetchData(overlay,category) {
-        GetItems(category)
+
+        if(screenWidth > 999){
+            setlimit(32)
+        }else if(screenWidth > 761 && screenWidth < 1000){
+            setlimit(30) 
+        }else if(screenWidth < 659){
+            setlimit(30)
+        } 
+        GetItems(category, limit)
         .then((result) => {
             if(result){
                 setCards(
