@@ -50,10 +50,14 @@ const Aside = ({
         storedCategory
     } = useSelector(s => s.storedCategory)
 
+    let {
+        buyerData
+    } = useSelector(s => s.buyerData)
+
     let [categoriesList, setCategoriesList] = useState([])
     let navigate = useNavigate()
     // let {category} = useSelector(s => s.Category)
-    let [buyer, set_buyer] = useState('')
+   
 
     let categories = [
         ["Food", foodSvg],
@@ -76,15 +80,6 @@ const Aside = ({
     useEffect(() => {
         setCategoriesList(items.items.category)
     },[])
-
-    useEffect(() => {
-        try {
-            set_buyer(JSON.parse(window.localStorage.getItem('buyerData')))
-        } catch (error) { 
-            console.log(error)
-        }
-      },[])
-
     let dispatch = useDispatch()
 
     
@@ -101,7 +96,7 @@ const Aside = ({
         {uri: '',text: 'Refund & Return', img: refundSvg}, 
         // {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
         {uri: '',text: 'Contact Us', img: contactSvg}, 
-        {uri: 'logout',text: buyer?.fname ? 'Logout' : 'Login', img: buyer?.fname ? logoutSvg : login}
+        {uri: 'logout',text: buyerData?.fname ? 'Logout' : 'Login', img: buyerData?.fname ? logoutSvg : login}
     ]
     
     let list3 = categoriesList
@@ -157,13 +152,13 @@ const Aside = ({
                 <div className="aside-cnt" style={{position: 'relative', overflow: 'hidden', padding: '0'}}>
                     <div style={{textAlign: 'left', width: '100%', height: 'fit-content', fontWeight: '500', display: 'flex', flexDirection: 'column', fontSize: 'large', marginTop: '0', padding: '10px', color: '#fff', background: 'orangered'}}>
                         <span style={{borderRadius: '50%', background: '#fff4e0', width: '50px', height: '50px', color: 'orangered', display: 'flex', alignItems: 'center', marginBottom: '10px', justifyContent: 'center'}}><h3 style={{padding: '0', margin: '0'}}>{
-                            buyer?.fname ? buyer?.fname.split('')[0] + buyer?.lname.split('')[0] : '?'
+                            buyerData?.fname ? buyerData?.fname.split('')[0] + buyerData?.lname.split('')[0] : '?'
                         }</h3></span>
                         <span>
                             {
-                                buyer?.fname 
+                                buyerData?.fname 
                                 ?  
-                                buyer?.fname + " " + buyer?.lname 
+                                buyerData?.fname + " " + buyerData?.lname 
                                 : 
                                 <>
                                 <span onClick={e => navigate('/login')} style={{cursor: 'pointer'}}>
