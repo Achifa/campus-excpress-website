@@ -327,26 +327,7 @@ const Dashboard = () => {
         priceRef.current = data
     }
 
-    function name() {
-        {
-            "@context": "https://www.campusexpressng.com/",
-            "@type": "ItemList",
-            "name": "Campus Express Availble Products",
-            "description": "Here is a list of available items on campus express.",
-            "itemListElement": 
-            items.map((item,index) => 
-                {
-                    "@type": "ListItem",
-                    "position": index + 1,
-                    "name": item.title,
-                    "description": item.description,
-                    "url": `https://www.campusexpressng.com/product?product_id=${item.product_id}`
-                },
-            )
-            
-          }
-          
-    }
+   
 
     return ( 
         <>
