@@ -43,6 +43,7 @@ const Dashboard = () => {
     let [category, setcategory] = useState('')
     let [state, setstate] = useState('')
     let [limit, setlimit] = useState(30)
+    let [items, setitems] = useState([])
 
     let [activeJSX, setActiveJSX] = useState(<CardCnt 
             ChangeCampus={ChangeCampus} 
@@ -82,6 +83,7 @@ const Dashboard = () => {
                         <Card index={index} item={item} />
                     )
                 )
+                setitems(items)
                 overlay.removeAttribute('id')
             }else{
                 openNotice('Error Occured Please Wait While We Reload...')
@@ -325,6 +327,27 @@ const Dashboard = () => {
         priceRef.current = data
     }
 
+    function name() {
+        {
+            "@context": "https://www.campusexpressng.com/",
+            "@type": "ItemList",
+            "name": "Campus Express Availble Products",
+            "description": "Here is a list of available items on campus express.",
+            "itemListElement": 
+            items.map((item,index) => 
+                {
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "name": item.title,
+                    "description": item.description,
+                    "url": `https://www.campusexpressng.com/product?product_id=${item.product_id}`
+                },
+            )
+            
+          }
+          
+    }
+
     return ( 
         <>
             <div className="notice-cnt" style={{margin: 'auto'}}>
@@ -340,8 +363,8 @@ const Dashboard = () => {
                     <meta name="title" content={`Campus Express (Connecting Campus Express)`} />
                     <meta name="description" content={`Shop category is ${storedCategory}`} />
                     {/* <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=" /> */}
-                    <meta name="robots" content="index,follow" />
-                    <meta name="googlebot" content="index,follow" />
+                    <meta name="robots" content="nosnippet" />
+                    <meta name="googlebot" content="nosnippet" />
                     <meta name="google" content="sitelinkssearchbox" />
 
                     {/* FaceBook Tags */}
@@ -357,6 +380,8 @@ const Dashboard = () => {
                     <meta name="twitter:title" content="Campus Express (Connecting Campus Express)" />
                     <meta name="twitter:description" content={`Shop category is ${storedCategory}`} />
                     <meta name="twitter:card" content="summary_large_image" />
+
+                    
                 </Helmet>
 
                 <div className="buyer-main-cnt" style={{

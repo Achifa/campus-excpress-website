@@ -42,9 +42,41 @@
   </head>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11150712607"></script>
-  <script async src="https://cse.google.com/cse.js?cx=2585ab1d992b24a7f">
-  </script>
-  <div class="gcse-search"></div>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Sample Product",
+      "description": "This is a sample product description.",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": "99.99"
+      },
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Weight",
+          "value": "1 kg"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Dimensions",
+          "value": "10x20x30 cm"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Color",
+          "value": "Red"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Material",
+          "value": "Plastic"
+        }
+      ]
+    }
+    </script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
