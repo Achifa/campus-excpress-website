@@ -285,14 +285,13 @@ const Card = ({item, index}) => {
                             <div style={{height: 'fit-content', width: 'fit-content', fontWeight: '400', fontSize: 'x-small'}} > {item.views} views</div>
                        </div>
 
-                        <div style={{color: '#626262', fontSize: 'x-small', fontWeight: '500', display: 'flex', justifyContent: 'left', flexWrap: 'nowrap', width: '50%', alignItems: 'center'}}>
+                        <div style={{color: '#626262', fontSize: 'x-small', fontWeight: '500', height: '30px', display: 'flex', justifyContent: 'left', flexWrap: 'nowrap', width: '50%', alignItems: 'center'}}>
                             <span>
                                 <img src={timsSvg} style={{height: '15px', width: '15px', marginBottom: '3px'}} alt="" />
-
                             </span>
                             &nbsp;
                             &nbsp;
-                            <span>
+                            <span style={{fontSize: 'x-small'}}>
                                 {
                                     js_ago(new Date(item.date))
                                 }
