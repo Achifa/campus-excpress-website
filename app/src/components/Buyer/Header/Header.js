@@ -12,6 +12,8 @@ import Aside from "./Aside";
 import {
   GetSearchWord 
 } from "../../../api/buyer/get";
+import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com.svg'
+
 import SearchBar from "./SearchBar";
 import { setSearchListTo } from "../../../redux/buyer_store/SearchList";
 
@@ -144,18 +146,20 @@ const Header = ({
           <ul style={{
             width: 'fit-content',
           }}>
-            {/* <li onClick={e => navigate('/buyer.message')}>  
+            <li onClick={e => navigate('/buyer.message')}>  
+              <img src={cartSvg} style={{height: '25px', width: '25px'}} alt="" />
+              
               <span style={{height: 'fit-content', marginTop: '-19px', borderRadius: '50%', width: '20px', fontSize: 'small', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'orangered', color: '#fff'}}>
                 { 
                   cartList
                 }
               </span>
-              <span>
+              {/* <span>
                 <img src={mssg} style={{height: '25px', width: '25px'}} alt="" />
               </span>
-              <span>Messages</span> 
+              <span>Messages</span>  */}
 
-            </li> */}
+            </li>
             {/* { */}
               {/* screenWidth > 760 */}
 

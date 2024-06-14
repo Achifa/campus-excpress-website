@@ -267,7 +267,7 @@ function Profile() {
     )
 }
 
-function Verification(params) {
+function Verification() {
 
     let [passport, setPassport] = useState('')
 
@@ -363,7 +363,7 @@ function Verification(params) {
     )
 }
 
-function Payments(params) {
+function Payments() {
 
     let AcctNum = useRef('')
     let BankCode = useRef('')
@@ -451,7 +451,7 @@ function Payments(params) {
     )
 }
 
-function Notice(params) {
+function Notice() {
     return(
         <>
             <div className='seller-settings-id-verification'>

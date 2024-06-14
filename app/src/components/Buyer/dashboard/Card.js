@@ -8,6 +8,9 @@ import {
     useEffect,
     useState
 } from 'react'
+
+import cartSvg from '../../../assets/cart-shopping-fast-svgrepo-com (1).svg'
+import orderSvg from '../../../assets/order-completed-svgrepo-com.svg'
 import Thumbnail from '../Thumbnail'
 import conditionSvg from '../../../assets/condition-point-svgrepo-com.svg'
 import { 
@@ -17,12 +20,33 @@ import {
     setSaveTo 
 } from '../../../redux/buyer_store/Save'
 import timsSvg from '../../../assets/date-2-svgrepo-com.svg'
-import { UnSaveItem } from '../../../api/buyer/delete'
-import { SaveItem } from '../../../api/buyer/post'
+import { DeleteItemFromCart, UnSaveItem } from '../../../api/buyer/delete'
+import { AddItemToCart, SaveItem } from '../../../api/buyer/post'
 import SaveButton from './SaveButton'
 import js_ago from 'js-ago'
+import { isBuyerLoggedIn } from '../LoggedIn'
+import { setCartTo } from '../../../redux/buyer_store/Cart'
 
 const Card = ({item, index}) => {
+
+    let BtnStyles = {
+        height: '35px',
+        width: '100%',
+        borderRadius: '5px',
+        outline: 'none',
+        // padding: '0',
+        border: 'none',
+        float: 'left',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#fff',
+        fontSize: 'small',
+        fontWeight: '500',
+        backgroundColor: 'orangered',
+        margin: '0'
+    }
+
     let [screenWidth, setScreenWidth] = useState(0)
     let [btnMode, setBtnMode] = useState(true)
     useEffect(() => {
@@ -33,6 +57,10 @@ const Card = ({item, index}) => {
     let { 
         savedItem
     } = useSelector(s => s.savedItem)
+
+    let { 
+        Cart
+    } = useSelector(s => s.Cart)
 
     let {
         buyerData
@@ -87,48 +115,48 @@ const Card = ({item, index}) => {
         
     }
 
-    // function AddToCart(e,product_id) {
+    function AddToCart(e,product_id) {
         
-    //     e.currentTarget.disabled = true;
-    //     console.log(e.target)
-    //     console.log(e.currentTarget)
+        e.currentTarget.disabled = true;
+        console.log(e.target)
+        console.log(e.currentTarget)
 
-    //     let cartList = [...Cart];
-    //     let duplicateSearch = cartList.filter(item => item.product_id === product_id)
-    //     if(cartList.length > 0){
-    //         if(duplicateSearch.length > 0){
-    //             let newList = cartList.filter(item => item !== duplicateSearch[0])
-    //             //dispatch(setCartTo(newList))
-    //             DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-    //             .then((result) => {
-    //                 dispatch(setCartTo(result))
-    //                 e.currentTarget.disabled = false;
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err)
-    //             })
-    //         }else{
-    //             dispatch(setCartTo([...Cart, product_id]))
-    //             AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-    //             .then((result) => {
-    //                 dispatch(setCartTo(result))
-    //                 e.currentTarget.disabled = false;
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err)
-    //             })
-    //         }
-    //     }else{
-    //         AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
-    //         .then((result) => {
-    //             dispatch(setCartTo(result))
-    //             e.target.disabled = false;
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //         })
-    //     }
-    // }
+        let cartList = [...Cart];
+        let duplicateSearch = cartList.filter(item => item.product_id === product_id)
+        if(cartList.length > 0){
+            if(duplicateSearch.length > 0){
+                let newList = cartList.filter(item => item !== duplicateSearch[0])
+                //dispatch(setCartTo(newList))
+                DeleteItemFromCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    dispatch(setCartTo(result))
+                    e.currentTarget.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }else{
+                dispatch(setCartTo([...Cart, product_id]))
+                AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+                .then((result) => {
+                    dispatch(setCartTo(result))
+                    e.currentTarget.disabled = false;
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
+        }else{
+            AddItemToCart(product_id, window.localStorage.getItem('CE_buyer_id'))
+            .then((result) => {
+                dispatch(setCartTo(result))
+                e.target.disabled = false;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+    }
 
     useEffect(() => {
         // setSavedItems('savedItem: ', savedItem)
@@ -149,7 +177,7 @@ const Card = ({item, index}) => {
                 elem
             }
             <div className="cols" key={index} id={item.product_id} >
-                <div className="card shadow" key={index} style={{height: 'auto', marginBottom: '10px', borderRadius: '10px'}}>
+                <div className="card shadow-sm" key={index} style={{height: 'auto', marginBottom: '10px', borderRadius: '10px'}}>
                     
                     
                     
@@ -232,7 +260,7 @@ const Card = ({item, index}) => {
 
                         
 
-                        {/*<div style={{position: 'absolute', right: '5px', bottom: '5px', fontSize: 'small', background: '#fff', color: '#626262'}}>
+                        {/* <div style={{position: 'absolute', right: '5px', bottom: '5px', fontSize: 'small', background: '#fff', color: '#626262'}}>
                             <span>
                                 <img src={orderSvg} style={{height: '20px', width: '20px', marginBottom: '3px'}} alt="" />
 
@@ -241,7 +269,7 @@ const Card = ({item, index}) => {
                             <span>
                                 20 Orders
                             </span>
-    </div>*/}
+                        </div> */}
                     </div>
 
                     
@@ -263,18 +291,7 @@ const Card = ({item, index}) => {
                         </span>
                     </span>
 
-                    {/* <button style={BtnStyles} onClick={e => {
-                        let response = isBuyerLoggedIn('dashboard');
-                        if(!response.bool){set_elem(response.elem)} else{set_elem(AddToCart(e,item.product_id))}
-                    }}>
-
                     
-
-                        <span>
-                            <img src={cartSvg} style={{height: '25px', width: '25px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
-                        </span>
-                        <span style={{fontSize: 'x-small'}}>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
-                    </button> */}
 
                     <div className="" style={{height: 'fit-content', display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', padding: '0 5px 0 5px', margin: '10px 0 0 0'}}>
                        <div style={{
@@ -298,6 +315,20 @@ const Card = ({item, index}) => {
                             </span>
                         </div>
                     </div>
+
+                    <button style={BtnStyles} onClick={e => {
+                        let response = isBuyerLoggedIn('dashboard');
+                        if(!response.bool){set_elem(response.elem)} else{set_elem(AddToCart(e,item.product_id))}
+                    }}>
+
+                        <span>
+                            <img src={cartSvg} style={{height: '20px', width: '20px', position: 'relative', borderRadius: '2.5px',marginRight: '5px'}} alt="" />
+                        </span>
+
+                        &nbsp;
+                        &nbsp;
+                        <span style={{fontSize: 'x-small'}}>{[...Cart].filter(cart => cart.product_id === item.product_id)[0] ? 'Remove From Cart' : 'Add To Cart'}</span>
+                    </button>
 
                 </div>
             </div> 

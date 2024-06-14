@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import imgSvg from '../../assets/image-svgrepo-com (4).svg'; 
 import { openNotice } from "../../Functions/notice";
 import { useFlutterwave } from "flutterwave-react-v3";
-import BuyerLogin from "../../Authorization/Buyer.js/Login";
+// import BuyerLogin from "../../Authorization/Buyer.js/Login";
 import { 
     data, 
     school_choices 
@@ -110,12 +110,14 @@ const ProductPage = () => {
         } catch (error) {
             console.log(error)
         }
-
-        setActiveAuth(<Login updateActiveAuth={updateActiveAuth} />)
-
-
     },[item])
 
+    useEffect(() => {
+        setTimeout(() => {
+            setActiveAuth(<Login updateActiveAuth={updateActiveAuth} />)
+        }, 1000); 
+    }, [item])
+ 
     async function AddNewViewer(product_id,buyer_id) {
         let result = await AddView(product_id, buyer_id)
         if(result?.length > 0){

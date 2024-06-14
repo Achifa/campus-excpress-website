@@ -466,6 +466,7 @@ const Editor = () => {
                 })
                 .then(async(result) => {
                     let response = await result.json();
+                    console.log(response)
                     if(response){
                         window.localStorage.setItem('draft_gender', '')
                         window.localStorage.setItem('draft_size', '')
@@ -478,7 +479,7 @@ const Editor = () => {
                         window.localStorage.setItem('draft_c_type', '')
                         window.localStorage.setItem('draft_price', '')
                     
-                        openNotice('Upload Successful, Redirecting...')
+                        // openNotice('Upload Successful, Redirecting...')
                         window.location.href = '/seller.shop';
                         document.querySelector('.overlay').removeAttribute('id')
                     }else{
@@ -488,7 +489,7 @@ const Editor = () => {
                     }
                 })
                 .catch((error) => {
-                    console.log('Error:', error.message);
+                    console.log('Error:', error);
                     let overlay = document.querySelector('.overlay'); 
                     overlay.removeAttribute('id')
                     openNotice('Upload Failed, Please Try Again')

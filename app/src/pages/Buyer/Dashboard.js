@@ -31,6 +31,8 @@ import { GetItems, GetSavedItem } from "../../api/buyer/get";
 import Filterfilter from "../../components/Buyer/dashboard/FilterAside";
 import { setSaveTo } from "../../redux/buyer_store/Save";
 import { openNotice } from "../../Functions/notice";
+import PaidAds from "../../components/Buyer/dashboard/PaidAds";
+import FlashAds from "../../components/Buyer/dashboard/FlashAds";
  
 const Dashboard = () => {
 
@@ -342,7 +344,7 @@ const Dashboard = () => {
 
                 <Helmet>
                     <meta name="title" content={`Campus Express (Connecting Campus Express)`} />
-                    <meta name="description" content={`Shop category is ${storedCategory}`} />
+                    <meta name="description" content={`Welcome to Campus Express, Your Online Market Place  For Easy Shopping On Campus.`} />
                     {/* <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=" /> */}
                     <meta name="robots" content="nosnippet" />
                     <meta name="googlebot" content="nosnippet" />
@@ -351,7 +353,7 @@ const Dashboard = () => {
                     {/* FaceBook Tags */}
                     <meta property="og:site_name" content="Campus Express (Connecting Campus Express)" />
                     <meta property="og:title" content="Campus Express (Connecting Campus Express)" />
-                    <meta property="og:description" content={`Shopping in ${storedCategory} category`} />
+                    <meta property="og:description" content={`Welcome to Campus Express, Your Online Market Place  For Easy Shopping On Campus.`} />
                     {/* <meta property="og:image" itemprop="image" content="http://pollosweb.wesped.es/programa_pollos/play.png" /> */}
                     <meta property="og:type" content="website" />
                     <meta property="og:url"  content="https://www.campusexpressng.com" />
@@ -368,7 +370,11 @@ const Dashboard = () => {
                 <div className="buyer-main-cnt" style={{
                     height: 'fit-content',
                     background: '#fff',
+                    flexDirection:'column'
                 }}>  
+
+
+                    
                 
 
                     {
@@ -386,11 +392,17 @@ const Dashboard = () => {
                         </>
                     }
 
+                    
                     <br />
                     <br />
-                   
+                    {/* <FlashAds />
+                    <PaidAds cntName={'Recommended'} top={'55px'} /> */}
+
+
                     
                 </div>
+
+               
 
                 <div className="buyer-main-content buyer-main-cnt" style={{
                     // padding: '10px 80px 10px 80px',
@@ -417,10 +429,24 @@ const Dashboard = () => {
                         :
                         ''
                     }
+                  {/* <PaidAds cntName={'Recommended'} top={'55px'} /> */}
+                  {/* <FlashAds /> */}
+                  {/* <br /> */}
                     
-                  {
-                    activeJSX
-                  }
+                  {activeJSX}
+                  {/* <PaidAds cntName={'Lodges'} category={'lodge/apartments'} top={'55px'} /> */}
+
+                  {activeJSX}
+                  {/* <PaidAds cntName={'Used Items'} condition={'used'} top={'55px'} />
+                  <PaidAds cntName={'Brand New Items'} condition={'new'} top={'55px'} /> */}
+
+                  {/* <br /> */}
+                  {activeJSX}
+                  {activeJSX}
+
+
+
+
                 </div>
 
                 <button className="shadow" style={{position: 'fixed', bottom: '20px', padding: '10px', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center', right: '20px', width: 'auto', height: 'auto', background: '#FF4500', borderRadius: '10px'}} onClick={e => window.location.href=('/seller')}>  

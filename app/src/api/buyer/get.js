@@ -27,6 +27,12 @@ export async function GetItems(category,limit) {
     return (response)?.data
 }
 
+export async function GetFilteredAds(condition,limit) {
+    let response = await get_request_generators(`filtered-ads`, {condition,limit})
+    setTimeout(() => source.cancel('timeout'), 10000) 
+    return (response)?.data
+}
+
 export async function GetLodges() {
     let response = await get_request_generators(`lodges`, {})
     setTimeout(() => source.cancel('timeout'), 10000) 

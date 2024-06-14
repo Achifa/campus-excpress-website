@@ -39,27 +39,27 @@ export default function TopView() {
     <>
         <div className="seller-profile-left">
             
-            <img style={{padding: '10px'}} src={photo}  alt="" />
+          <img style={{padding: '10px'}} src={photo}  alt="" />
 
-            <img onClick={e => window.location.href=('/seller.settings.profile')} src={editSvg} style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '10px', top: '10px'}}  alt="" />
+          <img onClick={e => window.location.href=('/seller.settings.profile')} src={editSvg} style={{position: 'absolute', height: '30px', width: '30px', border: 'none', right: '10px', top: '10px'}}  alt="" />
 
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <div>
-                <div className="seller-profile-name">
-                    {userData?.fname} {userData?.lname}
-                </div>
-
-
-                <div className="seller-profile-date">
-                    {userData?.state}-{userData?.campus}
-                </div>
-                <div className="seller-profile-date">
-                    Member since {userData?.date?(userData.date):'loading...'}
-                </div>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <div>
+            <div className="seller-profile-name">
+                {userData?.fname} {userData?.lname}
             </div>
+
+
+            <div className="seller-profile-date">
+                {userData?.state}-{userData?.campus}
+            </div>
+            <div className="seller-profile-date">
+                Member since {userData?.date?(userData.date):'loading...'}
+            </div>
+          </div>
 
         </div>
     </>

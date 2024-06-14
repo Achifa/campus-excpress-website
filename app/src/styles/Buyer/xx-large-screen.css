@@ -22,9 +22,9 @@
     }
 
     .buyer-main-cnt{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+        /* display: flex; */
+        /* flex-direction: column; */
+        /* justify-content: center; */
         padding: 40px 80px 40px 80px; 
         background-color: #f9f9f9;
     }
@@ -261,7 +261,7 @@
         height: fit-content;
         width: calc(100% - 300px);
         overflow: auto;
-        padding: 10px;
+        padding: 0px;
         float: right;
         border-radius: 5px;
         text-align: center;

@@ -9,16 +9,24 @@ import tab from '../../../images/download (13).jpeg'
 import lodge from '../../../images/images (3).jpeg'
 import hb from '../../../images/images (4).jpeg'
 import pet from '../../../images/images (5).jpeg'
+import { useEffect, useState } from 'react'
 
 const FlashSales = () => {
+
+    let [screenWidth, setScreenWidth] = useState(0)
+    useEffect(() => {
+        let width = window.innerWidth;
+        setScreenWidth(width)
+    }, [])
     return ( 
         <>
-            <div className="buyer-flash-sales" style={{padding: '0px'}}>
-                <div style={{height: '50px', padding: '0px', width: 'calc(100% - 0px)', fontFamily: 'cursive'}}>
-                    {/* <div style={{float: 'left', color: 'orangered', fontSize: '3vh'}}><b>Get The Best Deals Here</b></div> */}
+            <div className="buyer-flash-sales shadow-sm" style={{padding: '10px',margin: `0 0 0 0`,width: screenWidth < 480 ? '100%' : 'calc(100% - 280px)',float: 'right', position: 'relative'}}>
+                <div style={{height: '40px', padding: '0 10px 0 10px', borderBottom: '1px solid #efefef', marginBottom: '0', flexDirection: 'row',display: 'flex', alignItems: 'center', justifyContent: 'space-between',}}>
+                    <small style={{float: 'left', color: 'orangered'}}><b>Get The Best Discount</b></small>
 
-                    {/* <div style={{float: 'right', cursor: 'pointer'}}><i>SEE ALL</i></div> */}
+                    <small style={{float: 'right', cursor: 'pointer'}}><b>SEE ALL</b></small>
                 </div>
+                <hr />
                 <ul>
                     <li>
                         <img src={phn}  style={{height: '100%', border: '2px solid #f9f9f9', width: '100%', borderRadius: '5px'}} alt="" />

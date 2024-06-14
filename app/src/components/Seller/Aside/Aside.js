@@ -130,10 +130,10 @@ export default function Aside() {
                                 <span></span>
                                 <span>Id Verification</span>
                             </li> */}
-                            <li onClick={e => window.location.href=('/seller.settings.payments')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
+                            {/* <li onClick={e => window.location.href=('/seller.settings.payments')} style={{fontSize: 'small', padding: '5px 0 5px 0', listStyleType: 'disc'}}>
                                 <span></span>
                                 <span>Payments/Billing</span>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </li>
