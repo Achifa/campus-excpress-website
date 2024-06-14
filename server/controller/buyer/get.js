@@ -31,10 +31,44 @@ async function get_buyer(req,res) {
 
 }
 
+async function get_shop_items_via_condition(req,res) {
+
+    let {condition,limit} = req.query;
+
+    if(condition === 'used'){
+        NeonDB.then((pool) => 
+            pool.query(`
+            SELECT * 
+            FROM seller_shop
+            `)
+            .then(result =>  {
+                let response = result.rows.filter(item =>JSON.parse(item.others).condition !== 'Brand New')
+                res.send(response.splice(0,10))
+            })
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+ 
+    }else if(condition === 'new'){
+        NeonDB.then((pool) => 
+            pool.query(`
+            SELECT * 
+            FROM seller_shop 
+            `)
+            .then(result =>  {
+                let response = result.rows.filter(item =>JSON.parse(item.others).condition === 'Brand New')
+                res.send(response.splice(0,10))
+            })
+            .catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
+
+    }
+}
+
 async function get_shop_items(req,res) {
 
     let {category,limit} = req.query;
-    console.log('category: ', category)
 
     if(category === 'trends'){
         NeonDB.then((pool) => 
@@ -42,12 +76,16 @@ async function get_shop_items(req,res) {
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
+        .catch(err => console.log(err))
+
     }else{
         NeonDB.then((pool) => 
             pool.query(`select * from seller_shop where category = '${category}' AND state->>'state' = 'published' LIMIT '${limit}'`)
             .then(result =>  res.send(result.rows))
             .catch(err => console.log(err))
         )
+        .catch(err => console.log(err))
+
     }
 }
 
@@ -362,4 +400,5 @@ module.exports = {
     get_saved_item,
     get_saved_item_data,
     get_search_word,
+    get_shop_items_via_condition
 }

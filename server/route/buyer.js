@@ -8,7 +8,8 @@ const {
     get_thumbnail, 
     get_saved_item_data,
     get_saved_item,
-    get_search_word
+    get_search_word,
+    get_shop_items_via_condition
 } = require("../controller/buyer/get");
 const { 
     filter_items, 
@@ -43,6 +44,7 @@ buyer_route.post('/filter', parser, filter_items);
 
 buyer_route.get('/buyer', get_buyer);
 buyer_route.get('/', get_shop_items);
+buyer_route.get('/filtered-ads', get_shop_items_via_condition);
 buyer_route.get('/search-word', get_search_word);
 
 buyer_route.get('/lodges', get_lodges);

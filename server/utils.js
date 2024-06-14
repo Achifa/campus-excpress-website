@@ -533,8 +533,6 @@ module.exports ={
     
     upload_chat_meta_data,
     upload_chat,
-    upload_meta_data,
-    upload_photos,
 
     delete_meta_data,
     delete_photos,
