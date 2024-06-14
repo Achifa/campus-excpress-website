@@ -1,7 +1,7 @@
 const { NeonDB } = require("../../db");
 const { shortId, bcrypt, jwt } = require("../../modules");
-const { verification_email } = require("../../templates");
-const { upload_meta_data, upload_photos } = require("../../utils");
+const { verification_email, newItem } = require("../../templates");
+const { upload_meta_data, upload_photos, send_email } = require("../../utils");
 
 
 
@@ -24,11 +24,15 @@ async function UploadNewItem(req,res) {
     let replacedTitle = constantData.title.replace(/'/g, '"');
 
     let meta_data_respons = await upload_meta_data(replacedTitle,replacedDescription,constantData.category,constantData.price,constantData.seller_id,productId,dynamicData)
-    
+    // console.log('meta_data_respons: ', meta_data_respons)
     if(meta_data_respons){
         let photoresponse = upload_photos(productId, constantData.seller_id, constantData.photos, imageId)
         
         if(photoresponse){
+            // res.send(true)
+
+            let mail = newItem(constantData.category,constantData.price,constantData.category,constantData.title)
+            send_email('New Item Published', mail);
             res.send(true)
         }else{
             res.send(false)
