@@ -4,7 +4,7 @@ module.exports = {
     fs : require('fs'),
     path : require('path'),
     cookieParser : require('cookie-parser'),
-    parser : require('body-parser').json({limit: '1024mb'}),
+    parser : require('body-parser'),
     mocha : require('mocha'),
     morgan : require('morgan'),
     cors : require('cors'),

@@ -18,7 +18,8 @@ require('dotenv').config();
 const app = express();  
 app.use(cookieParser());
 // app.use(morgan('dev'));   
-
+app.use(parser.json({limit: '1024mb'}))
+app.use(parser.urlencoded({ limit: '1024mb', extended: true }))
 app.use(cors({
   origin: '*',
   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'UPDATE'],
