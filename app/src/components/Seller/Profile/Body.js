@@ -559,11 +559,11 @@ export default function Body() {
     getReviews()
     async function getSellerShop() {
       let shop = await GetItems(window.localStorage.getItem("CE_seller_id"))
-
-
       
       if(shop?.length > 0){
-        let result = shop.filter(shop.status === 'sold');
+        let result = shop.filter(item => item.status === 'sold');
+        console.log(result)
+
         if(result.length > 0){
           result.forEach((number) => {
             setTotalEarned(TotalEarned += number);

@@ -42,6 +42,10 @@ import contactSvg from '../../../assets/costumer-support-call-svgrepo-com.svg'
 import { setCategoryTo } from '../../../redux/buyer_store/Category'
 
 
+import WhatsAppSvg from '../../../assets/whatsapp-whats-app-svgrepo-com.svg'
+import tweeterSvg from '../../../assets/twitter-svgrepo-com (2).svg'
+import fbSvg from '../../../assets/facebook-1-svgrepo-com (1).svg'
+
 const Aside = ({
     ChangeAsideCategory
 }) => {
@@ -85,17 +89,18 @@ const Aside = ({
     
 
     let list1 = [
-        {uri: 'buyer.message',text: 'Messages', img: inboxSvg}, 
+        {uri: 'message',text: 'Messages', img: inboxSvg}, 
         {uri: 'favourites',text: 'Favourites', img: savedSvg},  
         // {uri: '',text: 'History', img: historySvg},
         {uri: 'seller.signup',text: 'Sell With Us', img: sellSvg1}
     ]
     let list2 = [
-        {uri: '',text: 'My Account', img: userSvg},
-        {uri: '',text: 'Help Center', img: helpSvg}, 
-        {uri: '',text: 'Refund & Return', img: refundSvg}, 
+        {uri: 'profile',text: 'My Account', img: userSvg},
+        {uri: 'faq',text: 'Help Center', img: helpSvg}, 
+        // {uri: '',text: 'Refund & Return', img: refundSvg}, 
         // {uri: '',text: 'Cancel An Order', img: cancelSvg}, 
-        {uri: '',text: 'Contact Us', img: contactSvg}, 
+        // {uri: 'customer-service',text: 'Contact Us', img: contactSvg}, 
+        {uri: 'policy',text: 'Privacy Policy', img: contactSvg}, 
         {uri: 'logout',text: buyerData?.fname ? 'Logout' : 'Login', img: buyerData?.fname ? logoutSvg : login}
     ]
     
@@ -113,7 +118,7 @@ const Aside = ({
     )
 
     let Help = list2.map((item, i) => 
-        <li onClick={e => i === list2.length - 1 ?  () => {window.localStorage.removeItem('buyerData'); alert('You are logged out.')} : navigate(`${item}`)} key={i} style={{display: 'flex', }}>
+        <li onClick={e => i === list2.length - 1 ?  () => {window.localStorage.removeItem('buyerData'); alert('You are logged out.')} : window.location.href=(`${item.uri}`)} key={i} style={{display: 'flex', }}>
             <span>
                 <img src={item.img} style={{height: '20px', width: '20px', marginBottom: '5px'}} alt="" />
             </span>
@@ -161,12 +166,12 @@ const Aside = ({
                                 buyerData?.fname + " " + buyerData?.lname 
                                 : 
                                 <>
-                                <span onClick={e => navigate('/login')} style={{cursor: 'pointer'}}>
+                                <span onClick={e => window.location.href=('/login')} style={{cursor: 'pointer'}}>
                                     <img src={loginw} style={{height: '20px', transform: 'rotate(180deg)', color: '#fff', width: '20px', marginBottom: '5px', }} alt="" />
                                 </span>
                                 &nbsp;
                                 {/* &nbsp; */}
-                                <span onClick={e => navigate('/login')} style={{fontSize: 'small', cursor: 'pointer'}}>Login</span>
+                                <span onClick={e => window.location.href=('/login')} style={{fontSize: 'small', cursor: 'pointer'}}>Login</span>
                                 </>
                             }
                         </span>
@@ -174,7 +179,7 @@ const Aside = ({
 
                     <div style={{height: 'calc(100% - 100px)', overflow: 'auto'}}>
 
-                        <ul style={{overflowX: 'auto', padding: '10px'}}>
+                        <ul style={{overflowX: 'hidden', padding: '10px'}}>
                             {
                                 
                                 <>
@@ -201,6 +206,73 @@ const Aside = ({
                                 
                             }
                         </ul>
+
+                        <div style={{padding: '20px'}}>
+                            <div style={{color: '#FF4500'}}><b>Contact Us</b></div>
+                            <ul style={{display: 'flex', padding: '10px', flexDirection: 'row', justifyContent: 'space-between', }}>
+                                <li onClick={e => {
+                                    const url = window.location.href;
+                                    // window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}&picture=${encodeURIComponent(activeImg)}`, '_blank');
+                                }} style={{border: 'none', padding: '0',cursor: 'pointer',display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', }}>
+                                    <img src={fbSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
+                                    &nbsp;
+                                    &nbsp;
+                                    
+                                    <small>Facebook</small>
+                                </li>
+
+                                <li onClick={e => {
+                                    const url = window.location.href;
+                                    // const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(item.title)}&image=${metaImg}`;
+                                    // window.open(twitterUrl, '_blank');
+                                }} style={{border: 'none', padding: '0',cursor: 'pointer', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', }}>
+                                    <img src={tweeterSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
+                                    
+                                    &nbsp;
+                                    &nbsp;
+                                    
+                                    <small>Twitter</small>
+                                </li>
+
+                                <li onClick={e => {
+                                    const url = window.location.href;
+                                    const shareBase64ImageToWhatsApp = (base64ImageData, title, description) => {
+                // Convert Base64 image data to a Blob
+                                        const byteCharacters = atob(base64ImageData.split(',')[1]);
+                                        const byteArrays = [];
+                                        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                                            const slice = byteCharacters.slice(offset, offset + 512);
+                                            const byteNumbers = new Array(slice.length);
+                                            for (let i = 0; i < slice.length; i++) {
+                                            byteNumbers[i] = slice.charCodeAt(i);
+                                            }
+                                            const byteArray = new Uint8Array(byteNumbers);
+                                            byteArrays.push(byteArray);
+                                        }
+                                        const blob = new Blob(byteArrays, { type: 'image/jpeg' });
+                                        const message = description.length > 0 ? `${title}\n\nDescription:  \n${description} \n ${url}` : `${title} \n ${url}`;
+                                        const encodedMessage = encodeURIComponent(message);
+                                        const imageUrl = URL.createObjectURL(blob);
+                                        console.log(imageUrl)
+                                        // const whatsappUrl = `whatsapp://send?text=${encodedMessage}%20${`https://ce-app-server.vercel.app/share-image?product_id=${item.product_id}`}`;
+
+                                        // Open WhatsApp with the share URL
+                                        // window.open(whatsappUrl, '_blank');
+
+
+                                    }
+                                    // shareBase64ImageToWhatsApp(activeImg, item.title, item.description)
+
+
+                                
+                                }} style={{border: 'none', padding: '0',cursor: 'pointer', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', }}>
+                                    <img src={WhatsAppSvg} style={{height: '25px', width: '25px', position: 'relative', margin: '0'}} alt="" />
+                                    &nbsp;
+                                    &nbsp;
+                                    <small>WhatsApp</small>
+                                </li>
+                            </ul>
+                        </div>
 
                     </div>
                 </div>

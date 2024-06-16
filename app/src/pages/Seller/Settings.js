@@ -83,16 +83,10 @@ function Profile() {
         setScreenWidth(newWidth);
     },[])
 
-    useEffect(() => {
-        setUserData(sellerData)
-    },[])
-
-
-    let [fname, setFname] = useState('')
-    let [lname, setLname] = useState('')
-    let [state, setState] = useState('')
-    let [campus, setCampus] = useState('')
-    let [userData, setUserData] = useState('')
+    let [fname, setFname] = useState(sellerData?.fname)
+    let [lname, setLname] = useState(sellerData?.lname)
+    let [state, setState] = useState(sellerData?.state)
+    let [campus, setCampus] = useState(sellerData?.campus)
    
    
     let [photo, setPhoto] = useState(userPhoto)
@@ -179,11 +173,11 @@ function Profile() {
                     <div className="seller-input-cnt">
                         <section>
                             <label htmlFor="">FirstName</label>
-                            <input style={{background: '#f9f9f9'}}  value={userData ? userData.fname : ''} onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
+                            <input style={{background: '#f9f9f9'}}  defaultValue={sellerData ? sellerData.fname : ''} onInput={e => setFname(e.target.value)} placeholder='FirstName...' type="text" />
                         </section>
                         <section>
                             <label htmlFor="">LastName</label>
-                            <input style={{background: '#f9f9f9'}} value={userData ? userData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName...' type="text" />
+                            <input style={{background: '#f9f9f9'}} defaultValue={sellerData ? sellerData.lname : ''} onInput={e => setLname(e.target.value)}  placeholder='LastName...' type="text" />
                         </section>
                     </div>
 
@@ -191,7 +185,7 @@ function Profile() {
                     <div className="seller-input-cnt">
                         <section style={{width: '70%'}}>
                             <label htmlFor="">Email</label>
-                            <input style={{background: '#f9f9f9'}} value={userData ? userData.email : ''} placeholder='Email...' type="text" />
+                            <input style={{background: '#f9f9f9'}} defaultValue={sellerData ? sellerData.email : ''} placeholder='Email...' type="text" />
                         </section>
                         {/* <section style={{width: '30%'}}>
                             <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
@@ -201,7 +195,7 @@ function Profile() {
                     <div className="seller-input-cnt">
                         <section style={{width: '70%', float: 'left'}}>
                             <label htmlFor="">Phone</label>
-                            <input style={{background: '#f9f9f9'}} value={userData ? userData.phone : ''}  placeholder='Phone Number...' type="number" />
+                            <input style={{background: '#f9f9f9'}} defaultValue={sellerData ? sellerData.phone : ''}  placeholder='Phone Number...' type="number" />
                         </section>
                         {/* <section style={{width: '30%'}}>
                             <button style={{fontSize: 'small', background: '#5b42f3'}}>Change</button>
@@ -218,12 +212,12 @@ function Profile() {
                                 
                                 {
                                     data.map((item,index) =>  
-                                        item.label === userData.state
+                                        item.label === sellerData?.state
                                         ?
-                                            <option selected value={item.label}>{item.label}</option>
+                                            <option selected defaultValue={item.label}>{item.label}</option>
                                         :
-                                            <option value={item.label}>{item.label}</option>
-                                    ).unshift(<option value="">Select State</option>)
+                                            <option defaultValue={item.label}>{item.label}</option>
+                                    ).unshift(<option defaultValue="">Select State</option>)
                                 }
                             </select>
                         </section>
@@ -234,15 +228,15 @@ function Profile() {
                         <section style={{width: '100%'}}>
                             <label htmlFor="">Campus <small>(Optional)</small></label>
                             <select style={{background: '#f9f9f9'}} onInput={e => setCampus(e.target.value)}  name="" id="">
-                                <option value="">Select Campus</option>
+                                <option defaultValue="">Select Campus</option>
                                 {
                                     campusLocaleList.map((item,index) => 
 
-                                        item.text === userData.campus 
+                                        item.text === sellerData.campus 
                                         ?
-                                            <option selected value={item.text}>{item.text}</option>
+                                            <option selected defaultValue={item.text}>{item.text}</option>
                                         : 
-                                            <option value={item.text}>{item.text}</option>
+                                            <option defaultValue={item.text}>{item.text}</option>
                                     )
                                 }
                             </select>
@@ -392,9 +386,9 @@ function Payments() {
                             <section style={{width: '100%'}}>
                                 <label htmlFor="">Bank</label>
                                 <select onInput={e => BankCode.current=(e.target.value)} name="" id="">
-                                    <option value="">Select Bank</option>
+                                    <option defaultValue="">Select Bank</option>
                                     {
-                                        bankList.map(item => <option value={item.code}>{item.name}</option>)
+                                        bankList.map(item => <option defaultValue={item.code}>{item.name}</option>)
                                     }
                                 </select>
                             </section>

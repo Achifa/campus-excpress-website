@@ -31,7 +31,13 @@ const BuyerLayout = (props) => {
     
     return (
         <>
-            <Header />
+            {
+                location.pathname.split('/').splice(-1)[0] === 'profile'
+                ?
+                ''
+                :
+                <Header />
+            }
             
             {props.children}
         </>

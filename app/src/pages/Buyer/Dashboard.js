@@ -83,18 +83,13 @@ const Dashboard = () => {
                 setCards(
                     result?.map((item, index) => 
                         <Card index={index} item={item} />
-                    )
+                    ) 
                 )
                 setitems(items)
                 overlay.removeAttribute('id')
-            }else{
-                openNotice('Error Occured Please Wait While We Reload...')
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000);
             }
 
-            
+             
         })
         .catch(error=>{
             console.log(error)
@@ -268,7 +263,7 @@ const Dashboard = () => {
             category={category}
             state={state} 
             applyFilter={applyFilter}
-         cards={cards} />)
+            cards={cards} />)
     }, [cards])
     
     let categoryRef = useRef('')
@@ -430,17 +425,17 @@ const Dashboard = () => {
                         ''
                     }
                   {/* <PaidAds cntName={'Recommended'} top={'55px'} /> */}
-                  {/* <FlashAds /> */}
-                  {/* <br /> */}
+                  {/* <FlashAds />  */}
+                  <br />
                     
                   {activeJSX}
-                  {/* <PaidAds cntName={'Lodges'} category={'lodge/apartments'} top={'55px'} /> */}
+                  <PaidAds cntName={'Lodges'} category={'lodge/apartments'} top={'55px'} />
 
                   {activeJSX}
-                  {/* <PaidAds cntName={'Used Items'} condition={'used'} top={'55px'} />
-                  <PaidAds cntName={'Brand New Items'} condition={'new'} top={'55px'} /> */}
+                  <PaidAds cntName={'Used Items'} condition={'used'} top={'55px'} />
+                  <PaidAds cntName={'Brand New Items'} condition={'new'} top={'55px'} />
 
-                  {/* <br /> */}
+                  <br />
                   {activeJSX}
                   {activeJSX}
 
