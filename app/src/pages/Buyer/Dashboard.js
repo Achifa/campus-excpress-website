@@ -429,11 +429,11 @@ const Dashboard = () => {
                   <br />
                     
                   {activeJSX}
-                  <PaidAds cntName={'Lodges'} category={'lodge/apartments'} top={'55px'} />
+                 {/* <PaidAds cntName={'Lodges'} category={'lodge/apartments'} top={'55px'} /> */}
 
                   {activeJSX}
-                  <PaidAds cntName={'Used Items'} condition={'used'} top={'55px'} />
-                  <PaidAds cntName={'Brand New Items'} condition={'new'} top={'55px'} />
+                  {/* <PaidAds cntName={'Used Items'} condition={'used'} top={'55px'} /> */}
+                  {/* <PaidAds cntName={'Brand New Items'} condition={'new'} top={'55px'} /> */}
 
                   <br />
                   {activeJSX}
